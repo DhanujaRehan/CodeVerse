@@ -1,21 +1,57 @@
 package com.example.codeverse;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.codeverse.databinding.ActivityLoginBinding;
 
 public class Login extends AppCompatActivity {
+
+    private ActivityLoginBinding binding;
+
+    // Fixed login credentials
+    private final String validEmail = "sadeesh@gmail.com";
+    private final String validPassword = "123456";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
 
+        // Using View Binding (optional - make sure it's enabled in your project)
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
+        // Login button listener
+        binding.btnLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                String inputEmail = binding.etEmail.getText().toString().trim();
+                String inputPassword = binding.etpassword.getText().toString().trim();
+
+                // Check credentials
+                if (inputEmail.isEmpty() || inputPassword.isEmpty()) {
+                    Toast.makeText(Login.this, "Please enter both email and password.", Toast.LENGTH_SHORT).show();
+                } else if (inputEmail.equals(validEmail) && inputPassword.equals(validPassword)) {
+                    Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
+
+                    // Proceed to the next activity (e.g., Dashboard)
+                    Intent intent = new Intent(Login.this, MainActivity.class); // replace with your actual class
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(Login.this, "Invalid credentials. Try again.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Forgot password click (optional functionality)
+        binding.tvForgotPassword.setOnClickListener(v ->
+                Toast.makeText(Login.this, "Forgot Password feature is not implemented.", Toast.LENGTH_SHORT).show()
+        );
     }
 }
