@@ -145,5 +145,9 @@
         <color name="stats_section_bg">#F8F9FA</color>
         <color name="graduation_section_bg">#E8F5E8</color>
 
+        <color name="chip_selected">#1A237E</color>
+        <color name="chip_unselected">#FFFFFF</color>
+
+        <color name="hintColor">#9E9E9E</color> <!-- Soft gray for hint -->
 
 </resources>
