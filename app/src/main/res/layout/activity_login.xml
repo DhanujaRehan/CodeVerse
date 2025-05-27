@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/login_gradient_background">
 
-    <!-- Logo Animation -->
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/logoAnimation"
         android:layout_width="150dp"
@@ -14,12 +14,12 @@
         android:layout_marginTop="64dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="false"
-        app:lottie_rawRes="@raw/app_logo_animation"
+        app:lottie_rawRes="@raw/codeverse_animation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- App Name with Custom Font -->
+
     <TextView
         android:id="@+id/tv_app_name"
         android:layout_width="wrap_content"
@@ -37,7 +37,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/logoAnimation" />
 
-    <!-- Welcome Text -->
     <TextView
         android:id="@+id/tv_welcome"
         android:layout_width="wrap_content"
@@ -51,7 +50,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
 
-    <!-- Login Card with Glassmorphism -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_login"
         android:visibility="visible"
@@ -69,7 +67,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_welcome">
 
-        <!-- Glass Morphism Effect Background -->
+
 
         <View
             android:layout_width="match_parent"
@@ -82,7 +80,6 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Email Input with Animation -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_email"
                 android:layout_width="match_parent"
@@ -108,7 +105,6 @@
                     android:textColor="#333333"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Password Input with Animation -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_password"
                 android:layout_width="match_parent"
@@ -136,7 +132,6 @@
                     android:textColor="#333333" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Forgot Password Text -->
             <TextView
                 android:id="@+id/tv_forgot_password"
                 android:layout_width="wrap_content"
@@ -148,7 +143,6 @@
                 android:textColor="#E6FFFFFF"
                 android:textSize="14sp" />
 
-            <!-- Login Button with Animation -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_login"
                 android:layout_width="match_parent"
@@ -165,7 +159,6 @@
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
 
-    <!-- Or Sign in with Text -->
     <TextView
         android:id="@+id/tv_or"
         android:layout_width="wrap_content"
@@ -179,7 +172,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/card_login" />
 
-    <!-- Social Login Buttons -->
     <LinearLayout
         android:id="@+id/layout_social"
         android:layout_width="match_parent"
@@ -193,7 +185,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_or">
 
-        <!-- Google Button -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_google"
             android:layout_width="60dp"
@@ -213,7 +204,6 @@
                 android:src="@drawable/ic_email" />
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Apple Button -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_apple"
             android:layout_width="60dp"
@@ -233,7 +223,6 @@
                 android:src="@drawable/ic_google" />
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Microsoft Button -->
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_microsoft"
             android:layout_width="60dp"
@@ -254,7 +243,6 @@
         </com.google.android.material.card.MaterialCardView>
     </LinearLayout>
 
-    <!-- Sign Up Text -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -282,7 +270,6 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <!-- Loading Animation Overlay (Initially Hidden) -->
     <FrameLayout
         android:id="@+id/loading_overlay"
         android:layout_width="match_parent"
