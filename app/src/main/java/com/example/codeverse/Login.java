@@ -40,7 +40,7 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
                     // Proceed to the next activity (e.g., Dashboard)
-                    Intent intent = new Intent(Login.this, MainActivity.class); // replace with your actual class
+                    Intent intent = new Intent(Login.this, AdminMainActivity.class); // replace with your actual class
                     startActivity(intent);
                     finish();
                 } else {
@@ -49,7 +49,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        // Forgot password click (optional functionality)
         binding.tvForgotPassword.setOnClickListener(v ->
                 Toast.makeText(Login.this, "Forgot Password feature is not implemented.", Toast.LENGTH_SHORT).show()
         );
