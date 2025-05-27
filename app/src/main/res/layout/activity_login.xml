@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
     android:background="@drawable/login_gradient_background">
-
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/logoAnimation"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="64dp"
+        android:tint="@color/white"
+        android:visibility="visible"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="-20dp"
+        android:scaleType="centerCrop"
         app:lottie_autoPlay="true"
-        app:lottie_loop="false"
-        app:lottie_rawRes="@raw/codeverse_animation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/codeverse" />
 
     <TextView
         android:id="@+id/tv_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="-40dp"
         android:fontFamily="@font/poppins_bold"
         android:text="UniConnect"
         android:textColor="#FFFFFF"
@@ -32,10 +32,7 @@
         android:shadowColor="#50000000"
         android:shadowDx="0"
         android:shadowDy="2"
-        android:shadowRadius="4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/logoAnimation" />
+        android:shadowRadius="4" />
 
     <TextView
         android:id="@+id/tv_welcome"
@@ -45,118 +42,120 @@
         android:fontFamily="@font/poppins_medium"
         android:text="Welcome back!"
         android:textColor="#E6FFFFFF"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_app_name" />
+        android:textSize="16sp" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/card_login"
         android:visibility="visible"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="24dp"
         app:cardBackgroundColor="#80FFFFFF"
         app:cardCornerRadius="28dp"
         app:cardElevation="10dp"
         app:strokeWidth="1dp"
-        app:strokeColor="#33FFFFFF"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_welcome">
+        app:strokeColor="#33FFFFFF">
 
-
-
-        <View
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            android:background="@drawable/glass_effect" />
+            android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:background="@drawable/glass_effect" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_email"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:boxBackgroundColor="#26FFFFFF"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeWidth="0dp"
-                app:hintTextColor="#333333"
-                android:textColorHint="#333333"
-                app:startIconTint="#FFFFFF">
+                android:orientation="vertical"
+                android:padding="24dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_email"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
-                    android:textColor="#333333"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundColor="#26FFFFFF"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextColor="#333333"
+                    android:textColorHint="#333333"
+                    app:startIconTint="#FFFFFF">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                app:boxBackgroundColor="#26FFFFFF"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeWidth="0dp"
-                app:hintTextColor="#FFFFFF"
-                android:textColorHint="#333333"
-                app:startIconTint="#FFFFFF"
-                app:endIconMode="password_toggle"
-                app:endIconTint="#FFFFFF">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_email"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="Email"
+                        android:inputType="textEmailAddress"
+                        android:textColor="#333333"/>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/et_password"
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    app:boxBackgroundColor="#26FFFFFF"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxStrokeWidth="0dp"
+                    app:hintTextColor="#FFFFFF"
+                    android:textColorHint="#333333"
+                    app:startIconTint="#FFFFFF"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="#FFFFFF">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="Password"
+                        android:inputType="textPassword"
+                        android:textColor="#333333" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/tv_forgot_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
                     android:fontFamily="@font/poppins_medium"
-                    android:hint="Password"
-                    android:inputType="textPassword"
-                    android:textColor="#333333" />
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:padding="8dp"
+                    android:text="Forgot Password?"
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="14sp" />
 
-            <TextView
-                android:id="@+id/tv_forgot_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:fontFamily="@font/poppins_medium"
-                android:padding="8dp"
-                android:text="Forgot Password?"
-                android:textColor="#E6FFFFFF"
-                android:textSize="14sp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:text="Log In"
+                    android:textAllCaps="false"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    app:backgroundTint="#6A11CB"
+                    app:cornerRadius="16dp"
+                    app:rippleColor="#33FFFFFF" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_login"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins_bold"
-                android:text="Log In"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                app:backgroundTint="#6A11CB"
-                app:cornerRadius="16dp"
-                app:rippleColor="#33FFFFFF" />
-        </LinearLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
     </com.google.android.material.card.MaterialCardView>
 
     <TextView
@@ -167,10 +166,7 @@
         android:fontFamily="@font/poppins_medium"
         android:text="Or sign in with"
         android:textColor="#E6FFFFFF"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/card_login" />
+        android:textSize="14sp" />
 
     <LinearLayout
         android:id="@+id/layout_social"
@@ -180,10 +176,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="24dp"
         android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_or">
+        android:orientation="horizontal">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cv_google"
@@ -197,11 +190,13 @@
             app:strokeColor="#33FFFFFF">
 
             <ImageView
+                app:tint="@color/white"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_email" />
+
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -216,11 +211,13 @@
             app:strokeColor="#33FFFFFF">
 
             <ImageView
+                app:tint="@color/white"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_google" />
+
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
@@ -235,22 +232,22 @@
             app:strokeColor="#33FFFFFF">
 
             <ImageView
+                app:tint="@color/white"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_facebook" />
+
         </com.google.android.material.card.MaterialCardView>
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/card_login">
+        android:layout_marginTop="32dp"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -268,6 +265,7 @@
             android:text="Sign Up"
             android:textColor="#FFFFFF"
             android:textSize="14sp" />
+
     </LinearLayout>
 
     <FrameLayout
@@ -275,11 +273,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80000000"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:visibility="gone">
 
         <com.google.android.material.card.MaterialCardView
             android:layout_width="200dp"
@@ -312,7 +306,11 @@
                     android:textSize="18sp"
                     android:fontFamily="@font/poppins_semibold"
                     android:layout_marginTop="16dp" />
+
             </LinearLayout>
+
         </com.google.android.material.card.MaterialCardView>
+
     </FrameLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>
