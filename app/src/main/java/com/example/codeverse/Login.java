@@ -12,15 +12,16 @@ import com.example.codeverse.databinding.ActivityLoginBinding;
 public class Login extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
-
-    private final String validEmail = "sadeesh@gmail.com";
-    private final String validPassword = "123456";
+    private String AdminEmail;
+    private String AdminPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Using View Binding (optional - make sure it's enabled in your project)
+        AdminEmail = "Admin1234";
+        AdminPassword = "Admin1234";
+
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -35,7 +36,7 @@ public class Login extends AppCompatActivity {
                 // Check credentials
                 if (inputEmail.isEmpty() || inputPassword.isEmpty()) {
                     Toast.makeText(Login.this, "Please enter both email and password.", Toast.LENGTH_SHORT).show();
-                } else if (inputEmail.equals(validEmail) && inputPassword.equals(validPassword)) {
+                } else if (inputEmail.equals(AdminEmail) && inputPassword.equals(AdminPassword)) {
                     Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
                     // Proceed to the next activity (e.g., Dashboard)
