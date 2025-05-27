@@ -12,10 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CodeVerse">
         <activity
+            android:name=".LoadingScreen"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoadingScreen"
+            android:name=".WelcomeScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
