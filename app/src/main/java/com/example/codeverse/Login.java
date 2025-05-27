@@ -13,14 +13,16 @@ public class Login extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
 
-    private final String validEmail = "sadeesh@gmail.com";
-    private final String validPassword = "123456";
+    private String validEmail;
+    private String validPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Using View Binding (optional - make sure it's enabled in your project)
+        validEmail = "Admin1234";
+        validPassword = "Admin1234";
+
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
