@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">CodeVerse</string>
+    <string name="app_name">Uni</string>
+
+    <string name="schedule">Schedule</string>
+    <string name="back">Back</string>
+    <string name="options">Options</string>
+    <string name="calendar">Calendar</string>
+    <string name="calendar_options">Calendar Options</string>
+    <string name="june">June</string>
+    <string name="previous_month">Previous Month</string>
+    <string name="next_month">Next Month</string>
+    <string name="client_history">Client History</string>
+    <string name="design_work">Design Work</string>
+    <string name="task_date_format">04 June, 2024 at 1:30 PM</string>
+    <string name="submitted">Submitted</string>
+    <string name="task_icon">Task Icon</string>
 </resources>

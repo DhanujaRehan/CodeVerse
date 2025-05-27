@@ -2,4 +2,148 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="green">#4CAF50</color>
+    <color name="red">#F44336</color>
+    <color name="gray">#9E9E9E</color>
+    <color name="light_gray">#E0E0E0</color>
+    <color name="calendar_day_background">#F5F5F5</color>
+    <color name="calendar_day_text">#212121</color>
+    <color name="calendar_selected_green">#4CAF50</color>
+    <color name="calendar_selected_red">#F44336</color>
+    <color name="calendar_selected_gray">#9E9E9E</color>
+
+
+    <color name="success_text">#2E7D32</color>
+    <color name="warning_text">#E65100</color>
+    <color name="danger_text">#C62828</color>
+
+    <color name="light_purple_bg">#F0F6FF</color>
+    <color name="light_green_bg">#E0F2E0</color>
+    <color name="light_orange_bg">#FFF3E0</color>
+    <color name="yellow_bell">#F69B03</color>
+    <color name="blue">#2575FC</color>
+    <color name="purple">#673AB7</color>
+
+
+    <color name="divider_color">#F0F0F0</color>
+
+
+
+
+    <!-- Primary Colors -->
+    <color name="blue_primary">#1A5276</color>
+    <color name="blue_light">#2980B9</color>
+    <color name="purple_primary">#6A11CB</color>
+
+    <!-- Text Colors -->
+    <color name="text_primary">#333333</color>
+    <color name="text_secondary">#666666</color>
+    <color name="text_disabled">#AAAAAA</color>
+
+    <!-- Background Colors -->
+    <color name="light_background">#F5F7FE</color>
+    <color name="glass_effect">#33FFFFFF</color>
+
+    <!-- Badge Colors -->
+    <color name="student_badge_bg">#E3F2FD</color>
+    <color name="lecturer_badge_bg">#E8EAF6</color>
+    <color name="active_badge_bg">#E8F5E9</color>
+    <color name="canceled_badge_bg">#FFEBEE</color>
+
+    <color name="lecturer_text">#3F51B5</color>
+    <color name="active_text">#4CAF50</color>
+    <color name="canceled_text">#E53935</color>
+
+    <!-- Indicator Colors -->
+    <color name="event_indicator">#FF5722</color>
+    <color name="payment_primary">#263A5B</color>
+    <color name="payment_secondary">#4A6491</color>
+
+    <!-- Status Colors -->
+    <color name="green_dark">#27AE60</color>
+    <color name="red_dark">#E74C3C</color>
+    <color name="orange_dark">#F39C12</color>
+
+        <!-- Existing colors from your theme -->
+
+        <!-- Online/Offline Status Colors -->
+        <color name="online_green">#4CAF50</color>
+        <color name="offline_gray">#9E9E9E</color>
+
+        <!-- Favorite Colors -->
+        <color name="favorite_red">#F44336</color>
+        <color name="favorite_gray">#CCCCCC</color>
+
+        <!-- Chip Colors for Specializations -->
+        <color name="chip_blue">#2196F3</color>
+        <color name="chip_blue_bg">#E3F2FD</color>
+
+        <color name="chip_green">#4CAF50</color>
+        <color name="chip_green_bg">#E8F5E8</color>
+
+        <color name="chip_orange">#FF9800</color>
+        <color name="chip_orange_bg">#FFF3E0</color>
+
+        <color name="chip_purple">#9C27B0</color>
+        <color name="chip_purple_bg">#F3E5F5</color>
+
+        <color name="chip_teal">#009688</color>
+        <color name="chip_teal_bg">#E0F2F1</color>
+
+        <!-- Card and Background Colors -->
+        <color name="card_background">#FFFFFF</color>
+        <color name="card_stroke">#E0E0E0</color>
+        <color name="glass_background">#80FFFFFF</color>
+
+        <!-- Text Colors -->
+
+        <color name="text_tertiary">#999999</color>
+
+        <!-- Status Colors -->
+        <color name="status_active">#4CAF50</color>
+        <color name="status_inactive">#F44336</color>
+        <color name="status_pending">#FF9800</color>
+
+
+        <!-- Academic Status Colors -->
+        <color name="academic_excellent">#FF9800</color>  <!-- Dean's List - Orange/Gold -->
+        <color name="academic_good">#4CAF50</color>       <!-- Good Standing - Green -->
+        <color name="academic_warning">#FF9800</color>    <!-- Warning - Orange -->
+        <color name="academic_probation">#F44336</color>  <!-- Probation - Red -->
+        <color name="academic_neutral">#9E9E9E</color>    <!-- Default - Gray -->
+
+        <!-- Course Chip Colors -->
+        <color name="course_blue">#2196F3</color>
+        <color name="course_blue_bg">#E3F2FD</color>
+
+        <color name="course_green">#4CAF50</color>
+        <color name="course_green_bg">#E8F5E8</color>
+
+        <color name="course_orange">#FF9800</color>
+        <color name="course_orange_bg">#FFF3E0</color>
+
+        <color name="course_purple">#9C27B0</color>
+        <color name="course_purple_bg">#F3E5F5</color>
+
+        <color name="course_teal">#009688</color>
+        <color name="course_teal_bg">#E0F2F1</color>
+
+        <!-- GPA Level Colors -->
+        <color name="gpa_excellent">#4CAF50</color>   <!-- 3.7+ -->
+        <color name="gpa_good">#8BC34A</color>        <!-- 3.0-3.6 -->
+        <color name="gpa_average">#FF9800</color>     <!-- 2.5-2.9 -->
+        <color name="gpa_poor">#F44336</color>        <!-- Below 2.5 -->
+
+        <!-- Year Level Colors -->
+        <color name="freshman_color">#4CAF50</color>   <!-- Green for new students -->
+        <color name="sophomore_color">#2196F3</color>  <!-- Blue -->
+        <color name="junior_color">#FF9800</color>     <!-- Orange -->
+        <color name="senior_color">#9C27B0</color>     <!-- Purple -->
+
+        <!-- Background Colors -->
+        <color name="student_card_bg">#FFFFFF</color>
+        <color name="stats_section_bg">#F8F9FA</color>
+        <color name="graduation_section_bg">#E8F5E8</color>
+
+
 </resources>
