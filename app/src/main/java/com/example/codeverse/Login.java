@@ -13,7 +13,6 @@ public class Login extends AppCompatActivity {
 
     private ActivityLoginBinding binding;
 
-    // Fixed login credentials
     private final String validEmail = "sadeesh@gmail.com";
     private final String validPassword = "123456";
 
