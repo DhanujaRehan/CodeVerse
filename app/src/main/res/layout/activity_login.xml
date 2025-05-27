@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="UniConnect"
+                    android:text="CodeVerse"
                     android:textColor="#FFFFFF"
                     android:textSize="32sp"
                     android:shadowColor="#50000000"
@@ -133,7 +133,8 @@
                         app:boxCornerRadiusBottomStart="20dp"
                         app:boxCornerRadiusBottomEnd="20dp"
                         app:startIconTint="#6200EE"
-                        app:endIconTint="#6200EE"
+                        app:endIconTint="@color/gray"
+                        app:endIconMode="password_toggle"
                         android:backgroundTint="@android:color/transparent">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -171,8 +172,6 @@
                         app:backgroundTint="#6A11CB"
                         app:cornerRadius="16dp"
                         app:rippleColor="#33FFFFFF" />
-
-
                 </LinearLayout>
 
             </LinearLayout>
