@@ -1002,7 +1002,6 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_schedule"
         android:layout_width="wrap_content"
