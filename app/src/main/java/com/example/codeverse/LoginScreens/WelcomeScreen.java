@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.LoginScreens;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -15,6 +14,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
 
 public class WelcomeScreen extends AppCompatActivity {

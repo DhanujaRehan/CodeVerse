@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.LoginScreens;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.codeverse.Login;
+import com.example.codeverse.MainActivity;
 import com.example.codeverse.databinding.ActivityLoginBinding;
 
 public class Login extends AppCompatActivity {

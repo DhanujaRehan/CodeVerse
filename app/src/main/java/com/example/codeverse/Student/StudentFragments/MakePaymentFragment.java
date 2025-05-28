@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Student.StudentFragments;
 
 import android.app.ProgressDialog;
 import android.content.ClipData;
@@ -22,6 +22,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.codeverse.Student.Models.CreditCard;
+import com.example.codeverse.Student.Adapters.CreditCardAdapter;
+import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;

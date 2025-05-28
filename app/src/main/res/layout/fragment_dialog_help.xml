@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_help"
+            app:tint="#673AB7"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Help Center"
+            android:textSize="20sp"
+            android:textColor="#333333"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginStart="12dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_close"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#9E9E9E"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEEEEE"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Help Item 1 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="How to Download Admission Cards"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:fontFamily="@font/poppins_semibold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tap on the 'Download Admission Card' button on any available card. The admission card will be downloaded to your device and can be accessed offline."
+                android:textColor="#666666"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Help Item 2 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Viewing Downloaded Cards"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:fontFamily="@font/poppins_semibold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Once downloaded, the card status will change to 'Downloaded'. You can tap on 'View Admission Card' button to view the details."
+                android:textColor="#666666"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Help Item 3 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Switching Semesters"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:fontFamily="@font/poppins_semibold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Use the semester selector at the top of the screen to switch between different semesters or view all admissions."
+                android:textColor="#666666"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Help Item 4 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact Support"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:fontFamily="@font/poppins_semibold"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="If you encounter any issues with downloading or viewing your admission cards, please contact examination support using the support card at the bottom of the screen."
+                android:textColor="#666666"
+                android:fontFamily="@font/poppins_regular"
+                android:layout_marginBottom="16dp"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_faq"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="View Full FAQ"
+                android:textAllCaps="false"
+                android:fontFamily="@font/poppins_medium"
+                app:cornerRadius="12dp"
+                app:backgroundTint="#673AB7"
+                android:layout_marginTop="16dp"/>
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

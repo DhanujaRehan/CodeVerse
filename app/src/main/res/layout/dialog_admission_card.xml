@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/dialog_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_verified"
+            app:tint="#4CAF50"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Admission Card"
+            android:textSize="20sp"
+            android:textColor="#333333"
+            android:fontFamily="@font/poppins_bold"
+            android:layout_marginStart="12dp"/>
+
+        <ImageButton
+            android:id="@+id/btn_close"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/ic_close"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="#9E9E9E"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#EEEEEE"/>
+
+    <!-- QR Code Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="20dp">
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/ic_person"
+            android:background="@color/light_purple_bg"
+            android:padding="12dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mandatory to have to go to examination hall"
+            android:textColor="#666666"
+            android:fontFamily="@font/poppins_medium"
+            android:layout_marginTop="8dp"/>
+    </LinearLayout>
+
+    <!-- Admission Details Section -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="#F9F9F9"
+        app:cardElevation="0dp"
+        android:layout_margin="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Subject -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Subject:"
+                    android:textColor="#9E9E9E"
+                    android:fontFamily="@font/poppins_medium"/>
+
+                <TextView
+                    android:id="@+id/tv_subject"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Advanced Algorithms"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/poppins_semibold"/>
+            </LinearLayout>
+
+            <!-- Exam Type -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Exam Type:"
+                    android:textColor="#9E9E9E"
+                    android:fontFamily="@font/poppins_medium"/>
+
+                <TextView
+                    android:id="@+id/tv_exam_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Final Exam"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/poppins_semibold"/>
+            </LinearLayout>
+
+            <!-- Date -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Date:"
+                    android:textColor="#9E9E9E"
+                    android:fontFamily="@font/poppins_medium"/>
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="May 20, 2025"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/poppins_semibold"/>
+            </LinearLayout>
+
+            <!-- Time -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Time:"
+                    android:textColor="#9E9E9E"
+                    android:fontFamily="@font/poppins_medium"/>
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="10:00 AM"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/poppins_semibold"/>
+            </LinearLayout>
+
+            <!-- Venue -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Venue:"
+                    android:textColor="#9E9E9E"
+                    android:fontFamily="@font/poppins_medium"/>
+
+                <TextView
+                    android:id="@+id/tv_venue"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hall A-103"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/poppins_semibold"/>
+            </LinearLayout>
+
+            <!-- Student Name -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Student Name:"
+                    android:textColor="#9E9E9E"
+                    android:fontFamily="@font/poppins_medium"/>
+
+                <TextView
+                    android:id="@+id/tv_student_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="John Doe"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/poppins_semibold"/>
+            </LinearLayout>
+
+            <!-- Student ID -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:text="Student ID:"
+                    android:textColor="#9E9E9E"
+                    android:fontFamily="@font/poppins_medium"/>
+
+                <TextView
+                    android:id="@+id/tv_student_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="S12345678"
+                    android:textColor="#333333"
+                    android:fontFamily="@font/poppins_semibold"/>
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Action Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_share"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:text="Share"
+            android:textAllCaps="false"
+            android:fontFamily="@font/poppins_medium"
+            app:iconGravity="textStart"
+            app:cornerRadius="12dp"
+            app:backgroundTint="#E8F0FE"
+            app:iconTint="#0D47A1"
+            android:textColor="#0D47A1"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_marginEnd="8dp"/>
+
+
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/btn_save"
+            android:layout_width="48dp"
+            android:scaleType="centerCrop"
+            android:layout_height="48dp"
+            android:layout_marginEnd="12dp"
+            app:lottie_autoPlay="true"
+            app:lottie_colorFilter="@color/purple"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/download" />
+
+    </LinearLayout>
+</LinearLayout>

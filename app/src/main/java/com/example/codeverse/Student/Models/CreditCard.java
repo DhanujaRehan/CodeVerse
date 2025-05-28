@@ -1,4 +1,6 @@
-package com.example.codeverse;
+package com.example.codeverse.Student.Models;
+
+import com.example.codeverse.R;
 
 public class CreditCard {
     private String cardNumber;
