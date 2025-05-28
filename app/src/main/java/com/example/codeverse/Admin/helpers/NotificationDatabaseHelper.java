@@ -92,7 +92,6 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    // CRUD Operations for Notifications
     public long insertNotification(Notification notification) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
