@@ -36,8 +36,8 @@ import java.util.Locale;
 import com.example.codeverse.R;
 import com.example.codeverse.Admin.Models.Notification;
 import com.example.codeverse.Admin.Models.NotificationHistory;
-import com.example.codeverse.Admin.Adapters.NotificationAdapter;
-import com.example.codeverse.Admin.Adapters.NotificationHistoryAdapter;
+import com.example.codeverse.Admin.adapters.NotificationAdapter;
+import com.example.codeverse.Admin.adapters.NotificationHistoryAdapter;
 
 public class AdminSendNotifications extends Fragment {
 

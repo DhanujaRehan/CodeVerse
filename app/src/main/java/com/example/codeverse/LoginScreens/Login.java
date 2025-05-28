@@ -7,7 +7,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.codeverse.Admin.AdminActivities.AdminMainActivity;
+import com.example.codeverse.Login;
 import com.example.codeverse.databinding.ActivityLoginBinding;
 
 public class Login extends AppCompatActivity {
@@ -41,7 +41,7 @@ public class Login extends AppCompatActivity {
                     Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
                     // Proceed to the next activity (e.g., Dashboard)
-                    Intent intent = new Intent(Login.this, AdminMainActivity.class); // replace with your actual class
+                    Intent intent = new Intent(Login.this, MainActivity.class); // replace with your actual class
                     startActivity(intent);
                     finish();
                 } else {

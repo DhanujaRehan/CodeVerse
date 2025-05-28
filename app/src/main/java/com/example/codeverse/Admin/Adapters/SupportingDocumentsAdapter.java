@@ -1,4 +1,4 @@
-package com.example.codeverse.Admin.Adapters;
+package com.example.codeverse.Admin.adapters;
 
 import android.content.Context;
 import android.content.Intent;
