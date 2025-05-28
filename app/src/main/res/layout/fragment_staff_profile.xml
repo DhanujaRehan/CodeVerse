@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/loading_gradient_background">
 
-    <!-- Top App Bar with Glass Effect -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -21,7 +20,6 @@
             android:paddingTop="48dp"
             android:paddingBottom="16dp">
 
-            <!-- Back Button with Animation -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
@@ -44,7 +42,6 @@
                     android:contentDescription="Back" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Staff Profile Title -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -57,7 +54,6 @@
                 app:layout_constraintStart_toEndOf="@id/cv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Department Selector Button -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_department_selector"
                 android:layout_width="48dp"
@@ -83,7 +79,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content with Custom Scroll Animation -->
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -98,7 +93,6 @@
             android:paddingTop="16dp"
             android:paddingBottom="100dp">
 
-            <!-- Staff Profile Header Card -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_profile_header"
                 android:layout_width="match_parent"
@@ -110,7 +104,6 @@
                 app:cardElevation="10dp"
                 >
 
-                <!-- Glass Morphism Effect Background -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -127,7 +120,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <!-- Animated Profile Picture with Pulse Effect -->
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="100dp"
                             android:layout_height="100dp"
@@ -143,7 +135,6 @@
                                 android:src="@drawable/ic_person"
                                 android:scaleType="centerCrop" />
 
-                            <!-- Pulse Animation Around Profile Picture -->
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -195,7 +186,6 @@
                                 android:layout_marginTop="4dp" />
                         </LinearLayout>
 
-                        <!-- Contact Button with Animation -->
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
                             android:id="@+id/fab_edit_profile"
                             android:layout_width="wrap_content"
@@ -208,7 +198,6 @@
 
                     </LinearLayout>
 
-                    <!-- Staff Stats Section -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -217,7 +206,6 @@
 
 
 
-                        <!-- Years of Service with Radial Progress Animation -->
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -261,7 +249,6 @@
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
 
-                        <!-- Publications with Bar Animation -->
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -305,7 +292,6 @@
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
 
-                        <!-- Current Courses Counter with Animation -->
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -352,7 +338,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Section Title with Animated Icon -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -378,7 +363,6 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <!-- Contact Information Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -400,7 +384,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Email with Animated Icon -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -449,7 +433,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Phone with Animated Icon -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -498,7 +482,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Office Hours with Animated Icon -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -547,7 +531,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Office Location with Animated Map Icon -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -597,7 +581,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Professional Section Title with Animated Icon -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -622,7 +606,7 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <!-- Professional Information Card -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -836,16 +820,11 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Position with Animated Icon -->
 
-                <!-- Department with Animated Icon -->
 
-                <!-- Specialization with Animated Icon -->
-
-                <!-- Education with Animated Icon -->
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Research Section Title with Animated Icon -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -871,7 +850,7 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <!-- Research Interests Card -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -888,9 +867,8 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Research Interests with Tags -->
 
-                    <!-- Research Description -->
+
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chip_group_research"
                         android:layout_width="match_parent"
@@ -954,7 +932,7 @@
                         android:textColor="#FFFFFF"
                         android:textSize="14sp" />
 
-                    <!-- More Research Button -->
+
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_view_research"
                         android:layout_width="match_parent"
@@ -968,7 +946,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Teaching Section Title with Animated Icon -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -993,7 +971,7 @@
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
 
-                <!-- View All Courses Button -->
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -1010,7 +988,7 @@
                     android:padding="8dp" />
             </LinearLayout>
 
-            <!-- Course Cards with Horizontal Scroll -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_teaching_courses"
                 android:layout_width="match_parent"
@@ -1021,17 +999,12 @@
                 android:paddingEnd="20dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-            <!-- Publications Section Title with Animated Icon -->
 
-            <!-- Publications Cards -->
 
-            <!-- Awards and Honors Section Title with Animated Icon -->
-
-            <!-- Awards and Honors Card -->
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Floating Action Button with Animated Icon for Schedule Appointment -->
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_schedule"
         android:layout_width="wrap_content"
