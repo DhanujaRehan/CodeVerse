@@ -1,4 +1,4 @@
-package com.example.codeverse.Admin.adapters;
+package com.example.codeverse.Admin.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

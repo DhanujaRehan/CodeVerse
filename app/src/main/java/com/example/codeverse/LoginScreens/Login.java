@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.LoginScreens;
 
 import android.content.Intent;
 import android.os.Bundle;
