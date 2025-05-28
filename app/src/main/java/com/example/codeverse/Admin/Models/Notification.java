@@ -1,4 +1,4 @@
-package com.example.codeverse.Admin;
+package com.example.codeverse.Admin.Models;
 
 public class Notification {
     private int id;

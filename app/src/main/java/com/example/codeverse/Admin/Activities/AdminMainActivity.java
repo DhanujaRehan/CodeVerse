@@ -1,4 +1,4 @@
-package com.example.codeverse.Admin;
+package com.example.codeverse.Admin.Activities;
 
 import android.os.Bundle;
 
@@ -8,6 +8,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.codeverse.Admin.Fragments.AdminSendNotification;
 import com.example.codeverse.R;
 import com.example.codeverse.databinding.ActivityMainBinding;
 

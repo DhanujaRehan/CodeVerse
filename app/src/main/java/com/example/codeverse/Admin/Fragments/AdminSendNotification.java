@@ -1,4 +1,4 @@
-package com.example.codeverse.Admin;
+package com.example.codeverse.Admin.Fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -19,13 +19,13 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.codeverse.Admin.Helpers.NotificationDatabaseHelper;
+import com.example.codeverse.Admin.Activities.NotificationHistoryActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.example.codeverse.R;
-import com.example.codeverse.Admin.NotificationDatabaseHelper;
-import com.example.codeverse.Admin.Notification;
-import com.example.codeverse.Admin.NotificationHistoryActivity;
+import com.example.codeverse.Admin.Models.Notification;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

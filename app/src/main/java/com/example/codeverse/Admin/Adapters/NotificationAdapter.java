@@ -13,7 +13,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.R;
-import com.example.codeverse.Admin.Notification;
+import com.example.codeverse.Admin.Models.Notification;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

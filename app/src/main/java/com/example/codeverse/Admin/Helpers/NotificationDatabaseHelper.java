@@ -1,4 +1,4 @@
-package com.example.codeverse.Admin;
+package com.example.codeverse.Admin.Helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.codeverse.Admin.Notification;
-import com.example.codeverse.Admin.NotificationHistory;
+import com.example.codeverse.Admin.Models.Notification;
+import com.example.codeverse.Admin.Models.NotificationHistory;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

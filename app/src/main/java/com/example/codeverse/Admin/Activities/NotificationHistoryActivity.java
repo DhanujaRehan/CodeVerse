@@ -1,4 +1,4 @@
-package com.example.codeverse.Admin;
+package com.example.codeverse.Admin.Activities;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.example.codeverse.Admin.Helpers.NotificationDatabaseHelper;
+import com.example.codeverse.Admin.NotificationHistoryAdapter;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.example.codeverse.R;
-import com.example.codeverse.Admin.NotificationHistoryAdapter;
-import com.example.codeverse.Admin.NotificationDatabaseHelper;
-import com.example.codeverse.Admin.NotificationHistory;
+import com.example.codeverse.Admin.Models.NotificationHistory;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

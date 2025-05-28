@@ -1,4 +1,4 @@
-package com.example.codeverse.Admin;
+package com.example.codeverse.Admin.Models;
 
 public class NotificationHistory {
     private int id;
@@ -33,7 +33,7 @@ public class NotificationHistory {
     }
 
     // Constructor from Notification object
-    public NotificationHistory(com.example.codeverse.Admin.Notification notification) {
+    public NotificationHistory(Notification notification) {
         this.notificationId = notification.getId();
         this.title = notification.getTitle();
         this.message = notification.getMessage();
