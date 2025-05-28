@@ -359,7 +359,6 @@ public class StaffEditProfile extends Fragment {
                         // Gallery
                         imagePickerLauncher.launch(intent);
                     } else {
-                        // Camera - in a real app, you would handle camera intent here
                         Toast.makeText(getContext(), "Camera functionality would be implemented here", Toast.LENGTH_SHORT).show();
                     }
                 })
@@ -367,8 +366,6 @@ public class StaffEditProfile extends Fragment {
     }
 
     private void loadFacultyData() {
-        // In a real app, this would load data from a database or API
-        // For now, we'll just use sample data
 
         etName.setText("Dr. Sarah Wilson");
         etStaffId.setText("FAC2023104");
