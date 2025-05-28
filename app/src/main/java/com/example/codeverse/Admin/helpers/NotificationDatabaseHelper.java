@@ -38,7 +38,6 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_ATTACHMENT_PATH = "attachment_path";
     private static final String COLUMN_ATTACHMENT_NAME = "attachment_name";
 
-    // History table
     private static final String TABLE_HISTORY = "notification_history";
     private static final String COLUMN_HISTORY_ID = "history_id";
     private static final String COLUMN_NOTIFICATION_ID = "notification_id";
