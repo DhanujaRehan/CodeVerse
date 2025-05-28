@@ -1,7 +1,7 @@
-package com.example.codeverse.Admin.helpers;
+package com.example.codeverse.Admin.Helpers;
 
-import com.example.codeverse.Admin.models.MitigationRequest;
-import com.example.codeverse.Admin.models.SupportingDocument;
+import com.example.codeverse.Admin.Models.MitigationRequest;
+import com.example.codeverse.Admin.Models.SupportingDocument;
 
 import java.util.Arrays;
 import java.util.List;

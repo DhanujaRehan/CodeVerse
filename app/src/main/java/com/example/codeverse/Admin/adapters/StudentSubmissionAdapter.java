@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.R;
-import com.example.codeverse.Admin.models.StudentSubmission;
+import com.example.codeverse.Admin.Models.StudentSubmission;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;

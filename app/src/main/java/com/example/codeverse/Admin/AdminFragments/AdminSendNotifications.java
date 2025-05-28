@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.codeverse.Admin.helpers.NotificationDatabaseHelper;
+import com.example.codeverse.Admin.Helpers.NotificationDatabaseHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
@@ -34,9 +34,8 @@ import java.util.Locale;
 
 // Import your custom classes
 import com.example.codeverse.R;
-import com.example.codeverse.Admin.models.Notification;
-import com.example.codeverse.Admin.models.NotificationHistory;
-import com.example.codeverse.Admin.helpers.NotificationDatabaseHelper;
+import com.example.codeverse.Admin.Models.Notification;
+import com.example.codeverse.Admin.Models.NotificationHistory;
 import com.example.codeverse.Admin.adapters.NotificationAdapter;
 import com.example.codeverse.Admin.adapters.NotificationHistoryAdapter;
 

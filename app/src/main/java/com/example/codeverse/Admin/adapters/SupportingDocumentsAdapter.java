@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.R;
-import com.example.codeverse.Admin.models.SupportingDocument;
+import com.example.codeverse.Admin.Models.SupportingDocument;
 
 import java.util.List;
 

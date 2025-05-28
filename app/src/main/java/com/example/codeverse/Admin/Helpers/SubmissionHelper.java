@@ -1,7 +1,7 @@
-package com.example.codeverse.Admin.helpers;
+package com.example.codeverse.Admin.Helpers;
 
-import com.example.codeverse.Admin.models.StudentSubmission;
-import com.example.codeverse.Admin.models.SubmissionFile;
+import com.example.codeverse.Admin.Models.StudentSubmission;
+import com.example.codeverse.Admin.Models.SubmissionFile;
 
 import java.util.ArrayList;
 import java.util.List;

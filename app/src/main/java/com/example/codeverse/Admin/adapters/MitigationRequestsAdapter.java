@@ -12,7 +12,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.R;
-import com.example.codeverse.Admin.models.MitigationRequest;
+import com.example.codeverse.Admin.Models.MitigationRequest;
 
 import java.util.List;
 

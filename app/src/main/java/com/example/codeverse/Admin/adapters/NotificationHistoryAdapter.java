@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.codeverse.Admin.models.NotificationHistory;
+import com.example.codeverse.Admin.Models.NotificationHistory;
 import com.example.codeverse.R;
 
 import java.util.List;

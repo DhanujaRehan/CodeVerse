@@ -1,4 +1,4 @@
-package com.example.codeverse.Admin.helpers;
+package com.example.codeverse.Admin.Helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -11,8 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import com.example.codeverse.Admin.models.Notification;
-import com.example.codeverse.Admin.models.NotificationHistory;
+import com.example.codeverse.Admin.Models.Notification;
+import com.example.codeverse.Admin.Models.NotificationHistory;
 
 public class NotificationDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "notification_database";

@@ -1,4 +1,4 @@
-package com.example.codeverse.Admin.models;
+package com.example.codeverse.Admin.Models;
 
 import java.util.List;
 
