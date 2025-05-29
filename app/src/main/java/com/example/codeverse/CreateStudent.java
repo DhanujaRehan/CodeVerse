@@ -34,6 +34,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class CreateStudent extends Fragment {
 
@@ -53,6 +55,7 @@ public class CreateStudent extends Fragment {
     private Student currentStudent;
     private StudentDatabaseHelper dbHelper;
     private String selectedPhotoPath;
+    private ExecutorService executorService;
 
     // Activity result launcher for image picking
     private ActivityResultLauncher<Intent> imagePickerLauncher;
@@ -74,6 +77,7 @@ public class CreateStudent extends Fragment {
         super.onCreate(savedInstanceState);
         dbHelper = StudentDatabaseHelper.getInstance(getContext());
         currentStudent = new Student();
+        executorService = Executors.newSingleThreadExecutor();
 
         // Initialize image picker launcher
         imagePickerLauncher = registerForActivityResult(
@@ -139,10 +143,7 @@ public class CreateStudent extends Fragment {
 
         btnNextStep.setOnClickListener(v -> {
             if (validateInput()) {
-                saveBasicInfo();
-                if (stepCompleteListener != null) {
-                    stepCompleteListener.onStepCompleted(currentStudent, 2);
-                }
+                saveBasicInfoToDatabase();
             }
         });
 
@@ -226,7 +227,7 @@ public class CreateStudent extends Fragment {
         } else if (universityId.length() < 5) {
             tilUniversityId.setError("University ID must be at least 5 characters");
             isValid = false;
-        } else if (dbHelper.isUniversityIdExists(universityId)) {
+        } else if (dbHelper.isUniversityIdExists(universityId, currentStudent.getId())) {
             tilUniversityId.setError("University ID already exists");
             isValid = false;
         }
@@ -265,7 +266,12 @@ public class CreateStudent extends Fragment {
         return nic.matches("^([0-9]{9}[VXvx]|[0-9]{12})$");
     }
 
-    private void saveBasicInfo() {
+    private void saveBasicInfoToDatabase() {
+        // Set button to loading state
+        btnNextStep.setEnabled(false);
+        btnNextStep.setText("Saving...");
+
+        // Collect data from form
         currentStudent.setFullName(etFullName.getText().toString().trim());
         currentStudent.setUniversityId(etUniversityId.getText().toString().trim().toUpperCase());
         currentStudent.setNicNumber(etNicNumber.getText().toString().trim().toUpperCase());
@@ -273,7 +279,39 @@ public class CreateStudent extends Fragment {
         currentStudent.setDateOfBirth(etDateOfBirth.getText().toString().trim());
         currentStudent.setPhotoPath(selectedPhotoPath);
 
-        Toast.makeText(getContext(), "Basic information saved", Toast.LENGTH_SHORT).show();
+        // Save to database in background thread
+        executorService.execute(() -> {
+            try {
+                long studentId = dbHelper.insertBasicStudentInfo(currentStudent);
+
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        btnNextStep.setEnabled(true);
+                        btnNextStep.setText("Continue to Academic Details");
+
+                        if (studentId > 0) {
+                            currentStudent.setId((int) studentId);
+                            Toast.makeText(getContext(), "Basic information saved successfully", Toast.LENGTH_SHORT).show();
+
+                            // Move to next fragment
+                            if (stepCompleteListener != null) {
+                                stepCompleteListener.onStepCompleted(currentStudent, 2);
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "Failed to save basic information. Please try again.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        btnNextStep.setEnabled(true);
+                        btnNextStep.setText("Continue to Academic Details");
+                        Toast.makeText(getContext(), "Error saving data: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    });
+                }
+            }
+        });
     }
 
     public void setOnStepCompleteListener(OnStepCompleteListener listener) {
@@ -320,5 +358,13 @@ public class CreateStudent extends Fragment {
     public void onResume() {
         super.onResume();
         populateFields();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
+        }
     }
 }
