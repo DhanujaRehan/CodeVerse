@@ -31,11 +31,25 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_GENDER = "gender";
     private static final String KEY_PHOTO_URI = "photo_uri";
 
+    // Academic Information Columns
     private static final String KEY_FACULTY = "faculty";
     private static final String KEY_DEPARTMENT = "department";
     private static final String KEY_BATCH = "batch";
     private static final String KEY_SEMESTER = "semester";
     private static final String KEY_ENROLLMENT_DATE = "enrollment_date";
+
+    // Contact Information Columns
+    private static final String KEY_MOBILE_NUMBER = "mobile_number";
+    private static final String KEY_ALTERNATE_NUMBER = "alternate_number";
+    private static final String KEY_PERMANENT_ADDRESS = "permanent_address";
+    private static final String KEY_CITY = "city";
+    private static final String KEY_PROVINCE = "province";
+    private static final String KEY_POSTAL_CODE = "postal_code";
+
+    // Emergency Contact Information Columns
+    private static final String KEY_EMERGENCY_NAME = "emergency_name";
+    private static final String KEY_EMERGENCY_RELATIONSHIP = "emergency_relationship";
+    private static final String KEY_EMERGENCY_NUMBER = "emergency_number";
 
     private static final String KEY_CREATED_AT = "created_at";
     private static final String KEY_UPDATED_AT = "updated_at";
@@ -46,6 +60,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    // Called when the database is created for the FIRST time.
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_STUDENTS_TABLE = "CREATE TABLE " + TABLE_STUDENTS +
@@ -62,6 +77,15 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
                 KEY_BATCH + " TEXT," +
                 KEY_SEMESTER + " TEXT," +
                 KEY_ENROLLMENT_DATE + " TEXT," +
+                KEY_MOBILE_NUMBER + " TEXT," +
+                KEY_ALTERNATE_NUMBER + " TEXT," +
+                KEY_PERMANENT_ADDRESS + " TEXT," +
+                KEY_CITY + " TEXT," +
+                KEY_PROVINCE + " TEXT," +
+                KEY_POSTAL_CODE + " TEXT," +
+                KEY_EMERGENCY_NAME + " TEXT," +
+                KEY_EMERGENCY_RELATIONSHIP + " TEXT," +
+                KEY_EMERGENCY_NUMBER + " TEXT," +
                 KEY_CREATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 KEY_UPDATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP" +
                 ")";
@@ -101,6 +125,19 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_BATCH, student.getBatch());
             values.put(KEY_SEMESTER, student.getSemester());
             values.put(KEY_ENROLLMENT_DATE, student.getEnrollmentDate());
+
+            // Contact Information
+            values.put(KEY_MOBILE_NUMBER, student.getMobileNumber());
+            values.put(KEY_ALTERNATE_NUMBER, student.getAlternateNumber());
+            values.put(KEY_PERMANENT_ADDRESS, student.getPermanentAddress());
+            values.put(KEY_CITY, student.getCity());
+            values.put(KEY_PROVINCE, student.getProvince());
+            values.put(KEY_POSTAL_CODE, student.getPostalCode());
+
+            // Emergency Contact Information
+            values.put(KEY_EMERGENCY_NAME, student.getEmergencyName());
+            values.put(KEY_EMERGENCY_RELATIONSHIP, student.getEmergencyRelationship());
+            values.put(KEY_EMERGENCY_NUMBER, student.getEmergencyNumber());
 
             // Get current timestamp
             String currentTimestamp = getCurrentTimestamp();
@@ -195,6 +232,19 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_SEMESTER, student.getSemester());
             values.put(KEY_ENROLLMENT_DATE, student.getEnrollmentDate());
 
+            // Contact Information
+            values.put(KEY_MOBILE_NUMBER, student.getMobileNumber());
+            values.put(KEY_ALTERNATE_NUMBER, student.getAlternateNumber());
+            values.put(KEY_PERMANENT_ADDRESS, student.getPermanentAddress());
+            values.put(KEY_CITY, student.getCity());
+            values.put(KEY_PROVINCE, student.getProvince());
+            values.put(KEY_POSTAL_CODE, student.getPostalCode());
+
+            // Emergency Contact Information
+            values.put(KEY_EMERGENCY_NAME, student.getEmergencyName());
+            values.put(KEY_EMERGENCY_RELATIONSHIP, student.getEmergencyRelationship());
+            values.put(KEY_EMERGENCY_NUMBER, student.getEmergencyNumber());
+
             values.put(KEY_UPDATED_AT, getCurrentTimestamp());
 
             rowsAffected = db.update(TABLE_STUDENTS, values, KEY_ID + " = ?",
@@ -204,6 +254,41 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             Log.d(TAG, "Student updated. Rows affected: " + rowsAffected);
         } catch (Exception e) {
             Log.d(TAG, "Error while trying to update student: " + e.getMessage());
+        } finally {
+            db.endTransaction();
+        }
+
+        return rowsAffected;
+    }
+
+    // Update only contact details for a student
+    public int updateStudentContactDetails(long studentId, String mobileNumber, String alternateNumber,
+                                           String permanentAddress, String city, String province, String postalCode,
+                                           String emergencyName, String emergencyRelationship, String emergencyNumber) {
+        SQLiteDatabase db = getWritableDatabase();
+        int rowsAffected = 0;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_MOBILE_NUMBER, mobileNumber);
+            values.put(KEY_ALTERNATE_NUMBER, alternateNumber);
+            values.put(KEY_PERMANENT_ADDRESS, permanentAddress);
+            values.put(KEY_CITY, city);
+            values.put(KEY_PROVINCE, province);
+            values.put(KEY_POSTAL_CODE, postalCode);
+            values.put(KEY_EMERGENCY_NAME, emergencyName);
+            values.put(KEY_EMERGENCY_RELATIONSHIP, emergencyRelationship);
+            values.put(KEY_EMERGENCY_NUMBER, emergencyNumber);
+            values.put(KEY_UPDATED_AT, getCurrentTimestamp());
+
+            rowsAffected = db.update(TABLE_STUDENTS, values, KEY_ID + " = ?",
+                    new String[]{String.valueOf(studentId)});
+
+            db.setTransactionSuccessful();
+            Log.d(TAG, "Student contact details updated. Rows affected: " + rowsAffected);
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to update student contact details: " + e.getMessage());
         } finally {
             db.endTransaction();
         }
@@ -389,6 +474,19 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         student.setBatch(cursor.getString(cursor.getColumnIndexOrThrow(KEY_BATCH)));
         student.setSemester(cursor.getString(cursor.getColumnIndexOrThrow(KEY_SEMESTER)));
         student.setEnrollmentDate(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENROLLMENT_DATE)));
+
+        // Contact Information
+        student.setMobileNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_MOBILE_NUMBER)));
+        student.setAlternateNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ALTERNATE_NUMBER)));
+        student.setPermanentAddress(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PERMANENT_ADDRESS)));
+        student.setCity(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CITY)));
+        student.setProvince(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PROVINCE)));
+        student.setPostalCode(cursor.getString(cursor.getColumnIndexOrThrow(KEY_POSTAL_CODE)));
+
+        // Emergency Contact Information
+        student.setEmergencyName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_NAME)));
+        student.setEmergencyRelationship(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_RELATIONSHIP)));
+        student.setEmergencyNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_NUMBER)));
 
         student.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CREATED_AT)));
         student.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(KEY_UPDATED_AT)));
