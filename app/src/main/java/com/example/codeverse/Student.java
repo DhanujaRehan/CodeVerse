@@ -1,3 +1,5 @@
+package com.example.codeverse;
+
 public class Student {
     private int id;
     private String fullName;

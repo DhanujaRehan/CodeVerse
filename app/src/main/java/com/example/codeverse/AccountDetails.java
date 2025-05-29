@@ -1,296 +1,372 @@
-package com.example.codeverse;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.regex.Pattern;
 
-public class AccountDetails extends Fragment {
+public class AccountDetails extends AppCompatActivity {
 
-    private TextInputEditText etEmail, etUsername, etPassword, etConfirmPassword;
+    // UI Components
+    private MaterialCardView cvBack, cvHelp;
     private TextInputLayout tilEmail, tilUsername, tilPassword, tilConfirmPassword;
+    private TextInputEditText etEmail, etUsername, etPassword, etConfirmPassword;
     private CheckBox checkboxTerms;
     private TextView tvTerms;
     private MaterialButton btnNextStep, btnCancel;
-    private MaterialCardView cvBack, cvHelp;
-    private FrameLayout loadingOverlay;
+    private View loadingOverlay;
 
-    private TextView tvPasswordRequirementLength, tvPasswordRequirementUppercase;
-    private TextView tvPasswordRequirementNumber, tvPasswordRequirementSpecial;
-    private TextView tvPasswordRequirementMatch;
+    // Password requirement TextViews
+    private TextView tvPasswordRequirementLength, tvPasswordRequirementUppercase,
+            tvPasswordRequirementNumber, tvPasswordRequirementSpecial, tvPasswordRequirementMatch;
 
-    private LinearLayout cardBasicInfoIndicator, cardAcademicIndicator,
-            cardAccountIndicator, cardContactIndicator;
+    // Data
+    private Student studentData;
+    private StudentDatabaseHelper databaseHelper;
 
-    // Database helper
-    private StudentDatabaseHelper dbHelper;
+    // Password validation patterns
+    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
+            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$"
+    );
 
-    // Student ID passed from previous step
-    private long studentId = -1;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_account_details);
 
-    private static final String TAG = "AccountDetailsFragment";
-    private static final String ARG_STUDENT_ID = "student_id";
-
-    private static final Pattern PASSWORD_UPPERCASE = Pattern.compile("[A-Z]");
-    private static final Pattern PASSWORD_NUMBER = Pattern.compile("[0-9]");
-    private static final Pattern PASSWORD_SPECIAL = Pattern.compile("[^A-Za-z0-9]");
-
-    public static AccountDetails newInstance(long studentId) {
-        AccountDetails fragment = new AccountDetails();
-        Bundle args = new Bundle();
-        args.putLong(ARG_STUDENT_ID, studentId);
-        fragment.setArguments(args);
-        return fragment;
+        initializeViews();
+        initializeDatabase();
+        getStudentData();
+        setupPasswordValidation();
+        setupClickListeners();
+        updateProgressIndicators();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_account_details, container, false);
+    private void initializeViews() {
+        cvBack = findViewById(R.id.cv_back);
+        cvHelp = findViewById(R.id.cv_help);
+        tilEmail = findViewById(R.id.til_email);
+        tilUsername = findViewById(R.id.til_username);
+        tilPassword = findViewById(R.id.til_password);
+        tilConfirmPassword = findViewById(R.id.til_confirm_password);
+        etEmail = findViewById(R.id.et_email);
+        etUsername = findViewById(R.id.et_username);
+        etPassword = findViewById(R.id.et_password);
+        etConfirmPassword = findViewById(R.id.et_confirm_password);
+        checkboxTerms = findViewById(R.id.checkbox_terms);
+        tvTerms = findViewById(R.id.tv_terms);
+        btnNextStep = findViewById(R.id.btn_next_step);
+        btnCancel = findViewById(R.id.btn_cancel);
+        loadingOverlay = findViewById(R.id.loading_overlay);
 
-        // Get student ID from arguments
-        if (getArguments() != null) {
-            studentId = getArguments().getLong(ARG_STUDENT_ID, -1);
+        // Password requirement TextViews
+        tvPasswordRequirementLength = findViewById(R.id.tv_password_requirement_length);
+        tvPasswordRequirementUppercase = findViewById(R.id.tv_password_requirement_uppercase);
+        tvPasswordRequirementNumber = findViewById(R.id.tv_password_requirement_number);
+        tvPasswordRequirementSpecial = findViewById(R.id.tv_password_requirement_special);
+        tvPasswordRequirementMatch = findViewById(R.id.tv_password_requirement_match);
+    }
+
+    private void initializeDatabase() {
+        databaseHelper = new StudentDatabaseHelper(this);
+    }
+
+    private void getStudentData() {
+        studentData = (Student) getIntent().getSerializableExtra("student_data");
+        if (studentData == null) {
+            Toast.makeText(this, "Error: No student data found", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+    }
+
+    private void setupPasswordValidation() {
+        etPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validatePasswordRequirements(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        etConfirmPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validatePasswordMatch();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Real-time username validation
+        etUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateUsernameRealTime(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Real-time email validation
+        etEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateEmailRealTime(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void validatePasswordRequirements(String password) {
+        int greenColor = ContextCompat.getColor(this, android.R.color.holo_green_dark);
+        int redColor = ContextCompat.getColor(this, android.R.color.holo_red_dark);
+        int grayColor = ContextCompat.getColor(this, android.R.color.darker_gray);
+
+        // Length requirement
+        if (password.length() >= 8) {
+            tvPasswordRequirementLength.setTextColor(greenColor);
+            tvPasswordRequirementLength.setText("✓ At least 8 characters");
+        } else {
+            tvPasswordRequirementLength.setTextColor(password.isEmpty() ? grayColor : redColor);
+            tvPasswordRequirementLength.setText("• At least 8 characters");
         }
 
-        // Initialize database helper
-        dbHelper = new StudentDatabaseHelper(getContext());
+        // Uppercase requirement
+        if (password.matches(".*[A-Z].*")) {
+            tvPasswordRequirementUppercase.setTextColor(greenColor);
+            tvPasswordRequirementUppercase.setText("✓ At least one uppercase letter");
+        } else {
+            tvPasswordRequirementUppercase.setTextColor(password.isEmpty() ? grayColor : redColor);
+            tvPasswordRequirementUppercase.setText("• At least one uppercase letter");
+        }
 
-        initializeViews(view);
-        setupClickListeners();
-        setupTextChangeListeners();
-        populateFieldsFromData();
+        // Number requirement
+        if (password.matches(".*[0-9].*")) {
+            tvPasswordRequirementNumber.setTextColor(greenColor);
+            tvPasswordRequirementNumber.setText("✓ At least one number");
+        } else {
+            tvPasswordRequirementNumber.setTextColor(password.isEmpty() ? grayColor : redColor);
+            tvPasswordRequirementNumber.setText("• At least one number");
+        }
 
-        return view;
+        // Special character requirement
+        if (password.matches(".*[@#$%^&+=!].*")) {
+            tvPasswordRequirementSpecial.setTextColor(greenColor);
+            tvPasswordRequirementSpecial.setText("✓ At least one special character");
+        } else {
+            tvPasswordRequirementSpecial.setTextColor(password.isEmpty() ? grayColor : redColor);
+            tvPasswordRequirementSpecial.setText("• At least one special character");
+        }
+
+        validatePasswordMatch();
     }
 
-    private void initializeViews(View view) {
-        try {
-            etEmail = view.findViewById(R.id.et_email);
-            etUsername = view.findViewById(R.id.et_username);
-            etPassword = view.findViewById(R.id.et_password);
-            etConfirmPassword = view.findViewById(R.id.et_confirm_password);
+    private void validatePasswordMatch() {
+        String password = etPassword.getText().toString();
+        String confirmPassword = etConfirmPassword.getText().toString();
 
-            tilEmail = view.findViewById(R.id.til_email);
-            tilUsername = view.findViewById(R.id.til_username);
-            tilPassword = view.findViewById(R.id.til_password);
-            tilConfirmPassword = view.findViewById(R.id.til_confirm_password);
+        int greenColor = ContextCompat.getColor(this, android.R.color.holo_green_dark);
+        int redColor = ContextCompat.getColor(this, android.R.color.holo_red_dark);
+        int grayColor = ContextCompat.getColor(this, android.R.color.darker_gray);
 
-            checkboxTerms = view.findViewById(R.id.checkbox_terms);
-            tvTerms = view.findViewById(R.id.tv_terms);
+        if (!confirmPassword.isEmpty() && password.equals(confirmPassword) && !password.isEmpty()) {
+            tvPasswordRequirementMatch.setTextColor(greenColor);
+            tvPasswordRequirementMatch.setText("✓ Passwords match");
+        } else if (!confirmPassword.isEmpty()) {
+            tvPasswordRequirementMatch.setTextColor(redColor);
+            tvPasswordRequirementMatch.setText("• Passwords match");
+        } else {
+            tvPasswordRequirementMatch.setTextColor(grayColor);
+            tvPasswordRequirementMatch.setText("• Passwords match");
+        }
+    }
 
-            tvPasswordRequirementLength = view.findViewById(R.id.tv_password_requirement_length);
-            tvPasswordRequirementUppercase = view.findViewById(R.id.tv_password_requirement_uppercase);
-            tvPasswordRequirementNumber = view.findViewById(R.id.tv_password_requirement_number);
-            tvPasswordRequirementSpecial = view.findViewById(R.id.tv_password_requirement_special);
-            tvPasswordRequirementMatch = view.findViewById(R.id.tv_password_requirement_match);
+    private void validateUsernameRealTime(String username) {
+        if (username.length() >= 3) {
+            // Check if username exists in database
+            new Thread(() -> {
+                boolean exists = databaseHelper.isUsernameExists(username);
+                runOnUiThread(() -> {
+                    if (exists) {
+                        tilUsername.setError("Username already exists");
+                    } else if (!username.matches("^[a-zA-Z0-9._]+$")) {
+                        tilUsername.setError("Username can only contain letters, numbers, dots and underscores");
+                    } else {
+                        tilUsername.setError(null);
+                    }
+                });
+            }).start();
+        }
+    }
 
-            btnNextStep = view.findViewById(R.id.btn_next_step);
-            btnCancel = view.findViewById(R.id.btn_cancel);
-
-            cvBack = view.findViewById(R.id.cv_back);
-            cvHelp = view.findViewById(R.id.cv_help);
-
-            cardBasicInfoIndicator = view.findViewById(R.id.card_basic_info_indicator);
-            cardAcademicIndicator = view.findViewById(R.id.card_academic_indicator);
-            cardAccountIndicator = view.findViewById(R.id.card_account_indicator);
-            cardContactIndicator = view.findViewById(R.id.card_contact_indicator);
-
-            loadingOverlay = view.findViewById(R.id.loading_overlay);
-        } catch (Exception e) {
-            Log.e(TAG, "Error initializing views: " + e.getMessage());
-            Toast.makeText(getContext(), "Failed to initialize the form", Toast.LENGTH_SHORT).show();
+    private void validateEmailRealTime(String email) {
+        if (!TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            // Check if email exists in database
+            new Thread(() -> {
+                boolean exists = databaseHelper.isEmailExists(email);
+                runOnUiThread(() -> {
+                    if (exists) {
+                        tilEmail.setError("Email already exists");
+                    } else {
+                        tilEmail.setError(null);
+                    }
+                });
+            }).start();
         }
     }
 
     private void setupClickListeners() {
-        cvBack.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+        cvBack.setOnClickListener(v -> onBackPressed());
 
         cvHelp.setOnClickListener(v -> showHelpDialog());
 
-        tvTerms.setOnClickListener(v -> showTermsDialog());
+        tvTerms.setOnClickListener(v -> {
+            showTermsAndConditions();
+        });
 
         btnNextStep.setOnClickListener(v -> {
             if (validateInputs()) {
-                saveAccountDetails();
+                proceedToContactDetails();
             }
         });
 
         btnCancel.setOnClickListener(v -> {
-            new AlertDialog.Builder(getContext())
-                    .setTitle("Cancel Student Creation")
-                    .setMessage("Are you sure you want to cancel? All entered information will be lost.")
-                    .setPositiveButton("Yes", (dialog, which) -> {
-                        // Delete the student record if it exists
-                        if (studentId != -1) {
-                            dbHelper.deleteStudent(studentId);
-                        }
-                        if (getActivity() != null) {
-                            getActivity().finish();
-                        }
-                    })
-                    .setNegativeButton("No", null)
-                    .show();
+            showCancelConfirmation();
         });
     }
 
-    private void setupTextChangeListeners() {
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                clearErrors();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        };
-
-        etEmail.addTextChangedListener(textWatcher);
-        etUsername.addTextChangedListener(textWatcher);
-
-        TextWatcher passwordWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                clearErrors();
-                updatePasswordRequirements();
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        };
-
-        etPassword.addTextChangedListener(passwordWatcher);
-        etConfirmPassword.addTextChangedListener(passwordWatcher);
+    private void showHelpDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Account Setup Help")
+                .setMessage("Create a secure account:\n\n" +
+                        "• Use a valid email address\n" +
+                        "• Choose a unique username\n" +
+                        "• Create a strong password following all requirements\n" +
+                        "• Accept the terms to continue")
+                .setPositiveButton("OK", null)
+                .show();
     }
 
-    private void clearErrors() {
-        tilEmail.setError(null);
-        tilUsername.setError(null);
-        tilPassword.setError(null);
-        tilConfirmPassword.setError(null);
+    private void showTermsAndConditions() {
+        new AlertDialog.Builder(this)
+                .setTitle("Terms of Service & Privacy Policy")
+                .setMessage("TERMS OF SERVICE\n\n" +
+                        "1. Account Usage: You are responsible for maintaining the security of your account.\n\n" +
+                        "2. Data Accuracy: You must provide accurate and complete information.\n\n" +
+                        "3. Privacy: We respect your privacy and protect your personal information.\n\n" +
+                        "PRIVACY POLICY\n\n" +
+                        "1. Data Collection: We collect information necessary for academic management.\n\n" +
+                        "2. Data Usage: Your information will be used solely for educational purposes.\n\n" +
+                        "3. Data Security: We implement appropriate security measures to protect your data.")
+                .setPositiveButton("Accept", (dialog, which) -> {
+                    checkboxTerms.setChecked(true);
+                })
+                .setNegativeButton("Close", null)
+                .show();
     }
 
-    private void updatePasswordRequirements() {
-        String password = etPassword.getText() != null ? etPassword.getText().toString() : "";
-        String confirmPassword = etConfirmPassword.getText() != null ? etConfirmPassword.getText().toString() : "";
+    private void showCancelConfirmation() {
+        new AlertDialog.Builder(this)
+                .setTitle("Cancel Registration")
+                .setMessage("Are you sure you want to cancel the registration process? All entered data will be lost.")
+                .setPositiveButton("Yes, Cancel", (dialog, which) -> {
+                    finish();
+                })
+                .setNegativeButton("Continue Registration", null)
+                .show();
+    }
 
-        int successColor = ContextCompat.getColor(getContext(), android.R.color.holo_green_dark);
-        int failureColor = ContextCompat.getColor(getContext(), android.R.color.darker_gray);
-
-        boolean lengthMet = password.length() >= 8;
-        tvPasswordRequirementLength.setTextColor(lengthMet ? successColor : failureColor);
-        tvPasswordRequirementLength.setText(lengthMet ? "✓ At least 8 characters" : "• At least 8 characters");
-
-        boolean uppercaseMet = PASSWORD_UPPERCASE.matcher(password).find();
-        tvPasswordRequirementUppercase.setTextColor(uppercaseMet ? successColor : failureColor);
-        tvPasswordRequirementUppercase.setText(uppercaseMet ? "✓ At least one uppercase letter" : "• At least one uppercase letter");
-
-        boolean numberMet = PASSWORD_NUMBER.matcher(password).find();
-        tvPasswordRequirementNumber.setTextColor(numberMet ? successColor : failureColor);
-        tvPasswordRequirementNumber.setText(numberMet ? "✓ At least one number" : "• At least one number");
-
-        boolean specialMet = PASSWORD_SPECIAL.matcher(password).find();
-        tvPasswordRequirementSpecial.setTextColor(specialMet ? successColor : failureColor);
-        tvPasswordRequirementSpecial.setText(specialMet ? "✓ At least one special character" : "• At least one special character");
-
-        boolean passwordsMatch = !password.isEmpty() && password.equals(confirmPassword);
-        tvPasswordRequirementMatch.setTextColor(passwordsMatch ? successColor : failureColor);
-        tvPasswordRequirementMatch.setText(passwordsMatch ? "✓ Passwords match" : "• Passwords match");
+    private void updateProgressIndicators() {
+        // Update progress indicators to show current step
+        // Steps 1 & 2 - Completed (Basic Info & Academic Details)
+        // Step 3 (Account) - Current
+        // Step 4 - Pending (Contact Details)
     }
 
     private boolean validateInputs() {
         boolean isValid = true;
 
+        // Reset errors
+        tilEmail.setError(null);
+        tilUsername.setError(null);
+        tilPassword.setError(null);
+        tilConfirmPassword.setError(null);
+
         // Validate email
-        if (TextUtils.isEmpty(etEmail.getText())) {
+        String email = etEmail.getText().toString().trim();
+        if (TextUtils.isEmpty(email)) {
             tilEmail.setError("Email is required");
             isValid = false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(etEmail.getText().toString()).matches()) {
+        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             tilEmail.setError("Please enter a valid email address");
             isValid = false;
-        } else {
-            String email = etEmail.getText().toString().trim();
-            if (dbHelper.isEmailExists(email)) {
-                tilEmail.setError("This email is already registered");
-                isValid = false;
-            }
+        } else if (databaseHelper.isEmailExists(email)) {
+            tilEmail.setError("Email already exists");
+            isValid = false;
         }
 
         // Validate username
-        if (TextUtils.isEmpty(etUsername.getText())) {
+        String username = etUsername.getText().toString().trim();
+        if (TextUtils.isEmpty(username)) {
             tilUsername.setError("Username is required");
             isValid = false;
-        } else if (etUsername.getText().toString().length() < 5) {
-            tilUsername.setError("Username must be at least 5 characters");
+        } else if (username.length() < 3) {
+            tilUsername.setError("Username must be at least 3 characters");
             isValid = false;
-        } else {
-            String username = etUsername.getText().toString().trim();
-            if (dbHelper.isUsernameExists(username)) {
-                tilUsername.setError("This username is already taken");
-                isValid = false;
-            }
+        } else if (!username.matches("^[a-zA-Z0-9._]+$")) {
+            tilUsername.setError("Username can only contain letters, numbers, dots and underscores");
+            isValid = false;
+        } else if (databaseHelper.isUsernameExists(username)) {
+            tilUsername.setError("Username already exists");
+            isValid = false;
         }
 
         // Validate password
-        String password = etPassword.getText() != null ? etPassword.getText().toString() : "";
-        String confirmPassword = etConfirmPassword.getText() != null ? etConfirmPassword.getText().toString() : "";
-
+        String password = etPassword.getText().toString();
         if (TextUtils.isEmpty(password)) {
             tilPassword.setError("Password is required");
             isValid = false;
-        } else {
-            boolean lengthMet = password.length() >= 8;
-            boolean uppercaseMet = PASSWORD_UPPERCASE.matcher(password).find();
-            boolean numberMet = PASSWORD_NUMBER.matcher(password).find();
-            boolean specialMet = PASSWORD_SPECIAL.matcher(password).find();
-
-            if (!lengthMet || !uppercaseMet || !numberMet || !specialMet) {
-                tilPassword.setError("Password does not meet requirements");
-                isValid = false;
-            }
+        } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
+            tilPassword.setError("Password does not meet requirements");
+            isValid = false;
         }
 
         // Validate confirm password
+        String confirmPassword = etConfirmPassword.getText().toString();
         if (TextUtils.isEmpty(confirmPassword)) {
             tilConfirmPassword.setError("Please confirm your password");
             isValid = false;
@@ -301,135 +377,66 @@ public class AccountDetails extends Fragment {
 
         // Validate terms acceptance
         if (!checkboxTerms.isChecked()) {
-            showToast("You must accept the Terms of Service and Privacy Policy");
+            Toast.makeText(this, "Please accept the Terms of Service and Privacy Policy", Toast.LENGTH_SHORT).show();
             isValid = false;
         }
 
         return isValid;
     }
 
-    private void saveAccountDetails() {
-        // Show loading
-        loadingOverlay.setVisibility(View.VISIBLE);
-
+    private String hashPassword(String password) {
         try {
-            if (studentId == -1) {
-                loadingOverlay.setVisibility(View.GONE);
-                showToast("Error: Student ID not found");
-                return;
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
             }
 
-            // Get input values
-            String email = etEmail.getText().toString().trim();
-            String username = etUsername.getText().toString().trim();
-            String password = etPassword.getText().toString().trim();
-            boolean termsAccepted = checkboxTerms.isChecked();
-
-            // Update account details in database
-            int result = dbHelper.updateStudentAccountDetails(studentId, email, username,
-                    password, termsAccepted);
-
-            // Simulate some processing time
-            new Handler().postDelayed(() -> {
-                loadingOverlay.setVisibility(View.GONE);
-
-                if (result > 0) {
-                    showToast("Account details saved successfully!");
-
-                    // Navigate to Contact Details Fragment
-                    if (getActivity() != null) {
-                        ContactDetails contactFragment = ContactDetails.newInstance(studentId);
-
-                        getActivity().getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.framelayout, contactFragment)
-                                .addToBackStack(null)
-                                .commit();
-                    }
-                } else {
-                    showToast("Failed to save account details. Please try again.");
-                }
-            }, 1500);
-
-        } catch (Exception e) {
-            loadingOverlay.setVisibility(View.GONE);
-            Log.e(TAG, "Error saving account details: " + e.getMessage());
-            showToast("An error occurred while saving data");
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            // Fallback to plain text (not recommended for production)
+            return password;
         }
     }
 
-    private void showTermsDialog() {
-        new AlertDialog.Builder(getContext())
-                .setTitle("Terms of Service & Privacy Policy")
-                .setMessage("These are the terms and conditions for using the Student Management System...\n\n" +
-                        "1. Your data will be collected and stored securely.\n" +
-                        "2. Your account information will only be used for academic purposes.\n" +
-                        "3. You are responsible for maintaining the confidentiality of your account.\n" +
-                        "4. Unauthorized access or use of another's account is prohibited.\n\n" +
-                        "For the full terms and privacy policy, please visit the university website.")
-                .setPositiveButton("Accept", (dialog, which) -> {
-                    checkboxTerms.setChecked(true);
-                })
-                .setNegativeButton("Decline", (dialog, which) -> {
-                    checkboxTerms.setChecked(false);
-                })
-                .show();
+    private void proceedToContactDetails() {
+        showLoading(true);
+
+        // Update student object with account details
+        studentData.setEmail(etEmail.getText().toString().trim());
+        studentData.setUsername(etUsername.getText().toString().trim());
+        studentData.setPassword(hashPassword(etPassword.getText().toString()));
+
+        // Pass data to Contact Details activity
+        Intent intent = new Intent(this, ContactDetails.class);
+        intent.putExtra("student_data", studentData);
+        startActivity(intent);
+
+        showLoading(false);
     }
 
-    private void showHelpDialog() {
-        new AlertDialog.Builder(getContext())
-                .setTitle("Account Setup")
-                .setMessage("This form creates your student account credentials:\n\n" +
-                        "• Enter your email address (will be used for notifications)\n" +
-                        "• Create a username for logging into the system\n" +
-                        "• Create a secure password that meets all requirements\n" +
-                        "• Accept the terms and conditions\n\n" +
-                        "All fields are required for account creation.")
-                .setPositiveButton("Got it", null)
-                .show();
-    }
-
-    private void populateFieldsFromData() {
-        if (studentId == -1) return;
-
-        try {
-            // Get existing student data from database
-            Students student = dbHelper.getStudentById(studentId);
-
-            if (student != null) {
-                // Populate fields with existing account data if available
-                if (student.getEmail() != null && !student.getEmail().isEmpty()) {
-                    etEmail.setText(student.getEmail());
-                }
-
-                if (student.getUsername() != null && !student.getUsername().isEmpty()) {
-                    etUsername.setText(student.getUsername());
-                }
-
-                if (student.getPassword() != null && !student.getPassword().isEmpty()) {
-                    etPassword.setText(student.getPassword());
-                    etConfirmPassword.setText(student.getPassword());
-                }
-
-                checkboxTerms.setChecked(student.isTermsAccepted());
-
-                // Update password requirements display
-                updatePasswordRequirements();
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Error populating fields: " + e.getMessage());
-        }
-    }
-
-    private void showToast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    private void showLoading(boolean show) {
+        loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
+        btnNextStep.setEnabled(!show);
     }
 
     @Override
-    public void onDestroy() {
+    public void onBackPressed() {
+        showCancelConfirmation();
+    }
+
+    @Override
+    protected void onDestroy() {
         super.onDestroy();
-        if (dbHelper != null) {
-            dbHelper.close();
+        if (databaseHelper != null) {
+            databaseHelper.close();
         }
     }
 }
