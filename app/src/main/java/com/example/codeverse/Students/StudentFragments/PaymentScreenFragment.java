@@ -1,4 +1,4 @@
-package com.example.codeverse.Student.StudentFragments;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.os.Bundle;
 
@@ -12,10 +12,10 @@ import com.example.codeverse.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link DialogSupport#newInstance} factory method to
+ * Use the {@link PaymentScreenFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class DialogSupport extends Fragment {
+public class PaymentScreenFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class DialogSupport extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public DialogSupport() {
+    public PaymentScreenFragment() {
         // Required empty public constructor
     }
 
@@ -36,11 +36,11 @@ public class DialogSupport extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment DialogSupport.
+     * @return A new instance of fragment PaymentScreenFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static DialogSupport newInstance(String param1, String param2) {
-        DialogSupport fragment = new DialogSupport();
+    public static PaymentScreenFragment newInstance(String param1, String param2) {
+        PaymentScreenFragment fragment = new PaymentScreenFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class DialogSupport extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_dialog_support, container, false);
+        return inflater.inflate(R.layout.fragment_payment_screen, container, false);
     }
 }

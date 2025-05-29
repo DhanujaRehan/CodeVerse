@@ -18,10 +18,10 @@
             android:name=".Admin.Activities.NotificationHistoryActivity"
             android:exported="false" />
         <activity
-            android:name=".WelcomeScreen"
+            android:name=".LoginScreens.WelcomeScreen"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".LoginScreens.Login"
             android:exported="false" />
         <activity
             android:name=".Admin.Activities.AdminMainActivity"

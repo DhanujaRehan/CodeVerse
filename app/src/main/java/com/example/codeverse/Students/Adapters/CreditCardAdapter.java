@@ -1,4 +1,4 @@
-package com.example.codeverse.Student.Adapters;
+package com.example.codeverse.Students.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,8 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.codeverse.Student.Models.CreditCard;
 import com.example.codeverse.R;
+import com.example.codeverse.Students.Models.CreditCard;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.codeverse.Student.StudentFragments;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.os.Bundle;
 
