@@ -7,6 +7,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -72,8 +74,14 @@ public class CreateStudent extends Fragment {
     private OnBasicInfoListener listener;
     private StudentDatabaseHelper databaseHelper;
 
+    // Fragment view reference
+    private View fragmentView;
+
+    // Handler for delayed operations
+    private Handler mainHandler;
+
     // Constants
-    private static final String TAG = "CreateStudentFragment";
+    private static final String TAG = "CreateStudent";
 
     @Override
     public void onAttach(Context context) {
@@ -88,6 +96,9 @@ public class CreateStudent extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialize handler
+        mainHandler = new Handler(Looper.getMainLooper());
 
         // Initialize database helper
         databaseHelper = StudentDatabaseHelper.getInstance(requireContext());
@@ -104,10 +115,10 @@ public class CreateStudent extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_student, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_create_student, container, false);
 
         // Initialize UI components
-        initializeViews(view);
+        initializeViews(fragmentView);
 
         // Set up dropdown for gender selection
         setupGenderDropdown();
@@ -124,7 +135,7 @@ public class CreateStudent extends Fragment {
         // Populate fields with existing data
         populateFields();
 
-        return view;
+        return fragmentView;
     }
 
     @SuppressLint("WrongViewCast")
@@ -188,13 +199,14 @@ public class CreateStudent extends Fragment {
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
-                    if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
+                    if (result.getResultCode() == requireActivity().RESULT_OK && result.getData() != null) {
                         Uri imageUri = result.getData().getData();
                         if (imageUri != null) {
                             selectedImageUri = imageUri;
                             try {
                                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), imageUri);
                                 ivStudentPhoto.setImageBitmap(bitmap);
+                                showToast("Photo selected successfully");
                             } catch (IOException e) {
                                 Log.e(TAG, "Error loading image: " + e.getMessage());
                                 Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
@@ -206,7 +218,11 @@ public class CreateStudent extends Fragment {
 
     private void setupClickListeners() {
         // Back button click listener
-        cvBack.setOnClickListener(v -> requireActivity().onBackPressed());
+        cvBack.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
 
         // Help button click listener
         cvHelp.setOnClickListener(v -> showHelpDialog());
@@ -221,21 +237,27 @@ public class CreateStudent extends Fragment {
         cardAccountIndicator.setOnClickListener(v -> {
             if (validateInputs()) {
                 saveCurrentData();
-                listener.onNavigateToStep(2);
+                if (listener != null) {
+                    listener.onNavigateToStep(2);
+                }
             }
         });
 
         cardAcademicIndicator.setOnClickListener(v -> {
             if (validateInputs()) {
                 saveCurrentData();
-                listener.onNavigateToStep(3);
+                if (listener != null) {
+                    listener.onNavigateToStep(3);
+                }
             }
         });
 
         cardContactIndicator.setOnClickListener(v -> {
             if (validateInputs()) {
                 saveCurrentData();
-                listener.onNavigateToStep(4);
+                if (listener != null) {
+                    listener.onNavigateToStep(4);
+                }
             }
         });
 
@@ -245,14 +267,17 @@ public class CreateStudent extends Fragment {
                 showToast("Validation successful! Proceeding to Academic Details...");
                 saveCurrentData();
 
-                // Simulate loading state
-                loadingOverlay.setVisibility(View.VISIBLE);
+                // Show loading state
+                showLoading(true);
 
-                // In a real application, you would save the data and navigate
-                // For this example, we'll just simulate a delay
-                view.postDelayed(() -> {
-                    loadingOverlay.setVisibility(View.GONE);
-                    listener.onBasicInfoCompleted(studentDetails);
+                // Use handler for delayed operation instead of view.postDelayed
+                mainHandler.postDelayed(() -> {
+                    if (isAdded() && getActivity() != null) {
+                        showLoading(false);
+                        if (listener != null) {
+                            listener.onBasicInfoCompleted(studentDetails);
+                        }
+                    }
                 }, 1500);
             }
         });
@@ -263,7 +288,11 @@ public class CreateStudent extends Fragment {
             new AlertDialog.Builder(requireContext())
                     .setTitle("Cancel Student Creation")
                     .setMessage("Are you sure you want to cancel? All entered information will be lost.")
-                    .setPositiveButton("Yes", (dialog, which) -> listener.onBasicInfoCancelled())
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        if (listener != null) {
+                            listener.onBasicInfoCancelled();
+                        }
+                    })
                     .setNegativeButton("No", null)
                     .show();
         });
@@ -301,11 +330,11 @@ public class CreateStudent extends Fragment {
 
     private void clearErrors() {
         // Clear all error messages
-        tilFullName.setError(null);
-        tilUniversityId.setError(null);
-        tilNicNumber.setError(null);
-        tilDateOfBirth.setError(null);
-        tilGender.setError(null);
+        if (tilFullName != null) tilFullName.setError(null);
+        if (tilUniversityId != null) tilUniversityId.setError(null);
+        if (tilNicNumber != null) tilNicNumber.setError(null);
+        if (tilDateOfBirth != null) tilDateOfBirth.setError(null);
+        if (tilGender != null) tilGender.setError(null);
     }
 
     private boolean validateInputs() {
@@ -362,19 +391,30 @@ public class CreateStudent extends Fragment {
     }
 
     private void saveCurrentData() {
-        // Update student details with current form data
-        studentDetails.setFullName(etFullName.getText().toString().trim());
-        studentDetails.setUniversityId(etUniversityId.getText().toString().trim());
-        studentDetails.setNicNumber(etNicNumber.getText().toString().trim());
-        studentDetails.setGender(dropdownGender.getText().toString());
-        studentDetails.setDateOfBirth(etDateOfBirth.getText().toString());
+        try {
+            // Update student details with current form data
+            studentDetails.setFullName(etFullName.getText().toString().trim());
+            studentDetails.setUniversityId(etUniversityId.getText().toString().trim());
+            studentDetails.setNicNumber(etNicNumber.getText().toString().trim());
+            studentDetails.setGender(dropdownGender.getText().toString());
+            studentDetails.setDateOfBirth(etDateOfBirth.getText().toString());
 
-        if (selectedImageUri != null) {
-            studentDetails.setStudentPhoto(selectedImageUri.toString());
+            if (selectedImageUri != null) {
+                studentDetails.setStudentPhoto(selectedImageUri.toString());
+            }
+
+            // Save to database
+            long result = databaseHelper.insertOrUpdateStudent(studentDetails);
+            if (result > 0) {
+                studentDetails.setId(result);
+                Log.d(TAG, "Student data saved successfully with ID: " + result);
+            } else {
+                Log.w(TAG, "Failed to save student data");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error saving student data", e);
+            showToast("Error saving data: " + e.getMessage());
         }
-
-        // Save to database
-        databaseHelper.insertOrUpdateStudent(studentDetails);
     }
 
     private void populateFields() {
@@ -447,6 +487,13 @@ public class CreateStudent extends Fragment {
             if (which == 0) {
                 // Take Photo option
                 showToast("Camera functionality would be implemented here");
+                // TODO: Implement camera functionality
+                /*
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+                    imagePickerLauncher.launch(takePictureIntent);
+                }
+                */
             } else if (which == 1) {
                 // Choose from Gallery option
                 Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
@@ -471,8 +518,26 @@ public class CreateStudent extends Fragment {
                 .show();
     }
 
+    private void showLoading(boolean show) {
+        if (loadingOverlay != null) {
+            loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
+
     private void showToast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        if (getContext() != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Clean up handler callbacks to prevent memory leaks
+        if (mainHandler != null) {
+            mainHandler.removeCallbacksAndMessages(null);
+        }
+        fragmentView = null;
     }
 
     @Override
