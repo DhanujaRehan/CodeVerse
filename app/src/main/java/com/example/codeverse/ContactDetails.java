@@ -120,8 +120,7 @@ public class ContactDetails extends Fragment {
     private void setupListeners() {
         btnSubmit.setOnClickListener(v -> {
             if (validateInput()) {
-                saveContactInfo();
-                submitRegistration();
+                saveContactInfoToDatabase();
             }
         });
 
@@ -284,7 +283,16 @@ public class ContactDetails extends Fragment {
         return phoneNumber.matches("^(\\+94|0)(7[0-9]{8}|[1-9][0-9]{8})$");
     }
 
-    private void saveContactInfo() {
+    private void saveContactInfoToDatabase() {
+        // Check if student ID exists
+        if (currentStudent.getId() <= 0) {
+            Toast.makeText(getContext(), "Error: Student ID not found. Please restart registration.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        showLoadingOverlay(true);
+
+        // Collect data from form
         currentStudent.setMobileNumber(etMobileNumber.getText().toString().trim());
         currentStudent.setAlternateNumber(etAlternateNumber.getText().toString().trim());
         currentStudent.setPermanentAddress(etPermanentAddress.getText().toString().trim());
@@ -294,24 +302,26 @@ public class ContactDetails extends Fragment {
         currentStudent.setEmergencyContactName(etEmergencyName.getText().toString().trim());
         currentStudent.setEmergencyRelationship(dropdownEmergencyRelationship.getText().toString().trim());
         currentStudent.setEmergencyContactNumber(etEmergencyNumber.getText().toString().trim());
-    }
 
-    private void submitRegistration() {
-        showLoadingOverlay(true);
-
+        // Save to database in background thread
         executorService.execute(() -> {
             try {
                 // Simulate processing time
                 Thread.sleep(2000);
 
-                long studentId = dbHelper.addStudent(currentStudent);
+                boolean success = dbHelper.updateContactDetails(currentStudent.getId(), currentStudent);
 
                 if (getActivity() != null) {
                     getActivity().runOnUiThread(() -> {
                         showLoadingOverlay(false);
 
-                        if (studentId > 0) {
-                            currentStudent.setId((int) studentId);
+                        if (success) {
+                            // Fetch the complete student record from database
+                            Student completeStudent = dbHelper.getStudentById(currentStudent.getId());
+                            if (completeStudent != null) {
+                                currentStudent = completeStudent;
+                            }
+
                             showSuccessOverlay(true);
                             Toast.makeText(getContext(), "Student registered successfully!", Toast.LENGTH_LONG).show();
                         } else {
