@@ -51,6 +51,12 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_EMERGENCY_RELATIONSHIP = "emergency_relationship";
     private static final String KEY_EMERGENCY_NUMBER = "emergency_number";
 
+    // Account Information Columns
+    private static final String KEY_EMAIL = "email";
+    private static final String KEY_USERNAME = "username";
+    private static final String KEY_PASSWORD = "password";
+    private static final String KEY_TERMS_ACCEPTED = "terms_accepted";
+
     private static final String KEY_CREATED_AT = "created_at";
     private static final String KEY_UPDATED_AT = "updated_at";
 
@@ -86,6 +92,10 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
                 KEY_EMERGENCY_NAME + " TEXT," +
                 KEY_EMERGENCY_RELATIONSHIP + " TEXT," +
                 KEY_EMERGENCY_NUMBER + " TEXT," +
+                KEY_EMAIL + " TEXT UNIQUE," +
+                KEY_USERNAME + " TEXT UNIQUE," +
+                KEY_PASSWORD + " TEXT," +
+                KEY_TERMS_ACCEPTED + " INTEGER DEFAULT 0," +
                 KEY_CREATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 KEY_UPDATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP" +
                 ")";
@@ -138,6 +148,12 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_EMERGENCY_NAME, student.getEmergencyName());
             values.put(KEY_EMERGENCY_RELATIONSHIP, student.getEmergencyRelationship());
             values.put(KEY_EMERGENCY_NUMBER, student.getEmergencyNumber());
+
+            // Account Information
+            values.put(KEY_EMAIL, student.getEmail());
+            values.put(KEY_USERNAME, student.getUsername());
+            values.put(KEY_PASSWORD, student.getPassword());
+            values.put(KEY_TERMS_ACCEPTED, student.isTermsAccepted() ? 1 : 0);
 
             // Get current timestamp
             String currentTimestamp = getCurrentTimestamp();
@@ -245,6 +261,12 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_EMERGENCY_RELATIONSHIP, student.getEmergencyRelationship());
             values.put(KEY_EMERGENCY_NUMBER, student.getEmergencyNumber());
 
+            // Account Information
+            values.put(KEY_EMAIL, student.getEmail());
+            values.put(KEY_USERNAME, student.getUsername());
+            values.put(KEY_PASSWORD, student.getPassword());
+            values.put(KEY_TERMS_ACCEPTED, student.isTermsAccepted() ? 1 : 0);
+
             values.put(KEY_UPDATED_AT, getCurrentTimestamp());
 
             rowsAffected = db.update(TABLE_STUDENTS, values, KEY_ID + " = ?",
@@ -254,6 +276,35 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             Log.d(TAG, "Student updated. Rows affected: " + rowsAffected);
         } catch (Exception e) {
             Log.d(TAG, "Error while trying to update student: " + e.getMessage());
+        } finally {
+            db.endTransaction();
+        }
+
+        return rowsAffected;
+    }
+
+    // Update only account details for a student
+    public int updateStudentAccountDetails(long studentId, String email, String username,
+                                           String password, boolean termsAccepted) {
+        SQLiteDatabase db = getWritableDatabase();
+        int rowsAffected = 0;
+
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_EMAIL, email);
+            values.put(KEY_USERNAME, username);
+            values.put(KEY_PASSWORD, password);
+            values.put(KEY_TERMS_ACCEPTED, termsAccepted ? 1 : 0);
+            values.put(KEY_UPDATED_AT, getCurrentTimestamp());
+
+            rowsAffected = db.update(TABLE_STUDENTS, values, KEY_ID + " = ?",
+                    new String[]{String.valueOf(studentId)});
+
+            db.setTransactionSuccessful();
+            Log.d(TAG, "Student account details updated. Rows affected: " + rowsAffected);
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to update student account details: " + e.getMessage());
         } finally {
             db.endTransaction();
         }
@@ -355,6 +406,50 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             exists = cursor.getCount() > 0;
         } catch (Exception e) {
             Log.d(TAG, "Error checking university ID: " + e.getMessage());
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+
+        return exists;
+    }
+
+    // Check if Email already exists
+    public boolean isEmailExists(String email) {
+        SQLiteDatabase db = getReadableDatabase();
+        boolean exists = false;
+
+        String query = "SELECT 1 FROM " + TABLE_STUDENTS +
+                " WHERE " + KEY_EMAIL + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{email});
+        try {
+            exists = cursor.getCount() > 0;
+        } catch (Exception e) {
+            Log.d(TAG, "Error checking email: " + e.getMessage());
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+
+        return exists;
+    }
+
+    // Check if Username already exists
+    public boolean isUsernameExists(String username) {
+        SQLiteDatabase db = getReadableDatabase();
+        boolean exists = false;
+
+        String query = "SELECT 1 FROM " + TABLE_STUDENTS +
+                " WHERE " + KEY_USERNAME + " = ?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+        try {
+            exists = cursor.getCount() > 0;
+        } catch (Exception e) {
+            Log.d(TAG, "Error checking username: " + e.getMessage());
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
@@ -487,6 +582,12 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         student.setEmergencyName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_NAME)));
         student.setEmergencyRelationship(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_RELATIONSHIP)));
         student.setEmergencyNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_NUMBER)));
+
+        // Account Information
+        student.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMAIL)));
+        student.setUsername(cursor.getString(cursor.getColumnIndexOrThrow(KEY_USERNAME)));
+        student.setPassword(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PASSWORD)));
+        student.setTermsAccepted(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TERMS_ACCEPTED)) == 1);
 
         student.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CREATED_AT)));
         student.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(KEY_UPDATED_AT)));
