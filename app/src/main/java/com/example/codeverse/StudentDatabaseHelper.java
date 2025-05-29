@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.codeverse.Student;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,7 +116,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Insert basic student info (Step 1)
-    public long insertBasicStudentInfo(Student student) {
+    public long insertBasicStudentInfo(StudentDetails student) {
         SQLiteDatabase db = getWritableDatabase();
         long studentId = -1;
 
@@ -147,7 +145,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Update academic details (Step 2)
-    public boolean updateAcademicDetails(int studentId, Student student) {
+    public boolean updateAcademicDetails(int studentId, StudentDetails student) {
         SQLiteDatabase db = getWritableDatabase();
         boolean success = false;
 
@@ -178,7 +176,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Update account details (Step 3)
-    public boolean updateAccountDetails(int studentId, Student student) {
+    public boolean updateAccountDetails(int studentId, StudentDetails student) {
         SQLiteDatabase db = getWritableDatabase();
         boolean success = false;
 
@@ -208,7 +206,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Update contact details (Step 4)
-    public boolean updateContactDetails(int studentId, Student student) {
+    public boolean updateContactDetails(int studentId, StudentDetails student) {
         SQLiteDatabase db = getWritableDatabase();
         boolean success = false;
 
@@ -243,7 +241,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Insert complete student (for backward compatibility)
-    public long addStudent(Student student) {
+    public long addStudent(StudentDetails student) {
         SQLiteDatabase db = getWritableDatabase();
         long studentId = -1;
 
@@ -290,15 +288,15 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Get student by ID
-    public Student getStudentById(int studentId) {
+    public StudentDetails getStudentById(int studentId) {
         SQLiteDatabase db = getReadableDatabase();
         String selectQuery = "SELECT * FROM " + TABLE_STUDENTS + " WHERE " + KEY_ID + " = ?";
         Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(studentId)});
 
-        Student student = null;
+        StudentDetails student = null;
         try {
             if (cursor.moveToFirst()) {
-                student = new Student();
+                student = new StudentDetails();
                 student.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
                 student.setFullName(cursor.getString(cursor.getColumnIndex(KEY_FULL_NAME)));
                 student.setUniversityId(cursor.getString(cursor.getColumnIndex(KEY_UNIVERSITY_ID)));
@@ -386,8 +384,8 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Get all students
-    public List<Student> getAllStudents() {
-        List<Student> students = new ArrayList<>();
+    public List<StudentDetails> getAllStudents() {
+        List<StudentDetails> students = new ArrayList<>();
         String STUDENTS_SELECT_QUERY = "SELECT * FROM " + TABLE_STUDENTS;
 
         SQLiteDatabase db = getReadableDatabase();
@@ -395,7 +393,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         try {
             if (cursor.moveToFirst()) {
                 do {
-                    Student student = new Student();
+                    StudentDetails student = new StudentDetails();
                     student.setId(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
                     student.setFullName(cursor.getString(cursor.getColumnIndex(KEY_FULL_NAME)));
                     student.setUniversityId(cursor.getString(cursor.getColumnIndex(KEY_UNIVERSITY_ID)));
@@ -438,7 +436,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Delete student
-    public void deleteStudent(Student student) {
+    public void deleteStudent(StudentDetails student) {
         SQLiteDatabase db = getWritableDatabase();
         db.delete(TABLE_STUDENTS, KEY_ID + " = ?", new String[]{String.valueOf(student.getId())});
     }

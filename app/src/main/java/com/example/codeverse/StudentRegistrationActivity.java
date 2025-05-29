@@ -9,13 +9,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.codeverse.R;
-import com.example.codeverse.AcademicDetails;
-import com.example.codeverse.AccountDetails;
-import com.example.codeverse.ContactDetails;
-import com.example.codeverse.CreateStudent;
-import com.example.codeverse.Student;
-
 public class StudentRegistrationActivity extends AppCompatActivity
         implements CreateStudent.OnStepCompleteListener,
         AcademicDetails.OnStepCompleteListener,
@@ -26,7 +19,7 @@ public class StudentRegistrationActivity extends AppCompatActivity
     private static final String STUDENT_DATA_KEY = "student_data";
     private static final String CURRENT_STEP_KEY = "current_step";
 
-    private Student currentStudent;
+    private StudentDetails currentStudent;
     private int currentStep = 1;
 
     // Fragment instances
@@ -41,10 +34,10 @@ public class StudentRegistrationActivity extends AppCompatActivity
         setContentView(R.layout.activity_student_registration);
 
         if (savedInstanceState != null) {
-            currentStudent = (Student) savedInstanceState.getSerializable(STUDENT_DATA_KEY);
+            currentStudent = (StudentDetails) savedInstanceState.getSerializable(STUDENT_DATA_KEY);
             currentStep = savedInstanceState.getInt(CURRENT_STEP_KEY, 1);
         } else {
-            currentStudent = new Student();
+            currentStudent = new StudentDetails();
             currentStep = 1;
         }
 
@@ -121,7 +114,7 @@ public class StudentRegistrationActivity extends AppCompatActivity
 
     // CreateStudentFragment.OnStepCompleteListener implementation
     @Override
-    public void onStepCompleted(Student student, int nextStep) {
+    public void onStepCompleted(StudentDetails student, int nextStep) {
         currentStudent = student;
         showStep(nextStep);
         Toast.makeText(this, "Step " + (nextStep - 1) + " completed successfully", Toast.LENGTH_SHORT).show();
@@ -144,7 +137,7 @@ public class StudentRegistrationActivity extends AppCompatActivity
 
     // ContactDetailsFragment.OnRegistrationCompleteListener implementation
     @Override
-    public void onRegistrationComplete(Student student) {
+    public void onRegistrationComplete(StudentDetails student) {
         currentStudent = student;
         // Registration completed successfully
         // The success overlay is already shown in the fragment
@@ -187,7 +180,7 @@ public class StudentRegistrationActivity extends AppCompatActivity
 //    }
 
     // Helper method to get current student data (useful for debugging or external access)
-    public Student getCurrentStudent() {
+    public StudentDetails getCurrentStudent() {
         return currentStudent;
     }
 
@@ -198,7 +191,7 @@ public class StudentRegistrationActivity extends AppCompatActivity
 
     // Method to restart registration from beginning
     public void restartRegistration() {
-        currentStudent = new Student();
+        currentStudent = new StudentDetails();
         currentStep = 1;
 
         // Clear back stack
