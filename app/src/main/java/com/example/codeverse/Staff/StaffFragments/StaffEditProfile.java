@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.StaffFragments;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -33,6 +33,7 @@ import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;

@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.Helper;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.codeverse.StaffDetails;
+import com.example.codeverse.Staff.Models.StaffDetails;
 
 import java.util.ArrayList;
 import java.util.List;

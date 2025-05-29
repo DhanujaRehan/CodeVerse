@@ -10,7 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.codeverse.Student.Models.CreditCard;
+import com.example.codeverse.Students.Models.CreditCard;
 import com.example.codeverse.R;
 
 import java.util.List;
