@@ -11,9 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".Admin.Activities.AdminMainActivity"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="false" />
@@ -27,7 +25,7 @@
             android:name=".LoginScreens.Login"
             android:exported="false" />
         <activity
-            android:name=".StudentRegistrationActivity"
+            android:name=".Admin.Activities.AdminMainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
