@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 public class ContactDetails extends Fragment {
 
-    // UI Components
+
     private MaterialCardView cvBack, cvHelp;
     private TextInputLayout tilMobileNumber, tilAlternateNumber, tilPermanentAddress;
     private TextInputLayout tilCity, tilProvince, tilPostalCode;

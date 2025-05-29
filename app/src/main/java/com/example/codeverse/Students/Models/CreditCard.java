@@ -1,4 +1,4 @@
-package com.example.codeverse.Student.Models;
+package com.example.codeverse.Students.Models;
 
 import com.example.codeverse.R;
 
