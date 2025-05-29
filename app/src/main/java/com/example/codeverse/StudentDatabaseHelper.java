@@ -459,7 +459,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Check if NIC number already exists
+
     public boolean isNicExists(String nicNumber) {
         SQLiteDatabase db = getReadableDatabase();
         boolean exists = false;
@@ -481,8 +481,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Search students by name or university ID
-    public List<Students> searchStudents(String searchQuery) {
+     public List<Students> searchStudents(String searchQuery) {
         List<Students> students = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
 
@@ -512,8 +511,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return students;
     }
 
-    // Get student count
-    public int getStudentCount() {
+     public int getStudentCount() {
         SQLiteDatabase db = getReadableDatabase();
         int count = 0;
 
@@ -535,8 +533,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    // Delete all students
-    public void deleteAllStudents() {
+     public void deleteAllStudents() {
         SQLiteDatabase db = getWritableDatabase();
 
         db.beginTransaction();
@@ -551,8 +548,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Helper method to get Student object from cursor
-    private Students getStudentFromCursor(Cursor cursor) {
+     private Students getStudentFromCursor(Cursor cursor) {
         Students student = new Students();
 
         student.setId(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ID)));
@@ -563,28 +559,24 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         student.setGender(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GENDER)));
         student.setPhotoUri(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PHOTO_URI)));
 
-        // Academic Information
-        student.setFaculty(cursor.getString(cursor.getColumnIndexOrThrow(KEY_FACULTY)));
+         student.setFaculty(cursor.getString(cursor.getColumnIndexOrThrow(KEY_FACULTY)));
         student.setDepartment(cursor.getString(cursor.getColumnIndexOrThrow(KEY_DEPARTMENT)));
         student.setBatch(cursor.getString(cursor.getColumnIndexOrThrow(KEY_BATCH)));
         student.setSemester(cursor.getString(cursor.getColumnIndexOrThrow(KEY_SEMESTER)));
         student.setEnrollmentDate(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENROLLMENT_DATE)));
 
-        // Contact Information
-        student.setMobileNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_MOBILE_NUMBER)));
+         student.setMobileNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_MOBILE_NUMBER)));
         student.setAlternateNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ALTERNATE_NUMBER)));
         student.setPermanentAddress(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PERMANENT_ADDRESS)));
         student.setCity(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CITY)));
         student.setProvince(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PROVINCE)));
         student.setPostalCode(cursor.getString(cursor.getColumnIndexOrThrow(KEY_POSTAL_CODE)));
 
-        // Emergency Contact Information
-        student.setEmergencyName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_NAME)));
+         student.setEmergencyName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_NAME)));
         student.setEmergencyRelationship(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_RELATIONSHIP)));
         student.setEmergencyNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_NUMBER)));
 
-        // Account Information
-        student.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMAIL)));
+         student.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMAIL)));
         student.setUsername(cursor.getString(cursor.getColumnIndexOrThrow(KEY_USERNAME)));
         student.setPassword(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PASSWORD)));
         student.setTermsAccepted(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_TERMS_ACCEPTED)) == 1);
@@ -595,8 +587,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return student;
     }
 
-    // Helper method to get current timestamp
-    private String getCurrentTimestamp() {
+     private String getCurrentTimestamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());
     }
