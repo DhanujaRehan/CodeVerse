@@ -315,7 +315,7 @@ public class CreateStudent extends Fragment {
 
         try {
 
-            Student student = new Student();
+            Students student = new Students();
             student.setFullName(etFullName.getText().toString().trim());
             student.setUniversityId(etUniversityId.getText().toString().trim());
             student.setNicNumber(etNicNumber.getText().toString().trim());
