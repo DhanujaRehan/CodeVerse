@@ -2,31 +2,47 @@ package com.example.codeverse;
 
 public class Students {
     private long id;
+
     private String fullName;
     private String universityId;
     private String nicNumber;
     private String dateOfBirth;
     private String gender;
     private String photoUri;
+
+
+    private String faculty;
+    private String department;
+    private String batch;
+    private String semester;
+    private String enrollmentDate;
+
+
+
     private String createdAt;
     private String updatedAt;
 
-    // Default constructor
+
     public Students() {
     }
 
-    // Constructor with parameters
     public Students(String fullName, String universityId, String nicNumber,
-                    String dateOfBirth, String gender, String photoUri) {
+                   String dateOfBirth, String gender, String photoUri,
+                   String faculty, String department, String batch,
+                   String semester, String enrollmentDate) {
         this.fullName = fullName;
         this.universityId = universityId;
         this.nicNumber = nicNumber;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
         this.photoUri = photoUri;
+        this.faculty = faculty;
+        this.department = department;
+        this.batch = batch;
+        this.semester = semester;
+        this.enrollmentDate = enrollmentDate;
     }
 
-    // Getters and Setters
     public long getId() {
         return id;
     }
@@ -99,6 +115,46 @@ public class Students {
         this.updatedAt = updatedAt;
     }
 
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
+    }
+
+    public String getSemester() {
+        return semester;
+    }
+
+    public void setSemester(String semester) {
+        this.semester = semester;
+    }
+
+    public String getEnrollmentDate() {
+        return enrollmentDate;
+    }
+
+    public void setEnrollmentDate(String enrollmentDate) {
+        this.enrollmentDate = enrollmentDate;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -109,6 +165,11 @@ public class Students {
                 ", dateOfBirth='" + dateOfBirth + '\'' +
                 ", gender='" + gender + '\'' +
                 ", photoUri='" + photoUri + '\'' +
+                ", faculty='" + faculty + '\'' +
+                ", department='" + department + '\'' +
+                ", batch='" + batch + '\'' +
+                ", semester='" + semester + '\'' +
+                ", enrollmentDate='" + enrollmentDate + '\'' +
                 ", createdAt='" + createdAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
                 '}';
