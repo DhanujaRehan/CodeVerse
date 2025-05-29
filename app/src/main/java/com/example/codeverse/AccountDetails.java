@@ -1,149 +1,159 @@
-import android.content.Intent;
+package com.example.codeverse;
+
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CheckBox;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 
+import com.example.codeverse.R;
+import com.example.codeverse.StudentDatabaseHelper;
+import com.example.codeverse.Student;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.regex.Pattern;
 
-public class AccountDetails extends AppCompatActivity {
+public class AccountDetails extends Fragment {
 
-    // UI Components
-    private MaterialCardView cvBack, cvHelp;
-    private TextInputLayout tilEmail, tilUsername, tilPassword, tilConfirmPassword;
+    private static final String TAG = "AccountDetailsFragment";
+
+    // Views
     private TextInputEditText etEmail, etUsername, etPassword, etConfirmPassword;
-    private CheckBox checkboxTerms;
-    private TextView tvTerms;
+    private TextInputLayout tilEmail, tilUsername, tilPassword, tilConfirmPassword;
+    private MaterialCheckBox checkboxTerms;
     private MaterialButton btnNextStep, btnCancel;
-    private View loadingOverlay;
+    private MaterialCardView cvBack;
 
     // Password requirement TextViews
     private TextView tvPasswordRequirementLength, tvPasswordRequirementUppercase,
-            tvPasswordRequirementNumber, tvPasswordRequirementSpecial, tvPasswordRequirementMatch;
+            tvPasswordRequirementNumber, tvPasswordRequirementSpecial,
+            tvPasswordRequirementMatch;
 
     // Data
-    private Student studentData;
-    private StudentDatabaseHelper databaseHelper;
+    private Student currentStudent;
+    private StudentDatabaseHelper dbHelper;
 
-    // Password validation patterns
-    private static final Pattern PASSWORD_PATTERN = Pattern.compile(
-            "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$"
-    );
+    public interface OnStepCompleteListener {
+        void onStepCompleted(Student student, int nextStep);
+        void onCancel();
+        void onBack();
+    }
+
+    private OnStepCompleteListener stepCompleteListener;
+
+    public static AccountDetails newInstance() {
+        return new AccountDetails();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account_details);
-
-        initializeViews();
-        initializeDatabase();
-        getStudentData();
-        setupPasswordValidation();
-        setupClickListeners();
-        updateProgressIndicators();
-    }
-
-    private void initializeViews() {
-        cvBack = findViewById(R.id.cv_back);
-        cvHelp = findViewById(R.id.cv_help);
-        tilEmail = findViewById(R.id.til_email);
-        tilUsername = findViewById(R.id.til_username);
-        tilPassword = findViewById(R.id.til_password);
-        tilConfirmPassword = findViewById(R.id.til_confirm_password);
-        etEmail = findViewById(R.id.et_email);
-        etUsername = findViewById(R.id.et_username);
-        etPassword = findViewById(R.id.et_password);
-        etConfirmPassword = findViewById(R.id.et_confirm_password);
-        checkboxTerms = findViewById(R.id.checkbox_terms);
-        tvTerms = findViewById(R.id.tv_terms);
-        btnNextStep = findViewById(R.id.btn_next_step);
-        btnCancel = findViewById(R.id.btn_cancel);
-        loadingOverlay = findViewById(R.id.loading_overlay);
-
-        // Password requirement TextViews
-        tvPasswordRequirementLength = findViewById(R.id.tv_password_requirement_length);
-        tvPasswordRequirementUppercase = findViewById(R.id.tv_password_requirement_uppercase);
-        tvPasswordRequirementNumber = findViewById(R.id.tv_password_requirement_number);
-        tvPasswordRequirementSpecial = findViewById(R.id.tv_password_requirement_special);
-        tvPasswordRequirementMatch = findViewById(R.id.tv_password_requirement_match);
-    }
-
-    private void initializeDatabase() {
-        databaseHelper = new StudentDatabaseHelper(this);
-    }
-
-    private void getStudentData() {
-        studentData = (Student) getIntent().getSerializableExtra("student_data");
-        if (studentData == null) {
-            Toast.makeText(this, "Error: No student data found", Toast.LENGTH_SHORT).show();
-            finish();
+        if (currentStudent == null) {
+            currentStudent = new Student();
         }
+        dbHelper = StudentDatabaseHelper.getInstance(getContext());
     }
 
-    private void setupPasswordValidation() {
-        etPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_account_details, container, false);
+        initViews(view);
+        setupListeners();
+        setupPasswordValidation();
+        return view;
+    }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validatePasswordRequirements(s.toString());
+    private void initViews(View view) {
+        // Text input fields
+        etEmail = view.findViewById(R.id.et_email);
+        etUsername = view.findViewById(R.id.et_username);
+        etPassword = view.findViewById(R.id.et_password);
+        etConfirmPassword = view.findViewById(R.id.et_confirm_password);
+
+        // Text input layouts
+        tilEmail = view.findViewById(R.id.til_email);
+        tilUsername = view.findViewById(R.id.til_username);
+        tilPassword = view.findViewById(R.id.til_password);
+        tilConfirmPassword = view.findViewById(R.id.til_confirm_password);
+
+        // Checkbox
+        checkboxTerms = view.findViewById(R.id.checkbox_terms);
+
+        // Buttons
+        btnNextStep = view.findViewById(R.id.btn_next_step);
+        btnCancel = view.findViewById(R.id.btn_cancel);
+        cvBack = view.findViewById(R.id.cv_back);
+
+        // Password requirement indicators
+        tvPasswordRequirementLength = view.findViewById(R.id.tv_password_requirement_length);
+        tvPasswordRequirementUppercase = view.findViewById(R.id.tv_password_requirement_uppercase);
+        tvPasswordRequirementNumber = view.findViewById(R.id.tv_password_requirement_number);
+        tvPasswordRequirementSpecial = view.findViewById(R.id.tv_password_requirement_special);
+        tvPasswordRequirementMatch = view.findViewById(R.id.tv_password_requirement_match);
+    }
+
+    private void setupListeners() {
+        btnNextStep.setOnClickListener(v -> {
+            if (validateInput()) {
+                saveAccountInfo();
+                if (stepCompleteListener != null) {
+                    stepCompleteListener.onStepCompleted(currentStudent, 4);
+                }
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
         });
 
-        etConfirmPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validatePasswordMatch();
+        btnCancel.setOnClickListener(v -> {
+            if (stepCompleteListener != null) {
+                stepCompleteListener.onCancel();
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
         });
 
-        // Real-time username validation
-        etUsername.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateUsernameRealTime(s.toString());
+        cvBack.setOnClickListener(v -> {
+            if (stepCompleteListener != null) {
+                stepCompleteListener.onBack();
             }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
         });
 
-        // Real-time email validation
+        // Real-time validation for email
         etEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                validateEmailRealTime(s.toString());
+                validateEmailRealTime();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Real-time validation for username
+        etUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateUsernameRealTime();
             }
 
             @Override
@@ -151,173 +161,89 @@ public class AccountDetails extends AppCompatActivity {
         });
     }
 
-    private void validatePasswordRequirements(String password) {
-        int greenColor = ContextCompat.getColor(this, android.R.color.holo_green_dark);
-        int redColor = ContextCompat.getColor(this, android.R.color.holo_red_dark);
-        int grayColor = ContextCompat.getColor(this, android.R.color.darker_gray);
+    private void setupPasswordValidation() {
+        TextWatcher passwordWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-        // Length requirement
-        if (password.length() >= 8) {
-            tvPasswordRequirementLength.setTextColor(greenColor);
-            tvPasswordRequirementLength.setText("✓ At least 8 characters");
-        } else {
-            tvPasswordRequirementLength.setTextColor(password.isEmpty() ? grayColor : redColor);
-            tvPasswordRequirementLength.setText("• At least 8 characters");
-        }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updatePasswordRequirements();
+            }
 
-        // Uppercase requirement
-        if (password.matches(".*[A-Z].*")) {
-            tvPasswordRequirementUppercase.setTextColor(greenColor);
-            tvPasswordRequirementUppercase.setText("✓ At least one uppercase letter");
-        } else {
-            tvPasswordRequirementUppercase.setTextColor(password.isEmpty() ? grayColor : redColor);
-            tvPasswordRequirementUppercase.setText("• At least one uppercase letter");
-        }
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
 
-        // Number requirement
-        if (password.matches(".*[0-9].*")) {
-            tvPasswordRequirementNumber.setTextColor(greenColor);
-            tvPasswordRequirementNumber.setText("✓ At least one number");
-        } else {
-            tvPasswordRequirementNumber.setTextColor(password.isEmpty() ? grayColor : redColor);
-            tvPasswordRequirementNumber.setText("• At least one number");
-        }
-
-        // Special character requirement
-        if (password.matches(".*[@#$%^&+=!].*")) {
-            tvPasswordRequirementSpecial.setTextColor(greenColor);
-            tvPasswordRequirementSpecial.setText("✓ At least one special character");
-        } else {
-            tvPasswordRequirementSpecial.setTextColor(password.isEmpty() ? grayColor : redColor);
-            tvPasswordRequirementSpecial.setText("• At least one special character");
-        }
-
-        validatePasswordMatch();
+        etPassword.addTextChangedListener(passwordWatcher);
+        etConfirmPassword.addTextChangedListener(passwordWatcher);
     }
 
-    private void validatePasswordMatch() {
+    private void updatePasswordRequirements() {
         String password = etPassword.getText().toString();
         String confirmPassword = etConfirmPassword.getText().toString();
 
-        int greenColor = ContextCompat.getColor(this, android.R.color.holo_green_dark);
-        int redColor = ContextCompat.getColor(this, android.R.color.holo_red_dark);
-        int grayColor = ContextCompat.getColor(this, android.R.color.darker_gray);
+        // Check length requirement
+        updateRequirementView(tvPasswordRequirementLength, password.length() >= 8);
 
-        if (!confirmPassword.isEmpty() && password.equals(confirmPassword) && !password.isEmpty()) {
-            tvPasswordRequirementMatch.setTextColor(greenColor);
-            tvPasswordRequirementMatch.setText("✓ Passwords match");
-        } else if (!confirmPassword.isEmpty()) {
-            tvPasswordRequirementMatch.setTextColor(redColor);
-            tvPasswordRequirementMatch.setText("• Passwords match");
+        // Check uppercase requirement
+        updateRequirementView(tvPasswordRequirementUppercase, password.matches(".*[A-Z].*"));
+
+        // Check number requirement
+        updateRequirementView(tvPasswordRequirementNumber, password.matches(".*[0-9].*"));
+
+        // Check special character requirement
+        updateRequirementView(tvPasswordRequirementSpecial, password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*"));
+
+        // Check passwords match
+        boolean passwordsMatch = !TextUtils.isEmpty(password) && !TextUtils.isEmpty(confirmPassword)
+                && password.equals(confirmPassword);
+        updateRequirementView(tvPasswordRequirementMatch, passwordsMatch);
+    }
+
+    private void updateRequirementView(TextView textView, boolean isValid) {
+        if (isValid) {
+            textView.setTextColor(ContextCompat.getColor(getContext(), android.R.color.holo_green_dark));
+            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check, 0, 0, 0);
         } else {
-            tvPasswordRequirementMatch.setTextColor(grayColor);
-            tvPasswordRequirementMatch.setText("• Passwords match");
+            textView.setTextColor(ContextCompat.getColor(getContext(), android.R.color.darker_gray));
+            textView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_circle, 0, 0, 0);
         }
     }
 
-    private void validateUsernameRealTime(String username) {
-        if (username.length() >= 3) {
-            // Check if username exists in database
-            new Thread(() -> {
-                boolean exists = databaseHelper.isUsernameExists(username);
-                runOnUiThread(() -> {
-                    if (exists) {
-                        tilUsername.setError("Username already exists");
-                    } else if (!username.matches("^[a-zA-Z0-9._]+$")) {
-                        tilUsername.setError("Username can only contain letters, numbers, dots and underscores");
-                    } else {
-                        tilUsername.setError(null);
-                    }
-                });
-            }).start();
-        }
-    }
-
-    private void validateEmailRealTime(String email) {
-        if (!TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            // Check if email exists in database
-            new Thread(() -> {
-                boolean exists = databaseHelper.isEmailExists(email);
-                runOnUiThread(() -> {
-                    if (exists) {
-                        tilEmail.setError("Email already exists");
-                    } else {
-                        tilEmail.setError(null);
-                    }
-                });
-            }).start();
-        }
-    }
-
-    private void setupClickListeners() {
-        cvBack.setOnClickListener(v -> onBackPressed());
-
-        cvHelp.setOnClickListener(v -> showHelpDialog());
-
-        tvTerms.setOnClickListener(v -> {
-            showTermsAndConditions();
-        });
-
-        btnNextStep.setOnClickListener(v -> {
-            if (validateInputs()) {
-                proceedToContactDetails();
+    private void validateEmailRealTime() {
+        String email = etEmail.getText().toString().trim();
+        if (!TextUtils.isEmpty(email)) {
+            if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                tilEmail.setError("Invalid email format");
+            } else if (dbHelper.isEmailExists(email)) {
+                tilEmail.setError("Email already exists");
+            } else {
+                tilEmail.setError(null);
             }
-        });
-
-        btnCancel.setOnClickListener(v -> {
-            showCancelConfirmation();
-        });
+        } else {
+            tilEmail.setError(null);
+        }
     }
 
-    private void showHelpDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Account Setup Help")
-                .setMessage("Create a secure account:\n\n" +
-                        "• Use a valid email address\n" +
-                        "• Choose a unique username\n" +
-                        "• Create a strong password following all requirements\n" +
-                        "• Accept the terms to continue")
-                .setPositiveButton("OK", null)
-                .show();
+    private void validateUsernameRealTime() {
+        String username = etUsername.getText().toString().trim();
+        if (!TextUtils.isEmpty(username)) {
+            if (username.length() < 3) {
+                tilUsername.setError("Username must be at least 3 characters");
+            } else if (!username.matches("^[a-zA-Z0-9_]+$")) {
+                tilUsername.setError("Username can only contain letters, numbers, and underscores");
+            } else if (dbHelper.isUsernameExists(username)) {
+                tilUsername.setError("Username already exists");
+            } else {
+                tilUsername.setError(null);
+            }
+        } else {
+            tilUsername.setError(null);
+        }
     }
 
-    private void showTermsAndConditions() {
-        new AlertDialog.Builder(this)
-                .setTitle("Terms of Service & Privacy Policy")
-                .setMessage("TERMS OF SERVICE\n\n" +
-                        "1. Account Usage: You are responsible for maintaining the security of your account.\n\n" +
-                        "2. Data Accuracy: You must provide accurate and complete information.\n\n" +
-                        "3. Privacy: We respect your privacy and protect your personal information.\n\n" +
-                        "PRIVACY POLICY\n\n" +
-                        "1. Data Collection: We collect information necessary for academic management.\n\n" +
-                        "2. Data Usage: Your information will be used solely for educational purposes.\n\n" +
-                        "3. Data Security: We implement appropriate security measures to protect your data.")
-                .setPositiveButton("Accept", (dialog, which) -> {
-                    checkboxTerms.setChecked(true);
-                })
-                .setNegativeButton("Close", null)
-                .show();
-    }
-
-    private void showCancelConfirmation() {
-        new AlertDialog.Builder(this)
-                .setTitle("Cancel Registration")
-                .setMessage("Are you sure you want to cancel the registration process? All entered data will be lost.")
-                .setPositiveButton("Yes, Cancel", (dialog, which) -> {
-                    finish();
-                })
-                .setNegativeButton("Continue Registration", null)
-                .show();
-    }
-
-    private void updateProgressIndicators() {
-        // Update progress indicators to show current step
-        // Steps 1 & 2 - Completed (Basic Info & Academic Details)
-        // Step 3 (Account) - Current
-        // Step 4 - Pending (Contact Details)
-    }
-
-    private boolean validateInputs() {
+    private boolean validateInput() {
         boolean isValid = true;
 
         // Reset errors
@@ -331,10 +257,10 @@ public class AccountDetails extends AppCompatActivity {
         if (TextUtils.isEmpty(email)) {
             tilEmail.setError("Email is required");
             isValid = false;
-        } else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            tilEmail.setError("Please enter a valid email address");
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            tilEmail.setError("Invalid email format");
             isValid = false;
-        } else if (databaseHelper.isEmailExists(email)) {
+        } else if (dbHelper.isEmailExists(email)) {
             tilEmail.setError("Email already exists");
             isValid = false;
         }
@@ -347,10 +273,10 @@ public class AccountDetails extends AppCompatActivity {
         } else if (username.length() < 3) {
             tilUsername.setError("Username must be at least 3 characters");
             isValid = false;
-        } else if (!username.matches("^[a-zA-Z0-9._]+$")) {
-            tilUsername.setError("Username can only contain letters, numbers, dots and underscores");
+        } else if (!username.matches("^[a-zA-Z0-9_]+$")) {
+            tilUsername.setError("Username can only contain letters, numbers, and underscores");
             isValid = false;
-        } else if (databaseHelper.isUsernameExists(username)) {
+        } else if (dbHelper.isUsernameExists(username)) {
             tilUsername.setError("Username already exists");
             isValid = false;
         }
@@ -360,7 +286,7 @@ public class AccountDetails extends AppCompatActivity {
         if (TextUtils.isEmpty(password)) {
             tilPassword.setError("Password is required");
             isValid = false;
-        } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
+        } else if (!isPasswordValid(password)) {
             tilPassword.setError("Password does not meet requirements");
             isValid = false;
         }
@@ -377,66 +303,71 @@ public class AccountDetails extends AppCompatActivity {
 
         // Validate terms acceptance
         if (!checkboxTerms.isChecked()) {
-            Toast.makeText(this, "Please accept the Terms of Service and Privacy Policy", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Please accept the Terms of Service and Privacy Policy", Toast.LENGTH_LONG).show();
             isValid = false;
         }
 
         return isValid;
     }
 
+    private boolean isPasswordValid(String password) {
+        return password.length() >= 8 &&
+                password.matches(".*[A-Z].*") &&
+                password.matches(".*[0-9].*") &&
+                password.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*");
+    }
+
     private String hashPassword(String password) {
         try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hash = digest.digest(password.getBytes());
-            StringBuilder hexString = new StringBuilder();
-
-            for (byte b : hash) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] hashedBytes = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashedBytes) {
+                sb.append(String.format("%02x", b));
             }
-
-            return hexString.toString();
+            return sb.toString();
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-            // Fallback to plain text (not recommended for production)
+            // Fallback - in production, use a proper encryption library like bcrypt
             return password;
         }
     }
 
-    private void proceedToContactDetails() {
-        showLoading(true);
+    private void saveAccountInfo() {
+        currentStudent.setEmail(etEmail.getText().toString().trim());
+        currentStudent.setUsername(etUsername.getText().toString().trim());
+        currentStudent.setPassword(hashPassword(etPassword.getText().toString()));
+        currentStudent.setTermsAccepted(checkboxTerms.isChecked());
 
-        // Update student object with account details
-        studentData.setEmail(etEmail.getText().toString().trim());
-        studentData.setUsername(etUsername.getText().toString().trim());
-        studentData.setPassword(hashPassword(etPassword.getText().toString()));
-
-        // Pass data to Contact Details activity
-        Intent intent = new Intent(this, ContactDetails.class);
-        intent.putExtra("student_data", studentData);
-        startActivity(intent);
-
-        showLoading(false);
+        Toast.makeText(getContext(), "Account information saved", Toast.LENGTH_SHORT).show();
     }
 
-    private void showLoading(boolean show) {
-        loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
-        btnNextStep.setEnabled(!show);
+    public void setOnStepCompleteListener(OnStepCompleteListener listener) {
+        this.stepCompleteListener = listener;
     }
 
-    @Override
-    public void onBackPressed() {
-        showCancelConfirmation();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (databaseHelper != null) {
-            databaseHelper.close();
+    public void setStudentData(Student student) {
+        if (student != null) {
+            this.currentStudent = student;
+            populateFields();
         }
+    }
+
+    private void populateFields() {
+        if (currentStudent != null) {
+            if (currentStudent.getEmail() != null) {
+                etEmail.setText(currentStudent.getEmail());
+            }
+            if (currentStudent.getUsername() != null) {
+                etUsername.setText(currentStudent.getUsername());
+            }
+            // Don't populate password fields for security reasons
+            checkboxTerms.setChecked(currentStudent.isTermsAccepted());
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        populateFields();
     }
 }

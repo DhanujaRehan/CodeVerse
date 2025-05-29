@@ -1,9 +1,8 @@
 package com.example.codeverse;
 
-import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,225 +12,193 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.codeverse.R;
+import com.example.codeverse.StudentDatabaseHelper;
+import com.example.codeverse.Student;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 public class CreateStudent extends Fragment {
 
-    private static final int CAMERA_PERMISSION_CODE = 100;
-    private static final int STORAGE_PERMISSION_CODE = 101;
+    private static final String TAG = "CreateStudentFragment";
+    private static final int PICK_IMAGE_REQUEST = 1;
 
-    // UI Components
-    private MaterialCardView cvBack, cvHelp;
-    private ImageView ivStudentPhoto;
-    private FloatingActionButton fabAddPhoto;
+    // Views
     private TextInputEditText etFullName, etUniversityId, etNicNumber, etDateOfBirth;
     private TextInputLayout tilFullName, tilUniversityId, tilNicNumber, tilGender, tilDateOfBirth;
     private AutoCompleteTextView dropdownGender;
+    private ImageView ivStudentPhoto;
+    private FloatingActionButton fabAddPhoto;
     private MaterialButton btnNextStep, btnCancel;
-    private View loadingOverlay;
+    private MaterialCardView cvBack;
 
     // Data
-    private String selectedPhotoPath = "";
-    private Calendar calendar;
-    private DatePickerDialog datePickerDialog;
-    private StudentDatabaseHelper databaseHelper;
+    private Student currentStudent;
+    private StudentDatabaseHelper dbHelper;
+    private String selectedPhotoPath;
 
-    // Image picker launcher
+    // Activity result launcher for image picking
     private ActivityResultLauncher<Intent> imagePickerLauncher;
 
-    // Interface for fragment communication
-    public interface OnFragmentInteractionListener {
-        void onCreateStudentNext(Student student);
-        void onCreateStudentCancel();
+    public interface OnStepCompleteListener {
+        void onStepCompleted(Student student, int nextStep);
+        void onCancel();
+        void onBack();
     }
 
-    private OnFragmentInteractionListener mListener;
-
-    public CreateStudent() {
-        // Required empty public constructor
-    }
+    private OnStepCompleteListener stepCompleteListener;
 
     public static CreateStudent newInstance() {
         return new CreateStudent();
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupImagePicker();
-    }
+        dbHelper = StudentDatabaseHelper.getInstance(getContext());
+        currentStudent = new Student();
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_create_student, container, false);
-
-        initializeViews(view);
-        initializeDatabase();
-        setupGenderDropdown();
-        setupDatePicker();
-        setupClickListeners();
-
-        return view;
-    }
-
-    private void initializeViews(View view) {
-        cvBack = view.findViewById(R.id.cv_back);
-        cvHelp = view.findViewById(R.id.cv_help);
-        ivStudentPhoto = view.findViewById(R.id.iv_student_photo);
-        fabAddPhoto = view.findViewById(R.id.fab_add_photo);
-        etFullName = view.findViewById(R.id.et_full_name);
-        etUniversityId = view.findViewById(R.id.et_university_id);
-        etNicNumber = view.findViewById(R.id.et_nic_number);
-        etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
-        tilFullName = view.findViewById(R.id.til_full_name);
-        tilUniversityId = view.findViewById(R.id.til_university_id);
-        tilNicNumber = view.findViewById(R.id.til_nic_number);
-        tilGender = view.findViewById(R.id.til_gender);
-        tilDateOfBirth = view.findViewById(R.id.til_date_of_birth);
-        dropdownGender = view.findViewById(R.id.dropdown_gender);
-        btnNextStep = view.findViewById(R.id.btn_next_step);
-        btnCancel = view.findViewById(R.id.btn_cancel);
-        loadingOverlay = view.findViewById(R.id.loading_overlay);
-
-        calendar = Calendar.getInstance();
-    }
-
-    private void initializeDatabase() {
-        databaseHelper = new StudentDatabaseHelper(getContext());
-    }
-
-    private void setupGenderDropdown() {
-        String[] genderOptions = {"Male", "Female", "Other"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, genderOptions);
-        dropdownGender.setAdapter(adapter);
-    }
-
-    private void setupDatePicker() {
-        etDateOfBirth.setOnClickListener(v -> showDatePicker());
-        tilDateOfBirth.setEndIconOnClickListener(v -> showDatePicker());
-    }
-
-    private void showDatePicker() {
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        datePickerDialog = new DatePickerDialog(getContext(),
-                (view, selectedYear, selectedMonth, selectedDay) -> {
-                    calendar.set(selectedYear, selectedMonth, selectedDay);
-                    updateDateDisplay();
-                }, year, month, day);
-
-        // Set maximum date to today (students can't be born in the future)
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-
-        // Set minimum date (e.g., 100 years ago)
-        Calendar minDate = Calendar.getInstance();
-        minDate.add(Calendar.YEAR, -100);
-        datePickerDialog.getDatePicker().setMinDate(minDate.getTimeInMillis());
-
-        datePickerDialog.show();
-    }
-
-    private void updateDateDisplay() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        etDateOfBirth.setText(dateFormat.format(calendar.getTime()));
-    }
-
-    private void setupImagePicker() {
+        // Initialize image picker launcher
         imagePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
-                        Uri imageUri = result.getData().getData();
-                        if (imageUri != null) {
-                            ivStudentPhoto.setImageURI(imageUri);
-                            selectedPhotoPath = imageUri.toString();
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                            Uri imageUri = result.getData().getData();
+                            if (imageUri != null) {
+                                ivStudentPhoto.setImageURI(imageUri);
+                                selectedPhotoPath = imageUri.toString();
+                                currentStudent.setPhotoPath(selectedPhotoPath);
+                            }
                         }
                     }
                 }
         );
     }
 
-    private void setupClickListeners() {
-        cvBack.setOnClickListener(v -> {
-            if (mListener != null) {
-                mListener.onCreateStudentCancel();
-            }
-        });
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_create_student, container, false);
+        initViews(view);
+        setupListeners();
+        setupGenderDropdown();
+        return view;
+    }
 
-        cvHelp.setOnClickListener(v -> showHelpDialog());
+    private void initViews(View view) {
+        // Text input fields
+        etFullName = view.findViewById(R.id.et_full_name);
+        etUniversityId = view.findViewById(R.id.et_university_id);
+        etNicNumber = view.findViewById(R.id.et_nic_number);
+        etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
 
+        // Text input layouts
+        tilFullName = view.findViewById(R.id.til_full_name);
+        tilUniversityId = view.findViewById(R.id.til_university_id);
+        tilNicNumber = view.findViewById(R.id.til_nic_number);
+        tilGender = view.findViewById(R.id.til_gender);
+        tilDateOfBirth = view.findViewById(R.id.til_date_of_birth);
+
+        // Dropdown
+        dropdownGender = view.findViewById(R.id.dropdown_gender);
+
+        // Image and FAB
+        ivStudentPhoto = view.findViewById(R.id.iv_student_photo);
+        fabAddPhoto = view.findViewById(R.id.fab_add_photo);
+
+        // Buttons
+        btnNextStep = view.findViewById(R.id.btn_next_step);
+        btnCancel = view.findViewById(R.id.btn_cancel);
+        cvBack = view.findViewById(R.id.cv_back);
+    }
+
+    private void setupListeners() {
         fabAddPhoto.setOnClickListener(v -> openImageChooser());
 
+        etDateOfBirth.setOnClickListener(v -> showDatePicker());
+
         btnNextStep.setOnClickListener(v -> {
-            if (validateInputs()) {
-                proceedToAcademicDetails();
+            if (validateInput()) {
+                saveBasicInfo();
+                if (stepCompleteListener != null) {
+                    stepCompleteListener.onStepCompleted(currentStudent, 2);
+                }
             }
         });
 
         btnCancel.setOnClickListener(v -> {
-            if (mListener != null) {
-                mListener.onCreateStudentCancel();
+            if (stepCompleteListener != null) {
+                stepCompleteListener.onCancel();
+            }
+        });
+
+        cvBack.setOnClickListener(v -> {
+            if (stepCompleteListener != null) {
+                stepCompleteListener.onBack();
             }
         });
     }
 
-    private void showHelpDialog() {
-        Toast.makeText(getContext(), "Help: Fill in all required basic information fields", Toast.LENGTH_LONG).show();
+    private void setupGenderDropdown() {
+        String[] genderOptions = {"Male", "Female", "Other", "Prefer not to say"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                genderOptions
+        );
+        dropdownGender.setAdapter(adapter);
     }
 
     private void openImageChooser() {
-        if (checkPermissions()) {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.setType("image/*");
-            imagePickerLauncher.launch(intent);
-        } else {
-            requestPermissions();
-        }
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        imagePickerLauncher.launch(Intent.createChooser(intent, "Select Student Photo"));
     }
 
-    private boolean checkPermissions() {
-        return ContextCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    private void showDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR) - 18; // Default to 18 years ago
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                        etDateOfBirth.setText(selectedDate);
+                    }
+                },
+                year, month, day
+        );
+
+        // Set max date to today
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
     }
 
-    private void requestPermissions() {
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                STORAGE_PERMISSION_CODE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == STORAGE_PERMISSION_CODE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openImageChooser();
-            } else {
-                Toast.makeText(getContext(), "Storage permission required to select photo", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private boolean validateInputs() {
+    private boolean validateInput() {
         boolean isValid = true;
 
         // Reset errors
@@ -252,14 +219,14 @@ public class CreateStudent extends Fragment {
         }
 
         // Validate university ID
-        String universityId = etUniversityId.getText().toString().trim();
+        String universityId = etUniversityId.getText().toString().trim().toUpperCase();
         if (TextUtils.isEmpty(universityId)) {
             tilUniversityId.setError("University ID is required");
             isValid = false;
         } else if (universityId.length() < 5) {
-            tilUniversityId.setError("Invalid University ID format");
+            tilUniversityId.setError("University ID must be at least 5 characters");
             isValid = false;
-        } else if (databaseHelper.isUniversityIdExists(universityId)) {
+        } else if (dbHelper.isUniversityIdExists(universityId)) {
             tilUniversityId.setError("University ID already exists");
             isValid = false;
         }
@@ -272,15 +239,12 @@ public class CreateStudent extends Fragment {
         } else if (!isValidNIC(nicNumber)) {
             tilNicNumber.setError("Invalid NIC number format");
             isValid = false;
-        } else if (databaseHelper.isNicExists(nicNumber)) {
-            tilNicNumber.setError("NIC number already exists");
-            isValid = false;
         }
 
         // Validate gender
         String gender = dropdownGender.getText().toString().trim();
         if (TextUtils.isEmpty(gender)) {
-            tilGender.setError("Please select gender");
+            tilGender.setError("Gender is required");
             isValid = false;
         }
 
@@ -295,63 +259,66 @@ public class CreateStudent extends Fragment {
     }
 
     private boolean isValidNIC(String nic) {
-        // Basic NIC validation for Sri Lankan format
-        // Old format: 9 digits + V/X (e.g., 123456789V)
+        // Sri Lankan NIC validation
+        // Old format: 9 digits + V (e.g., 123456789V)
         // New format: 12 digits (e.g., 199812345678)
-        if (nic.length() == 10) {
-            String digits = nic.substring(0, 9);
-            String lastChar = nic.substring(9).toUpperCase();
-            return digits.matches("\\d{9}") && (lastChar.equals("V") || lastChar.equals("X"));
-        } else if (nic.length() == 12) {
-            return nic.matches("\\d{12}");
-        }
-        return false;
+        return nic.matches("^([0-9]{9}[VXvx]|[0-9]{12})$");
     }
 
-    private void proceedToAcademicDetails() {
-        showLoading(true);
+    private void saveBasicInfo() {
+        currentStudent.setFullName(etFullName.getText().toString().trim());
+        currentStudent.setUniversityId(etUniversityId.getText().toString().trim().toUpperCase());
+        currentStudent.setNicNumber(etNicNumber.getText().toString().trim().toUpperCase());
+        currentStudent.setGender(dropdownGender.getText().toString().trim());
+        currentStudent.setDateOfBirth(etDateOfBirth.getText().toString().trim());
+        currentStudent.setPhotoPath(selectedPhotoPath);
 
-        // Create Student object with basic info
-        Student student = new Student();
-        student.setFullName(etFullName.getText().toString().trim());
-        student.setUniversityId(etUniversityId.getText().toString().trim());
-        student.setNicNumber(etNicNumber.getText().toString().trim());
-        student.setGender(dropdownGender.getText().toString().trim());
-        student.setDateOfBirth(etDateOfBirth.getText().toString().trim());
-        student.setPhotoPath(selectedPhotoPath);
-
-        // Call listener to proceed to next fragment
-        if (mListener != null) {
-            mListener.onCreateStudentNext(student);
-        }
-
-        showLoading(false);
+        Toast.makeText(getContext(), "Basic information saved", Toast.LENGTH_SHORT).show();
     }
 
-    private void showLoading(boolean show) {
-        if (loadingOverlay != null) {
-            loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
-        }
-        if (btnNextStep != null) {
-            btnNextStep.setEnabled(!show);
+    public void setOnStepCompleteListener(OnStepCompleteListener listener) {
+        this.stepCompleteListener = listener;
+    }
+
+    public void setStudentData(Student student) {
+        if (student != null) {
+            this.currentStudent = student;
+            populateFields();
         }
     }
 
-    public void setOnFragmentInteractionListener(OnFragmentInteractionListener listener) {
-        mListener = listener;
+    private void populateFields() {
+        if (currentStudent != null) {
+            if (currentStudent.getFullName() != null) {
+                etFullName.setText(currentStudent.getFullName());
+            }
+            if (currentStudent.getUniversityId() != null) {
+                etUniversityId.setText(currentStudent.getUniversityId());
+            }
+            if (currentStudent.getNicNumber() != null) {
+                etNicNumber.setText(currentStudent.getNicNumber());
+            }
+            if (currentStudent.getGender() != null) {
+                dropdownGender.setText(currentStudent.getGender(), false);
+            }
+            if (currentStudent.getDateOfBirth() != null) {
+                etDateOfBirth.setText(currentStudent.getDateOfBirth());
+            }
+            if (currentStudent.getPhotoPath() != null) {
+                selectedPhotoPath = currentStudent.getPhotoPath();
+                try {
+                    Uri imageUri = Uri.parse(selectedPhotoPath);
+                    ivStudentPhoto.setImageURI(imageUri);
+                } catch (Exception e) {
+                    // Handle invalid URI
+                }
+            }
+        }
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (databaseHelper != null) {
-            databaseHelper.close();
-        }
+    public void onResume() {
+        super.onResume();
+        populateFields();
     }
 }

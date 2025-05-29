@@ -1,267 +1,236 @@
 package com.example.codeverse;
 
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
+import com.example.codeverse.R;
+import com.example.codeverse.Student;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
+import java.util.HashMap;
+import java.util.Map;
 
-public class AcademicDetails extends AppCompatActivity {
+public class AcademicDetails extends Fragment {
 
-    // UI Components
-    private MaterialCardView cvBack, cvHelp;
-    private TextInputLayout tilFaculty, tilDepartment, tilBatch, tilSemester, tilEnrollmentDate;
+    private static final String TAG = "AcademicDetailsFragment";
+
+    // Views
     private AutoCompleteTextView dropdownFaculty, dropdownDepartment, dropdownSemester;
     private TextInputEditText etBatch, etEnrollmentDate;
+    private TextInputLayout tilFaculty, tilDepartment, tilBatch, tilSemester, tilEnrollmentDate;
     private MaterialButton btnNextStep, btnCancel;
-    private View loadingOverlay;
+    private MaterialCardView cvBack;
 
     // Data
-    private Student studentData;
-    private Calendar calendar;
-    private DatePickerDialog datePickerDialog;
-    private StudentDatabaseHelper databaseHelper;
+    private Student currentStudent;
+    private Map<String, String[]> facultyDepartmentMap;
+
+    public interface OnStepCompleteListener {
+        void onStepCompleted(Student student, int nextStep);
+        void onCancel();
+        void onBack();
+    }
+
+    private OnStepCompleteListener stepCompleteListener;
+
+    public static AcademicDetails newInstance() {
+        return new AcademicDetails();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_academic_details);
+        if (currentStudent == null) {
+            currentStudent = new Student();
+        }
+        setupFacultyDepartmentMapping();
+    }
 
-        initializeViews();
-        initializeDatabase();
-        getStudentData();
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_academic_details, container, false);
+        initViews(view);
+        setupListeners();
         setupDropdowns();
-        setupDatePicker();
-        setupClickListeners();
-        updateProgressIndicators();
+        return view;
     }
 
-    private void initializeViews() {
-        cvBack = findViewById(R.id.cv_back);
-        cvHelp = findViewById(R.id.cv_help);
-        tilFaculty = findViewById(R.id.til_faculty);
-        tilDepartment = findViewById(R.id.til_department);
-        tilBatch = findViewById(R.id.til_batch);
-        tilSemester = findViewById(R.id.til_semester);
-        tilEnrollmentDate = findViewById(R.id.til_enrollment_date);
-        dropdownFaculty = findViewById(R.id.dropdown_faculty);
-        dropdownDepartment = findViewById(R.id.dropdown_department);
-        dropdownSemester = findViewById(R.id.dropdown_semester);
-        etBatch = findViewById(R.id.et_batch);
-        etEnrollmentDate = findViewById(R.id.et_enrollment_date);
-        btnNextStep = findViewById(R.id.btn_next_step);
-        btnCancel = findViewById(R.id.btn_cancel);
-        loadingOverlay = findViewById(R.id.loading_overlay);
+    private void initViews(View view) {
+        // Dropdowns
+        dropdownFaculty = view.findViewById(R.id.dropdown_faculty);
+        dropdownDepartment = view.findViewById(R.id.dropdown_department);
+        dropdownSemester = view.findViewById(R.id.dropdown_semester);
 
-        calendar = Calendar.getInstance();
+        // Text input fields
+        etBatch = view.findViewById(R.id.et_batch);
+        etEnrollmentDate = view.findViewById(R.id.et_enrollment_date);
+
+        // Text input layouts
+        tilFaculty = view.findViewById(R.id.til_faculty);
+        tilDepartment = view.findViewById(R.id.til_department);
+        tilBatch = view.findViewById(R.id.til_batch);
+        tilSemester = view.findViewById(R.id.til_semester);
+        tilEnrollmentDate = view.findViewById(R.id.til_enrollment_date);
+
+        // Buttons
+        btnNextStep = view.findViewById(R.id.btn_next_step);
+        btnCancel = view.findViewById(R.id.btn_cancel);
+        cvBack = view.findViewById(R.id.cv_back);
     }
 
-    private void initializeDatabase() {
-        databaseHelper = new StudentDatabaseHelper(this);
-    }
-
-    private void getStudentData() {
-        studentData = (Student) getIntent().getSerializableExtra("student_data");
-        if (studentData == null) {
-            Toast.makeText(this, "Error: No student data found", Toast.LENGTH_SHORT).show();
-            finish();
-        }
-    }
-
-    private void setupDropdowns() {
-        // Setup Faculty dropdown
-        String[] faculties = {
-                "Faculty of Engineering",
-                "Faculty of Science",
-                "Faculty of Medicine",
-                "Faculty of Arts",
-                "Faculty of Law",
-                "Faculty of Management",
-                "Faculty of Agriculture",
-                "Faculty of Education"
-        };
-        ArrayAdapter<String> facultyAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, faculties);
-        dropdownFaculty.setAdapter(facultyAdapter);
-
-        // Setup Department dropdown (will be populated based on faculty selection)
-        dropdownFaculty.setOnItemClickListener((parent, view, position, id) -> {
-            String selectedFaculty = faculties[position];
-            setupDepartmentDropdown(selectedFaculty);
-        });
-
-        // Setup Semester dropdown
-        String[] semesters = {
-                "Semester 1",
-                "Semester 2",
-                "Semester 3",
-                "Semester 4",
-                "Semester 5",
-                "Semester 6",
-                "Semester 7",
-                "Semester 8"
-        };
-        ArrayAdapter<String> semesterAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, semesters);
-        dropdownSemester.setAdapter(semesterAdapter);
-    }
-
-    private void setupDepartmentDropdown(String faculty) {
-        String[] departments;
-
-        switch (faculty) {
-            case "Faculty of Engineering":
-                departments = new String[]{
-                        "Computer Science & Engineering",
-                        "Electrical & Electronic Engineering",
-                        "Mechanical Engineering",
-                        "Civil Engineering",
-                        "Chemical Engineering",
-                        "Software Engineering"
-                };
-                break;
-            case "Faculty of Science":
-                departments = new String[]{
-                        "Computer Science",
-                        "Mathematics",
-                        "Physics",
-                        "Chemistry",
-                        "Biology",
-                        "Statistics"
-                };
-                break;
-            case "Faculty of Medicine":
-                departments = new String[]{
-                        "Medicine",
-                        "Nursing",
-                        "Pharmacy",
-                        "Dental Surgery",
-                        "Veterinary Medicine"
-                };
-                break;
-            case "Faculty of Arts":
-                departments = new String[]{
-                        "English",
-                        "History",
-                        "Psychology",
-                        "Sociology",
-                        "Philosophy",
-                        "Fine Arts"
-                };
-                break;
-            case "Faculty of Law":
-                departments = new String[]{
-                        "Law",
-                        "Legal Studies",
-                        "Criminology"
-                };
-                break;
-            case "Faculty of Management":
-                departments = new String[]{
-                        "Business Administration",
-                        "Accounting & Finance",
-                        "Marketing",
-                        "Human Resource Management",
-                        "Information Systems"
-                };
-                break;
-            case "Faculty of Agriculture":
-                departments = new String[]{
-                        "Agricultural Sciences",
-                        "Animal Science",
-                        "Food Science & Technology",
-                        "Agricultural Engineering"
-                };
-                break;
-            case "Faculty of Education":
-                departments = new String[]{
-                        "Educational Sciences",
-                        "Physical Education",
-                        "Special Education"
-                };
-                break;
-            default:
-                departments = new String[]{"Please select a faculty first"};
-                break;
-        }
-
-        ArrayAdapter<String> departmentAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, departments);
-        dropdownDepartment.setAdapter(departmentAdapter);
-        dropdownDepartment.setText("", false); // Clear previous selection
-    }
-
-    private void setupDatePicker() {
-        etEnrollmentDate.setOnClickListener(v -> showDatePicker());
-        tilEnrollmentDate.setEndIconOnClickListener(v -> showDatePicker());
-    }
-
-    private void showDatePicker() {
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        datePickerDialog = new DatePickerDialog(this,
-                (view, selectedYear, selectedMonth, selectedDay) -> {
-                    calendar.set(selectedYear, selectedMonth, selectedDay);
-                    updateDateDisplay();
-                }, year, month, day);
-
-        // Set maximum date to today
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
-
-        // Set minimum date (e.g., 10 years ago for enrollment dates)
-        Calendar minDate = Calendar.getInstance();
-        minDate.add(Calendar.YEAR, -10);
-        datePickerDialog.getDatePicker().setMinDate(minDate.getTimeInMillis());
-
-        datePickerDialog.show();
-    }
-
-    private void updateDateDisplay() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        etEnrollmentDate.setText(dateFormat.format(calendar.getTime()));
-    }
-
-    private void setupClickListeners() {
-        cvBack.setOnClickListener(v -> onBackPressed());
-
-        cvHelp.setOnClickListener(v -> showHelpDialog());
+    private void setupListeners() {
+        etEnrollmentDate.setOnClickListener(v -> showEnrollmentDatePicker());
 
         btnNextStep.setOnClickListener(v -> {
-            if (validateInputs()) {
-                proceedToAccountDetails();
+            if (validateInput()) {
+                saveAcademicInfo();
+                if (stepCompleteListener != null) {
+                    stepCompleteListener.onStepCompleted(currentStudent, 3);
+                }
             }
         });
 
         btnCancel.setOnClickListener(v -> {
-            finish();
+            if (stepCompleteListener != null) {
+                stepCompleteListener.onCancel();
+            }
+        });
+
+        cvBack.setOnClickListener(v -> {
+            if (stepCompleteListener != null) {
+                stepCompleteListener.onBack();
+            }
+        });
+
+        // Faculty selection listener to update departments
+        dropdownFaculty.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedFaculty = (String) parent.getItemAtPosition(position);
+            updateDepartmentDropdown(selectedFaculty);
+            dropdownDepartment.setText("", false); // Clear department selection
         });
     }
 
-    private void showHelpDialog() {
-        Toast.makeText(this, "Help: Select your faculty first, then choose your department and other academic details", Toast.LENGTH_LONG).show();
+    private void setupFacultyDepartmentMapping() {
+        facultyDepartmentMap = new HashMap<>();
+
+        facultyDepartmentMap.put("Faculty of Engineering", new String[]{
+                "Computer Science & Engineering",
+                "Electrical & Electronic Engineering",
+                "Mechanical Engineering",
+                "Civil Engineering",
+                "Chemical Engineering"
+        });
+
+        facultyDepartmentMap.put("Faculty of Science", new String[]{
+                "Mathematics",
+                "Physics",
+                "Chemistry",
+                "Biology",
+                "Statistics"
+        });
+
+        facultyDepartmentMap.put("Faculty of Arts", new String[]{
+                "English",
+                "History",
+                "Philosophy",
+                "Languages",
+                "Fine Arts"
+        });
+
+        facultyDepartmentMap.put("Faculty of Management", new String[]{
+                "Business Administration",
+                "Accounting & Finance",
+                "Marketing",
+                "Human Resource Management",
+                "Operations Management"
+        });
+
+        facultyDepartmentMap.put("Faculty of Medicine", new String[]{
+                "Medicine",
+                "Nursing",
+                "Pharmacy",
+                "Physiotherapy",
+                "Medical Laboratory Sciences"
+        });
     }
 
-    private void updateProgressIndicators() {
-        // Update progress indicators to show current step
-        // Step 1 (Basic Info) - Completed
-        // Step 2 (Academic) - Current
-        // Steps 3 & 4 - Pending
+    private void setupDropdowns() {
+        // Setup Faculty dropdown
+        String[] faculties = facultyDepartmentMap.keySet().toArray(new String[0]);
+        ArrayAdapter<String> facultyAdapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                faculties
+        );
+        dropdownFaculty.setAdapter(facultyAdapter);
+
+        // Setup Semester dropdown
+        String[] semesters = {
+                "Semester 1", "Semester 2", "Semester 3", "Semester 4",
+                "Semester 5", "Semester 6", "Semester 7", "Semester 8"
+        };
+        ArrayAdapter<String> semesterAdapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                semesters
+        );
+        dropdownSemester.setAdapter(semesterAdapter);
     }
 
-    private boolean validateInputs() {
+    private void updateDepartmentDropdown(String faculty) {
+        String[] departments = facultyDepartmentMap.get(faculty);
+        if (departments != null) {
+            ArrayAdapter<String> departmentAdapter = new ArrayAdapter<>(
+                    getContext(),
+                    android.R.layout.simple_dropdown_item_1line,
+                    departments
+            );
+            dropdownDepartment.setAdapter(departmentAdapter);
+        }
+    }
+
+    private void showEnrollmentDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                getContext(),
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        String selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
+                        etEnrollmentDate.setText(selectedDate);
+                    }
+                },
+                year, month, day
+        );
+
+        // Set max date to today
+        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+        datePickerDialog.show();
+    }
+
+    private boolean validateInput() {
         boolean isValid = true;
 
         // Reset errors
@@ -274,14 +243,14 @@ public class AcademicDetails extends AppCompatActivity {
         // Validate faculty
         String faculty = dropdownFaculty.getText().toString().trim();
         if (TextUtils.isEmpty(faculty)) {
-            tilFaculty.setError("Please select a faculty");
+            tilFaculty.setError("Faculty is required");
             isValid = false;
         }
 
         // Validate department
         String department = dropdownDepartment.getText().toString().trim();
         if (TextUtils.isEmpty(department)) {
-            tilDepartment.setError("Please select a department");
+            tilDepartment.setError("Department is required");
             isValid = false;
         }
 
@@ -294,12 +263,12 @@ public class AcademicDetails extends AppCompatActivity {
             try {
                 int batchYear = Integer.parseInt(batch);
                 int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-                if (batchYear < (currentYear - 10) || batchYear > currentYear) {
-                    tilBatch.setError("Please enter a valid batch year");
+                if (batchYear < 2000 || batchYear > currentYear + 1) {
+                    tilBatch.setError("Invalid batch year");
                     isValid = false;
                 }
             } catch (NumberFormatException e) {
-                tilBatch.setError("Please enter a valid year");
+                tilBatch.setError("Batch must be a valid year");
                 isValid = false;
             }
         }
@@ -307,7 +276,7 @@ public class AcademicDetails extends AppCompatActivity {
         // Validate semester
         String semester = dropdownSemester.getText().toString().trim();
         if (TextUtils.isEmpty(semester)) {
-            tilSemester.setError("Please select current semester");
+            tilSemester.setError("Current semester is required");
             isValid = false;
         }
 
@@ -321,40 +290,51 @@ public class AcademicDetails extends AppCompatActivity {
         return isValid;
     }
 
-    private void proceedToAccountDetails() {
-        showLoading(true);
+    private void saveAcademicInfo() {
+        currentStudent.setFaculty(dropdownFaculty.getText().toString().trim());
+        currentStudent.setDepartment(dropdownDepartment.getText().toString().trim());
+        currentStudent.setBatch(etBatch.getText().toString().trim());
+        currentStudent.setCurrentSemester(dropdownSemester.getText().toString().trim());
+        currentStudent.setEnrollmentDate(etEnrollmentDate.getText().toString().trim());
 
-        // Update student object with academic details
-        studentData.setFaculty(dropdownFaculty.getText().toString().trim());
-        studentData.setDepartment(dropdownDepartment.getText().toString().trim());
-        studentData.setBatch(etBatch.getText().toString().trim());
-        studentData.setSemester(dropdownSemester.getText().toString().trim());
-        studentData.setEnrollmentDate(etEnrollmentDate.getText().toString().trim());
-
-        // Pass data to Account Details activity
-        Intent intent = new Intent(this, AccountDetails.class);
-        intent.putExtra("student_data", studentData);
-        startActivity(intent);
-
-        showLoading(false);
+        Toast.makeText(getContext(), "Academic information saved", Toast.LENGTH_SHORT).show();
     }
 
-    private void showLoading(boolean show) {
-        loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
-        btnNextStep.setEnabled(!show);
+    public void setOnStepCompleteListener(OnStepCompleteListener listener) {
+        this.stepCompleteListener = listener;
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (databaseHelper != null) {
-            databaseHelper.close();
+    public void setStudentData(Student student) {
+        if (student != null) {
+            this.currentStudent = student;
+            populateFields();
         }
+    }
+
+    private void populateFields() {
+        if (currentStudent != null) {
+            if (currentStudent.getFaculty() != null) {
+                dropdownFaculty.setText(currentStudent.getFaculty(), false);
+                updateDepartmentDropdown(currentStudent.getFaculty());
+            }
+            if (currentStudent.getDepartment() != null) {
+                dropdownDepartment.setText(currentStudent.getDepartment(), false);
+            }
+            if (currentStudent.getBatch() != null) {
+                etBatch.setText(currentStudent.getBatch());
+            }
+            if (currentStudent.getCurrentSemester() != null) {
+                dropdownSemester.setText(currentStudent.getCurrentSemester(), false);
+            }
+            if (currentStudent.getEnrollmentDate() != null) {
+                etEnrollmentDate.setText(currentStudent.getEnrollmentDate());
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        populateFields();
     }
 }

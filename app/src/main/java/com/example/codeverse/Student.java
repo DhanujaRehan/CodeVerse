@@ -13,13 +13,14 @@ public class Student {
     private String faculty;
     private String department;
     private String batch;
-    private String semester;
+    private String currentSemester;
     private String enrollmentDate;
 
     // Account Details
     private String email;
     private String username;
     private String password;
+    private boolean termsAccepted;
 
     // Contact Details
     private String mobileNumber;
@@ -28,49 +29,24 @@ public class Student {
     private String city;
     private String province;
     private String postalCode;
-
-    // Emergency Contact
     private String emergencyContactName;
     private String emergencyRelationship;
     private String emergencyContactNumber;
 
-    private String createdAt;
-    private String updatedAt;
+    private String registrationDate;
+    private String status;
 
-    // Default constructor
+    // Constructors
     public Student() {
+        this.registrationDate = String.valueOf(System.currentTimeMillis());
+        this.status = "ACTIVE";
     }
 
-    // Full constructor
-    public Student(String fullName, String universityId, String nicNumber, String gender,
-                   String dateOfBirth, String photoPath, String faculty, String department,
-                   String batch, String semester, String enrollmentDate, String email,
-                   String username, String password, String mobileNumber, String alternateNumber,
-                   String permanentAddress, String city, String province, String postalCode,
-                   String emergencyContactName, String emergencyRelationship, String emergencyContactNumber) {
+    public Student(String fullName, String universityId, String nicNumber) {
+        this();
         this.fullName = fullName;
         this.universityId = universityId;
         this.nicNumber = nicNumber;
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-        this.photoPath = photoPath;
-        this.faculty = faculty;
-        this.department = department;
-        this.batch = batch;
-        this.semester = semester;
-        this.enrollmentDate = enrollmentDate;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-        this.mobileNumber = mobileNumber;
-        this.alternateNumber = alternateNumber;
-        this.permanentAddress = permanentAddress;
-        this.city = city;
-        this.province = province;
-        this.postalCode = postalCode;
-        this.emergencyContactName = emergencyContactName;
-        this.emergencyRelationship = emergencyRelationship;
-        this.emergencyContactNumber = emergencyContactNumber;
     }
 
     // Getters and Setters
@@ -104,8 +80,8 @@ public class Student {
     public String getBatch() { return batch; }
     public void setBatch(String batch) { this.batch = batch; }
 
-    public String getSemester() { return semester; }
-    public void setSemester(String semester) { this.semester = semester; }
+    public String getCurrentSemester() { return currentSemester; }
+    public void setCurrentSemester(String currentSemester) { this.currentSemester = currentSemester; }
 
     public String getEnrollmentDate() { return enrollmentDate; }
     public void setEnrollmentDate(String enrollmentDate) { this.enrollmentDate = enrollmentDate; }
@@ -118,6 +94,9 @@ public class Student {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public boolean isTermsAccepted() { return termsAccepted; }
+    public void setTermsAccepted(boolean termsAccepted) { this.termsAccepted = termsAccepted; }
 
     public String getMobileNumber() { return mobileNumber; }
     public void setMobileNumber(String mobileNumber) { this.mobileNumber = mobileNumber; }
@@ -146,11 +125,11 @@ public class Student {
     public String getEmergencyContactNumber() { return emergencyContactNumber; }
     public void setEmergencyContactNumber(String emergencyContactNumber) { this.emergencyContactNumber = emergencyContactNumber; }
 
-    public String getCreatedAt() { return createdAt; }
-    public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
+    public String getRegistrationDate() { return registrationDate; }
+    public void setRegistrationDate(String registrationDate) { this.registrationDate = registrationDate; }
 
-    public String getUpdatedAt() { return updatedAt; }
-    public void setUpdatedAt(String updatedAt) { this.updatedAt = updatedAt; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 
     @Override
     public String toString() {
@@ -159,8 +138,7 @@ public class Student {
                 ", fullName='" + fullName + '\'' +
                 ", universityId='" + universityId + '\'' +
                 ", email='" + email + '\'' +
-                ", faculty='" + faculty + '\'' +
-                ", department='" + department + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
