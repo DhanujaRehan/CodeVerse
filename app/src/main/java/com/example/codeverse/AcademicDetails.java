@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.codeverse.R;
+import com.example.codeverse.StudentDatabaseHelper;
 import com.example.codeverse.Student;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -25,6 +26,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AcademicDetails extends Fragment {
 
@@ -39,7 +42,9 @@ public class AcademicDetails extends Fragment {
 
     // Data
     private Student currentStudent;
+    private StudentDatabaseHelper dbHelper;
     private Map<String, String[]> facultyDepartmentMap;
+    private ExecutorService executorService;
 
     public interface OnStepCompleteListener {
         void onStepCompleted(Student student, int nextStep);
@@ -59,6 +64,8 @@ public class AcademicDetails extends Fragment {
         if (currentStudent == null) {
             currentStudent = new Student();
         }
+        dbHelper = StudentDatabaseHelper.getInstance(getContext());
+        executorService = Executors.newSingleThreadExecutor();
         setupFacultyDepartmentMapping();
     }
 
@@ -101,10 +108,7 @@ public class AcademicDetails extends Fragment {
 
         btnNextStep.setOnClickListener(v -> {
             if (validateInput()) {
-                saveAcademicInfo();
-                if (stepCompleteListener != null) {
-                    stepCompleteListener.onStepCompleted(currentStudent, 3);
-                }
+                saveAcademicInfoToDatabase();
             }
         });
 
@@ -290,14 +294,56 @@ public class AcademicDetails extends Fragment {
         return isValid;
     }
 
-    private void saveAcademicInfo() {
+    private void saveAcademicInfoToDatabase() {
+        // Check if student ID exists
+        if (currentStudent.getId() <= 0) {
+            Toast.makeText(getContext(), "Error: Student ID not found. Please restart registration.", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Set button to loading state
+        btnNextStep.setEnabled(false);
+        btnNextStep.setText("Saving...");
+
+        // Collect data from form
         currentStudent.setFaculty(dropdownFaculty.getText().toString().trim());
         currentStudent.setDepartment(dropdownDepartment.getText().toString().trim());
         currentStudent.setBatch(etBatch.getText().toString().trim());
         currentStudent.setCurrentSemester(dropdownSemester.getText().toString().trim());
         currentStudent.setEnrollmentDate(etEnrollmentDate.getText().toString().trim());
 
-        Toast.makeText(getContext(), "Academic information saved", Toast.LENGTH_SHORT).show();
+        // Save to database in background thread
+        executorService.execute(() -> {
+            try {
+                boolean success = dbHelper.updateAcademicDetails(currentStudent.getId(), currentStudent);
+
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        btnNextStep.setEnabled(true);
+                        btnNextStep.setText("Continue to Account Setup");
+
+                        if (success) {
+                            Toast.makeText(getContext(), "Academic information saved successfully", Toast.LENGTH_SHORT).show();
+
+                            // Move to next fragment
+                            if (stepCompleteListener != null) {
+                                stepCompleteListener.onStepCompleted(currentStudent, 3);
+                            }
+                        } else {
+                            Toast.makeText(getContext(), "Failed to save academic information. Please try again.", Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(() -> {
+                        btnNextStep.setEnabled(true);
+                        btnNextStep.setText("Continue to Account Setup");
+                        Toast.makeText(getContext(), "Error saving data: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                    });
+                }
+            }
+        });
     }
 
     public void setOnStepCompleteListener(OnStepCompleteListener listener) {
@@ -336,5 +382,13 @@ public class AcademicDetails extends Fragment {
     public void onResume() {
         super.onResume();
         populateFields();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
+        }
     }
 }
