@@ -31,7 +31,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_GENDER = "gender";
     private static final String KEY_PHOTO_URI = "photo_uri";
 
-    // Academic Information Columns
     private static final String KEY_FACULTY = "faculty";
     private static final String KEY_DEPARTMENT = "department";
     private static final String KEY_BATCH = "batch";
@@ -47,7 +46,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Called when the database is created for the FIRST time.
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_STUDENTS_TABLE = "CREATE TABLE " + TABLE_STUDENTS +
