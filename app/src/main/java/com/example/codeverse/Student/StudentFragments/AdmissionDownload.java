@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Student.StudentFragments;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.codeverse.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;

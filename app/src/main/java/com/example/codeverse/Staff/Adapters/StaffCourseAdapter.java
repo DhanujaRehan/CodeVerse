@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.codeverse.R;
+import com.example.codeverse.Staff.Models.StaffCourse;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 
@@ -18,7 +20,7 @@ import java.util.List;
 
 public class StaffCourseAdapter extends RecyclerView.Adapter<StaffCourseAdapter.StaffCourseViewHolder> {
 
-    private final List<com.example.codeverse.StaffCourse> courseList;
+    private final List<StaffCourse> courseList;
     private final Context context;
 
     public StaffCourseAdapter(Context context, List<StaffCourse> courseList, OnCourseClickListener onCourseClickListener) {
@@ -35,7 +37,7 @@ public class StaffCourseAdapter extends RecyclerView.Adapter<StaffCourseAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull StaffCourseViewHolder holder, int position) {
-        com.example.codeverse.StaffCourse course = courseList.get(position);
+        StaffCourse course = courseList.get(position);
 
         // Set course data to views
         holder.tvCourseName.setText(course.getCourseName());
