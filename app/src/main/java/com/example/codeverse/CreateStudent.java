@@ -58,14 +58,14 @@ public class CreateStudent extends Fragment {
     private MaterialCardView cardBasicInfoIndicator, cardAccountIndicator,
             cardAcademicIndicator, cardContactIndicator;
 
-    // Image picker launcher
+
     private ActivityResultLauncher<Intent> imagePickerLauncher;
     private Uri selectedImageUri = null;
 
-    // Database helper
+
     private StudentDatabaseHelper dbHelper;
 
-    // Constants
+
     private static final String TAG = "CreateStudentFragment";
     private static final int CAMERA_REQUEST_CODE = 100;
     private static final int GALLERY_REQUEST_CODE = 101;
@@ -76,22 +76,16 @@ public class CreateStudent extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_student, container, false);
 
-        // Initialize database helper
         dbHelper = new StudentDatabaseHelper(getContext());
 
-        // Initialize UI components
         initializeViews(view);
 
-        // Set up dropdown for gender selection
         setupGenderDropdown();
 
-        // Set up image picker
         setupImagePicker();
 
-        // Set up click listeners
         setupClickListeners();
 
-        // Set up text change listeners for validation
         setupTextChangeListeners();
 
         return view;
@@ -100,41 +94,38 @@ public class CreateStudent extends Fragment {
     @SuppressLint("WrongViewCast")
     private void initializeViews(View view) {
         try {
-            // Photo components
+
             ivStudentPhoto = view.findViewById(R.id.iv_student_photo);
             fabAddPhoto = view.findViewById(R.id.fab_add_photo);
 
-            // Input fields
+
             etFullName = view.findViewById(R.id.et_full_name);
             etUniversityId = view.findViewById(R.id.et_university_id);
             etNicNumber = view.findViewById(R.id.et_nic_number);
             etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
             dropdownGender = view.findViewById(R.id.dropdown_gender);
 
-            // TextInputLayouts for validation
+
             tilFullName = view.findViewById(R.id.til_full_name);
             tilUniversityId = view.findViewById(R.id.til_university_id);
             tilNicNumber = view.findViewById(R.id.til_nic_number);
             tilDateOfBirth = view.findViewById(R.id.til_date_of_birth);
             tilGender = view.findViewById(R.id.til_gender);
 
-            // Buttons
+
             btnNextStep = view.findViewById(R.id.btn_next_step);
             btnCancel = view.findViewById(R.id.btn_cancel);
 
-            // Navigation components
             cvBack = view.findViewById(R.id.cv_back);
             cvHelp = view.findViewById(R.id.cv_help);
             ivBack = view.findViewById(R.id.iv_back);
             ivHelp = view.findViewById(R.id.iv_help);
 
-            // Step indicators
             cardBasicInfoIndicator = view.findViewById(R.id.card_basic_info_indicator);
             cardAccountIndicator = view.findViewById(R.id.card_account_indicator);
             cardAcademicIndicator = view.findViewById(R.id.card_academic_indicator);
             cardContactIndicator = view.findViewById(R.id.card_contact_indicator);
 
-            // Loading overlay
             loadingOverlay = view.findViewById(R.id.loading_overlay);
         } catch (Exception e) {
             Log.e(TAG, "Error initializing views: " + e.getMessage());
@@ -144,7 +135,6 @@ public class CreateStudent extends Fragment {
 
     private void setupGenderDropdown() {
         try {
-            // Create an array adapter for the gender dropdown
             String[] genders = new String[]{"Male", "Female", "Other", "Prefer not to say"};
             ArrayAdapter<String> adapter = new ArrayAdapter<>(
                     getContext(),
@@ -178,32 +168,25 @@ public class CreateStudent extends Fragment {
     }
 
     private void setupClickListeners() {
-        // Back button click listener
         cvBack.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
         });
 
-        // Help button click listener
         cvHelp.setOnClickListener(v -> showHelpDialog());
 
-        // Date of birth field click listener
         etDateOfBirth.setOnClickListener(v -> showDatePickerDialog());
 
-        // Add photo button click listener
         fabAddPhoto.setOnClickListener(v -> showImageSourceDialog());
 
-        // Next step button click listener
         btnNextStep.setOnClickListener(v -> {
             if (validateInputs()) {
                 saveStudentData();
             }
         });
 
-        // Cancel button click listener
         btnCancel.setOnClickListener(v -> {
-            // Show confirmation dialog before canceling
             new AlertDialog.Builder(getContext())
                     .setTitle("Cancel Student Creation")
                     .setMessage("Are you sure you want to cancel? All entered information will be lost.")
@@ -218,37 +201,37 @@ public class CreateStudent extends Fragment {
     }
 
     private void setupTextChangeListeners() {
-        // Create a generic TextWatcher for clearing errors when text changes
+
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Not needed
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Clear errors when text changes
+
                 clearErrors();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Not needed
+
             }
         };
 
-        // Apply the TextWatcher to all input fields
+
         etFullName.addTextChangedListener(textWatcher);
         etUniversityId.addTextChangedListener(textWatcher);
         etNicNumber.addTextChangedListener(textWatcher);
         etDateOfBirth.addTextChangedListener(textWatcher);
 
-        // For dropdown, use the item click listener
+
         dropdownGender.setOnItemClickListener((parent, view, position, id) -> clearErrors());
     }
 
     private void clearErrors() {
-        // Clear all error messages
+
         tilFullName.setError(null);
         tilUniversityId.setError(null);
         tilNicNumber.setError(null);
@@ -259,7 +242,7 @@ public class CreateStudent extends Fragment {
     private boolean validateInputs() {
         boolean isValid = true;
 
-        // Validate full name
+
         if (TextUtils.isEmpty(etFullName.getText())) {
             tilFullName.setError("Full name is required");
             isValid = false;
@@ -268,13 +251,13 @@ public class CreateStudent extends Fragment {
             isValid = false;
         }
 
-        // Validate university ID
+
         if (TextUtils.isEmpty(etUniversityId.getText())) {
             tilUniversityId.setError("University ID is required");
             isValid = false;
         } else {
             String uniId = etUniversityId.getText().toString().trim();
-            // Check if University ID already exists
+
             if (dbHelper.isUniversityIdExists(uniId)) {
                 tilUniversityId.setError("This University ID already exists");
                 isValid = false;
@@ -284,7 +267,7 @@ public class CreateStudent extends Fragment {
             }
         }
 
-        // Validate NIC number
+
         if (TextUtils.isEmpty(etNicNumber.getText())) {
             tilNicNumber.setError("NIC number is required");
             isValid = false;
@@ -362,7 +345,7 @@ public class CreateStudent extends Fragment {
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
 
-        // Set default to 18 years ago
+
         calendar.add(Calendar.YEAR, -18);
 
         int year = calendar.get(Calendar.YEAR);
@@ -375,17 +358,17 @@ public class CreateStudent extends Fragment {
                     Calendar selectedDate = Calendar.getInstance();
                     selectedDate.set(selectedYear, selectedMonth, selectedDay);
 
-                    // Format the date
+
                     SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
                     String formattedDate = dateFormat.format(selectedDate.getTime());
 
-                    // Set the formatted date to the input field
+
                     etDateOfBirth.setText(formattedDate);
                 },
                 year, month, day
         );
 
-        // Limit the date picker to be no later than today
+
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
         datePickerDialog.show();
@@ -398,14 +381,14 @@ public class CreateStudent extends Fragment {
         builder.setTitle("Select Profile Photo");
         builder.setItems(options, (dialog, which) -> {
             if (which == 0) {
-                // Take Photo option
+
                 showToast("Camera functionality would be implemented here");
             } else if (which == 1) {
-                // Choose from Gallery option
+
                 Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 imagePickerLauncher.launch(pickPhoto);
             }
-            // If "Cancel" is clicked, do nothing
+
         });
 
         builder.show();
