@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import com.example.codeverse.Students;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -17,14 +15,14 @@ import java.util.Locale;
 
 public class StudentDatabaseHelper extends SQLiteOpenHelper {
 
-
+    // Database Info
     private static final String DATABASE_NAME = "StudentDetails.db";
     private static final int DATABASE_VERSION = 1;
 
-
+    // Table Names
     private static final String TABLE_STUDENTS = "StudentDetails";
 
-
+    // Student Table Columns
     private static final String KEY_ID = "id";
     private static final String KEY_FULL_NAME = "full_name";
     private static final String KEY_UNIVERSITY_ID = "university_id";
@@ -32,6 +30,14 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_DATE_OF_BIRTH = "date_of_birth";
     private static final String KEY_GENDER = "gender";
     private static final String KEY_PHOTO_URI = "photo_uri";
+
+    // Academic Information Columns
+    private static final String KEY_FACULTY = "faculty";
+    private static final String KEY_DEPARTMENT = "department";
+    private static final String KEY_BATCH = "batch";
+    private static final String KEY_SEMESTER = "semester";
+    private static final String KEY_ENROLLMENT_DATE = "enrollment_date";
+
     private static final String KEY_CREATED_AT = "created_at";
     private static final String KEY_UPDATED_AT = "updated_at";
 
@@ -41,7 +47,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-
+    // Called when the database is created for the FIRST time.
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_STUDENTS_TABLE = "CREATE TABLE " + TABLE_STUDENTS +
@@ -53,6 +59,11 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
                 KEY_DATE_OF_BIRTH + " TEXT NOT NULL," +
                 KEY_GENDER + " TEXT NOT NULL," +
                 KEY_PHOTO_URI + " TEXT," +
+                KEY_FACULTY + " TEXT," +
+                KEY_DEPARTMENT + " TEXT," +
+                KEY_BATCH + " TEXT," +
+                KEY_SEMESTER + " TEXT," +
+                KEY_ENROLLMENT_DATE + " TEXT," +
                 KEY_CREATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
                 KEY_UPDATED_AT + " DATETIME DEFAULT CURRENT_TIMESTAMP" +
                 ")";
@@ -61,16 +72,17 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "Database tables created");
     }
 
-
+    // Called when the database needs to be upgraded.
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
-
+            // Simplest implementation is to drop all old tables and recreate them
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_STUDENTS);
             onCreate(db);
         }
     }
 
+    // Insert a student into the database
     public long insertStudent(Students student) {
         SQLiteDatabase db = getWritableDatabase();
         long studentId = -1;
@@ -85,7 +97,14 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_GENDER, student.getGender());
             values.put(KEY_PHOTO_URI, student.getPhotoUri());
 
+            // Academic Information
+            values.put(KEY_FACULTY, student.getFaculty());
+            values.put(KEY_DEPARTMENT, student.getDepartment());
+            values.put(KEY_BATCH, student.getBatch());
+            values.put(KEY_SEMESTER, student.getSemester());
+            values.put(KEY_ENROLLMENT_DATE, student.getEnrollmentDate());
 
+            // Get current timestamp
             String currentTimestamp = getCurrentTimestamp();
             values.put(KEY_CREATED_AT, currentTimestamp);
             values.put(KEY_UPDATED_AT, currentTimestamp);
@@ -103,6 +122,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return studentId;
     }
 
+    // Get a student by ID
     public Students getStudentById(long studentId) {
         SQLiteDatabase db = getReadableDatabase();
         Students student = null;
@@ -127,7 +147,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return student;
     }
 
-
+    // Get all students
     public List<Students> getAllStudents() {
         List<Students> students = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -155,7 +175,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return students;
     }
 
-
+    // Update a student
     public int updateStudent(Students student) {
         SQLiteDatabase db = getWritableDatabase();
         int rowsAffected = 0;
@@ -169,6 +189,14 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_DATE_OF_BIRTH, student.getDateOfBirth());
             values.put(KEY_GENDER, student.getGender());
             values.put(KEY_PHOTO_URI, student.getPhotoUri());
+
+            // Academic Information
+            values.put(KEY_FACULTY, student.getFaculty());
+            values.put(KEY_DEPARTMENT, student.getDepartment());
+            values.put(KEY_BATCH, student.getBatch());
+            values.put(KEY_SEMESTER, student.getSemester());
+            values.put(KEY_ENROLLMENT_DATE, student.getEnrollmentDate());
+
             values.put(KEY_UPDATED_AT, getCurrentTimestamp());
 
             rowsAffected = db.update(TABLE_STUDENTS, values, KEY_ID + " = ?",
@@ -185,7 +213,37 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected;
     }
 
+    // Update only academic details for a student
+    public int updateStudentAcademicDetails(long studentId, String faculty, String department,
+                                            String batch, String semester, String enrollmentDate) {
+        SQLiteDatabase db = getWritableDatabase();
+        int rowsAffected = 0;
 
+        db.beginTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(KEY_FACULTY, faculty);
+            values.put(KEY_DEPARTMENT, department);
+            values.put(KEY_BATCH, batch);
+            values.put(KEY_SEMESTER, semester);
+            values.put(KEY_ENROLLMENT_DATE, enrollmentDate);
+            values.put(KEY_UPDATED_AT, getCurrentTimestamp());
+
+            rowsAffected = db.update(TABLE_STUDENTS, values, KEY_ID + " = ?",
+                    new String[]{String.valueOf(studentId)});
+
+            db.setTransactionSuccessful();
+            Log.d(TAG, "Student academic details updated. Rows affected: " + rowsAffected);
+        } catch (Exception e) {
+            Log.d(TAG, "Error while trying to update student academic details: " + e.getMessage());
+        } finally {
+            db.endTransaction();
+        }
+
+        return rowsAffected;
+    }
+
+    // Delete a student
     public void deleteStudent(long studentId) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -201,7 +259,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
+    // Check if University ID already exists
     public boolean isUniversityIdExists(String universityId) {
         SQLiteDatabase db = getReadableDatabase();
         boolean exists = false;
@@ -223,7 +281,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-
+    // Check if NIC number already exists
     public boolean isNicExists(String nicNumber) {
         SQLiteDatabase db = getReadableDatabase();
         boolean exists = false;
@@ -245,7 +303,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-
+    // Search students by name or university ID
     public List<Students> searchStudents(String searchQuery) {
         List<Students> students = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -276,7 +334,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return students;
     }
 
-
+    // Get student count
     public int getStudentCount() {
         SQLiteDatabase db = getReadableDatabase();
         int count = 0;
@@ -299,7 +357,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-
+    // Delete all students
     public void deleteAllStudents() {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -315,7 +373,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-
+    // Helper method to get Student object from cursor
     private Students getStudentFromCursor(Cursor cursor) {
         Students student = new Students();
 
@@ -326,13 +384,21 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         student.setDateOfBirth(cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE_OF_BIRTH)));
         student.setGender(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GENDER)));
         student.setPhotoUri(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PHOTO_URI)));
+
+        // Academic Information
+        student.setFaculty(cursor.getString(cursor.getColumnIndexOrThrow(KEY_FACULTY)));
+        student.setDepartment(cursor.getString(cursor.getColumnIndexOrThrow(KEY_DEPARTMENT)));
+        student.setBatch(cursor.getString(cursor.getColumnIndexOrThrow(KEY_BATCH)));
+        student.setSemester(cursor.getString(cursor.getColumnIndexOrThrow(KEY_SEMESTER)));
+        student.setEnrollmentDate(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENROLLMENT_DATE)));
+
         student.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CREATED_AT)));
         student.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(KEY_UPDATED_AT)));
 
         return student;
     }
 
-
+    // Helper method to get current timestamp
     private String getCurrentTimestamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());
