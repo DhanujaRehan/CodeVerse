@@ -263,15 +263,10 @@ public class AdminSendNotification extends Fragment {
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
         View bottomSheetView = LayoutInflater.from(getContext()).inflate(R.layout.bottom_sheet_file_options, null);
 
-        LinearLayout layoutCamera = bottomSheetView.findViewById(R.id.layoutCamera);
         LinearLayout layoutGallery = bottomSheetView.findViewById(R.id.layoutGallery);
         LinearLayout layoutDocuments = bottomSheetView.findViewById(R.id.layoutDocuments);
         LinearLayout layoutAllFiles = bottomSheetView.findViewById(R.id.layoutAllFiles);
 
-        layoutCamera.setOnClickListener(v -> {
-            openCamera();
-            bottomSheetDialog.dismiss();
-        });
 
         layoutGallery.setOnClickListener(v -> {
             openGallery();
@@ -292,14 +287,6 @@ public class AdminSendNotification extends Fragment {
         bottomSheetDialog.show();
     }
 
-    private void openCamera() {
-        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (cameraIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-            filePickerLauncher.launch(cameraIntent);
-        } else {
-            Toast.makeText(getContext(), "Camera not available", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private void openGallery() {
         Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
