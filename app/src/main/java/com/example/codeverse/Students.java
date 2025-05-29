@@ -30,6 +30,12 @@ public class Students {
     private String emergencyRelationship;
     private String emergencyNumber;
 
+    // Account Information
+    private String email;
+    private String username;
+    private String password;
+    private boolean termsAccepted;
+
     // Timestamps
     private String createdAt;
     private String updatedAt;
@@ -40,12 +46,12 @@ public class Students {
 
     // Constructor with all parameters
     public Students(String fullName, String universityId, String nicNumber,
-                   String dateOfBirth, String gender, String photoUri,
-                   String faculty, String department, String batch,
-                   String semester, String enrollmentDate,
-                   String mobileNumber, String alternateNumber, String permanentAddress,
-                   String city, String province, String postalCode,
-                   String emergencyName, String emergencyRelationship, String emergencyNumber) {
+                    String dateOfBirth, String gender, String photoUri,
+                    String faculty, String department, String batch,
+                    String semester, String enrollmentDate,
+                    String mobileNumber, String alternateNumber, String permanentAddress,
+                    String city, String province, String postalCode,
+                    String emergencyName, String emergencyRelationship, String emergencyNumber) {
         this.fullName = fullName;
         this.universityId = universityId;
         this.nicNumber = nicNumber;
@@ -256,6 +262,39 @@ public class Students {
         this.emergencyNumber = emergencyNumber;
     }
 
+    // Account Information Getters and Setters
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public boolean isTermsAccepted() {
+        return termsAccepted;
+    }
+
+    public void setTermsAccepted(boolean termsAccepted) {
+        this.termsAccepted = termsAccepted;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -280,6 +319,10 @@ public class Students {
                 ", emergencyName='" + emergencyName + '\'' +
                 ", emergencyRelationship='" + emergencyRelationship + '\'' +
                 ", emergencyNumber='" + emergencyNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", termsAccepted=" + termsAccepted +
                 ", createdAt='" + createdAt + '\'' +
                 ", updatedAt='" + updatedAt + '\'' +
                 '}';
