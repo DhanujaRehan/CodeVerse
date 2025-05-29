@@ -22,8 +22,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.codeverse.Students.Models.CreditCard;
-import com.example.codeverse.Students.Adapters.CreditCardAdapter;
 import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
