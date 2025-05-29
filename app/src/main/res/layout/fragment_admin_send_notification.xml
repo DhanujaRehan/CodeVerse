@@ -371,6 +371,10 @@
                             android:textSize="14sp"
                             android:layout_marginBottom="5dp"/>
 
+
+                        <!-- Add this section after the existing attachment section in your fragment_admin_send_notification.xml -->
+
+                        <!-- Replace the existing attachment MaterialCardView with this enhanced version -->
                         <com.google.android.material.card.MaterialCardView
                             android:id="@+id/cardUpload"
                             android:layout_width="match_parent"
@@ -385,43 +389,64 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:orientation="vertical"
-                                android:padding="16dp">
+                                android:orientation="vertical">
 
-                                <ImageView
-                                    android:layout_width="48dp"
-                                    android:layout_height="48dp"
-                                    android:src="@drawable/menu"
-                                    app:tint="@color/text_secondary" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                <!-- Upload Area -->
+                                <LinearLayout
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="Attach Documents or Images"
-                                    android:textColor="@color/text_primary"
-                                    android:textSize="14sp" />
+                                    android:gravity="center"
+                                    android:orientation="vertical"
+                                    android:padding="16dp">
 
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="PDF, DOC, JPG, PNG (Max 10MB)"
-                                    android:textColor="@color/text_secondary"
-                                    android:textSize="12sp" />
+                                    <ImageView
+                                        android:layout_width="48dp"
+                                        android:layout_height="48dp"
+                                        android:src="@drawable/upload" />
 
-                                <com.google.android.material.button.MaterialButton
-                                    android:id="@+id/btnBrowse"
-                                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                    android:layout_width="wrap_content"
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8dp"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Attach Documents or Images"
+                                        android:textColor="@color/text_primary"
+                                        android:textSize="14sp" />
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="PDF, DOC, JPG, PNG (Max 10MB each)"
+                                        android:textColor="@color/text_secondary"
+                                        android:textSize="12sp" />
+
+                                    <com.google.android.material.button.MaterialButton
+                                        android:id="@+id/btnBrowse"
+                                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="8dp"
+                                        android:fontFamily="@font/poppins_regular"
+                                        android:text="Browse Files"
+                                        android:textColor="@color/purple_primary"
+                                        app:strokeColor="@color/purple_primary"
+                                        app:iconTint="@color/purple_primary" />
+                                </LinearLayout>
+
+                                <!-- Attached Files Container -->
+                                <LinearLayout
+                                    android:id="@+id/layoutAttachedFiles"
+                                    android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="8dp"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="Browse Files"
-                                    android:textColor="@color/purple_primary"
-                                    app:strokeColor="@color/purple_primary" />
+                                    android:orientation="vertical"
+                                    android:padding="16dp"
+                                    android:paddingTop="0dp"
+                                    android:visibility="gone">
+
+                                    <!-- Files will be added here dynamically -->
+
+                                </LinearLayout>
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
 
