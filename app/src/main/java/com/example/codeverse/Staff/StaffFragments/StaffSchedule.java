@@ -20,11 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Adapters.CalendarAdapter;
-import com.example.codeverse.Staff.Adapters.ScheduleAdapter;
+import com.example.codeverse.ScheduleClassAdapter;
 import com.example.codeverse.Staff.Models.CalendarDayModel;
 import com.example.codeverse.ScheduleClassModel;
 import com.example.codeverse.ClassScheduleHelper;
-import com.example.codeverse.Staff.Models.ScheduleModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -38,7 +37,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.OnScheduleActionListener {
+public class StaffSchedule extends Fragment implements ScheduleClassAdapter.OnScheduleActionListener {
 
     private static final String TAG = "StaffScheduleFragment";
     private static final int DAYS_IN_WEEK = 7;
@@ -61,7 +60,7 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
     private MaterialButton btnCreateSchedule;
 
     private CalendarAdapter calendarAdapter;
-    private ScheduleAdapter scheduleAdapter;
+    private ScheduleClassAdapter scheduleAdapter;
 
     private Calendar currentCalendar = Calendar.getInstance();
     private Date selectedDate = new Date();
@@ -83,12 +82,7 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
     }
 
     public static StaffSchedule newInstance() {
-        return new StaffSchedule() {
-            @Override
-            public void onAction(String action, ScheduleModel schedule) {
-
-            }
-        };
+        return new StaffSchedule();
     }
 
     @Override
@@ -154,9 +148,9 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
     }
 
     private void setupSchedulesList() {
-        List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
+        List<ScheduleClassModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
 
-        scheduleAdapter = new ScheduleAdapter(schedules, this);
+        scheduleAdapter = new ScheduleClassAdapter(schedules, this);
 
         rvSchedules.setLayoutManager(new LinearLayoutManager(getContext()));
         rvSchedules.setAdapter(scheduleAdapter);
@@ -325,7 +319,7 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
             tvScheduleDate.setText(sdf.format(date));
         }
 
-        List<ScheduleModel> schedules = getSchedulesForDate(date, isStudentSchedule);
+        List<ScheduleClassModel> schedules = getSchedulesForDate(date, isStudentSchedule);
         if (scheduleAdapter != null) {
             scheduleAdapter.updateData(schedules);
         }
@@ -364,7 +358,7 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
             }
         }
 
-        List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
+        List<ScheduleClassModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
         if (scheduleAdapter != null) {
             scheduleAdapter.updateData(schedules);
         }
@@ -377,7 +371,7 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
     }
 
     @Override
-    public void onAction(String action, ScheduleModel schedule) {
+    public void onAction(String action, ScheduleClassModel schedule) {
         switch (action) {
             case "edit":
                 showEditScheduleForm(schedule);
@@ -419,7 +413,7 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
         }
     }
 
-    private void deleteSchedule(ScheduleModel schedule) {
+    private void deleteSchedule(ScheduleClassModel schedule) {
         int result = dbHelper.deleteSchedule(schedule.getId());
 
         if (result > 0) {
@@ -438,12 +432,12 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
         }
     }
 
-    private void sendNotification(ScheduleModel schedule) {
+    private void sendNotification(ScheduleClassModel schedule) {
         String recipient = isStudentSchedule ? "students" : "lecturer";
         Toast.makeText(getContext(), "Notification sent to " + recipient + " about: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
     }
 
-    private void showRescheduleForm(ScheduleModel schedule) {
+    private void showRescheduleForm(ScheduleClassModel schedule) {
         Toast.makeText(getContext(), "Rescheduling: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
     }
 
@@ -506,7 +500,7 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
             int result = dbHelper.updateSchedule(editingSchedule, dateString);
 
             if (result > 0) {
-                List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
+                List<ScheduleClassModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
                 if (scheduleAdapter != null) {
                     scheduleAdapter.updateData(schedules);
                 }
@@ -516,7 +510,7 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
                 return;
             }
         } else {
-            ScheduleModel newSchedule = new ScheduleModel(
+            ScheduleClassModel newSchedule = new ScheduleClassModel(
                     subjectName,
                     moduleNumber,
                     lecturerName,
@@ -626,7 +620,7 @@ public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.
         }
     }
 
-    private List<ScheduleModel> getSchedulesForDate(Date date, boolean isStudentSchedule) {
+    private List<ScheduleClassModel> getSchedulesForDate(Date date, boolean isStudentSchedule) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String dateString = dateFormat.format(date);
         return dbHelper.getSchedulesByDate(dateString, isStudentSchedule);
