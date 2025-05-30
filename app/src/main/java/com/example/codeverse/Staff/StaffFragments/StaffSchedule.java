@@ -36,7 +36,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class StaffSchedule extends Fragment {
+public  class StaffSchedule extends Fragment {
+
+    // Required empty public constructor for fragment recreation
+    public StaffSchedule() {
+        // Required empty public constructor
+    }
 
     // Constants
     private static final String TAG = "StaffScheduleFragment";

@@ -27,15 +27,17 @@ public class AdminMainActivity extends AppCompatActivity {
 
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffSchedule() {
-            }).commit();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.framelayout, new StaffSchedule())
+                    .commit();
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemid = item.getItemId();
             if (itemid == R.id.navhome) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffSchedule() {
-                }).commit();
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.framelayout, new StaffSchedule())
+                        .commit();
             }
             else if (itemid == R.id.navassignments){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new AdminSendNotification()).commit();
