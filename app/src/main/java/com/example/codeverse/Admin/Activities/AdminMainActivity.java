@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Admin.Fragments.AdminSendNotification;
+import com.example.codeverse.Staff.StaffFragments.StaffSchedule;
 import com.example.codeverse.Students.StudentFragments.CreateStudent;
 import com.example.codeverse.R;
 import com.example.codeverse.databinding.ActivityMainBinding;
@@ -26,13 +27,15 @@ public class AdminMainActivity extends AppCompatActivity {
 
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new CreateStudent()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffSchedule() {
+            }).commit();
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemid = item.getItemId();
             if (itemid == R.id.navhome) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new CreateStudent()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffSchedule() {
+                }).commit();
             }
             else if (itemid == R.id.navassignments){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new AdminSendNotification()).commit();

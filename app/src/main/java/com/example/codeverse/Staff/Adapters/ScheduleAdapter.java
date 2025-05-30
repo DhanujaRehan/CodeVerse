@@ -24,7 +24,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     private List<ScheduleModel> schedules;
     private OnScheduleActionListener actionListener;
 
-
+    // Interface for schedule actions callback
     public interface OnScheduleActionListener {
         void onAction(String action, ScheduleModel schedule);
     }
@@ -90,7 +90,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         holder.tvTimeEnd.setText(schedule.getEndTime());
         holder.tvAmPm.setText(schedule.getAmPm());
 
-
+        // Set schedule type badge
         if (schedule.isStudentSchedule()) {
             holder.tvScheduleBadge.setText("Student Schedule");
             holder.badgeScheduleType.setCardBackgroundColor(
@@ -105,7 +105,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                     ContextCompat.getColor(holder.itemView.getContext(), R.color.lecturer_text));
         }
 
-
+        // Set status badge
         if ("Active".equals(schedule.getStatus())) {
             holder.tvStatusBadge.setText("Active");
             holder.badgeStatus.setCardBackgroundColor(
@@ -120,14 +120,14 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
                     ContextCompat.getColor(holder.itemView.getContext(), R.color.canceled_text));
         }
 
-
+        // Set time section gradient background
         if (schedule.isStudentSchedule()) {
             holder.layoutTimeSection.setBackgroundResource(R.drawable.schedule_time_background);
         } else {
             holder.layoutTimeSection.setBackgroundResource(R.drawable.lecturer_schedule_time_background);
         }
 
-
+        // Set action listeners
         holder.btnEdit.setOnClickListener(v ->
                 actionListener.onAction("edit", schedule));
 

@@ -346,12 +346,10 @@
                     android:layout_height="wrap_content"
                     app:fabSize="normal"
                     android:backgroundTint="@color/white"
-                    app:src="@drawable/add"
                     app:borderWidth="0dp"
                     app:elevation="6dp"
                     android:contentDescription="Add Schedule" />
             </LinearLayout>
-
 
             <FrameLayout
                 android:id="@+id/layout_empty_state"

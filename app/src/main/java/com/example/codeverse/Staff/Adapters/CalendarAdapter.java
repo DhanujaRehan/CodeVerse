@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.codeverse.Staff.Models.CalendarDayModel;
 import com.example.codeverse.R;
+import com.example.codeverse.Staff.Models.CalendarDayModel;
 import com.google.android.material.card.MaterialCardView;
 
 import java.text.SimpleDateFormat;
@@ -23,7 +23,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     private List<CalendarDayModel> days;
     private OnDateClickListener onDateClickListener;
 
-
+    // Interface for date click callback
     public interface OnDateClickListener {
         void onDateClicked(Date date);
     }
@@ -50,18 +50,18 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         CalendarDayModel day = days.get(position);
 
-
+        // Format day number
         SimpleDateFormat dayFormat = new SimpleDateFormat("d", Locale.getDefault());
         holder.tvDay.setText(dayFormat.format(day.getDate()));
 
-
+        // Set current month text color
         if (day.isCurrentMonth()) {
             holder.tvDay.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.text_primary));
         } else {
             holder.tvDay.setTextColor(holder.itemView.getContext().getResources().getColor(R.color.text_disabled));
         }
 
-
+        // Show event indicator if day has events
         if (day.hasEvents() && day.isCurrentMonth()) {
             holder.viewIndicator.setVisibility(View.VISIBLE);
             holder.viewIndicator.setBackgroundResource(R.drawable.circle_indicator);
@@ -71,7 +71,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             holder.viewIndicator.setVisibility(View.GONE);
         }
 
-
+        // Highlight selected day
         if (day.isSelected()) {
             holder.cardView.setCardBackgroundColor(
                     holder.itemView.getContext().getResources().getColor(R.color.blue_primary));
@@ -86,7 +86,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
                     holder.itemView.getContext().getResources().getColor(R.color.light_background));
         }
 
-
+        // Check if today
         Calendar today = Calendar.getInstance();
         Calendar dayCalendar = Calendar.getInstance();
         dayCalendar.setTime(day.getDate());
@@ -94,7 +94,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
         if (today.get(Calendar.YEAR) == dayCalendar.get(Calendar.YEAR) &&
                 today.get(Calendar.MONTH) == dayCalendar.get(Calendar.MONTH) &&
                 today.get(Calendar.DAY_OF_MONTH) == dayCalendar.get(Calendar.DAY_OF_MONTH)) {
-
+            // Today - add border
             holder.cardView.setStrokeWidth(2);
             holder.cardView.setStrokeColor(
                     holder.itemView.getContext().getResources().getColor(R.color.blue_primary));
@@ -102,17 +102,17 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.Calend
             holder.cardView.setStrokeWidth(0);
         }
 
-
+        // Set click listener
         holder.itemView.setOnClickListener(v -> {
             if (day.isCurrentMonth()) {
-
+                // Update selection state in dataset
                 for (CalendarDayModel d : days) {
                     d.setSelected(false);
                 }
                 day.setSelected(true);
                 notifyDataSetChanged();
 
-
+                // Callback
                 onDateClickListener.onDateClicked(day.getDate());
             }
         });

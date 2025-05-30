@@ -185,7 +185,8 @@ public class StaffHome extends Fragment {
      */
     private void navigateToStaffSchedule() {
         try {
-            StaffSchedule staffScheduleFragment = new StaffSchedule();
+            StaffSchedule staffScheduleFragment = new StaffSchedule() {
+            };
 
             // Navigate to staff schedule fragment
             getParentFragmentManager()
