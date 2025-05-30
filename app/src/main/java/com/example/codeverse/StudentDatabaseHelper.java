@@ -36,7 +36,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
 
     // Academic Information Columns
     private static final String KEY_FACULTY = "faculty";
-    private static final String KEY_DEPARTMENT = "department";
     private static final String KEY_BATCH = "batch";
     private static final String KEY_SEMESTER = "semester";
     private static final String KEY_ENROLLMENT_DATE = "enrollment_date";
@@ -82,7 +81,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
                 KEY_GENDER + " TEXT NOT NULL," +
                 KEY_PHOTO_URI + " TEXT," +
                 KEY_FACULTY + " TEXT," +
-                KEY_DEPARTMENT + " TEXT," +
                 KEY_BATCH + " TEXT," +
                 KEY_SEMESTER + " TEXT," +
                 KEY_ENROLLMENT_DATE + " TEXT," +
@@ -134,7 +132,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
 
             // Academic Information
             values.put(KEY_FACULTY, student.getFaculty());
-            values.put(KEY_DEPARTMENT, student.getDepartment());
             values.put(KEY_BATCH, student.getBatch());
             values.put(KEY_SEMESTER, student.getSemester());
             values.put(KEY_ENROLLMENT_DATE, student.getEnrollmentDate());
@@ -246,7 +243,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
 
             // Academic Information
             values.put(KEY_FACULTY, student.getFaculty());
-            values.put(KEY_DEPARTMENT, student.getDepartment());
             values.put(KEY_BATCH, student.getBatch());
             values.put(KEY_SEMESTER, student.getSemester());
             values.put(KEY_ENROLLMENT_DATE, student.getEnrollmentDate());
@@ -351,7 +347,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Update only academic details for a student
-    public int updateStudentAcademicDetails(long studentId, String faculty, String department,
+    public int updateStudentAcademicDetails(long studentId, String faculty,
                                             String batch, String semester, String enrollmentDate) {
         SQLiteDatabase db = getWritableDatabase();
         int rowsAffected = 0;
@@ -360,7 +356,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         try {
             ContentValues values = new ContentValues();
             values.put(KEY_FACULTY, faculty);
-            values.put(KEY_DEPARTMENT, department);
             values.put(KEY_BATCH, batch);
             values.put(KEY_SEMESTER, semester);
             values.put(KEY_ENROLLMENT_DATE, enrollmentDate);
@@ -634,7 +629,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
 
         // Academic Information
         student.setFaculty(cursor.getString(cursor.getColumnIndexOrThrow(KEY_FACULTY)));
-        student.setDepartment(cursor.getString(cursor.getColumnIndexOrThrow(KEY_DEPARTMENT)));
         student.setBatch(cursor.getString(cursor.getColumnIndexOrThrow(KEY_BATCH)));
         student.setSemester(cursor.getString(cursor.getColumnIndexOrThrow(KEY_SEMESTER)));
         student.setEnrollmentDate(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENROLLMENT_DATE)));

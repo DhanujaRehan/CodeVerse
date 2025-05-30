@@ -51,7 +51,7 @@ public class CreateStudent extends Fragment {
     private TextInputEditText etDateOfBirth;
     private MaterialButton btnNextStep;
     private MaterialButton btnCancel;
-    private MaterialButton btnSaveForLater; // Added save for later button
+    private MaterialButton btnSaveForLater;
     private FrameLayout loadingOverlay;
 
     private String selectedImageUri = null;
@@ -197,14 +197,29 @@ public class CreateStudent extends Fragment {
         // Save basic information to current student object
         saveBasicInformation();
 
-        // For demonstration, let's save to database with partial data
-        // In a real multi-step form, you might want to save as draft
+        // Save to database with partial data
         try {
-            long studentId = dbHelper.insertStudent(currentStudent);
-            if (studentId > 0) {
+            long studentId;
+            if (currentStudent.getId() > 0) {
+                // Update existing student
+                int rowsAffected = dbHelper.updateStudent(currentStudent);
+                studentId = currentStudent.getId();
+                Log.d(TAG, "Student updated in database. Rows affected: " + rowsAffected);
+            } else {
+                // Insert new student
+                studentId = dbHelper.insertStudent(currentStudent);
                 currentStudent.setId(studentId);
                 Log.d(TAG, "Student saved to database with ID: " + studentId);
+            }
+
+            if (studentId > 0) {
                 Toast.makeText(getContext(), "Basic information saved successfully!", Toast.LENGTH_SHORT).show();
+
+                // Clear form after successful save
+                clearform();
+
+                // Navigate to next step (Academic Details)
+                navigateToAcademicDetails();
             } else {
                 Log.e(TAG, "Failed to save student to database");
                 Toast.makeText(getContext(), "Failed to save student information", Toast.LENGTH_SHORT).show();
@@ -212,13 +227,10 @@ public class CreateStudent extends Fragment {
         } catch (Exception e) {
             Log.e(TAG, "Error saving student: " + e.getMessage(), e);
             Toast.makeText(getContext(), "Error saving student: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            // Hide loading
+            showLoading(false);
         }
-
-        // Hide loading
-        showLoading(false);
-
-        // Navigate to next step (Academic Details)
-        navigateToAcademicDetails();
     }
 
     private void saveForLater() {
@@ -253,9 +265,9 @@ public class CreateStudent extends Fragment {
         } catch (Exception e) {
             Log.e(TAG, "Error saving draft: " + e.getMessage(), e);
             Toast.makeText(getContext(), "Error saving draft: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        } finally {
+            showLoading(false);
         }
-
-        showLoading(false);
     }
 
     private boolean validateBasicInformation() {
@@ -344,32 +356,35 @@ public class CreateStudent extends Fragment {
     }
 
     private void navigateToAcademicDetails() {
-        // Implement navigation to the next step
-        Toast.makeText(getContext(), "Proceeding to Academic Details", Toast.LENGTH_SHORT).show();
+        try {
+            // Create bundle to pass student data to the next fragment
+            Bundle args = new Bundle();
+            args.putSerializable("student", currentStudent);
 
-        // Example of how you might navigate:
-        Bundle args = new Bundle();
-        args.putSerializable("student", currentStudent);
+            // Create instance of AcademicDetailsFragment
+            AcademicDetails academicFragment = new AcademicDetails();
+            academicFragment.setArguments(args);
 
-        // Replace with your actual academic details fragment
-        // AcademicDetailsFragment academicFragment = new AcademicDetailsFragment();
-        // academicFragment.setArguments(args);
-        //
-        // getParentFragmentManager().beginTransaction()
-        //     .replace(R.id.fragment_container, academicFragment)
-        //     .addToBackStack(null)
-        //     .commit();
+            // Navigate to Academic Details Fragment
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.framelayout, academicFragment)
+                    .addToBackStack("CreateStudent") // Add to back stack so user can return
+                    .commit();
+
+            Log.d(TAG, "Successfully navigated to Academic Details with student ID: " + currentStudent.getId());
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error navigating to Academic Details: " + e.getMessage(), e);
+            Toast.makeText(getContext(), "Error proceeding to next step", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void cancelRegistration() {
-        // Show confirmation dialog
         new androidx.appcompat.app.AlertDialog.Builder(getContext())
                 .setTitle("Cancel Registration")
                 .setMessage("Are you sure you want to cancel? All entered data will be lost.")
                 .setPositiveButton("Yes, Cancel", (dialog, which) -> {
-                    // Clear all data and navigate back
                     clearAllData();
-                    // Navigate back to previous screen
                     getParentFragmentManager().popBackStack();
                 })
                 .setNegativeButton("Continue", null)
@@ -377,18 +392,15 @@ public class CreateStudent extends Fragment {
     }
 
     private void clearAllData() {
-        // Clear form fields
         etFullName.setText("");
         etUniversityId.setText("");
         etNicNumber.setText("");
         dropdownGender.setText("");
         etDateOfBirth.setText("");
 
-        // Reset photo
         ivStudentPhoto.setImageResource(R.drawable.addpropic);
         selectedImageUri = null;
 
-        // Reset student object
         currentStudent = new Student();
     }
 
@@ -400,14 +412,12 @@ public class CreateStudent extends Fragment {
 
     private String saveImageToInternalStorage(Uri imageUri) {
         try {
-            // Create student_photos directory if it doesn't exist
             File photosDir = new File(getContext().getFilesDir(), "student_photos");
             if (!photosDir.exists()) {
                 boolean created = photosDir.mkdirs();
                 Log.d(TAG, "Photos directory created: " + created);
             }
 
-            // Generate unique filename
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
             String filename = "student_photo_" + timestamp + ".jpg";
             File imageFile = new File(photosDir, filename);
@@ -439,10 +449,8 @@ public class CreateStudent extends Fragment {
         return currentStudent;
     }
 
-    // Setter method for when returning from other steps
     public void setCurrentStudent(Student student) {
         this.currentStudent = student;
-        // Populate fields if coming back to this step
         populateFieldsFromStudent();
     }
 
@@ -465,12 +473,21 @@ public class CreateStudent extends Fragment {
             }
             if (currentStudent.getPhotoUri() != null) {
                 selectedImageUri = currentStudent.getPhotoUri();
-                // Load and display the saved image
                 ivStudentPhoto.setImageURI(Uri.fromFile(new File(selectedImageUri)));
             }
 
             Log.d(TAG, "Fields populated from student: " + currentStudent.toString());
         }
+    }
+
+    private void clearform() {
+        etFullName.setText("");
+        etUniversityId.setText("");
+        etNicNumber.setText("");
+        dropdownGender.setText("");
+        etDateOfBirth.setText("");
+        ivStudentPhoto.setImageResource(R.drawable.addpropic);
+        selectedImageUri = null;
     }
 
     @Override

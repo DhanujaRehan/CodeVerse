@@ -8,6 +8,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.codeverse.AcademicDetails;
 import com.example.codeverse.Admin.Fragments.AdminSendNotification;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.StaffFragments.StaffHome;
