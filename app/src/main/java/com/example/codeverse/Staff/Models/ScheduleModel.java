@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.Models;
 
 public class ScheduleModel {
     private String subjectName;

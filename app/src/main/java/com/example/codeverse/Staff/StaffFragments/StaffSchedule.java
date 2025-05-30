@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.StaffFragments;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -18,6 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.codeverse.R;
+import com.example.codeverse.Staff.Adapters.CalendarAdapter;
+import com.example.codeverse.Staff.Adapters.ScheduleAdapter;
+import com.example.codeverse.Staff.Models.CalendarDayModel;
+import com.example.codeverse.Staff.Models.ScheduleModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
