@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.codeverse.R;
-import com.example.codeverse.StudentExam;
 
 public class DialogHelp extends Fragment {
 

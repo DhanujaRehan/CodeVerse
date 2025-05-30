@@ -1,0 +1,533 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/staff_home_screen"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/exam_header_gradient">
+
+    <!-- Customized Status Bar -->
+    <View
+        android:id="@+id/status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent" />
+
+    <!-- Top Header with Wave Effect -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="56dp"
+            android:paddingBottom="30dp">
+
+            <!-- Staff Profile Image With Animation -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_profile"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                app:cardCornerRadius="28dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="2dp"
+                app:strokeColor="#FFFFFF"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_person"
+                    android:scaleType="centerCrop" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/user_info_animation"
+                    android:alpha="0.3" />
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Staff Welcome Message -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintStart_toEndOf="@id/cv_profile"
+                app:layout_constraintTop_toTopOf="@id/cv_profile"
+                app:layout_constraintBottom_toBottomOf="@id/cv_profile">
+
+                <TextView
+                    android:id="@+id/tv_welcome_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Welcome back,"
+                    android:textColor="#E6FFFFFF"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppins_medium" />
+
+                <TextView
+                    android:id="@+id/tv_staff_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dr. Sarah Wilson"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/poppins_bold"
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+            </LinearLayout>
+
+
+            <!-- University Animation -->
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/animation_university"
+                android:layout_width="260dp"
+                android:layout_height="140dp"
+                android:layout_marginTop="24dp"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/app_logo_animation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv_profile" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- Curved bottom shape for AppBar -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/staff_home_curved_bottom_shape" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Main Content -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp"
+            android:paddingTop="16dp"
+            android:paddingBottom="80dp">
+
+            <!-- Quick Actions Section -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Quick Actions"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:fontFamily="@font/poppins_semibold" />
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:scrollbars="none"
+                android:clipToPadding="false"
+                android:paddingEnd="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <!-- Schedule Action -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_schedule"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginEnd="16dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="4dp"
+                        app:cardBackgroundColor="#E8F5FF"
+                        app:strokeWidth="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="12dp">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true"
+                                app:lottie_rawRes="@raw/schedule_animation" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Schedule"
+                                android:textColor="#1A5276"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:layout_marginTop="8dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Attendance Action -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_attendance"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginEnd="16dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="4dp"
+                        app:cardBackgroundColor="#FFF5E8"
+                        app:strokeWidth="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="12dp">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true"
+                                app:lottie_rawRes="@raw/attendance" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Attendance"
+                                android:textColor="#E67E22"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:layout_marginTop="8dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Grades Action -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_grades"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginEnd="16dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="4dp"
+                        app:cardBackgroundColor="#F5E8FF"
+                        app:strokeWidth="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="12dp">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true"
+                                app:lottie_rawRes="@raw/bar_chart_progress" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Grades"
+                                android:textColor="#8E44AD"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:layout_marginTop="8dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Messages Action -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_messages"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        app:cardCornerRadius="20dp"
+                        app:cardElevation="4dp"
+                        app:cardBackgroundColor="#E8FFF0"
+                        app:strokeWidth="0dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:gravity="center"
+                            android:padding="12dp">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                app:lottie_autoPlay="true"
+                                app:lottie_loop="true"
+                                app:lottie_rawRes="@raw/support" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Messages"
+                                android:textColor="#27AE60"
+                                android:textSize="14sp"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:layout_marginTop="8dp" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <!-- Filters Section -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/filter_animation" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Student Filters"
+                            android:textColor="#1A5276"
+                            android:textSize="18sp"
+                            android:fontFamily="@font/poppins_semibold"
+                            android:layout_marginStart="8dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_apply_filters"
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:text="Apply"
+                            android:textAllCaps="false"
+                            android:textSize="14sp"
+                            app:cornerRadius="20dp"
+                            app:backgroundTint="#1A5276"
+                            android:fontFamily="@font/poppins_medium" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="#1A000000"
+                        android:layout_marginVertical="8dp" />
+
+                    <!-- Year Filter -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/til_year"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="Year"
+                        app:startIconTint="#1A5276"
+                        app:boxCornerRadiusBottomEnd="16dp"
+                        app:boxCornerRadiusBottomStart="16dp"
+                        app:boxCornerRadiusTopEnd="16dp"
+                        app:boxCornerRadiusTopStart="16dp"
+                        app:boxStrokeColor="#1A5276">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/dropdown_year"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:inputType="none" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="12dp">
+
+                        <!-- Department Filter -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/til_department"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="8dp"
+                            android:hint="Department"
+                            app:startIconTint="#1A5276"
+                            app:boxCornerRadiusBottomEnd="16dp"
+                            app:boxCornerRadiusBottomStart="16dp"
+                            app:boxCornerRadiusTopEnd="16dp"
+                            app:boxCornerRadiusTopStart="16dp"
+                            app:boxStrokeColor="#1A5276">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/dropdown_department"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
+                                android:inputType="none" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Badge Filter -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/til_badge"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:layout_marginStart="8dp"
+                            android:hint="Badge"
+                            app:startIconTint="#1A5276"
+                            app:boxCornerRadiusBottomEnd="16dp"
+                            app:boxCornerRadiusBottomStart="16dp"
+                            app:boxCornerRadiusTopEnd="16dp"
+                            app:boxCornerRadiusTopStart="16dp"
+                            app:boxStrokeColor="#1A5276">
+
+                            <AutoCompleteTextView
+                                android:id="@+id/dropdown_badge"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
+                                android:inputType="none" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Students Section -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="24dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Students"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/poppins_semibold" />
+
+                <TextView
+                    android:id="@+id/tv_student_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="42 Students"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    android:fontFamily="@font/poppins_medium" />
+            </LinearLayout>
+
+            <!-- Animation for Empty State -->
+            <FrameLayout
+                android:id="@+id/layout_empty_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/empty" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="No students found"
+                        android:textColor="#777777"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:layout_marginTop="16dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Try adjusting your filters"
+                        android:textColor="#999999"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginTop="8dp" />
+                </LinearLayout>
+            </FrameLayout>
+
+            <!-- Students RecyclerView -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_students"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:clipToPadding="false"
+                android:nestedScrollingEnabled="false"
+                android:orientation="vertical"
+                android:overScrollMode="never"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_student_card" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <!-- Bottom Navigation Bar with Glassmorphism Effect -->
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="8dp"
+        app:cardBackgroundColor="#CCFFFFFF">
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

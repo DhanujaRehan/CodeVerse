@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -18,15 +18,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.codeverse.Students.StudentFragments.AdmissionDownload;
+import com.example.codeverse.R;
+import com.example.codeverse.Students.Adapters.ExamResultsAdapter;
+import com.example.codeverse.Students.Models.ExamResult;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Fragment to display examination screen with results
- */
 public class StudentExam extends Fragment {
 
     private static final int REQUEST_CODE_DOCUMENT_PICKER = 1001;
@@ -36,19 +35,19 @@ public class StudentExam extends Fragment {
     private ExamResultsAdapter examResultsAdapter;
     private List<ExamResult> examResultsList;
 
-    // UI Components
+
     private MaterialCardView cvBack;
     private ImageView ivBack, ivNotification, ivFilter;
     private TextView tvSelectedSemester, tvViewAllResults;
     private MaterialCardView cardAdmission, cardSubmissions;
 
-    // Fragment's root view
+
     private View rootView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         rootView = inflater.inflate(R.layout.fragment_student_exam, container, false);
         return rootView;
     }
@@ -57,15 +56,13 @@ public class StudentExam extends Fragment {
      * Navigate to Exam Admissions Fragment
      */
     private void navigateToExamAdmissions() {
-        // Create new instance of ExamAdmissionsFragment
         AdmissionDownload examAdmissionsFragment = new AdmissionDownload();
 
-        // Navigate to the new fragment
         if (getParentFragmentManager() != null) {
             getParentFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.framelayout, examAdmissionsFragment) // Make sure to use your actual container ID
-                    .addToBackStack(null) // Add to back stack so user can navigate back
+                    .replace(R.id.framelayout, examAdmissionsFragment)
+                    .addToBackStack(null)
                     .commit();
         }
     }
@@ -81,13 +78,13 @@ public class StudentExam extends Fragment {
 
         builder.setItems(options, (dialog, which) -> {
             switch (which) {
-                case 0: // Google Drive
+                case 0:
                     openGoogleDrive();
                     break;
-                case 1: // Device Documents
+                case 1:
                     openDeviceDocuments();
                     break;
-                case 2: // Cancel
+                case 2:
                     dialog.dismiss();
                     break;
             }
@@ -101,7 +98,7 @@ public class StudentExam extends Fragment {
      */
     private void openGoogleDrive() {
         try {
-            // Check if Google Drive app is installed
+
             if (isAppInstalled(GOOGLE_DRIVE_PACKAGE)) {
                 Intent intent = new Intent();
                 intent.setPackage(GOOGLE_DRIVE_PACKAGE);
@@ -109,7 +106,7 @@ public class StudentExam extends Fragment {
                 intent.addCategory(Intent.CATEGORY_LAUNCHER);
                 startActivity(intent);
             } else {
-                // Fallback to web version
+
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://drive.google.com"));
                 startActivity(intent);
@@ -120,19 +117,11 @@ public class StudentExam extends Fragment {
         }
     }
 
-    /**
-     * Open device document picker
-     */
     private void openDeviceDocuments() {
         try {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
             intent.setType("*/*"); // Allow all file types
-
-            // You can also specify specific MIME types if needed:
-            // intent.setType("application/pdf"); // For PDF files only
-            // intent.setType("image/*"); // For images only
-            // intent.setType("application/vnd.openxmlformats-officedocument.wordprocessingml.document"); // For DOCX files
 
             String[] mimeTypes = {
                     "application/pdf",
@@ -171,7 +160,7 @@ public class StudentExam extends Fragment {
             if (data != null) {
                 Uri uri = data.getData();
                 if (uri != null) {
-                    // Handle the selected document
+
                     handleSelectedDocument(uri);
                 }
             }
@@ -183,14 +172,14 @@ public class StudentExam extends Fragment {
      */
     private void handleSelectedDocument(Uri uri) {
         try {
-            // You can implement your logic here to handle the selected document
-            // For example: upload to server, display document details, etc.
 
-            // For now, we'll just show the document path and open it
+
+
+
             String fileName = getFileName(uri);
             Toast.makeText(getContext(), "Selected: " + fileName, Toast.LENGTH_LONG).show();
 
-            // Open the document with appropriate app
+
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(uri);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -206,9 +195,7 @@ public class StudentExam extends Fragment {
         }
     }
 
-    /**
-     * Get file name from URI
-     */
+
     private String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
@@ -237,40 +224,32 @@ public class StudentExam extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize views
-        initViews();
+         initViews();
 
-        // Set up click listeners
-        setupClickListeners();
+         setupClickListeners();
 
-        // Set up the RecyclerView with mock data
-        setupRecyclerView();
+         setupRecyclerView();
     }
 
     private void initViews() {
-        // Initialize main UI components
-        cvBack = rootView.findViewById(R.id.cv_back);
+         cvBack = rootView.findViewById(R.id.cv_back);
         ivBack = rootView.findViewById(R.id.iv_back);
         ivNotification = rootView.findViewById(R.id.iv_notification);
         ivFilter = rootView.findViewById(R.id.iv_filter);
         tvSelectedSemester = rootView.findViewById(R.id.tv_selected_semester);
         tvViewAllResults = rootView.findViewById(R.id.tv_view_all_results);
 
-        // Initialize cards
-        cardAdmission = rootView.findViewById(R.id.card_admission);
+         cardAdmission = rootView.findViewById(R.id.card_admission);
         cardSubmissions = rootView.findViewById(R.id.card_submissions);
 
-        // Initialize RecyclerView
-        rvExamResults = rootView.findViewById(R.id.rv_exam_results);
+         rvExamResults = rootView.findViewById(R.id.rv_exam_results);
     }
 
     private void setupClickListeners() {
-        // Back button click listener
-        cvBack.setOnClickListener(new View.OnClickListener() {
+         cvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate back using fragment manager
-                if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                 if (getParentFragmentManager().getBackStackEntryCount() > 0) {
                     getParentFragmentManager().popBackStack();
                 } else if (getActivity() != null) {
                     getActivity().onBackPressed();
@@ -278,65 +257,54 @@ public class StudentExam extends Fragment {
             }
         });
 
-        // Notification icon click listener
-        ivNotification.setOnClickListener(new View.OnClickListener() {
+         ivNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Notifications", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Filter icon click listener
-        ivFilter.setOnClickListener(new View.OnClickListener() {
+         ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Filter options", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Semester selector click listener
-        tvSelectedSemester.setOnClickListener(new View.OnClickListener() {
+         tvSelectedSemester.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "Select semester", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // View all results click listener
-        tvViewAllResults.setOnClickListener(new View.OnClickListener() {
+         tvViewAllResults.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getContext(), "View all results", Toast.LENGTH_SHORT).show();
             }
         });
 
-        // Exam Admission card click listener
-        cardAdmission.setOnClickListener(new View.OnClickListener() {
+         cardAdmission.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Navigate to Exam Admissions Fragment
-                navigateToExamAdmissions();
+                 navigateToExamAdmissions();
             }
         });
 
-        // Exam Submissions card click listener - UPDATED
-        cardSubmissions.setOnClickListener(new View.OnClickListener() {
+         cardSubmissions.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Show dialog to choose between Google Drive and Device Documents
-                showDocumentSourceDialog();
+                 showDocumentSourceDialog();
             }
         });
     }
 
     private void setupRecyclerView() {
-        // Initialize the exam results list with mock data
         examResultsList = createMockExamResults();
 
-        // Create and set the adapter
         examResultsAdapter = new ExamResultsAdapter(examResultsList);
 
-        // Set up the RecyclerView
         rvExamResults.setLayoutManager(new LinearLayoutManager(getContext()));
         rvExamResults.setAdapter(examResultsAdapter);
         rvExamResults.setNestedScrollingEnabled(false);
@@ -348,7 +316,7 @@ public class StudentExam extends Fragment {
     private List<ExamResult> createMockExamResults() {
         List<ExamResult> results = new ArrayList<>();
 
-        // Add mock exam results
+
         results.add(new ExamResult(
                 "Advanced Algorithms",
                 "Final Exam • May 2, 2025",
@@ -382,7 +350,7 @@ public class StudentExam extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Clean up references to avoid memory leaks
+
         rootView = null;
         examResultsAdapter = null;
         examResultsList = null;

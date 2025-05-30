@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="16dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="4dp"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+         <View
+            android:id="@+id/student_image_bg"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:background="@drawable/student_image_gradient"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_student_image"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:cardCornerRadius="38dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="3dp"
+            app:strokeColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="@id/student_image_bg"
+            app:layout_constraintEnd_toEndOf="@id/student_image_bg"
+            app:layout_constraintStart_toStartOf="@id/student_image_bg"
+            app:layout_constraintTop_toTopOf="@id/student_image_bg">
+
+            <ImageView
+                android:id="@+id/iv_student_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_person" />
+        </com.google.android.material.card.MaterialCardView>
+
+         <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/student_image_bg"
+            app:layout_constraintTop_toTopOf="parent">
+
+             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_student_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_bold"
+                        android:text="John Doe"
+                        android:textColor="#1A5276"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/tv_student_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="STU20230001"
+                        android:textColor="#666666"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/btn_more_options"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:padding="8dp"
+                    android:src="@drawable/ic_more_vert"
+                    app:tint="#666666" />
+            </LinearLayout>
+
+             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="8dp">
+
+                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_domain"
+                        app:tint="#1A5276" />
+
+                    <TextView
+                        android:id="@+id/tv_department"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Computer Science"
+                        android:textColor="#333333"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+
+                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_calender"
+                        app:tint="#1A5276" />
+
+                    <TextView
+                        android:id="@+id/tv_year"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2nd Year"
+                        android:textColor="#333333"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+
+                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_badge"
+                        app:tint="#1A5276" />
+
+                    <TextView
+                        android:id="@+id/tv_badge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Honor Roll"
+                        android:textColor="#333333"
+                        android:textSize="14sp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:layout_marginStart="8dp" />
+                </LinearLayout>
+            </LinearLayout>
+
+             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_view_profile"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="4dp"
+                    android:text="Profile"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    app:cornerRadius="20dp"
+                    app:backgroundTint="#1A5276"
+                    app:icon="@drawable/ic_person"
+                    app:iconSize="16dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="4dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:paddingHorizontal="8dp" />
+
+                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_view_grades"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="4dp"
+                    android:text="Grades"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    app:cornerRadius="20dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="#1A5276"
+                    app:icon="@drawable/ic_grades"
+                    app:iconSize="16dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="4dp"
+                    app:iconTint="#1A5276"
+                    android:textColor="#1A5276"
+                    android:fontFamily="@font/poppins_medium"
+                    android:paddingHorizontal="8dp" />
+
+                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_message"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="4dp"
+                    android:text="Message"
+                    android:textAllCaps="false"
+                    android:textSize="12sp"
+                    app:cornerRadius="20dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:strokeColor="#1A5276"
+                    app:icon="@drawable/ic_email"
+                    app:iconSize="16dp"
+                    app:iconGravity="textStart"
+                    app:iconPadding="4dp"
+                    app:iconTint="#1A5276"
+                    android:textColor="#1A5276"
+                    android:fontFamily="@font/poppins_medium"
+                    android:paddingHorizontal="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

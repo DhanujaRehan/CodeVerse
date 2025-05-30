@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.Adapters;
 
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.codeverse.Students.Models.ExamResult;
+import com.example.codeverse.R;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
