@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.Models;
 
 /**
  * Singleton class to hold student registration data across fragments

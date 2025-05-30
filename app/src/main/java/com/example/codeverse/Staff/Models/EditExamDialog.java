@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.codeverse.Exam;
+import com.example.codeverse.Students.Models.Exam;
 import com.example.codeverse.R;
 import com.google.android.material.card.MaterialCardView;
 import java.util.Calendar;

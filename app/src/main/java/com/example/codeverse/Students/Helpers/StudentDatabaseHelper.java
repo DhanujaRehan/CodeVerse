@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.Helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
+
+import com.example.codeverse.Students.Models.Student;
 
 import java.io.File;
 import java.text.SimpleDateFormat;

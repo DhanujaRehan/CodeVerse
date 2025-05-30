@@ -1,8 +1,6 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.StudentFragments;
 
-import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -22,6 +20,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import com.example.codeverse.R;
+import com.example.codeverse.Students.Models.Student;
+import com.example.codeverse.Students.Helpers.StudentDatabaseHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
