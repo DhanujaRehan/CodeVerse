@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.codeverse.R;
+import com.example.codeverse.StudentExam;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
@@ -106,12 +107,8 @@ public class AdmissionDownload extends Fragment {
     private void setupClickListeners() {
         // Back button click listener
         cvBack.setOnClickListener(view -> {
-            if (listener != null) {
-                listener.onBackPressed();
-            } else {
-                // Fallback navigation
-                navigateBack();
-            }
+            navigateToBack();
+
         });
 
         // Help button click listener - UPDATED TO NAVIGATE TO FRAGMENT
@@ -141,6 +138,19 @@ public class AdmissionDownload extends Fragment {
         });
     }
 
+    private void navigateToBack() {
+        // Create new instance of ExamAdmissionsFragment
+        StudentExam studentExamFragment = new StudentExam();
+
+        // Navigate to the new fragment
+        if (getParentFragmentManager() != null) {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.framelayout, studentExamFragment) // Make sure to use your actual container ID
+                    .addToBackStack(null) // Add to back stack so user can navigate back
+                    .commit();
+        }
+    }
     /**
      * Navigate to DialogHelp Fragment - VERY SIMPLE
      */
