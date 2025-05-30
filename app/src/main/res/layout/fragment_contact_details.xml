@@ -22,7 +22,6 @@
             android:paddingTop="48dp"
             android:paddingBottom="16dp">
 
-            <!-- Back Button with Animation -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
