@@ -130,11 +130,8 @@ public class AdmissionDownload extends Fragment {
 
         // Support card click listener
         cardSupport.setOnClickListener(view -> {
-            if (listener != null) {
-                listener.onSupportRequested();
-            } else {
-                showSupportDialog();
-            }
+            showSupportDialog();
+
         });
     }
 
@@ -151,9 +148,8 @@ public class AdmissionDownload extends Fragment {
                     .commit();
         }
     }
-    /**
-     * Navigate to DialogHelp Fragment - VERY SIMPLE
-     */
+
+
     private void navigateToHelpFragment() {
         try {
             // Create DialogHelp fragment
@@ -175,9 +171,7 @@ public class AdmissionDownload extends Fragment {
     /**
      * Show the help dialog - UPDATED
      */
-    private void showHelpDialog() {
-        navigateToHelpFragment();
-    }
+
 
     /**
      * Show the semester selection dialog
@@ -247,13 +241,16 @@ public class AdmissionDownload extends Fragment {
         currentDialog.show();
     }
 
-    /**
-     * Show the support dialog
-     */
     private void showSupportDialog() {
-        if (getContext() != null) {
-            Intent intent = new Intent(getContext(), DialogSupport.class);
-            startActivity(intent);
+
+        DialogSupport dialogSupport = new DialogSupport();
+
+        if (getParentFragmentManager() != null) {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.framelayout, dialogSupport)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 
@@ -261,31 +258,26 @@ public class AdmissionDownload extends Fragment {
      * Refresh admission cards based on selected semester
      */
     private void refreshAdmissionCards(String semester) {
-        // This would typically fetch new data from your database
-        // For this example, we'll just update the existing data
 
-        // Show loading animation
         showToast("Loading admission cards for " + semester);
 
-        // Simulate loading delay
+
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            // Create updated admission cards based on semester
             List<AdmissionCardModel> updatedCards;
 
             if ("All".equals(semester)) {
-                // Show more cards for all semesters
                 updatedCards = createHardcodedAdmissionCards();
                 updatedCards.addAll(createPastAdmissionCards());
             } else {
-                // Show only cards for current semester
+
                 updatedCards = createHardcodedAdmissionCards();
             }
 
-            // Update adapter with new cards
+
             AdmissionCardAdapter adapter = new AdmissionCardAdapter(updatedCards);
             rvAdmissionCards.setAdapter(adapter);
 
-        }, 500); // Short delay to simulate loading
+        }, 500);
     }
 
     /**
