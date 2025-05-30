@@ -22,6 +22,8 @@ import com.example.codeverse.R;
 import com.example.codeverse.Staff.Adapters.CalendarAdapter;
 import com.example.codeverse.Staff.Adapters.ScheduleAdapter;
 import com.example.codeverse.Staff.Models.CalendarDayModel;
+import com.example.codeverse.ScheduleClassModel;
+import com.example.codeverse.ClassScheduleHelper;
 import com.example.codeverse.Staff.Models.ScheduleModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.button.MaterialButton;
@@ -36,7 +38,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class StaffSchedule extends Fragment {
+public abstract class StaffSchedule extends Fragment implements ScheduleAdapter.OnScheduleActionListener {
 
     private static final String TAG = "StaffScheduleFragment";
     private static final int DAYS_IN_WEEK = 7;
@@ -74,12 +76,19 @@ public class StaffSchedule extends Fragment {
     private TextInputEditText etTime;
 
     private View rootView;
+    private ClassScheduleHelper dbHelper;
+    private ScheduleClassModel editingSchedule;
 
     public StaffSchedule() {
     }
 
     public static StaffSchedule newInstance() {
-        return new StaffSchedule();
+        return new StaffSchedule() {
+            @Override
+            public void onAction(String action, ScheduleModel schedule) {
+
+            }
+        };
     }
 
     @Override
@@ -93,18 +102,14 @@ public class StaffSchedule extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        dbHelper = new ClassScheduleHelper(getContext());
+
         initViews();
-
         setupCalendar();
-
         setupSchedulesList();
-
         setupListeners();
     }
 
-    /**
-     * Initialize all UI components
-     */
     private void initViews() {
         rvCalendar = rootView.findViewById(R.id.rv_calendar);
         rvSchedules = rootView.findViewById(R.id.rv_schedules);
@@ -143,35 +148,32 @@ public class StaffSchedule extends Fragment {
         List<CalendarDayModel> days = generateCalendarDays();
         calendarAdapter = new CalendarAdapter(days, this::onDateSelected);
 
-         rvCalendar.setLayoutManager(new GridLayoutManager(getContext(), DAYS_IN_WEEK));
+        rvCalendar.setLayoutManager(new GridLayoutManager(getContext(), DAYS_IN_WEEK));
         rvCalendar.setAdapter(calendarAdapter);
         rvCalendar.setNestedScrollingEnabled(false);
     }
 
-    /**
-     * Setup the schedules list
-     */
     private void setupSchedulesList() {
-         List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
+        List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
 
-         scheduleAdapter = new ScheduleAdapter(schedules, this::onScheduleAction);
+        scheduleAdapter = new ScheduleAdapter(schedules, this);
 
-         rvSchedules.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvSchedules.setLayoutManager(new LinearLayoutManager(getContext()));
         rvSchedules.setAdapter(scheduleAdapter);
         rvSchedules.setNestedScrollingEnabled(false);
 
-         updateEmptyState(schedules.isEmpty());
+        updateEmptyState(schedules.isEmpty());
     }
 
     private void setupListeners() {
-         if (btnPrevMonth != null) {
+        if (btnPrevMonth != null) {
             btnPrevMonth.setOnClickListener(v -> changeMonth(-1));
         }
         if (btnNextMonth != null) {
             btnNextMonth.setOnClickListener(v -> changeMonth(1));
         }
 
-         if (btnStudentSchedule != null) {
+        if (btnStudentSchedule != null) {
             btnStudentSchedule.setOnClickListener(v -> {
                 if (!isStudentSchedule) {
                     isStudentSchedule = true;
@@ -189,19 +191,19 @@ public class StaffSchedule extends Fragment {
             });
         }
 
-         if (fabAddSchedule != null) {
+        if (fabAddSchedule != null) {
             fabAddSchedule.setOnClickListener(v -> showAddScheduleBottomSheet());
         }
         if (btnCreateSchedule != null) {
             btnCreateSchedule.setOnClickListener(v -> showAddScheduleBottomSheet());
         }
 
-         View backButton = rootView.findViewById(R.id.cv_back);
+        View backButton = rootView.findViewById(R.id.cv_back);
         if (backButton != null) {
             backButton.setOnClickListener(v -> navigateBack());
         }
 
-         View btnCancel = rootView.findViewById(R.id.btn_cancel_schedule);
+        View btnCancel = rootView.findViewById(R.id.btn_cancel_schedule);
         if (btnCancel != null) {
             btnCancel.setOnClickListener(v -> hideBottomSheet());
         }
@@ -211,7 +213,7 @@ public class StaffSchedule extends Fragment {
             btnSave.setOnClickListener(v -> saveSchedule());
         }
 
-         if (bottomSheetBehavior != null) {
+        if (bottomSheetBehavior != null) {
             bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
                 @Override
                 public void onStateChanged(View bottomSheet, int newState) {
@@ -222,7 +224,7 @@ public class StaffSchedule extends Fragment {
 
                 @Override
                 public void onSlide(View bottomSheet, float slideOffset) {
-                     if (bottomSheetContainer != null) {
+                    if (bottomSheetContainer != null) {
                         bottomSheetContainer.setAlpha(slideOffset);
                     }
                 }
@@ -239,30 +241,27 @@ public class StaffSchedule extends Fragment {
     }
 
     private void updateDateDisplay() {
-         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
         if (tvMonthYear != null) {
             tvMonthYear.setText(sdf.format(currentCalendar.getTime()));
         }
 
-         SimpleDateFormat dateSdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+        SimpleDateFormat dateSdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
         if (tvScheduleDate != null) {
             tvScheduleDate.setText(dateSdf.format(selectedDate));
         }
     }
 
-    /**
-     * Generate calendar days for the current month
-     */
     private List<CalendarDayModel> generateCalendarDays() {
         List<CalendarDayModel> days = new ArrayList<>();
+        List<String> datesWithSchedules = dbHelper.getDatesWithSchedules(isStudentSchedule);
 
-         Calendar calendar = (Calendar) currentCalendar.clone();
+        Calendar calendar = (Calendar) currentCalendar.clone();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
 
-         calendar.set(Calendar.DAY_OF_MONTH, 1);
+        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
-         int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-
-         calendar.add(Calendar.DAY_OF_MONTH, -firstDayOfWeek);
+        calendar.add(Calendar.DAY_OF_MONTH, -firstDayOfWeek);
         for (int i = 0; i < firstDayOfWeek; i++) {
             CalendarDayModel day = new CalendarDayModel();
             day.setDate(calendar.getTime());
@@ -272,21 +271,21 @@ public class StaffSchedule extends Fragment {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-         calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.set(Calendar.MONTH, currentCalendar.get(Calendar.MONTH));
 
-         int maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        int maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-         for (int i = 0; i < maxDays; i++) {
+        for (int i = 0; i < maxDays; i++) {
             CalendarDayModel day = new CalendarDayModel();
             day.setDate(calendar.getTime());
             day.setCurrentMonth(true);
 
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+            String dateString = dateFormat.format(calendar.getTime());
+            day.setHasEvents(datesWithSchedules.contains(dateString));
 
-            int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-            day.setHasEvents(dayOfMonth % 3 == 0 || dayOfMonth == 15);
-
-             Calendar selectedCal = Calendar.getInstance();
+            Calendar selectedCal = Calendar.getInstance();
             selectedCal.setTime(selectedDate);
             day.setSelected(calendar.get(Calendar.YEAR) == selectedCal.get(Calendar.YEAR) &&
                     calendar.get(Calendar.MONTH) == selectedCal.get(Calendar.MONTH) &&
@@ -296,7 +295,7 @@ public class StaffSchedule extends Fragment {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-         int remainingDays = (DAYS_IN_WEEK * MAX_WEEKS_DISPLAY) - days.size();
+        int remainingDays = (DAYS_IN_WEEK * MAX_WEEKS_DISPLAY) - days.size();
         for (int i = 0; i < remainingDays; i++) {
             CalendarDayModel day = new CalendarDayModel();
             day.setDate(calendar.getTime());
@@ -309,40 +308,36 @@ public class StaffSchedule extends Fragment {
         return days;
     }
 
-
     private void changeMonth(int amount) {
-         currentCalendar.add(Calendar.MONTH, amount);
+        currentCalendar.add(Calendar.MONTH, amount);
+        updateDateDisplay();
 
-         updateDateDisplay();
-
-         if (calendarAdapter != null) {
+        if (calendarAdapter != null) {
             calendarAdapter.updateData(generateCalendarDays());
         }
     }
 
-
     private void onDateSelected(Date date) {
-         this.selectedDate = date;
+        this.selectedDate = date;
 
-         SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
         if (tvScheduleDate != null) {
             tvScheduleDate.setText(sdf.format(date));
         }
 
-         List<ScheduleModel> schedules = getSchedulesForDate(date, isStudentSchedule);
+        List<ScheduleModel> schedules = getSchedulesForDate(date, isStudentSchedule);
         if (scheduleAdapter != null) {
             scheduleAdapter.updateData(schedules);
         }
 
-         updateEmptyState(schedules.isEmpty());
+        updateEmptyState(schedules.isEmpty());
     }
-
 
     private void updateScheduleTypeUI() {
         if (getContext() == null) return;
 
         if (isStudentSchedule) {
-             if (btnStudentSchedule != null) {
+            if (btnStudentSchedule != null) {
                 btnStudentSchedule.setBackgroundTintList(getContext().getColorStateList(R.color.blue_primary));
                 btnStudentSchedule.setTextColor(getContext().getColorStateList(R.color.white));
             }
@@ -351,11 +346,11 @@ public class StaffSchedule extends Fragment {
                 btnLecturerSchedule.setTextColor(getContext().getColorStateList(R.color.text_secondary));
             }
 
-             if (tvScheduleType != null) {
+            if (tvScheduleType != null) {
                 tvScheduleType.setText("Student Schedule");
             }
         } else {
-             if (btnLecturerSchedule != null) {
+            if (btnLecturerSchedule != null) {
                 btnLecturerSchedule.setBackgroundTintList(getContext().getColorStateList(R.color.blue_primary));
                 btnLecturerSchedule.setTextColor(getContext().getColorStateList(R.color.white));
             }
@@ -364,107 +359,115 @@ public class StaffSchedule extends Fragment {
                 btnStudentSchedule.setTextColor(getContext().getColorStateList(R.color.text_secondary));
             }
 
-             if (tvScheduleType != null) {
+            if (tvScheduleType != null) {
                 tvScheduleType.setText("Lecturer Schedule");
             }
         }
 
-         List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
+        List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
         if (scheduleAdapter != null) {
             scheduleAdapter.updateData(schedules);
         }
 
-         updateEmptyState(schedules.isEmpty());
+        updateEmptyState(schedules.isEmpty());
+
+        if (calendarAdapter != null) {
+            calendarAdapter.updateData(generateCalendarDays());
+        }
     }
 
-
-    private void onScheduleAction(String action, ScheduleModel schedule) {
+    @Override
+    public void onAction(String action, ScheduleModel schedule) {
         switch (action) {
             case "edit":
-                 showEditScheduleForm(schedule);
+                showEditScheduleForm(schedule);
                 break;
 
             case "delete":
-                 deleteSchedule(schedule);
+                deleteSchedule(schedule);
                 break;
 
             case "notify":
-                 sendNotification(schedule);
+                sendNotification(schedule);
                 break;
 
             case "reschedule":
-                 showRescheduleForm(schedule);
+                showRescheduleForm(schedule);
                 break;
         }
     }
 
+    private void showEditScheduleForm(ScheduleClassModel schedule) {
+        editingSchedule = schedule;
 
-    private void showEditScheduleForm(ScheduleModel schedule) {
-         Toast.makeText(getContext(), "Editing schedule: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
-
-         if (bottomSheetContainer != null) {
+        if (bottomSheetContainer != null) {
             bottomSheetContainer.setVisibility(View.VISIBLE);
         }
         if (bottomSheetBehavior != null) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
 
-         if (etSubjectName != null) etSubjectName.setText(schedule.getSubjectName());
+        if (etSubjectName != null) etSubjectName.setText(schedule.getSubjectName());
         if (etModuleNumber != null) etModuleNumber.setText(schedule.getModuleNumber());
         if (etLecturerName != null) etLecturerName.setText(schedule.getLecturerName());
         if (etClassRoom != null) etClassRoom.setText(schedule.getClassroom());
         if (etTime != null) etTime.setText(schedule.getStartTime());
 
-         MaterialButton saveButton = rootView.findViewById(R.id.btn_save_schedule);
+        MaterialButton saveButton = rootView.findViewById(R.id.btn_save_schedule);
         if (saveButton != null) {
             saveButton.setText("Update");
         }
     }
 
-
     private void deleteSchedule(ScheduleModel schedule) {
-         Toast.makeText(getContext(), "Deleted schedule: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
+        int result = dbHelper.deleteSchedule(schedule.getId());
 
-         if (scheduleAdapter != null) {
-            scheduleAdapter.removeItem(schedule);
+        if (result > 0) {
+            if (scheduleAdapter != null) {
+                scheduleAdapter.removeItem(schedule);
+                updateEmptyState(scheduleAdapter.getItemCount() == 0);
+            }
 
-             updateEmptyState(scheduleAdapter.getItemCount() == 0);
+            if (calendarAdapter != null) {
+                calendarAdapter.updateData(generateCalendarDays());
+            }
+
+            Toast.makeText(getContext(), "Schedule deleted", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "Failed to delete schedule", Toast.LENGTH_SHORT).show();
         }
     }
 
-
     private void sendNotification(ScheduleModel schedule) {
-         String recipient = isStudentSchedule ? "students" : "lecturer";
+        String recipient = isStudentSchedule ? "students" : "lecturer";
         Toast.makeText(getContext(), "Notification sent to " + recipient + " about: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
     }
 
-
     private void showRescheduleForm(ScheduleModel schedule) {
-         Toast.makeText(getContext(), "Rescheduling: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), "Rescheduling: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
     }
 
-
     private void showAddScheduleBottomSheet() {
-         if (bottomSheetContainer != null) {
+        editingSchedule = null;
+
+        if (bottomSheetContainer != null) {
             bottomSheetContainer.setVisibility(View.VISIBLE);
         }
         if (bottomSheetBehavior != null) {
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         }
 
-         if (etSubjectName != null) etSubjectName.setText("");
+        if (etSubjectName != null) etSubjectName.setText("");
         if (etModuleNumber != null) etModuleNumber.setText("");
         if (etLecturerName != null) etLecturerName.setText("");
         if (etClassRoom != null) etClassRoom.setText("");
         if (etTime != null) etTime.setText("");
 
-        // Make sure button text is correct
         MaterialButton saveButton = rootView.findViewById(R.id.btn_save_schedule);
         if (saveButton != null) {
             saveButton.setText("Save");
         }
     }
-
 
     private void hideBottomSheet() {
         if (bottomSheetBehavior != null) {
@@ -472,53 +475,84 @@ public class StaffSchedule extends Fragment {
         }
     }
 
-
     private void saveSchedule() {
-         String subjectName = etSubjectName != null ? etSubjectName.getText().toString().trim() : "";
+        String subjectName = etSubjectName != null ? etSubjectName.getText().toString().trim() : "";
         String moduleNumber = etModuleNumber != null ? etModuleNumber.getText().toString().trim() : "";
         String lecturerName = etLecturerName != null ? etLecturerName.getText().toString().trim() : "";
         String classroom = etClassRoom != null ? etClassRoom.getText().toString().trim() : "";
         String time = etTime != null ? etTime.getText().toString().trim() : "";
 
-         if (subjectName.isEmpty() || moduleNumber.isEmpty() || lecturerName.isEmpty() ||
+        if (subjectName.isEmpty() || moduleNumber.isEmpty() || lecturerName.isEmpty() ||
                 classroom.isEmpty() || time.isEmpty()) {
             Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-         MaterialButton saveButton = rootView.findViewById(R.id.btn_save_schedule);
-        boolean isEdit = saveButton != null && saveButton.getText().toString().equals("Update");
+        String endTime = calculateEndTime(time);
+        String amPm = getAmPm(time);
 
-        if (isEdit) {
-             Toast.makeText(getContext(), "Schedule updated", Toast.LENGTH_SHORT).show();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String dateString = dateFormat.format(selectedDate);
+
+        if (editingSchedule != null) {
+            editingSchedule.setSubjectName(subjectName);
+            editingSchedule.setModuleNumber(moduleNumber);
+            editingSchedule.setLecturerName(lecturerName);
+            editingSchedule.setClassroom(classroom);
+            editingSchedule.setStartTime(time);
+            editingSchedule.setEndTime(endTime);
+            editingSchedule.setAmPm(amPm);
+
+            int result = dbHelper.updateSchedule(editingSchedule, dateString);
+
+            if (result > 0) {
+                List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
+                if (scheduleAdapter != null) {
+                    scheduleAdapter.updateData(schedules);
+                }
+                showSuccessOverlay("Schedule Updated!");
+            } else {
+                Toast.makeText(getContext(), "Failed to update schedule", Toast.LENGTH_SHORT).show();
+                return;
+            }
         } else {
-             ScheduleModel newSchedule = new ScheduleModel(
+            ScheduleModel newSchedule = new ScheduleModel(
                     subjectName,
                     moduleNumber,
                     lecturerName,
                     classroom,
                     time,
-                    calculateEndTime(time),
-                    getAmPm(time),
+                    endTime,
+                    amPm,
                     isStudentSchedule,
                     "Active"
             );
 
-             if (scheduleAdapter != null) {
-                scheduleAdapter.addItem(newSchedule);
+            long result = dbHelper.insertSchedule(newSchedule, dateString);
 
-                 updateEmptyState(false);
+            if (result != -1) {
+                if (scheduleAdapter != null) {
+                    newSchedule.setId(result);
+                    scheduleAdapter.addItem(newSchedule);
+                    updateEmptyState(false);
+                }
+
+                if (calendarAdapter != null) {
+                    calendarAdapter.updateData(generateCalendarDays());
+                }
+
+                showSuccessOverlay("Schedule Added!");
+            } else {
+                Toast.makeText(getContext(), "Failed to save schedule", Toast.LENGTH_SHORT).show();
+                return;
             }
         }
 
-         hideBottomSheet();
-
-         showSuccessOverlay(isEdit ? "Schedule Updated!" : "Schedule Added!");
+        hideBottomSheet();
     }
 
-
     private String calculateEndTime(String startTime) {
-         try {
+        try {
             String[] parts = startTime.split(":");
             int hour = Integer.parseInt(parts[0]);
             int minute = 0;
@@ -527,50 +561,48 @@ public class StaffSchedule extends Fragment {
                 minute = Integer.parseInt(parts[1]);
             }
 
-             minute += 30;
+            minute += 30;
             if (minute >= 60) {
                 minute -= 60;
                 hour += 1;
             }
             hour += 1;
 
-             if (hour > 12) {
+            if (hour > 12) {
                 hour -= 12;
             }
 
             return String.format(Locale.getDefault(), "%d:%02d", hour, minute);
         } catch (Exception e) {
-             return "11:30";
+            return "11:30";
         }
     }
-
 
     private String getAmPm(String time) {
         try {
             int hour = Integer.parseInt(time.split(":")[0]);
 
-             if (hour >= 12) {
+            if (hour >= 12) {
                 return "PM";
             } else {
                 return "AM";
             }
         } catch (Exception e) {
-             return "AM";
+            return "AM";
         }
     }
-
 
     private void showSuccessOverlay(String message) {
         if (successOverlay == null) return;
 
-         successOverlay.setVisibility(View.VISIBLE);
+        successOverlay.setVisibility(View.VISIBLE);
         successOverlay.setAlpha(0f);
         successOverlay.animate()
                 .alpha(1f)
                 .setDuration(300)
                 .setListener(null);
 
-         successOverlay.postDelayed(() -> {
+        successOverlay.postDelayed(() -> {
             successOverlay.animate()
                     .alpha(0f)
                     .setDuration(300)
@@ -585,7 +617,6 @@ public class StaffSchedule extends Fragment {
         }, 2000);
     }
 
-
     private void updateEmptyState(boolean isEmpty) {
         if (layoutEmptyState != null) {
             layoutEmptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
@@ -595,107 +626,24 @@ public class StaffSchedule extends Fragment {
         }
     }
 
-
     private List<ScheduleModel> getSchedulesForDate(Date date, boolean isStudentSchedule) {
-        List<ScheduleModel> schedules = new ArrayList<>();
-
-         Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-
-         if (dayOfMonth % 3 == 0 || dayOfMonth == 15) {
-            if (isStudentSchedule) {
-                 schedules.add(new ScheduleModel(
-                        "Data Structures and Algorithms",
-                        "CS3021",
-                        "Dr. Sarah Wilson",
-                        "Computer Science Building, Room 301",
-                        "10:00",
-                        "11:30",
-                        "AM",
-                        true,
-                        "Active"
-                ));
-
-                schedules.add(new ScheduleModel(
-                        "Advanced Database Systems",
-                        "CS4015",
-                        "Prof. James Rodriguez",
-                        "Technology Center, Lab 204",
-                        "1:00",
-                        "2:30",
-                        "PM",
-                        true,
-                        "Active"
-                ));
-
-                 if (dayOfMonth == 15) {
-                    schedules.add(new ScheduleModel(
-                            "Machine Learning Fundamentals",
-                            "CS4071",
-                            "Dr. Maria Chen",
-                            "AI Research Center, Room 105",
-                            "3:00",
-                            "5:00",
-                            "PM",
-                            true,
-                            "Active"
-                    ));
-                }
-            } else {
-                 schedules.add(new ScheduleModel(
-                        "Artificial Intelligence",
-                        "CS4032",
-                        "Dr. Sarah Wilson",
-                        "Computer Science Building, Room 402",
-                        "9:00",
-                        "11:00",
-                        "AM",
-                        false,
-                        "Active"
-                ));
-
-                schedules.add(new ScheduleModel(
-                        "Computer Networks",
-                        "CS3054",
-                        "Dr. Michael Chen",
-                        "Engineering Building, Room 105",
-                        "2:30",
-                        "4:00",
-                        "PM",
-                        false,
-                        "Active"
-                ));
-
-                 if (dayOfMonth == 15) {
-                    schedules.add(new ScheduleModel(
-                            "Software Engineering",
-                            "CS3013",
-                            "Prof. Lisa Johnson",
-                            "Computer Science Building, Room 201",
-                            "10:00",
-                            "12:00",
-                            "PM",
-                            false,
-                            "Canceled"
-                    ));
-                }
-            }
-        }
-
-        return schedules;
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String dateString = dateFormat.format(date);
+        return dbHelper.getSchedulesByDate(dateString, isStudentSchedule);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-         rootView = null;
+        rootView = null;
         calendarAdapter = null;
         scheduleAdapter = null;
         bottomSheetBehavior = null;
+        dbHelper = null;
+        editingSchedule = null;
 
-         rvCalendar = null;
+        rvCalendar = null;
         rvSchedules = null;
         tvMonthYear = null;
         tvScheduleDate = null;
@@ -711,7 +659,7 @@ public class StaffSchedule extends Fragment {
         btnNextMonth = null;
         btnCreateSchedule = null;
 
-         etSubjectName = null;
+        etSubjectName = null;
         etModuleNumber = null;
         etLecturerName = null;
         etClassRoom = null;

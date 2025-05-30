@@ -8,21 +8,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.codeverse.R;
-import com.example.codeverse.Staff.Models.ScheduleModel;
+import com.example.codeverse.ScheduleClassModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import java.util.List;
 
-public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.ScheduleViewHolder> {
+public class ScheduleClassAdapter extends RecyclerView.Adapter<ScheduleClassAdapter.ScheduleViewHolder> {
 
-    private List<ScheduleModel> schedules;
+    private List<ScheduleClassModel> schedules;
     private OnScheduleActionListener listener;
 
     public interface OnScheduleActionListener {
-        void onAction(String action, ScheduleModel schedule);
+        void onAction(String action, ScheduleClassModel schedule);
     }
 
-    public ScheduleAdapter(List<ScheduleModel> schedules, OnScheduleActionListener listener) {
+    public ScheduleClassAdapter(List<ScheduleClassModel> schedules, OnScheduleActionListener listener) {
         this.schedules = schedules;
         this.listener = listener;
     }
@@ -37,7 +37,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
     @Override
     public void onBindViewHolder(@NonNull ScheduleViewHolder holder, int position) {
-        ScheduleModel schedule = schedules.get(position);
+        ScheduleClassModel schedule = schedules.get(position);
 
         holder.tvTimeStart.setText(schedule.getStartTime());
         holder.tvTimeEnd.setText(schedule.getEndTime());
@@ -87,18 +87,18 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         return schedules.size();
     }
 
-    public void updateData(List<ScheduleModel> newSchedules) {
+    public void updateData(List<ScheduleClassModel> newSchedules) {
         this.schedules.clear();
         this.schedules.addAll(newSchedules);
         notifyDataSetChanged();
     }
 
-    public void addItem(ScheduleModel schedule) {
+    public void addItem(ScheduleClassModel schedule) {
         schedules.add(schedule);
         notifyItemInserted(schedules.size() - 1);
     }
 
-    public void removeItem(ScheduleModel schedule) {
+    public void removeItem(ScheduleClassModel schedule) {
         int position = schedules.indexOf(schedule);
         if (position != -1) {
             schedules.remove(position);
