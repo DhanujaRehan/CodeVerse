@@ -11,6 +11,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.codeverse.Admin.Fragments.AdminSendNotification;
 import com.example.codeverse.CreateStudent;
 import com.example.codeverse.R;
+import com.example.codeverse.StudentExam;
 import com.example.codeverse.databinding.ActivityMainBinding;
 
 public class AdminMainActivity extends AppCompatActivity {
@@ -26,13 +27,13 @@ public class AdminMainActivity extends AppCompatActivity {
 
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new CreateStudent()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StudentExam()).commit();
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemid = item.getItemId();
             if (itemid == R.id.navhome) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new CreateStudent()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StudentExam()).commit();
             }
             else if (itemid == R.id.navassignments){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new AdminSendNotification()).commit();

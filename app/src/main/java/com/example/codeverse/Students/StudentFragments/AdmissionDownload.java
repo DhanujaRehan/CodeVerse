@@ -114,13 +114,9 @@ public class AdmissionDownload extends Fragment {
             }
         });
 
-        // Help button click listener
+        // Help button click listener - UPDATED TO NAVIGATE TO FRAGMENT
         ivHelp.setOnClickListener(view -> {
-            if (listener != null) {
-                listener.onHelpRequested();
-            } else {
-                showHelpDialog();
-            }
+            navigateToHelpFragment();
         });
 
         // Semester selector click listener
@@ -146,13 +142,31 @@ public class AdmissionDownload extends Fragment {
     }
 
     /**
-     * Show the help dialog
+     * Navigate to DialogHelp Fragment - VERY SIMPLE
+     */
+    private void navigateToHelpFragment() {
+        try {
+            // Create DialogHelp fragment
+            DialogHelp helpFragment = new DialogHelp();
+
+            // Navigate to help fragment
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.framelayout, helpFragment) // Use your container ID
+                    .addToBackStack(null)
+                    .commit();
+
+        } catch (Exception e) {
+            // If something goes wrong, show simple message
+            Toast.makeText(getContext(), "Help not available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Show the help dialog - UPDATED
      */
     private void showHelpDialog() {
-        if (getContext() != null) {
-            Intent intent = new Intent(getContext(), DialogHelp.class);
-            startActivity(intent);
-        }
+        navigateToHelpFragment();
     }
 
     /**

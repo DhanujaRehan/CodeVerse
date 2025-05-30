@@ -153,9 +153,7 @@ public class StudentExam extends Fragment {
         }
     }
 
-    /**
-     * Check if an app is installed
-     */
+
     private boolean isAppInstalled(String packageName) {
         try {
             getContext().getPackageManager().getPackageInfo(packageName, 0);
