@@ -11,53 +11,204 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.codeverse.Students.Activities.AdmitCardDialog;
+import com.example.codeverse.Exam;
+import com.example.codeverse.Students.Helpers.ExamSchedulingHelper;
 import com.example.codeverse.R;
-import com.example.codeverse.Students.Adapters.ExamResultsAdapter;
-import com.example.codeverse.Students.Models.ExamResult;
+import com.example.codeverse.Students.Adapters.StudentExamAdapter;
 import com.google.android.material.card.MaterialCardView;
-
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudentExam extends Fragment {
+public class StudentExam extends Fragment implements StudentExamAdapter.OnExamActionListener {
 
     private static final int REQUEST_CODE_DOCUMENT_PICKER = 1001;
     private static final String GOOGLE_DRIVE_PACKAGE = "com.google.android.apps.docs";
 
     private RecyclerView rvExamResults;
-    private ExamResultsAdapter examResultsAdapter;
-    private List<ExamResult> examResultsList;
-
+    private StudentExamAdapter examAdapter;
+    private List<Exam> examList;
+    private ExamSchedulingHelper dbHelper;
 
     private MaterialCardView cvBack;
     private ImageView ivBack, ivNotification, ivFilter;
     private TextView tvSelectedSemester, tvViewAllResults;
     private MaterialCardView cardAdmission, cardSubmissions;
 
-
     private View rootView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         rootView = inflater.inflate(R.layout.fragment_student_exam, container, false);
         return rootView;
     }
 
-    /**
-     * Navigate to Exam Admissions Fragment
-     */
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initViews();
+        setupClickListeners();
+        setupRecyclerView();
+        loadExamData();
+    }
+
+    private void initViews() {
+        dbHelper = new ExamSchedulingHelper(getContext());
+        examList = new ArrayList<>();
+
+        cvBack = rootView.findViewById(R.id.cv_back);
+        ivBack = rootView.findViewById(R.id.iv_back);
+        ivNotification = rootView.findViewById(R.id.iv_notification);
+        ivFilter = rootView.findViewById(R.id.iv_filter);
+        tvSelectedSemester = rootView.findViewById(R.id.tv_selected_semester);
+        tvViewAllResults = rootView.findViewById(R.id.tv_view_all_results);
+        cardAdmission = rootView.findViewById(R.id.card_admission);
+        cardSubmissions = rootView.findViewById(R.id.card_submissions);
+        rvExamResults = rootView.findViewById(R.id.rv_exam_results);
+    }
+
+    private void setupClickListeners() {
+        cvBack.setOnClickListener(v -> {
+            if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                getParentFragmentManager().popBackStack();
+            } else if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        ivNotification.setOnClickListener(v -> {
+            Toast.makeText(getContext(), "Notifications", Toast.LENGTH_SHORT).show();
+        });
+
+        ivFilter.setOnClickListener(v -> {
+            showFilterDialog();
+        });
+
+        tvSelectedSemester.setOnClickListener(v -> {
+            showSemesterDialog();
+        });
+
+        tvViewAllResults.setOnClickListener(v -> {
+            loadExamData();
+            Toast.makeText(getContext(), "Showing all results", Toast.LENGTH_SHORT).show();
+        });
+
+        cardAdmission.setOnClickListener(v -> {
+            navigateToExamAdmissions();
+        });
+
+        cardSubmissions.setOnClickListener(v -> {
+            showDocumentSourceDialog();
+        });
+    }
+
+    private void setupRecyclerView() {
+        examAdapter = new StudentExamAdapter(getContext(), examList);
+        examAdapter.setOnExamActionListener(this);
+        rvExamResults.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvExamResults.setAdapter(examAdapter);
+        rvExamResults.setNestedScrollingEnabled(false);
+    }
+
+    private void loadExamData() {
+        examList.clear();
+        List<Exam> allExams = dbHelper.getAllExams();
+        examList.addAll(allExams);
+        examAdapter.updateExams(examList);
+    }
+
+    private void showFilterDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Filter Exams");
+
+        String[] options = {"All Exams", "Scheduled", "Pending", "Completed", "Cancelled"};
+
+        builder.setItems(options, (dialog, which) -> {
+            switch (which) {
+                case 0:
+                    loadExamData();
+                    break;
+                case 1:
+                    filterExamsByStatus("Scheduled");
+                    break;
+                case 2:
+                    filterExamsByStatus("Pending");
+                    break;
+                case 3:
+                    filterExamsByStatus("Completed");
+                    break;
+                case 4:
+                    filterExamsByStatus("Cancelled");
+                    break;
+            }
+        });
+
+        builder.show();
+    }
+
+    private void showSemesterDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Select Semester");
+
+        String[] semesters = {"All Semesters", "Spring 2025", "Fall 2024", "Summer 2024"};
+
+        builder.setItems(semesters, (dialog, which) -> {
+            switch (which) {
+                case 0:
+                    loadExamData();
+                    tvSelectedSemester.setText("All Semesters");
+                    break;
+                case 1:
+                    filterExamsBySemester("Spring 2025");
+                    tvSelectedSemester.setText("Spring 2025");
+                    break;
+                case 2:
+                    filterExamsBySemester("Fall 2024");
+                    tvSelectedSemester.setText("Fall 2024");
+                    break;
+                case 3:
+                    filterExamsBySemester("Summer 2024");
+                    tvSelectedSemester.setText("Summer 2024");
+                    break;
+            }
+        });
+
+        builder.show();
+    }
+
+    private void filterExamsByStatus(String status) {
+        examList.clear();
+        List<Exam> allExams = dbHelper.getAllExams();
+        for (Exam exam : allExams) {
+            if (status.equals(exam.getStatus())) {
+                examList.add(exam);
+            }
+        }
+        examAdapter.updateExams(examList);
+        Toast.makeText(getContext(), "Showing " + status.toLowerCase() + " exams", Toast.LENGTH_SHORT).show();
+    }
+
+    private void filterExamsBySemester(String semester) {
+        examList.clear();
+        List<Exam> allExams = dbHelper.getAllExams();
+        for (Exam exam : allExams) {
+            if (semester.equals(exam.getSemester())) {
+                examList.add(exam);
+            }
+        }
+        examAdapter.updateExams(examList);
+        Toast.makeText(getContext(), "Showing " + semester + " exams", Toast.LENGTH_SHORT).show();
+    }
+
     private void navigateToExamAdmissions() {
         AdmissionDownload examAdmissionsFragment = new AdmissionDownload();
-
         if (getParentFragmentManager() != null) {
             getParentFragmentManager()
                     .beginTransaction()
@@ -67,9 +218,6 @@ public class StudentExam extends Fragment {
         }
     }
 
-    /**
-     * Show dialog to choose between Google Drive and Device Documents
-     */
     private void showDocumentSourceDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Choose Document Source");
@@ -93,12 +241,8 @@ public class StudentExam extends Fragment {
         builder.show();
     }
 
-    /**
-     * Open Google Drive app or fallback to web version
-     */
     private void openGoogleDrive() {
         try {
-
             if (isAppInstalled(GOOGLE_DRIVE_PACKAGE)) {
                 Intent intent = new Intent();
                 intent.setPackage(GOOGLE_DRIVE_PACKAGE);
@@ -106,7 +250,6 @@ public class StudentExam extends Fragment {
                 intent.addCategory(Intent.CATEGORY_LAUNCHER);
                 startActivity(intent);
             } else {
-
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse("https://drive.google.com"));
                 startActivity(intent);
@@ -121,7 +264,7 @@ public class StudentExam extends Fragment {
         try {
             Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("*/*"); // Allow all file types
+            intent.setType("*/*");
 
             String[] mimeTypes = {
                     "application/pdf",
@@ -142,7 +285,6 @@ public class StudentExam extends Fragment {
         }
     }
 
-
     private boolean isAppInstalled(String packageName) {
         try {
             getContext().getPackageManager().getPackageInfo(packageName, 0);
@@ -160,25 +302,16 @@ public class StudentExam extends Fragment {
             if (data != null) {
                 Uri uri = data.getData();
                 if (uri != null) {
-
                     handleSelectedDocument(uri);
                 }
             }
         }
     }
 
-    /**
-     * Handle the selected document from device
-     */
     private void handleSelectedDocument(Uri uri) {
         try {
-
-
-
-
             String fileName = getFileName(uri);
             Toast.makeText(getContext(), "Selected: " + fileName, Toast.LENGTH_LONG).show();
-
 
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(uri);
@@ -189,12 +322,10 @@ public class StudentExam extends Fragment {
             } else {
                 Toast.makeText(getContext(), "No app found to open this document", Toast.LENGTH_SHORT).show();
             }
-
         } catch (Exception e) {
             Toast.makeText(getContext(), "Error handling document: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private String getFileName(Uri uri) {
         String result = null;
@@ -221,138 +352,20 @@ public class StudentExam extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-         initViews();
-
-         setupClickListeners();
-
-         setupRecyclerView();
-    }
-
-    private void initViews() {
-         cvBack = rootView.findViewById(R.id.cv_back);
-        ivBack = rootView.findViewById(R.id.iv_back);
-        ivNotification = rootView.findViewById(R.id.iv_notification);
-        ivFilter = rootView.findViewById(R.id.iv_filter);
-        tvSelectedSemester = rootView.findViewById(R.id.tv_selected_semester);
-        tvViewAllResults = rootView.findViewById(R.id.tv_view_all_results);
-
-         cardAdmission = rootView.findViewById(R.id.card_admission);
-        cardSubmissions = rootView.findViewById(R.id.card_submissions);
-
-         rvExamResults = rootView.findViewById(R.id.rv_exam_results);
-    }
-
-    private void setupClickListeners() {
-         cvBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 if (getParentFragmentManager().getBackStackEntryCount() > 0) {
-                    getParentFragmentManager().popBackStack();
-                } else if (getActivity() != null) {
-                    getActivity().onBackPressed();
-                }
-            }
-        });
-
-         ivNotification.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Notifications", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-         ivFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Filter options", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-         tvSelectedSemester.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Select semester", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-         tvViewAllResults.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "View all results", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-         cardAdmission.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 navigateToExamAdmissions();
-            }
-        });
-
-         cardSubmissions.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                 showDocumentSourceDialog();
-            }
-        });
-    }
-
-    private void setupRecyclerView() {
-        examResultsList = createMockExamResults();
-
-        examResultsAdapter = new ExamResultsAdapter(examResultsList);
-
-        rvExamResults.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvExamResults.setAdapter(examResultsAdapter);
-        rvExamResults.setNestedScrollingEnabled(false);
-    }
-
-    /**
-     * Create mock data for exam results
-     */
-    private List<ExamResult> createMockExamResults() {
-        List<ExamResult> results = new ArrayList<>();
-
-
-        results.add(new ExamResult(
-                "Advanced Algorithms",
-                "Final Exam • May 2, 2025",
-                "A (92%)",
-                R.raw.successfull,
-                R.drawable.chip_success_background,
-                "#2E7D32"
-        ));
-
-        results.add(new ExamResult(
-                "Database Systems",
-                "Midterm • April 15, 2025",
-                "B+ (87%)",
-                R.raw.successfull,
-                R.drawable.chip_success_background,
-                "#2E7D32"
-        ));
-
-        results.add(new ExamResult(
-                "Software Engineering",
-                "Project Defense • April 28, 2025",
-                "A- (90%)",
-                R.raw.successfull,
-                R.drawable.chip_success_background,
-                "#2E7D32"
-        ));
-
-        return results;
+    public void onDownloadAdmitCard(Exam exam) {
+        if ("Scheduled".equals(exam.getStatus())) {
+            AdmitCardDialog dialog = new AdmitCardDialog(getContext(), exam);
+            dialog.show();
+        } else {
+            Toast.makeText(getContext(), "Admit card not available for this exam", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
         rootView = null;
-        examResultsAdapter = null;
-        examResultsList = null;
+        examAdapter = null;
+        examList = null;
     }
 }

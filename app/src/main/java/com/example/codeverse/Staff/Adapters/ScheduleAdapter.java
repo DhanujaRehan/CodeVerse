@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.Adapters;
 
 import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.R;
+import com.example.codeverse.Staff.Models.ScheduleModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 

@@ -1,6 +1,5 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.StaffFragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +15,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.codeverse.R;
+import com.example.codeverse.Staff.Adapters.StudentAdapter;
+import com.example.codeverse.Staff.Models.StudentModel;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 

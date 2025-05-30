@@ -510,7 +510,6 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Recent Exam Results List - NOW USING RECYCLERVIEW -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

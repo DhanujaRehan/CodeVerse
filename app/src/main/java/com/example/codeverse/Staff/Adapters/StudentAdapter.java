@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.R;
+import com.example.codeverse.Staff.Models.StudentModel;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
