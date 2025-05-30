@@ -14,9 +14,7 @@ import com.google.android.material.card.MaterialCardView;
 
 import java.util.List;
 
-/**
- * Adapter for displaying exam results in a RecyclerView
- */
+
 public class ExamResultsAdapter extends RecyclerView.Adapter<ExamResultsAdapter.ExamViewHolder> {
 
     private List<ExamResult> examResultsList;
