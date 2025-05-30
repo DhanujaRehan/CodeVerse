@@ -102,13 +102,13 @@ public class StudentRegistrationData {
         student.setNicNumber(nicNumber);
         student.setGender(gender);
         student.setDateOfBirth(dateOfBirth);
-        student.setStudentPhoto(studentPhoto);
+        student.setPhotoUri(studentPhoto);
 
         // Academic Details
         student.setFaculty(faculty);
         student.setDepartment(department);
         student.setBatch(batch);
-        student.setCurrentSemester(semester);
+        student.setSemester(semester);
         student.setEnrollmentDate(enrollmentDate);
 
         // Account Details
@@ -126,7 +126,7 @@ public class StudentRegistrationData {
         student.setPostalCode(postalCode);
 
         // Emergency Contact
-        student.setEmergencyContactName(emergencyName);
+        student.setEmergencyName(emergencyName);
         student.setEmergencyRelationship(emergencyRelationship);
         student.setEmergencyNumber(emergencyNumber);
 
@@ -143,13 +143,13 @@ public class StudentRegistrationData {
         nicNumber = student.getNicNumber();
         gender = student.getGender();
         dateOfBirth = student.getDateOfBirth();
-        studentPhoto = student.getStudentPhoto();
+        studentPhoto = student.getPhotoUri();
 
         // Academic Details
         faculty = student.getFaculty();
         department = student.getDepartment();
         batch = student.getBatch();
-        semester = student.getCurrentSemester();
+        semester = student.getSemester();
         enrollmentDate = student.getEnrollmentDate();
 
         // Account Details
@@ -167,7 +167,7 @@ public class StudentRegistrationData {
         postalCode = student.getPostalCode();
 
         // Emergency Contact
-        emergencyName = student.getEmergencyContactName();
+        emergencyName = student.getEmergencyName();
         emergencyRelationship = student.getEmergencyRelationship();
         emergencyNumber = student.getEmergencyNumber();
     }

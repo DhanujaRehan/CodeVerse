@@ -3,167 +3,145 @@ package com.example.codeverse;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
-import android.widget.DatePicker;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.codeverse.R;
-import com.example.codeverse.StudentDatabaseHelper;
-import com.example.codeverse.CreateStudent;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class CreateStudent extends Fragment {
 
-    private static final String TAG = "CreateStudentFragment";
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final String TAG = "CreateStudent";
+    private StudentDatabaseHelper dbHelper;
+    private Student currentStudent;
 
-    // Views
-    private TextInputEditText etFullName, etUniversityId, etNicNumber, etDateOfBirth;
-    private TextInputLayout tilFullName, tilUniversityId, tilNicNumber, tilGender, tilDateOfBirth;
-    private AutoCompleteTextView dropdownGender;
+    // Views from XML layout
     private ImageView ivStudentPhoto;
     private FloatingActionButton fabAddPhoto;
-    private MaterialButton btnNextStep, btnCancel;
-    private MaterialCardView cvBack;
+    private TextInputEditText etFullName;
+    private TextInputEditText etUniversityId;
+    private TextInputEditText etNicNumber;
+    private AutoCompleteTextView dropdownGender;
+    private TextInputEditText etDateOfBirth;
+    private MaterialButton btnNextStep;
+    private MaterialButton btnCancel;
+    private MaterialButton btnSaveForLater; // Added save for later button
+    private FrameLayout loadingOverlay;
 
-    // Data
-    private Student currentStudent;
-    private StudentDatabaseHelper dbHelper;
-    private String selectedPhotoPath;
-    private Uri selectedImageUri;
+    private String selectedImageUri = null;
+    private Calendar calendar = Calendar.getInstance();
 
-    // Activity result launcher for image picking
-    private ActivityResultLauncher<Intent> imagePickerLauncher;
-
-    public interface OnStepCompleteListener {
-        void onStepCompleted(Student student, int nextStep);
-        void onCancel();
-        void onBack();
-    }
-
-    private OnStepCompleteListener stepCompleteListener;
-
-    public static CreateStudent newInstance() {
-        return new CreateStudent();
-    }
+    // Initialize image picker launcher
+    private ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
+                    Uri selectedImageUri = result.getData().getData();
+                    if (selectedImageUri != null) {
+                        ivStudentPhoto.setImageURI(selectedImageUri);
+                        // Save the image and get the file path
+                        String savedImagePath = saveImageToInternalStorage(selectedImageUri);
+                        if (savedImagePath != null) {
+                            this.selectedImageUri = savedImagePath;
+                        }
+                    }
+                }
+            });
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dbHelper = StudentDatabaseHelper.getInstance(getContext());
-        currentStudent = new Student();
+        // Initialize database helper
+        dbHelper = new StudentDatabaseHelper(getContext());
 
-        // Initialize image picker launcher
-        imagePickerLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                new ActivityResultCallback<ActivityResult>() {
-                    @Override
-                    public void onActivityResult(ActivityResult result) {
-                        if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                            selectedImageUri = result.getData().getData();
-                            if (selectedImageUri != null) {
-                                ivStudentPhoto.setImageURI(selectedImageUri);
-                                // Don't set the photo path yet - we'll save it when form is submitted
-                            }
-                        }
-                    }
-                }
-        );
+        // Check if we're editing an existing student or creating new
+        Bundle args = getArguments();
+        if (args != null && args.containsKey("student")) {
+            currentStudent = (Student) args.getSerializable("student");
+            Log.d(TAG, "Editing existing student: " + currentStudent.getUniversityId());
+        } else {
+            currentStudent = new Student();
+            Log.d(TAG, "Creating new student");
+        }
     }
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_student, container, false);
-        initViews(view);
-        setupListeners();
+
+        // Initialize views
+        initializeViews(view);
+
+        // Set up click listeners
+        setupClickListeners();
+
+        // Setup gender dropdown
         setupGenderDropdown();
+
+        // Populate fields if editing existing student
+        populateFieldsFromStudent();
+
         return view;
     }
 
-    private void initViews(View view) {
-        // Text input fields
+    private void initializeViews(View view) {
+        // Initialize views with exact IDs from XML
+        ivStudentPhoto = view.findViewById(R.id.iv_student_photo);
+        fabAddPhoto = view.findViewById(R.id.fab_add_photo);
         etFullName = view.findViewById(R.id.et_full_name);
         etUniversityId = view.findViewById(R.id.et_university_id);
         etNicNumber = view.findViewById(R.id.et_nic_number);
-        etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
-
-        // Text input layouts
-        tilFullName = view.findViewById(R.id.til_full_name);
-        tilUniversityId = view.findViewById(R.id.til_university_id);
-        tilNicNumber = view.findViewById(R.id.til_nic_number);
-        tilGender = view.findViewById(R.id.til_gender);
-        tilDateOfBirth = view.findViewById(R.id.til_date_of_birth);
-
-        // Dropdown
         dropdownGender = view.findViewById(R.id.dropdown_gender);
-
-        // Image and FAB
-        ivStudentPhoto = view.findViewById(R.id.iv_student_photo);
-        fabAddPhoto = view.findViewById(R.id.fab_add_photo);
-
-        // Buttons
+        etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
         btnNextStep = view.findViewById(R.id.btn_next_step);
         btnCancel = view.findViewById(R.id.btn_cancel);
-        cvBack = view.findViewById(R.id.cv_back);
+        loadingOverlay = view.findViewById(R.id.loading_overlay);
     }
 
-    private void setupListeners() {
-        fabAddPhoto.setOnClickListener(v -> openImageChooser());
+    private void setupClickListeners() {
+        // Photo selection
+        fabAddPhoto.setOnClickListener(v -> openImagePicker());
 
+        // Date picker for date of birth
         etDateOfBirth.setOnClickListener(v -> showDatePicker());
 
-        btnNextStep.setOnClickListener(v -> {
-            if (validateInput()) {
-                saveBasicInfo();
-                if (stepCompleteListener != null) {
-                    stepCompleteListener.onStepCompleted(currentStudent, 2);
-                }
-            }
-        });
+        // Next step button
+        btnNextStep.setOnClickListener(v -> proceedToNextStep());
 
-        btnCancel.setOnClickListener(v -> {
-            if (stepCompleteListener != null) {
-                stepCompleteListener.onCancel();
-            }
-        });
+        // Cancel button
+        btnCancel.setOnClickListener(v -> cancelRegistration());
 
-        cvBack.setOnClickListener(v -> {
-            if (stepCompleteListener != null) {
-                stepCompleteListener.onBack();
-            }
-        });
+        // Save for later button
+        if (btnSaveForLater != null) {
+            btnSaveForLater.setOnClickListener(v -> saveForLater());
+        }
     }
 
     private void setupGenderDropdown() {
@@ -176,220 +154,299 @@ public class CreateStudent extends Fragment {
         dropdownGender.setAdapter(adapter);
     }
 
-    private void openImageChooser() {
+    private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        intent.setType("image/*");
-        imagePickerLauncher.launch(Intent.createChooser(intent, "Select Student Photo"));
+        imagePickerLauncher.launch(intent);
     }
 
     private void showDatePicker() {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR) - 18; // Default to 18 years ago
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 getContext(),
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        String selectedDate = String.format("%04d-%02d-%02d", year, month + 1, dayOfMonth);
-                        etDateOfBirth.setText(selectedDate);
-                    }
+                (view, year, month, dayOfMonth) -> {
+                    calendar.set(Calendar.YEAR, year);
+                    calendar.set(Calendar.MONTH, month);
+                    calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                    etDateOfBirth.setText(sdf.format(calendar.getTime()));
                 },
-                year, month, day
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH)
         );
 
-        // Set max date to today
+        // Set maximum date to today (can't select future dates)
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
 
-    private boolean validateInput() {
+    private void proceedToNextStep() {
+        // Validate basic information
+        if (!validateBasicInformation()) {
+            return;
+        }
+
+        // Check for duplicate values
+        if (checkForDuplicates()) {
+            return;
+        }
+
+        // Show loading
+        showLoading(true);
+
+        // Save basic information to current student object
+        saveBasicInformation();
+
+        // For demonstration, let's save to database with partial data
+        // In a real multi-step form, you might want to save as draft
+        try {
+            long studentId = dbHelper.insertStudent(currentStudent);
+            if (studentId > 0) {
+                currentStudent.setId(studentId);
+                Log.d(TAG, "Student saved to database with ID: " + studentId);
+                Toast.makeText(getContext(), "Basic information saved successfully!", Toast.LENGTH_SHORT).show();
+            } else {
+                Log.e(TAG, "Failed to save student to database");
+                Toast.makeText(getContext(), "Failed to save student information", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error saving student: " + e.getMessage(), e);
+            Toast.makeText(getContext(), "Error saving student: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        // Hide loading
+        showLoading(false);
+
+        // Navigate to next step (Academic Details)
+        navigateToAcademicDetails();
+    }
+
+    private void saveForLater() {
+        // This method allows saving incomplete data as draft
+        if (etFullName.getText().toString().trim().isEmpty()) {
+            Toast.makeText(getContext(), "At least full name is required to save", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        showLoading(true);
+        saveBasicInformation();
+
+        try {
+            long studentId;
+            if (currentStudent.getId() > 0) {
+                // Update existing student
+                int rowsAffected = dbHelper.updateStudent(currentStudent);
+                studentId = currentStudent.getId();
+                Log.d(TAG, "Student updated in database. Rows affected: " + rowsAffected);
+            } else {
+                // Insert new student
+                studentId = dbHelper.insertStudent(currentStudent);
+                currentStudent.setId(studentId);
+                Log.d(TAG, "Student saved as draft with ID: " + studentId);
+            }
+
+            if (studentId > 0) {
+                Toast.makeText(getContext(), "Information saved as draft!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "Failed to save draft", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error saving draft: " + e.getMessage(), e);
+            Toast.makeText(getContext(), "Error saving draft: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+
+        showLoading(false);
+    }
+
+    private boolean validateBasicInformation() {
         boolean isValid = true;
 
-        // Reset errors
-        tilFullName.setError(null);
-        tilUniversityId.setError(null);
-        tilNicNumber.setError(null);
-        tilGender.setError(null);
-        tilDateOfBirth.setError(null);
-
         // Validate full name
-        String fullName = etFullName.getText().toString().trim();
-        if (TextUtils.isEmpty(fullName)) {
-            tilFullName.setError("Full name is required");
-            isValid = false;
-        } else if (fullName.length() < 2) {
-            tilFullName.setError("Full name must be at least 2 characters");
+        if (etFullName.getText().toString().trim().isEmpty()) {
+            etFullName.setError("Full name is required");
+            etFullName.requestFocus();
             isValid = false;
         }
 
         // Validate university ID
-        String universityId = etUniversityId.getText().toString().trim().toUpperCase();
-        if (TextUtils.isEmpty(universityId)) {
-            tilUniversityId.setError("University ID is required");
-            isValid = false;
-        } else if (universityId.length() < 5) {
-            tilUniversityId.setError("University ID must be at least 5 characters");
-            isValid = false;
-        } else if (dbHelper.isUniversityIdExists(universityId)) {
-            tilUniversityId.setError("University ID already exists");
+        if (etUniversityId.getText().toString().trim().isEmpty()) {
+            etUniversityId.setError("University ID is required");
+            etUniversityId.requestFocus();
             isValid = false;
         }
 
         // Validate NIC number
-        String nicNumber = etNicNumber.getText().toString().trim();
-        if (TextUtils.isEmpty(nicNumber)) {
-            tilNicNumber.setError("NIC number is required");
-            isValid = false;
-        } else if (!isValidNIC(nicNumber)) {
-            tilNicNumber.setError("Invalid NIC number format");
+        if (etNicNumber.getText().toString().trim().isEmpty()) {
+            etNicNumber.setError("NIC number is required");
+            etNicNumber.requestFocus();
             isValid = false;
         }
 
         // Validate gender
-        String gender = dropdownGender.getText().toString().trim();
-        if (TextUtils.isEmpty(gender)) {
-            tilGender.setError("Gender is required");
+        if (dropdownGender.getText().toString().trim().isEmpty()) {
+            dropdownGender.setError("Please select gender");
+            dropdownGender.requestFocus();
             isValid = false;
         }
 
         // Validate date of birth
-        String dateOfBirth = etDateOfBirth.getText().toString().trim();
-        if (TextUtils.isEmpty(dateOfBirth)) {
-            tilDateOfBirth.setError("Date of birth is required");
+        if (etDateOfBirth.getText().toString().trim().isEmpty()) {
+            etDateOfBirth.setError("Date of birth is required");
+            etDateOfBirth.requestFocus();
             isValid = false;
         }
 
         return isValid;
     }
 
-    private boolean isValidNIC(String nic) {
-        // Sri Lankan NIC validation
-        // Old format: 9 digits + V (e.g., 123456789V)
-        // New format: 12 digits (e.g., 199812345678)
-        return nic.matches("^([0-9]{9}[VXvx]|[0-9]{12})$");
+    private boolean checkForDuplicates() {
+        String universityId = etUniversityId.getText().toString().trim();
+        String nicNumber = etNicNumber.getText().toString().trim();
+
+        // Skip duplicate check if we're editing the same student
+        try {
+            if (dbHelper.isUniversityIdExists(universityId)) {
+                // Check if it's the same student we're editing
+                if (currentStudent.getId() == 0 || !universityId.equals(currentStudent.getUniversityId())) {
+                    etUniversityId.setError("University ID already exists");
+                    etUniversityId.requestFocus();
+                    return true;
+                }
+            }
+
+            if (dbHelper.isNicExists(nicNumber)) {
+                // Check if it's the same student we're editing
+                if (currentStudent.getId() == 0 || !nicNumber.equals(currentStudent.getNicNumber())) {
+                    etNicNumber.setError("NIC number already exists");
+                    etNicNumber.requestFocus();
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error checking duplicates: " + e.getMessage(), e);
+            Toast.makeText(getContext(), "Error validating data", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return false;
+    }
+
+    private void saveBasicInformation() {
+        // Save basic information to student object
+        currentStudent.setFullName(etFullName.getText().toString().trim());
+        currentStudent.setUniversityId(etUniversityId.getText().toString().trim());
+        currentStudent.setNicNumber(etNicNumber.getText().toString().trim());
+        currentStudent.setGender(dropdownGender.getText().toString().trim());
+        currentStudent.setDateOfBirth(etDateOfBirth.getText().toString().trim());
+        currentStudent.setPhotoUri(selectedImageUri);
+
+        Log.d(TAG, "Basic information saved to student object: " + currentStudent.toString());
+    }
+
+    private void navigateToAcademicDetails() {
+        // Implement navigation to the next step
+        Toast.makeText(getContext(), "Proceeding to Academic Details", Toast.LENGTH_SHORT).show();
+
+        // Example of how you might navigate:
+        Bundle args = new Bundle();
+        args.putSerializable("student", currentStudent);
+
+        // Replace with your actual academic details fragment
+        // AcademicDetailsFragment academicFragment = new AcademicDetailsFragment();
+        // academicFragment.setArguments(args);
+        //
+        // getParentFragmentManager().beginTransaction()
+        //     .replace(R.id.fragment_container, academicFragment)
+        //     .addToBackStack(null)
+        //     .commit();
+    }
+
+    private void cancelRegistration() {
+        // Show confirmation dialog
+        new androidx.appcompat.app.AlertDialog.Builder(getContext())
+                .setTitle("Cancel Registration")
+                .setMessage("Are you sure you want to cancel? All entered data will be lost.")
+                .setPositiveButton("Yes, Cancel", (dialog, which) -> {
+                    // Clear all data and navigate back
+                    clearAllData();
+                    // Navigate back to previous screen
+                    getParentFragmentManager().popBackStack();
+                })
+                .setNegativeButton("Continue", null)
+                .show();
+    }
+
+    private void clearAllData() {
+        // Clear form fields
+        etFullName.setText("");
+        etUniversityId.setText("");
+        etNicNumber.setText("");
+        dropdownGender.setText("");
+        etDateOfBirth.setText("");
+
+        // Reset photo
+        ivStudentPhoto.setImageResource(R.drawable.addpropic);
+        selectedImageUri = null;
+
+        // Reset student object
+        currentStudent = new Student();
+    }
+
+    private void showLoading(boolean show) {
+        if (loadingOverlay != null) {
+            loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
     }
 
     private String saveImageToInternalStorage(Uri imageUri) {
         try {
-            // Create a unique filename using timestamp and university ID
-            String fileName = "student_" + System.currentTimeMillis() + "_" +
-                    etUniversityId.getText().toString().trim().replaceAll("[^a-zA-Z0-9]", "") + ".jpg";
-
-            // Create the directory if it doesn't exist
-            File directory = new File(getContext().getFilesDir(), "student_photos");
-            if (!directory.exists()) {
-                directory.mkdirs();
+            // Create student_photos directory if it doesn't exist
+            File photosDir = new File(getContext().getFilesDir(), "student_photos");
+            if (!photosDir.exists()) {
+                boolean created = photosDir.mkdirs();
+                Log.d(TAG, "Photos directory created: " + created);
             }
 
-            // Create the file
-            File file = new File(directory, fileName);
+            // Generate unique filename
+            String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+            String filename = "student_photo_" + timestamp + ".jpg";
+            File imageFile = new File(photosDir, filename);
 
-            // Copy the image from URI to internal storage
+            // Copy image from URI to internal storage
             InputStream inputStream = getContext().getContentResolver().openInputStream(imageUri);
-            FileOutputStream outputStream = new FileOutputStream(file);
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
 
-            // Compress and save the image
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            if (bitmap != null) {
-                // Resize bitmap if too large (optional)
-                Bitmap resizedBitmap = resizeBitmap(bitmap, 800, 800);
-                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
-                resizedBitmap.recycle();
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = inputStream.read(buffer)) > 0) {
+                outputStream.write(buffer, 0, length);
             }
 
-            inputStream.close();
             outputStream.close();
+            inputStream.close();
 
-            Log.d(TAG, "Image saved to: " + file.getAbsolutePath());
-            return file.getAbsolutePath();
-
+            Log.d(TAG, "Image saved to: " + imageFile.getAbsolutePath());
+            return imageFile.getAbsolutePath();
         } catch (IOException e) {
-            Log.e(TAG, "Error saving image", e);
-            Toast.makeText(getContext(), "Failed to save image", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "Error saving image: " + e.getMessage(), e);
+            Toast.makeText(getContext(), "Error saving image", Toast.LENGTH_SHORT).show();
             return null;
         }
     }
 
-    private Bitmap resizeBitmap(Bitmap bitmap, int maxWidth, int maxHeight) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-
-        if (width <= maxWidth && height <= maxHeight) {
-            return bitmap;
-        }
-
-        float scaleWidth = ((float) maxWidth) / width;
-        float scaleHeight = ((float) maxHeight) / height;
-        float scale = Math.min(scaleWidth, scaleHeight);
-
-        int newWidth = Math.round(width * scale);
-        int newHeight = Math.round(height * scale);
-
-        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+    // Getter method for other fragments to access the current student data
+    public Student getCurrentStudent() {
+        return currentStudent;
     }
 
-    private void saveBasicInfo() {
-        // Save image to internal storage if selected
-        if (selectedImageUri != null) {
-            selectedPhotoPath = saveImageToInternalStorage(selectedImageUri);
-            if (selectedPhotoPath == null) {
-                Toast.makeText(getContext(), "Failed to save image. Please try again.", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
-
-        // Set basic info
-        currentStudent.setFullName(etFullName.getText().toString().trim());
-        currentStudent.setUniversityId(etUniversityId.getText().toString().trim().toUpperCase());
-        currentStudent.setNicNumber(etNicNumber.getText().toString().trim().toUpperCase());
-        currentStudent.setGender(dropdownGender.getText().toString().trim());
-        currentStudent.setDateOfBirth(etDateOfBirth.getText().toString().trim());
-        currentStudent.setPhotoPath(selectedPhotoPath);
-
-        // Set placeholder values for required NOT NULL fields
-        currentStudent.setEmail("temp_" + System.currentTimeMillis() + "@placeholder.com");
-        currentStudent.setUsername("temp_user_" + System.currentTimeMillis());
-        currentStudent.setPassword("temp_password");
-        currentStudent.setMobileNumber("0000000000");
-        currentStudent.setTermsAccepted(false);
-        currentStudent.setStatus("DRAFT"); // Mark as draft until all steps completed
-
-        // Set current date as registration date
-        currentStudent.setEnrollmentDate(java.text.DateFormat.getDateTimeInstance().format(new java.util.Date()));
-
-        // Save to database
-        long studentId = dbHelper.addStudent(currentStudent);
-        if (studentId != -1) {
-            currentStudent.setId((int) studentId);
-            Toast.makeText(getContext(), "Basic information and photo saved", Toast.LENGTH_SHORT).show();
-            clearform();
-        } else {
-            Toast.makeText(getContext(), "Failed to save student information", Toast.LENGTH_SHORT).show();
-            // Delete the saved image if database save failed
-            if (selectedPhotoPath != null) {
-                File imageFile = new File(selectedPhotoPath);
-                if (imageFile.exists()) {
-                    imageFile.delete();
-                }
-            }
-        }
+    // Setter method for when returning from other steps
+    public void setCurrentStudent(Student student) {
+        this.currentStudent = student;
+        // Populate fields if coming back to this step
+        populateFieldsFromStudent();
     }
 
-    public void setOnStepCompleteListener(OnStepCompleteListener listener) {
-        this.stepCompleteListener = listener;
-    }
-
-    public void setStudentData(Student student) {
-        if (student != null) {
-            this.currentStudent = student;
-            populateFields();
-        }
-    }
-
-    private void populateFields() {
+    private void populateFieldsFromStudent() {
         if (currentStudent != null) {
             if (currentStudent.getFullName() != null) {
                 etFullName.setText(currentStudent.getFullName());
@@ -401,93 +458,26 @@ public class CreateStudent extends Fragment {
                 etNicNumber.setText(currentStudent.getNicNumber());
             }
             if (currentStudent.getGender() != null) {
-                dropdownGender.setText(currentStudent.getGender(), false);
+                dropdownGender.setText(currentStudent.getGender());
             }
             if (currentStudent.getDateOfBirth() != null) {
                 etDateOfBirth.setText(currentStudent.getDateOfBirth());
             }
-            if (currentStudent.getPhotoPath() != null) {
-                selectedPhotoPath = currentStudent.getPhotoPath();
-                loadImageFromPath(selectedPhotoPath);
+            if (currentStudent.getPhotoUri() != null) {
+                selectedImageUri = currentStudent.getPhotoUri();
+                // Load and display the saved image
+                ivStudentPhoto.setImageURI(Uri.fromFile(new File(selectedImageUri)));
             }
-        }
-    }
 
-    private void loadImageFromPath(String imagePath) {
-        try {
-            if (imagePath != null && !imagePath.isEmpty()) {
-                File imageFile = new File(imagePath);
-                if (imageFile.exists()) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-                    if (bitmap != null) {
-                        ivStudentPhoto.setImageBitmap(bitmap);
-                    }
-                } else {
-                    // Image file doesn't exist, reset to default
-                    ivStudentPhoto.setImageResource(R.drawable.addpropic);
-                }
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Error loading image from path", e);
-            ivStudentPhoto.setImageResource(R.drawable.addpropic);
+            Log.d(TAG, "Fields populated from student: " + currentStudent.toString());
         }
-    }
-
-    private void clearform(){
-        etFullName.setText("");
-        etUniversityId.setText("");
-        etNicNumber.setText("");
-        dropdownGender.setText("");
-        etDateOfBirth.setText("");
-        ivStudentPhoto.setImageResource(R.drawable.addpropic);
-        selectedPhotoPath = null;
-        selectedImageUri = null;
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        populateFields();
-    }
-
-    // Utility method to delete student photo when student is deleted
-    public static void deleteStudentPhoto(String photoPath) {
-        if (photoPath != null && !photoPath.isEmpty()) {
-            File imageFile = new File(photoPath);
-            if (imageFile.exists()) {
-                boolean deleted = imageFile.delete();
-                Log.d(TAG, "Photo deleted: " + deleted + " - " + photoPath);
-            }
-        }
-    }
-
-    private void openAcademicDetailsFragment() {
-        if (getActivity() != null) {
-            try {
-                // Create the academic details fragment
-                AcademicDetails academicDetails = AcademicDetails.newInstance();
-
-                // Pass the current student data to the academic details fragment
-                academicDetails.setStudentData(currentStudent);
-
-                // If you have a step complete listener, pass it to the academic fragment too
-                if (stepCompleteListener != null && academicDetails instanceof OnStepCompleteListener) {
-                    ((OnStepCompleteListener) academicDetails).onStepCompleted(currentStudent, 3);
-                }
-
-                // Replace the current fragment with academic details fragment
-                getActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.framelayout, academicDetails)
-                        .addToBackStack("academic_details") // Allows back navigation
-                        .commit();
-
-                Log.d(TAG, "Navigated to Academic Details Fragment");
-
-            } catch (Exception e) {
-                Log.e(TAG, "Error opening Academic Details Fragment", e);
-                Toast.makeText(getContext(), "Error navigating to next step", Toast.LENGTH_SHORT).show();
-            }
+    public void onDestroy() {
+        super.onDestroy();
+        if (dbHelper != null) {
+            dbHelper.close();
         }
     }
 }

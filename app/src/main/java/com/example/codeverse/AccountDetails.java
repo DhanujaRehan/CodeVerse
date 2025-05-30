@@ -1,7 +1,8 @@
 package com.example.codeverse;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -16,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -29,14 +32,6 @@ import java.util.regex.Pattern;
 
 public class AccountDetails extends Fragment {
 
-    // Interface for communication with parent activity
-    public interface OnAccountInfoListener {
-        void onAccountInfoCompleted(Student accountInfo);
-        void onAccountInfoCancelled();
-        void onNavigateToStep(int step);
-    }
-
-    // UI Components
     private TextInputEditText etEmail, etUsername, etPassword, etConfirmPassword;
     private TextInputLayout tilEmail, tilUsername, tilPassword, tilConfirmPassword;
     private CheckBox checkboxTerms;
@@ -45,69 +40,51 @@ public class AccountDetails extends Fragment {
     private MaterialCardView cvBack, cvHelp;
     private FrameLayout loadingOverlay;
 
-    // Password requirement indicators
     private TextView tvPasswordRequirementLength, tvPasswordRequirementUppercase;
     private TextView tvPasswordRequirementNumber, tvPasswordRequirementSpecial;
     private TextView tvPasswordRequirementMatch;
 
-    // Step indicators
     private LinearLayout cardBasicInfoIndicator, cardAcademicIndicator,
             cardAccountIndicator, cardContactIndicator;
 
-    // Data
-    private Student studentDetails;
-    private OnAccountInfoListener listener;
-    private StudentDatabaseHelper databaseHelper;
+    // Database helper
+    private StudentDatabaseHelper dbHelper;
 
-    // Constants
+    // Student ID passed from previous step
+    private long studentId = -1;
+
     private static final String TAG = "AccountDetailsFragment";
+    private static final String ARG_STUDENT_ID = "student_id";
 
-    // Password validation patterns
     private static final Pattern PASSWORD_UPPERCASE = Pattern.compile("[A-Z]");
     private static final Pattern PASSWORD_NUMBER = Pattern.compile("[0-9]");
     private static final Pattern PASSWORD_SPECIAL = Pattern.compile("[^A-Za-z0-9]");
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnAccountInfoListener) {
-            listener = (OnAccountInfoListener) context;
-        } else {
-            throw new RuntimeException(context.toString() + " must implement OnAccountInfoListener");
-        }
+    public static AccountDetails newInstance(long studentId) {
+        AccountDetails fragment = new AccountDetails();
+        Bundle args = new Bundle();
+        args.putLong(ARG_STUDENT_ID, studentId);
+        fragment.setArguments(args);
+        return fragment;
     }
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Initialize database helper
-        databaseHelper = StudentDatabaseHelper.getInstance(requireContext());
-
-        // Get student details from arguments
-        if (getArguments() != null) {
-            studentDetails = getArguments().getParcelable("student_details");
-        }
-
-        if (studentDetails == null) {
-            studentDetails = new Student();
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_details, container, false);
 
-        // Initialize UI components
+        // Get student ID from arguments
+        if (getArguments() != null) {
+            studentId = getArguments().getLong(ARG_STUDENT_ID, -1);
+        }
+
+        // Initialize database helper
+        dbHelper = new StudentDatabaseHelper(getContext());
+
         initializeViews(view);
-
-        // Set up click listeners
         setupClickListeners();
-
-        // Set up text change listeners for validation
         setupTextChangeListeners();
-
-        // Populate fields with existing data
         populateFieldsFromData();
 
         return view;
@@ -115,44 +92,36 @@ public class AccountDetails extends Fragment {
 
     private void initializeViews(View view) {
         try {
-            // Input fields
             etEmail = view.findViewById(R.id.et_email);
             etUsername = view.findViewById(R.id.et_username);
             etPassword = view.findViewById(R.id.et_password);
             etConfirmPassword = view.findViewById(R.id.et_confirm_password);
 
-            // TextInputLayouts for validation
             tilEmail = view.findViewById(R.id.til_email);
             tilUsername = view.findViewById(R.id.til_username);
             tilPassword = view.findViewById(R.id.til_password);
             tilConfirmPassword = view.findViewById(R.id.til_confirm_password);
 
-            // Checkbox and terms
             checkboxTerms = view.findViewById(R.id.checkbox_terms);
             tvTerms = view.findViewById(R.id.tv_terms);
 
-            // Password requirement indicators
             tvPasswordRequirementLength = view.findViewById(R.id.tv_password_requirement_length);
             tvPasswordRequirementUppercase = view.findViewById(R.id.tv_password_requirement_uppercase);
             tvPasswordRequirementNumber = view.findViewById(R.id.tv_password_requirement_number);
             tvPasswordRequirementSpecial = view.findViewById(R.id.tv_password_requirement_special);
             tvPasswordRequirementMatch = view.findViewById(R.id.tv_password_requirement_match);
 
-            // Buttons
             btnNextStep = view.findViewById(R.id.btn_next_step);
             btnCancel = view.findViewById(R.id.btn_cancel);
 
-            // Navigation components
             cvBack = view.findViewById(R.id.cv_back);
             cvHelp = view.findViewById(R.id.cv_help);
 
-            // Step indicators
             cardBasicInfoIndicator = view.findViewById(R.id.card_basic_info_indicator);
             cardAcademicIndicator = view.findViewById(R.id.card_academic_indicator);
             cardAccountIndicator = view.findViewById(R.id.card_account_indicator);
             cardContactIndicator = view.findViewById(R.id.card_contact_indicator);
 
-            // Loading overlay
             loadingOverlay = view.findViewById(R.id.loading_overlay);
         } catch (Exception e) {
             Log.e(TAG, "Error initializing views: " + e.getMessage());
@@ -161,87 +130,72 @@ public class AccountDetails extends Fragment {
     }
 
     private void setupClickListeners() {
-        // Back button click listener
-        cvBack.setOnClickListener(v -> requireActivity().onBackPressed());
+        cvBack.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
 
-        // Help button click listener
         cvHelp.setOnClickListener(v -> showHelpDialog());
 
-        // Terms and conditions click listener
         tvTerms.setOnClickListener(v -> showTermsDialog());
 
-        // Step indicators click listeners for navigation
-        cardBasicInfoIndicator.setOnClickListener(v -> listener.onNavigateToStep(1));
-        cardAcademicIndicator.setOnClickListener(v -> listener.onNavigateToStep(2));
-        cardContactIndicator.setOnClickListener(v -> {
-            if (validateInputs()) {
-                saveCurrentStepData();
-                listener.onNavigateToStep(4);
-            }
-        });
-
-        // Next step button click listener
         btnNextStep.setOnClickListener(v -> {
             if (validateInputs()) {
-                saveCurrentStepData();
-                listener.onAccountInfoCompleted(studentDetails);
+                saveAccountDetails();
             }
         });
 
-        // Cancel button click listener
         btnCancel.setOnClickListener(v -> {
-            new AlertDialog.Builder(requireContext())
+            new AlertDialog.Builder(getContext())
                     .setTitle("Cancel Student Creation")
                     .setMessage("Are you sure you want to cancel? All entered information will be lost.")
-                    .setPositiveButton("Yes", (dialog, which) -> listener.onAccountInfoCancelled())
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // Delete the student record if it exists
+                        if (studentId != -1) {
+                            dbHelper.deleteStudent(studentId);
+                        }
+                        if (getActivity() != null) {
+                            getActivity().finish();
+                        }
+                    })
                     .setNegativeButton("No", null)
                     .show();
         });
     }
 
     private void setupTextChangeListeners() {
-        // Create a generic TextWatcher for clearing errors when text changes
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Not needed
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Clear errors when text changes
                 clearErrors();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Not needed
             }
         };
 
-        // Apply the TextWatcher to email and username fields
         etEmail.addTextChangedListener(textWatcher);
         etUsername.addTextChangedListener(textWatcher);
 
-        // Password fields need special handling for requirement indicators
         TextWatcher passwordWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Not needed
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Clear errors when text changes
                 clearErrors();
-
-                // Update password requirements
                 updatePasswordRequirements();
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                // Not needed
             }
         };
 
@@ -250,7 +204,6 @@ public class AccountDetails extends Fragment {
     }
 
     private void clearErrors() {
-        // Clear all error messages
         tilEmail.setError(null);
         tilUsername.setError(null);
         tilPassword.setError(null);
@@ -261,30 +214,25 @@ public class AccountDetails extends Fragment {
         String password = etPassword.getText() != null ? etPassword.getText().toString() : "";
         String confirmPassword = etConfirmPassword.getText() != null ? etConfirmPassword.getText().toString() : "";
 
-        int successColor = ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark);
-        int failureColor = ContextCompat.getColor(requireContext(), android.R.color.darker_gray);
+        int successColor = ContextCompat.getColor(getContext(), android.R.color.holo_green_dark);
+        int failureColor = ContextCompat.getColor(getContext(), android.R.color.darker_gray);
 
-        // Length requirement
         boolean lengthMet = password.length() >= 8;
         tvPasswordRequirementLength.setTextColor(lengthMet ? successColor : failureColor);
         tvPasswordRequirementLength.setText(lengthMet ? "✓ At least 8 characters" : "• At least 8 characters");
 
-        // Uppercase requirement
         boolean uppercaseMet = PASSWORD_UPPERCASE.matcher(password).find();
         tvPasswordRequirementUppercase.setTextColor(uppercaseMet ? successColor : failureColor);
         tvPasswordRequirementUppercase.setText(uppercaseMet ? "✓ At least one uppercase letter" : "• At least one uppercase letter");
 
-        // Number requirement
         boolean numberMet = PASSWORD_NUMBER.matcher(password).find();
         tvPasswordRequirementNumber.setTextColor(numberMet ? successColor : failureColor);
         tvPasswordRequirementNumber.setText(numberMet ? "✓ At least one number" : "• At least one number");
 
-        // Special character requirement
         boolean specialMet = PASSWORD_SPECIAL.matcher(password).find();
         tvPasswordRequirementSpecial.setTextColor(specialMet ? successColor : failureColor);
         tvPasswordRequirementSpecial.setText(specialMet ? "✓ At least one special character" : "• At least one special character");
 
-        // Password match requirement
         boolean passwordsMatch = !password.isEmpty() && password.equals(confirmPassword);
         tvPasswordRequirementMatch.setTextColor(passwordsMatch ? successColor : failureColor);
         tvPasswordRequirementMatch.setText(passwordsMatch ? "✓ Passwords match" : "• Passwords match");
@@ -301,10 +249,9 @@ public class AccountDetails extends Fragment {
             tilEmail.setError("Please enter a valid email address");
             isValid = false;
         } else {
-            // Check if email already exists (excluding current student)
-            long excludeId = studentDetails != null ? studentDetails.getId() : -1;
-            if (databaseHelper.isEmailExists(etEmail.getText().toString(), excludeId)) {
-                tilEmail.setError("Email already exists");
+            String email = etEmail.getText().toString().trim();
+            if (dbHelper.isEmailExists(email)) {
+                tilEmail.setError("This email is already registered");
                 isValid = false;
             }
         }
@@ -316,6 +263,12 @@ public class AccountDetails extends Fragment {
         } else if (etUsername.getText().toString().length() < 5) {
             tilUsername.setError("Username must be at least 5 characters");
             isValid = false;
+        } else {
+            String username = etUsername.getText().toString().trim();
+            if (dbHelper.isUsernameExists(username)) {
+                tilUsername.setError("This username is already taken");
+                isValid = false;
+            }
         }
 
         // Validate password
@@ -326,7 +279,6 @@ public class AccountDetails extends Fragment {
             tilPassword.setError("Password is required");
             isValid = false;
         } else {
-            // Check password requirements
             boolean lengthMet = password.length() >= 8;
             boolean uppercaseMet = PASSWORD_UPPERCASE.matcher(password).find();
             boolean numberMet = PASSWORD_NUMBER.matcher(password).find();
@@ -356,8 +308,58 @@ public class AccountDetails extends Fragment {
         return isValid;
     }
 
+    private void saveAccountDetails() {
+        // Show loading
+        loadingOverlay.setVisibility(View.VISIBLE);
+
+        try {
+            if (studentId == -1) {
+                loadingOverlay.setVisibility(View.GONE);
+                showToast("Error: Student ID not found");
+                return;
+            }
+
+            // Get input values
+            String email = etEmail.getText().toString().trim();
+            String username = etUsername.getText().toString().trim();
+            String password = etPassword.getText().toString().trim();
+            boolean termsAccepted = checkboxTerms.isChecked();
+
+            // Update account details in database
+            int result = dbHelper.updateStudentAccountDetails(studentId, email, username,
+                    password, termsAccepted);
+
+            // Simulate some processing time
+            new Handler().postDelayed(() -> {
+                loadingOverlay.setVisibility(View.GONE);
+
+                if (result > 0) {
+                    showToast("Account details saved successfully!");
+
+                    // Navigate to Contact Details Fragment
+                    if (getActivity() != null) {
+                        ContactDetails contactFragment = ContactDetails.newInstance(studentId);
+
+                        getActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.framelayout, contactFragment)
+                                .addToBackStack(null)
+                                .commit();
+                    }
+                } else {
+                    showToast("Failed to save account details. Please try again.");
+                }
+            }, 1500);
+
+        } catch (Exception e) {
+            loadingOverlay.setVisibility(View.GONE);
+            Log.e(TAG, "Error saving account details: " + e.getMessage());
+            showToast("An error occurred while saving data");
+        }
+    }
+
     private void showTermsDialog() {
-        new AlertDialog.Builder(requireContext())
+        new AlertDialog.Builder(getContext())
                 .setTitle("Terms of Service & Privacy Policy")
                 .setMessage("These are the terms and conditions for using the Student Management System...\n\n" +
                         "1. Your data will be collected and stored securely.\n" +
@@ -375,7 +377,7 @@ public class AccountDetails extends Fragment {
     }
 
     private void showHelpDialog() {
-        new AlertDialog.Builder(requireContext())
+        new AlertDialog.Builder(getContext())
                 .setTitle("Account Setup")
                 .setMessage("This form creates your student account credentials:\n\n" +
                         "• Enter your email address (will be used for notifications)\n" +
@@ -388,38 +390,35 @@ public class AccountDetails extends Fragment {
     }
 
     private void populateFieldsFromData() {
-        if (studentDetails != null) {
-            if (studentDetails.getEmail() != null) {
-                etEmail.setText(studentDetails.getEmail());
-            }
+        if (studentId == -1) return;
 
-            if (studentDetails.getUsername() != null) {
-                etUsername.setText(studentDetails.getUsername());
-            }
+        try {
+            // Get existing student data from database
+            Student student = dbHelper.getStudentById(studentId);
 
-            if (studentDetails.getPassword() != null) {
-                etPassword.setText(studentDetails.getPassword());
-                etConfirmPassword.setText(studentDetails.getPassword());
-            }
+            if (student != null) {
+                // Populate fields with existing account data if available
+                if (student.getEmail() != null && !student.getEmail().isEmpty()) {
+                    etEmail.setText(student.getEmail());
+                }
 
-            if (studentDetails.isTermsAccepted()) {
-                checkboxTerms.setChecked(true);
-            }
+                if (student.getUsername() != null && !student.getUsername().isEmpty()) {
+                    etUsername.setText(student.getUsername());
+                }
 
-            // Update password requirements
-            updatePasswordRequirements();
+                if (student.getPassword() != null && !student.getPassword().isEmpty()) {
+                    etPassword.setText(student.getPassword());
+                    etConfirmPassword.setText(student.getPassword());
+                }
+
+                checkboxTerms.setChecked(student.isTermsAccepted());
+
+                // Update password requirements display
+                updatePasswordRequirements();
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error populating fields: " + e.getMessage());
         }
-    }
-
-    private void saveCurrentStepData() {
-        // Save account details
-        studentDetails.setEmail(etEmail.getText().toString());
-        studentDetails.setUsername(etUsername.getText().toString());
-        studentDetails.setPassword(etPassword.getText().toString());
-        studentDetails.setTermsAccepted(checkboxTerms.isChecked());
-
-        // Save to database
-        databaseHelper.insertOrUpdateStudent(studentDetails);
     }
 
     private void showToast(String message) {
@@ -427,8 +426,10 @@ public class AccountDetails extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        listener = null;
+    public void onDestroy() {
+        super.onDestroy();
+        if (dbHelper != null) {
+            dbHelper.close();
+        }
     }
 }
