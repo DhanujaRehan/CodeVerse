@@ -1,5 +1,6 @@
 package com.example.codeverse;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -74,6 +75,7 @@ public class ClassScheduleHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    @SuppressLint("Range")
     public List<ScheduleModel> getSchedulesByDate(String date, boolean isStudentSchedule) {
         List<ScheduleModel> schedules = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -85,7 +87,7 @@ public class ClassScheduleHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                ScheduleModel schedule = new ScheduleModel(
+                @SuppressLint("Range") ScheduleModel schedule = new ScheduleModel(
                         cursor.getString(cursor.getColumnIndex(COL_SUBJECT_NAME)),
                         cursor.getString(cursor.getColumnIndex(COL_MODULE_NUMBER)),
                         cursor.getString(cursor.getColumnIndex(COL_LECTURER_NAME)),

@@ -12,6 +12,10 @@
     <color name="calendar_selected_red">#F44336</color>
     <color name="calendar_selected_gray">#9E9E9E</color>
 
+    <color name="green_light">#E8F5E9</color>
+    <color name="green_primary">#4CAF50</color>
+    <color name="red_light">#FFEBEE</color>
+    <color name="red_primary">#E53935</color>
 
     <color name="success_text">#2E7D32</color>
     <color name="warning_text">#E65100</color>
