@@ -125,7 +125,6 @@ public class NotificationHistoryActivity extends AppCompatActivity implements
         historyList.clear();
         historyList.addAll(dbHelper.getAllNotificationHistory());
 
-        // If no history exists, create some sample data for demonstration
         if (historyList.isEmpty()) {
             createSampleHistory();
         }

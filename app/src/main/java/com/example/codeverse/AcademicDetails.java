@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.codeverse.R;
 import com.example.codeverse.Student;
+import com.example.codeverse.StudentDatabaseHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -41,6 +42,9 @@ public class AcademicDetails extends Fragment {
     private Student currentStudent;
     private Map<String, String[]> facultyDepartmentMap;
 
+    // Database helper
+    private StudentDatabaseHelper databaseHelper;
+
     public interface OnStepCompleteListener {
         void onStepCompleted(Student student, int nextStep);
         void onCancel();
@@ -60,6 +64,9 @@ public class AcademicDetails extends Fragment {
             currentStudent = new Student();
         }
         setupFacultyDepartmentMapping();
+
+        // Initialize database helper
+        databaseHelper = StudentDatabaseHelper.getInstance(getContext());
     }
 
     @Nullable
@@ -101,10 +108,7 @@ public class AcademicDetails extends Fragment {
 
         btnNextStep.setOnClickListener(v -> {
             if (validateInput()) {
-                saveAcademicInfo();
-                if (stepCompleteListener != null) {
-                    stepCompleteListener.onStepCompleted(currentStudent, 3);
-                }
+                saveAcademicInfoToDatabase();
             }
         });
 
@@ -290,14 +294,62 @@ public class AcademicDetails extends Fragment {
         return isValid;
     }
 
-    private void saveAcademicInfo() {
+    private void saveAcademicInfoToDatabase() {
+        // Update the student object with academic details
         currentStudent.setFaculty(dropdownFaculty.getText().toString().trim());
         currentStudent.setDepartment(dropdownDepartment.getText().toString().trim());
         currentStudent.setBatch(etBatch.getText().toString().trim());
         currentStudent.setCurrentSemester(dropdownSemester.getText().toString().trim());
         currentStudent.setEnrollmentDate(etEnrollmentDate.getText().toString().trim());
 
-        Toast.makeText(getContext(), "Academic information saved", Toast.LENGTH_SHORT).show();
+        try {
+            if (currentStudent.getId() > 0) {
+                // Update existing student
+                int rowsUpdated = databaseHelper.updateStudent(currentStudent);
+                if (rowsUpdated > 0) {
+                    Toast.makeText(getContext(), "Academic information updated successfully", Toast.LENGTH_SHORT).show();
+                    // Proceed to next step
+                    if (stepCompleteListener != null) {
+                        stepCompleteListener.onStepCompleted(currentStudent, 3);
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Failed to update academic information", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // This is a new student registration flow
+                // Academic details will be saved when the complete registration is submitted
+                Toast.makeText(getContext(), "Academic information saved", Toast.LENGTH_SHORT).show();
+                if (stepCompleteListener != null) {
+                    stepCompleteListener.onStepCompleted(currentStudent, 3);
+                }
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Error saving academic information: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    /**
+     * Method specifically for updating existing student's academic details
+     */
+    public void saveAcademicDetailsForExistingStudent() {
+        if (validateInput()) {
+            currentStudent.setFaculty(dropdownFaculty.getText().toString().trim());
+            currentStudent.setDepartment(dropdownDepartment.getText().toString().trim());
+            currentStudent.setBatch(etBatch.getText().toString().trim());
+            currentStudent.setCurrentSemester(dropdownSemester.getText().toString().trim());
+            currentStudent.setEnrollmentDate(etEnrollmentDate.getText().toString().trim());
+
+            try {
+                int rowsUpdated = databaseHelper.updateStudent(currentStudent);
+                if (rowsUpdated > 0) {
+                    Toast.makeText(getContext(), "Academic details updated successfully", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Failed to update academic details", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Error updating academic details: " + e.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     public void setOnStepCompleteListener(OnStepCompleteListener listener) {
@@ -336,5 +388,11 @@ public class AcademicDetails extends Fragment {
     public void onResume() {
         super.onResume();
         populateFields();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        databaseHelper = null;
     }
 }

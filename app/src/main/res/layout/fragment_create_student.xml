@@ -124,6 +124,7 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
+                            android:layout_gravity="center"
                             app:cardBackgroundColor="#1A5276"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="2dp">
@@ -133,6 +134,7 @@
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
+                                android:layout_gravity="center"
                                 android:text="1"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp" />
@@ -322,15 +324,16 @@
                             android:orientation="vertical"
                             android:layout_width="100dp"
                             android:layout_height="100dp"
-                            app:cardElevation="8dp"
-                            app:strokeWidth="2dp">
+                            android:background="@drawable/propic_bg">
 
                             <ImageView
                                 android:id="@+id/iv_student_photo"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:scaleType="centerCrop"
-                                android:src="@drawable/addpropic" />
+                                android:background="@drawable/propic_bg"
+                                android:src="@drawable/addpropic"
+                                android:clipToOutline="true"/>
                         </LinearLayout>
                     </FrameLayout>
 

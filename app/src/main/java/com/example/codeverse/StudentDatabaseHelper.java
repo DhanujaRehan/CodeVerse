@@ -6,25 +6,22 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.example.codeverse.Student;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "StudentDatabaseHelper";
-
-    // Database Info
     private static final String DATABASE_NAME = "StudentDetails.db";
     private static final int DATABASE_VERSION = 1;
-
-    // Table Names
     private static final String TABLE_STUDENTS = "StudentsDetails";
-
-    // Student Table Columns
     private static final String KEY_ID = "id";
     private static final String KEY_FULL_NAME = "full_name";
     private static final String KEY_UNIVERSITY_ID = "university_id";
@@ -32,21 +29,15 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_GENDER = "gender";
     private static final String KEY_DATE_OF_BIRTH = "date_of_birth";
     private static final String KEY_PHOTO_PATH = "photo_path";
-
-    // Academic Details
     private static final String KEY_FACULTY = "faculty";
     private static final String KEY_DEPARTMENT = "department";
     private static final String KEY_BATCH = "batch";
     private static final String KEY_CURRENT_SEMESTER = "current_semester";
     private static final String KEY_ENROLLMENT_DATE = "enrollment_date";
-
-    // Account Details
     private static final String KEY_EMAIL = "email";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
     private static final String KEY_TERMS_ACCEPTED = "terms_accepted";
-
-    // Contact Details
     private static final String KEY_MOBILE_NUMBER = "mobile_number";
     private static final String KEY_ALTERNATE_NUMBER = "alternate_number";
     private static final String KEY_PERMANENT_ADDRESS = "permanent_address";
@@ -56,10 +47,8 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_EMERGENCY_CONTACT_NAME = "emergency_contact_name";
     private static final String KEY_EMERGENCY_RELATIONSHIP = "emergency_relationship";
     private static final String KEY_EMERGENCY_CONTACT_NUMBER = "emergency_contact_number";
-
     private static final String KEY_REGISTRATION_DATE = "registration_date";
     private static final String KEY_STATUS = "status";
-
     private static StudentDatabaseHelper instance;
 
     public static synchronized StudentDatabaseHelper getInstance(Context context) {
@@ -118,7 +107,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Insert a student
     public long addStudent(Student student) {
         SQLiteDatabase db = getWritableDatabase();
         long studentId = -1;
@@ -161,11 +149,8 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-
         return studentId;
     }
-
-    // Get all students
     @SuppressLint("Range")
     public List<Student> getAllStudents() {
         List<Student> students = new ArrayList<>();
@@ -217,8 +202,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
         return students;
     }
-
-    // Get student by ID
     @SuppressLint("Range")
     public Student getStudentById(int studentId) {
         SQLiteDatabase db = getReadableDatabase();
@@ -266,8 +249,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
         return student;
     }
-
-    // Check if university ID exists
     public boolean isUniversityIdExists(String universityId) {
         SQLiteDatabase db = getReadableDatabase();
         String selectQuery = "SELECT " + KEY_ID + " FROM " + TABLE_STUDENTS + " WHERE " + KEY_UNIVERSITY_ID + " = ?";
@@ -276,8 +257,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
-
-    // Check if email exists
     public boolean isEmailExists(String email) {
         SQLiteDatabase db = getReadableDatabase();
         String selectQuery = "SELECT " + KEY_ID + " FROM " + TABLE_STUDENTS + " WHERE " + KEY_EMAIL + " = ?";
@@ -286,8 +265,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
-
-    // Check if username exists
     public boolean isUsernameExists(String username) {
         SQLiteDatabase db = getReadableDatabase();
         String selectQuery = "SELECT " + KEY_ID + " FROM " + TABLE_STUDENTS + " WHERE " + KEY_USERNAME + " = ?";
@@ -296,8 +273,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
-
-    // Update student
     public int updateStudent(Student student) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -331,9 +306,78 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return db.update(TABLE_STUDENTS, values, KEY_ID + " = ?", new String[]{String.valueOf(student.getId())});
     }
 
-    // Delete student
+
+    // Add these methods to your StudentDatabaseHelper class
+
     public void deleteStudent(Student student) {
         SQLiteDatabase db = getWritableDatabase();
-        db.delete(TABLE_STUDENTS, KEY_ID + " = ?", new String[]{String.valueOf(student.getId())});
+
+        // Delete the photo file first
+        if (student.getPhotoPath() != null && !student.getPhotoPath().isEmpty()) {
+            File photoFile = new File(student.getPhotoPath());
+            if (photoFile.exists()) {
+                boolean deleted = photoFile.delete();
+                Log.d(TAG, "Photo deleted: " + deleted + " - " + student.getPhotoPath());
+            }
+        }
+
+        // Delete from database
+        int rowsDeleted = db.delete(TABLE_STUDENTS, KEY_ID + " = ?", new String[]{String.valueOf(student.getId())});
+        Log.d(TAG, "Student deleted from database. Rows affected: " + rowsDeleted);
+    }
+
+    // Method to clean up orphaned image files
+    public void cleanupOrphanedImages(Context context) {
+        // Get all photo paths from database
+        List<String> dbPhotoPaths = new ArrayList<>();
+        String query = "SELECT " + KEY_PHOTO_PATH + " FROM " + TABLE_STUDENTS + " WHERE " + KEY_PHOTO_PATH + " IS NOT NULL";
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery(query, null);
+
+        try {
+            if (cursor.moveToFirst()) {
+                do {
+                    String photoPath = cursor.getString(0);
+                    if (photoPath != null && !photoPath.isEmpty()) {
+                        dbPhotoPaths.add(photoPath);
+                    }
+                } while (cursor.moveToNext());
+            }
+        } finally {
+            cursor.close();
+        }
+
+        // Check files in student_photos directory
+        File photosDir = new File(context.getFilesDir(), "student_photos");
+        if (photosDir.exists() && photosDir.isDirectory()) {
+            File[] files = photosDir.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    String filePath = file.getAbsolutePath();
+                    if (!dbPhotoPaths.contains(filePath)) {
+                        // This file is not referenced in database, delete it
+                        boolean deleted = file.delete();
+                        Log.d(TAG, "Orphaned image deleted: " + deleted + " - " + filePath);
+                    }
+                }
+            }
+        }
+    }
+
+    // Method to get student photo as Bitmap
+    public static Bitmap getStudentPhoto(String photoPath) {
+        if (photoPath == null || photoPath.isEmpty()) {
+            return null;
+        }
+
+        try {
+            File imageFile = new File(photoPath);
+            if (imageFile.exists()) {
+                return BitmapFactory.decodeFile(photoPath);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading student photo", e);
+        }
+        return null;
     }
 }

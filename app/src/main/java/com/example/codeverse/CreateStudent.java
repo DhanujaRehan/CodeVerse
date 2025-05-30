@@ -3,10 +3,13 @@ package com.example.codeverse;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +36,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Calendar;
 
 public class CreateStudent extends Fragment {
@@ -53,6 +60,7 @@ public class CreateStudent extends Fragment {
     private Student currentStudent;
     private StudentDatabaseHelper dbHelper;
     private String selectedPhotoPath;
+    private Uri selectedImageUri;
 
     // Activity result launcher for image picking
     private ActivityResultLauncher<Intent> imagePickerLauncher;
@@ -82,11 +90,10 @@ public class CreateStudent extends Fragment {
                     @Override
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                            Uri imageUri = result.getData().getData();
-                            if (imageUri != null) {
-                                ivStudentPhoto.setImageURI(imageUri);
-                                selectedPhotoPath = imageUri.toString();
-                                currentStudent.setPhotoPath(selectedPhotoPath);
+                            selectedImageUri = result.getData().getData();
+                            if (selectedImageUri != null) {
+                                ivStudentPhoto.setImageURI(selectedImageUri);
+                                // Don't set the photo path yet - we'll save it when form is submitted
                             }
                         }
                     }
@@ -140,6 +147,11 @@ public class CreateStudent extends Fragment {
         btnNextStep.setOnClickListener(v -> {
             if (validateInput()) {
                 saveBasicInfo();
+
+                // Always move to academic details fragment after saving
+                openAcademicDetailsFragment();
+
+                // Also notify parent activity if listener exists (for tracking purposes)
                 if (stepCompleteListener != null) {
                     stepCompleteListener.onStepCompleted(currentStudent, 2);
                 }
@@ -149,12 +161,26 @@ public class CreateStudent extends Fragment {
         btnCancel.setOnClickListener(v -> {
             if (stepCompleteListener != null) {
                 stepCompleteListener.onCancel();
+            } else {
+                // If no listener, just finish the activity
+                if (getActivity() != null) {
+                    getActivity().finish();
+                }
             }
         });
 
         cvBack.setOnClickListener(v -> {
             if (stepCompleteListener != null) {
                 stepCompleteListener.onBack();
+            } else {
+                // If no listener, handle back navigation manually
+                if (getActivity() != null) {
+                    if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 0) {
+                        getActivity().getSupportFragmentManager().popBackStack();
+                    } else {
+                        getActivity().finish();
+                    }
+                }
             }
         });
     }
@@ -265,7 +291,70 @@ public class CreateStudent extends Fragment {
         return nic.matches("^([0-9]{9}[VXvx]|[0-9]{12})$");
     }
 
+    private String saveImageToInternalStorage(Uri imageUri) {
+        try {
+            String fileName = "student_" + System.currentTimeMillis() + "_" +
+                    etUniversityId.getText().toString().trim().replaceAll("[^a-zA-Z0-9]", "") + ".jpg";
+
+            File directory = new File(getContext().getFilesDir(), "student_photos");
+            if (!directory.exists()) {
+                directory.mkdirs();
+            }
+
+            File file = new File(directory, fileName);
+
+            InputStream inputStream = getContext().getContentResolver().openInputStream(imageUri);
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            if (bitmap != null) {
+                // Resize bitmap if too large (optional)
+                Bitmap resizedBitmap = resizeBitmap(bitmap, 800, 800);
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream);
+                resizedBitmap.recycle();
+            }
+
+            inputStream.close();
+            outputStream.close();
+
+            Log.d(TAG, "Image saved to: " + file.getAbsolutePath());
+            return file.getAbsolutePath();
+
+        } catch (IOException e) {
+            Log.e(TAG, "Error saving image", e);
+            Toast.makeText(getContext(), "Failed to save image", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
+
+    private Bitmap resizeBitmap(Bitmap bitmap, int maxWidth, int maxHeight) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        if (width <= maxWidth && height <= maxHeight) {
+            return bitmap;
+        }
+
+        float scaleWidth = ((float) maxWidth) / width;
+        float scaleHeight = ((float) maxHeight) / height;
+        float scale = Math.min(scaleWidth, scaleHeight);
+
+        int newWidth = Math.round(width * scale);
+        int newHeight = Math.round(height * scale);
+
+        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true);
+    }
+
     private void saveBasicInfo() {
+        // Save image to internal storage if selected
+        if (selectedImageUri != null) {
+            selectedPhotoPath = saveImageToInternalStorage(selectedImageUri);
+            if (selectedPhotoPath == null) {
+                Toast.makeText(getContext(), "Failed to save image. Please try again.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
         currentStudent.setFullName(etFullName.getText().toString().trim());
         currentStudent.setUniversityId(etUniversityId.getText().toString().trim().toUpperCase());
         currentStudent.setNicNumber(etNicNumber.getText().toString().trim().toUpperCase());
@@ -273,7 +362,32 @@ public class CreateStudent extends Fragment {
         currentStudent.setDateOfBirth(etDateOfBirth.getText().toString().trim());
         currentStudent.setPhotoPath(selectedPhotoPath);
 
-        Toast.makeText(getContext(), "Basic information saved", Toast.LENGTH_SHORT).show();
+        currentStudent.setEmail("temp_" + System.currentTimeMillis() + "@placeholder.com");
+        currentStudent.setUsername("temp_user_" + System.currentTimeMillis());
+        currentStudent.setPassword("temp_password");
+        currentStudent.setMobileNumber("0000000000");
+        currentStudent.setTermsAccepted(false);
+        currentStudent.setStatus("DRAFT"); // Mark as draft until all steps completed
+
+        currentStudent.setRegistrationDate(java.text.DateFormat.getDateTimeInstance().format(new java.util.Date()));
+
+        long studentId = dbHelper.addStudent(currentStudent);
+        if (studentId != -1) {
+            currentStudent.setId((int) studentId);
+            Toast.makeText(getContext(), "Basic information and photo saved", Toast.LENGTH_SHORT).show();
+            clearform();
+
+            openAcademicDetailsFragment();
+
+        } else {
+            Toast.makeText(getContext(), "Failed to save student information", Toast.LENGTH_SHORT).show();
+            if (selectedPhotoPath != null) {
+                File imageFile = new File(selectedPhotoPath);
+                if (imageFile.exists()) {
+                    imageFile.delete();
+                }
+            }
+        }
     }
 
     public void setOnStepCompleteListener(OnStepCompleteListener listener) {
@@ -306,19 +420,86 @@ public class CreateStudent extends Fragment {
             }
             if (currentStudent.getPhotoPath() != null) {
                 selectedPhotoPath = currentStudent.getPhotoPath();
-                try {
-                    Uri imageUri = Uri.parse(selectedPhotoPath);
-                    ivStudentPhoto.setImageURI(imageUri);
-                } catch (Exception e) {
-                    // Handle invalid URI
-                }
+                loadImageFromPath(selectedPhotoPath);
             }
         }
+    }
+
+    private void loadImageFromPath(String imagePath) {
+        try {
+            if (imagePath != null && !imagePath.isEmpty()) {
+                File imageFile = new File(imagePath);
+                if (imageFile.exists()) {
+                    Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+                    if (bitmap != null) {
+                        ivStudentPhoto.setImageBitmap(bitmap);
+                    }
+                } else {
+                    // Image file doesn't exist, reset to default
+                    ivStudentPhoto.setImageResource(R.drawable.addpropic);
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading image from path", e);
+            ivStudentPhoto.setImageResource(R.drawable.addpropic);
+        }
+    }
+
+    private void clearform(){
+        etFullName.setText("");
+        etUniversityId.setText("");
+        etNicNumber.setText("");
+        dropdownGender.setText("");
+        etDateOfBirth.setText("");
+        ivStudentPhoto.setImageResource(R.drawable.addpropic);
+        selectedPhotoPath = null;
+        selectedImageUri = null;
     }
 
     @Override
     public void onResume() {
         super.onResume();
         populateFields();
+    }
+
+    // Utility method to delete student photo when student is deleted
+    public static void deleteStudentPhoto(String photoPath) {
+        if (photoPath != null && !photoPath.isEmpty()) {
+            File imageFile = new File(photoPath);
+            if (imageFile.exists()) {
+                boolean deleted = imageFile.delete();
+                Log.d(TAG, "Photo deleted: " + deleted + " - " + photoPath);
+            }
+        }
+    }
+
+    private void openAcademicDetailsFragment() {
+        if (getActivity() != null) {
+            try {
+                // Create the academic details fragment
+                AcademicDetails academicDetails = AcademicDetails.newInstance();
+
+                // Pass the current student data to the academic details fragment
+                academicDetails.setStudentData(currentStudent);
+
+                // If you have a step complete listener, pass it to the academic fragment too
+                if (stepCompleteListener != null && academicDetails instanceof OnStepCompleteListener) {
+                    ((OnStepCompleteListener) academicDetails).onStepCompleted(currentStudent, 3);
+                }
+
+                // Replace the current fragment with academic details fragment
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.framelayout, academicDetails)
+                        .addToBackStack("academic_details") // Allows back navigation
+                        .commit();
+
+                Log.d(TAG, "Navigated to Academic Details Fragment");
+
+            } catch (Exception e) {
+                Log.e(TAG, "Error opening Academic Details Fragment", e);
+                Toast.makeText(getContext(), "Error navigating to next step", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
