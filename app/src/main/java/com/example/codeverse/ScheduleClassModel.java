@@ -1,6 +1,6 @@
 package com.example.codeverse;
 
-public class ScheduleModel {
+public class ScheduleClassModel {
     private long id;
     private String subjectName;
     private String moduleNumber;
@@ -12,12 +12,12 @@ public class ScheduleModel {
     private boolean isStudentSchedule;
     private String status;
 
-    public ScheduleModel() {
+    public ScheduleClassModel() {
     }
 
-    public ScheduleModel(String subjectName, String moduleNumber, String lecturerName,
-                         String classroom, String startTime, String endTime, String amPm,
-                         boolean isStudentSchedule, String status) {
+    public ScheduleClassModel(String subjectName, String moduleNumber, String lecturerName,
+                              String classroom, String startTime, String endTime, String amPm,
+                              boolean isStudentSchedule, String status) {
         this.subjectName = subjectName;
         this.moduleNumber = moduleNumber;
         this.lecturerName = lecturerName;

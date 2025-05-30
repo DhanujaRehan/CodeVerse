@@ -5,7 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.codeverse.Staff.Models.ScheduleModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,7 +54,7 @@ public class ClassScheduleHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public long insertSchedule(ScheduleModel schedule, String date) {
+    public long insertSchedule(ScheduleClassModel schedule, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
@@ -74,8 +74,8 @@ public class ClassScheduleHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    public List<ScheduleModel> getSchedulesByDate(String date, boolean isStudentSchedule) {
-        List<ScheduleModel> schedules = new ArrayList<>();
+    public List<ScheduleClassModel> getSchedulesByDate(String date, boolean isStudentSchedule) {
+        List<ScheduleClassModel> schedules = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
 
         String selection = COL_DATE + " = ? AND " + COL_IS_STUDENT_SCHEDULE + " = ?";
@@ -86,7 +86,7 @@ public class ClassScheduleHelper extends SQLiteOpenHelper {
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 try {
-                    ScheduleModel schedule = new ScheduleModel(
+                    ScheduleClassModel schedule = new ScheduleClassModel(
                             cursor.getString(cursor.getColumnIndexOrThrow(COL_SUBJECT_NAME)),
                             cursor.getString(cursor.getColumnIndexOrThrow(COL_MODULE_NUMBER)),
                             cursor.getString(cursor.getColumnIndexOrThrow(COL_LECTURER_NAME)),
@@ -110,7 +110,7 @@ public class ClassScheduleHelper extends SQLiteOpenHelper {
         return schedules;
     }
 
-    public int updateSchedule(ScheduleModel schedule, String date) {
+    public int updateSchedule(ScheduleClassModel schedule, String date) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
