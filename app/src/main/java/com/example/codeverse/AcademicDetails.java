@@ -29,6 +29,7 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 public class AcademicDetails extends Fragment {
@@ -62,6 +63,7 @@ public class AcademicDetails extends Fragment {
         Bundle args = new Bundle();
         args.putLong(ARG_STUDENT_ID, studentId);
         fragment.setArguments(args);
+        Log.d("AcademicDetails", "newInstance called with studentId: " + studentId);
         return fragment;
     }
 
@@ -71,13 +73,20 @@ public class AcademicDetails extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_academic_details, container, false);
 
-        // Get student ID from arguments
-        if (getArguments() != null) {
-            studentId = getArguments().getLong(ARG_STUDENT_ID, -1);
-        }
-
-        // Initialize database helper
+        // Initialize database helper first
         dbHelper = new StudentDatabaseHelper(getContext());
+
+        // Get student ID from multiple sources
+        studentId = getStudentIdFromSources();
+
+        Log.d(TAG, "Final resolved studentId: " + studentId);
+
+        // Validate studentId
+        if (studentId == -1 || !isValidStudentId(studentId)) {
+            Log.e(TAG, "Invalid or non-existent studentId: " + studentId);
+            handleInvalidStudentId(view);
+            return view;
+        }
 
         // Initialize UI components
         initializeViews(view);
@@ -95,6 +104,218 @@ public class AcademicDetails extends Fragment {
         populateFieldsFromData();
 
         return view;
+    }
+
+    /**
+     * Get student ID from multiple sources with fallback options
+     */
+    private long getStudentIdFromSources() {
+        long resolvedStudentId = -1;
+
+        // Source 1: Fragment arguments
+        if (getArguments() != null) {
+            resolvedStudentId = getArguments().getLong(ARG_STUDENT_ID, -1);
+            Log.d(TAG, "StudentId from arguments: " + resolvedStudentId);
+            if (resolvedStudentId != -1 && isValidStudentId(resolvedStudentId)) {
+                return resolvedStudentId;
+            }
+        }
+
+        // Source 2: Activity intent extras (if fragment is hosted in an activity with intent data)
+        if (getActivity() != null && getActivity().getIntent() != null) {
+            resolvedStudentId = getActivity().getIntent().getLongExtra(ARG_STUDENT_ID, -1);
+            Log.d(TAG, "StudentId from activity intent: " + resolvedStudentId);
+            if (resolvedStudentId != -1 && isValidStudentId(resolvedStudentId)) {
+                return resolvedStudentId;
+            }
+        }
+
+        // Source 3: Try to get the most recently created student (as a fallback)
+        try {
+            Student mostRecentStudent = getMostRecentlyCreatedStudent();
+            if (mostRecentStudent != null) {
+                resolvedStudentId = mostRecentStudent.getId();
+                Log.d(TAG, "StudentId from most recent student: " + resolvedStudentId);
+                if (isValidStudentId(resolvedStudentId)) {
+                    return resolvedStudentId;
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error getting most recent student: " + e.getMessage());
+        }
+
+        // Source 4: Check if there's a student with incomplete academic details
+        try {
+            Student incompleteStudent = getStudentWithIncompleteAcademicDetails();
+            if (incompleteStudent != null) {
+                resolvedStudentId = incompleteStudent.getId();
+                Log.d(TAG, "StudentId from incomplete academic details: " + resolvedStudentId);
+                if (isValidStudentId(resolvedStudentId)) {
+                    return resolvedStudentId;
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error getting student with incomplete details: " + e.getMessage());
+        }
+
+        Log.w(TAG, "Could not resolve studentId from any source");
+        return -1;
+    }
+
+    /**
+     * Check if the student ID is valid by verifying it exists in the database
+     */
+    private boolean isValidStudentId(long studentId) {
+        if (studentId <= 0) {
+            return false;
+        }
+
+        try {
+            Student student = dbHelper.getStudentById(studentId);
+            boolean isValid = student != null;
+            Log.d(TAG, "StudentId " + studentId + " validation result: " + isValid);
+            return isValid;
+        } catch (Exception e) {
+            Log.e(TAG, "Error validating studentId " + studentId + ": " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Get the most recently created student (fallback method)
+     */
+    private Student getMostRecentlyCreatedStudent() {
+        try {
+            List<Student> allStudents = dbHelper.getAllStudent();
+            if (allStudents != null && !allStudents.isEmpty()) {
+                // Return the last student (assuming they're ordered by creation time or ID)
+                return allStudents.get(allStudents.size() - 1);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error getting most recent student: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Get a student with incomplete academic details (another fallback method)
+     */
+    private Student getStudentWithIncompleteAcademicDetails() {
+        try {
+            List<Student> allStudents = dbHelper.getAllStudent();
+            if (allStudents != null) {
+                for (Student student : allStudents) {
+                    // Check if academic details are missing or incomplete
+                    if (student.getFaculty() == null || student.getFaculty().isEmpty() ||
+                            student.getBatch() == null || student.getBatch().isEmpty()) {
+                        return student;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error getting student with incomplete details: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * Handle invalid student ID scenario
+     */
+    private void handleInvalidStudentId(View view) {
+        // Show error dialog with options
+        new AlertDialog.Builder(getContext())
+                .setTitle("Student ID Error")
+                .setMessage("Unable to find student record. Would you like to:")
+                .setPositiveButton("Start New Registration", (dialog, which) -> {
+                    // Navigate to the first step of registration
+                    navigateToFirstStep();
+                })
+                .setNegativeButton("Go Back", (dialog, which) -> {
+                    if (getActivity() != null) {
+                        getActivity().onBackPressed();
+                    }
+                })
+                .setNeutralButton("Show All Students", (dialog, which) -> {
+                    // Show a list of existing students to choose from
+                    showStudentSelectionDialog();
+                })
+                .setCancelable(false)
+                .show();
+    }
+
+    /**
+     * Navigate to the first step of registration
+     */
+    private void navigateToFirstStep() {
+        if (getActivity() != null) {
+            // Replace with your first registration fragment
+            // BasicDetails basicDetailsFragment = new BasicDetails();
+            // getActivity().getSupportFragmentManager()
+            //         .beginTransaction()
+            //         .replace(R.id.framelayout, basicDetailsFragment)
+            //         .commit();
+
+            // Or finish activity and start registration activity
+            getActivity().finish();
+        }
+    }
+
+    /**
+     * Show dialog to select from existing students
+     */
+    private void showStudentSelectionDialog() {
+        try {
+            List<Student> allStudents = dbHelper.getAllStudent();
+            if (allStudents == null || allStudents.isEmpty()) {
+                showToast("No students found in database");
+                navigateToFirstStep();
+                return;
+            }
+
+            String[] studentNames = new String[allStudents.size()];
+            for (int i = 0; i < allStudents.size(); i++) {
+                Student student = allStudents.get(i);
+                studentNames[i] = student.getFullName() + " (ID: " + student.getId() + ")";
+            }
+
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Select Student")
+                    .setSingleChoiceItems(studentNames, -1, (dialog, which) -> {
+                        Student selectedStudent = allStudents.get(which);
+                        studentId = selectedStudent.getId();
+                        Log.d(TAG, "Student selected from dialog: " + studentId);
+
+                        // Update arguments
+                        Bundle args = getArguments();
+                        if (args == null) {
+                            args = new Bundle();
+                        }
+                        args.putLong(ARG_STUDENT_ID, studentId);
+                        setArguments(args);
+
+                        dialog.dismiss();
+
+                        // Reinitialize the fragment with correct student ID
+                        if (getActivity() != null) {
+                            AcademicDetails newFragment = AcademicDetails.newInstance(studentId);
+                            getActivity().getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.framelayout, newFragment)
+                                    .commit();
+                        }
+                    })
+                    .setNegativeButton("Cancel", (dialog, which) -> {
+                        if (getActivity() != null) {
+                            getActivity().onBackPressed();
+                        }
+                    })
+                    .show();
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error showing student selection dialog: " + e.getMessage());
+            showToast("Error loading students");
+            navigateToFirstStep();
+        }
     }
 
     private void initializeViews(View view) {
@@ -281,12 +502,30 @@ public class AcademicDetails extends Fragment {
         // Show loading
         loadingOverlay.setVisibility(View.VISIBLE);
 
+        // Add comprehensive debugging
+        Log.d(TAG, "saveAcademicDetails called with studentId: " + studentId);
+
         try {
-            if (studentId == -1) {
+            // Double check studentId
+            if (studentId == -1 || studentId <= 0) {
+                Log.e(TAG, "Invalid student ID: " + studentId);
                 loadingOverlay.setVisibility(View.GONE);
-                showToast("Error: Student ID not found");
+                showToast("Error: Invalid student ID. Please restart the registration process.");
+                handleInvalidStudentId(null);
                 return;
             }
+
+            // Verify student exists in database before updating
+            Student existingStudent = dbHelper.getStudentById(studentId);
+            if (existingStudent == null) {
+                Log.e(TAG, "Student not found in database with ID: " + studentId);
+                loadingOverlay.setVisibility(View.GONE);
+                showToast("Error: Student record not found. Please restart the registration process.");
+                handleInvalidStudentId(null);
+                return;
+            }
+
+            Log.d(TAG, "Student found in database: " + existingStudent.getFullName());
 
             // Get input values
             String faculty = dropdownFaculty.getText().toString().trim();
@@ -294,9 +533,15 @@ public class AcademicDetails extends Fragment {
             String semester = dropdownSemester.getText().toString().trim();
             String enrollmentDate = etEnrollmentDate.getText().toString().trim();
 
-            // Update academic details in database (without department)
+            Log.d(TAG, "Updating academic details - Faculty: " + faculty + ", Batch: " + batch +
+                    ", Semester: " + semester + ", Enrollment Date: " + enrollmentDate);
+
+            // Update academic details in database
+            // FIXED: Remove the (int) cast - pass studentId as long
             int result = dbHelper.updateStudentAcademicDetails(studentId, faculty,
                     batch, semester, enrollmentDate);
+
+            Log.d(TAG, "Database update result: " + result);
 
             if (result > 0) {
                 showToast("Academic details saved successfully!");
@@ -320,12 +565,13 @@ public class AcademicDetails extends Fragment {
             } else {
                 loadingOverlay.setVisibility(View.GONE);
                 showToast("Failed to save academic details. Please try again.");
+                Log.e(TAG, "Database update returned 0 rows affected");
             }
 
         } catch (Exception e) {
             loadingOverlay.setVisibility(View.GONE);
-            Log.e(TAG, "Error saving academic details: " + e.getMessage());
-            showToast("An error occurred while saving data");
+            Log.e(TAG, "Error saving academic details: " + e.getMessage(), e);
+            showToast("An error occurred while saving data: " + e.getMessage());
         }
     }
 
@@ -372,13 +618,20 @@ public class AcademicDetails extends Fragment {
     }
 
     private void populateFieldsFromData() {
-        if (studentId == -1) return;
+        if (studentId == -1) {
+            Log.e(TAG, "Cannot populate fields - invalid studentId: " + studentId);
+            return;
+        }
 
         try {
+            Log.d(TAG, "Attempting to populate fields for studentId: " + studentId);
+
             // Get existing student data from database
             Student student = dbHelper.getStudentById(studentId);
 
             if (student != null) {
+                Log.d(TAG, "Student data found, populating fields");
+
                 // Populate fields with existing academic data if available
                 if (student.getFaculty() != null && !student.getFaculty().isEmpty()) {
                     dropdownFaculty.setText(student.getFaculty(), false);
@@ -395,14 +648,18 @@ public class AcademicDetails extends Fragment {
                 if (student.getEnrollmentDate() != null && !student.getEnrollmentDate().isEmpty()) {
                     etEnrollmentDate.setText(student.getEnrollmentDate());
                 }
+            } else {
+                Log.w(TAG, "No student data found for ID: " + studentId);
             }
         } catch (Exception e) {
-            Log.e(TAG, "Error populating fields: " + e.getMessage());
+            Log.e(TAG, "Error populating fields: " + e.getMessage(), e);
         }
     }
 
     private void showToast(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        if (getContext() != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

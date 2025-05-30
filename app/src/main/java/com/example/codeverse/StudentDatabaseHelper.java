@@ -347,10 +347,18 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Update only academic details for a student
+    // Enhanced version of updateStudentAcademicDetails method for debugging
     public int updateStudentAcademicDetails(long studentId, String faculty,
                                             String batch, String semester, String enrollmentDate) {
         SQLiteDatabase db = getWritableDatabase();
         int rowsAffected = 0;
+
+        Log.d(TAG, "updateStudentAcademicDetails called with:");
+        Log.d(TAG, "  studentId: " + studentId);
+        Log.d(TAG, "  faculty: " + faculty);
+        Log.d(TAG, "  batch: " + batch);
+        Log.d(TAG, "  semester: " + semester);
+        Log.d(TAG, "  enrollmentDate: " + enrollmentDate);
 
         db.beginTransaction();
         try {
@@ -361,18 +369,59 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_ENROLLMENT_DATE, enrollmentDate);
             values.put(KEY_UPDATED_AT, getCurrentTimestamp());
 
+            // Add debugging to check what we're updating
+            Log.d(TAG, "Executing update query for student ID: " + studentId);
+
             rowsAffected = db.update(TABLE_STUDENTS, values, KEY_ID + " = ?",
                     new String[]{String.valueOf(studentId)});
 
-            db.setTransactionSuccessful();
-            Log.d(TAG, "Student academic details updated. Rows affected: " + rowsAffected);
+            if (rowsAffected > 0) {
+                db.setTransactionSuccessful();
+                Log.d(TAG, "Student academic details updated successfully. Rows affected: " + rowsAffected);
+
+                // Verify the update by querying the record
+                verifyAcademicUpdate(db, studentId, faculty, batch, semester, enrollmentDate);
+            } else {
+                Log.e(TAG, "No rows affected during update. Student ID might not exist: " + studentId);
+            }
+
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to update student academic details: " + e.getMessage());
+            Log.e(TAG, "Error while trying to update student academic details: " + e.getMessage(), e);
         } finally {
             db.endTransaction();
         }
 
         return rowsAffected;
+    }
+
+    // Helper method to verify the academic details were actually saved
+    private void verifyAcademicUpdate(SQLiteDatabase db, long studentId, String expectedFaculty,
+                                      String expectedBatch, String expectedSemester, String expectedEnrollmentDate) {
+        String verifyQuery = "SELECT " + KEY_FACULTY + ", " + KEY_BATCH + ", " +
+                KEY_SEMESTER + ", " + KEY_ENROLLMENT_DATE +
+                " FROM " + TABLE_STUDENTS + " WHERE " + KEY_ID + " = ?";
+
+        Cursor cursor = db.rawQuery(verifyQuery, new String[]{String.valueOf(studentId)});
+        try {
+            if (cursor.moveToFirst()) {
+                String actualFaculty = cursor.getString(0);
+                String actualBatch = cursor.getString(1);
+                String actualSemester = cursor.getString(2);
+                String actualEnrollmentDate = cursor.getString(3);
+
+                Log.d(TAG, "Verification - Data saved in database:");
+                Log.d(TAG, "  Faculty: " + actualFaculty + " (expected: " + expectedFaculty + ")");
+                Log.d(TAG, "  Batch: " + actualBatch + " (expected: " + expectedBatch + ")");
+                Log.d(TAG, "  Semester: " + actualSemester + " (expected: " + expectedSemester + ")");
+                Log.d(TAG, "  Enrollment Date: " + actualEnrollmentDate + " (expected: " + expectedEnrollmentDate + ")");
+            } else {
+                Log.e(TAG, "Verification failed - No record found for student ID: " + studentId);
+            }
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
     }
 
     // Delete a student by ID

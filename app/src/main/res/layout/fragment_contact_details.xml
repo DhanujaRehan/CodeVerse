@@ -101,15 +101,16 @@
             android:paddingBottom="100dp">
 
             <!-- Progress Steps Card -->
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
+                android:orientation="vertical"
                 android:id="@+id/card_progress_steps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp"
-                app:strokeColor="#33FFFFFF"
-                app:strokeWidth="1dp">
+                android:clipToPadding="true"
+                android:clipToOutline="true"
+                android:backgroundTint="#D0FFFFFF"
+                android:background="@drawable/glass_background"
+                android:padding="12dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -118,7 +119,6 @@
                     android:padding="12dp"
                     android:gravity="center_vertical">
 
-                    <!-- Step 1: Completed -->
                     <LinearLayout
                         android:id="@+id/card_basic_info_indicator"
                         android:layout_width="0dp"
@@ -130,6 +130,7 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
+                            android:layout_gravity="center"
                             app:cardBackgroundColor="#1A5276"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="2dp">
@@ -139,6 +140,7 @@
                                 android:layout_height="match_parent"
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
+                                android:layout_gravity="center"
                                 android:text="1"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp" />
@@ -151,17 +153,17 @@
                             android:fontFamily="@font/poppins_medium"
                             android:text="Basic Info"
                             android:textColor="#1A5276"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <View
+                        android:layout_marginBottom="10dp"
                         android:layout_width="24dp"
                         android:layout_height="2dp"
                         android:background="#1A5276" />
 
-                    <!-- Step 2: Completed -->
                     <LinearLayout
-                        android:id="@+id/card_academic_indicator"
+                        android:id="@+id/card_account_indicator"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -192,17 +194,17 @@
                             android:fontFamily="@font/poppins_medium"
                             android:text="Academic"
                             android:textColor="#1A5276"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <View
+                        android:layout_marginBottom="10dp"
                         android:layout_width="24dp"
                         android:layout_height="2dp"
                         android:background="#1A5276" />
 
-                    <!-- Step 3: Completed -->
                     <LinearLayout
-                        android:id="@+id/card_account_indicator"
+                        android:id="@+id/card_academic_indicator"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -212,7 +214,7 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            app:cardBackgroundColor="#1A5276"
+                            android:backgroundTint="#1A5276"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="2dp">
 
@@ -222,7 +224,7 @@
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
                                 android:text="3"
-                                android:textColor="#FFFFFF"
+                                android:textColor="#FFFF"
                                 android:textSize="16sp" />
                         </com.google.android.material.card.MaterialCardView>
 
@@ -233,15 +235,16 @@
                             android:fontFamily="@font/poppins_medium"
                             android:text="Account"
                             android:textColor="#1A5276"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
 
                     <View
+                        android:layout_marginBottom="10dp"
                         android:layout_width="24dp"
                         android:layout_height="2dp"
                         android:background="#1A5276" />
 
-                     <LinearLayout
+                    <LinearLayout
                         android:id="@+id/card_contact_indicator"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -262,7 +265,7 @@
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
                                 android:text="4"
-                                android:textColor="#FFFFFF"
+                                android:textColor="#FFFF"
                                 android:textSize="16sp" />
                         </com.google.android.material.card.MaterialCardView>
 
@@ -273,10 +276,10 @@
                             android:fontFamily="@font/poppins_medium"
                             android:text="Contact"
                             android:textColor="#1A5276"
-                            android:textSize="12sp" />
+                            android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
              <LinearLayout
                 android:layout_width="match_parent"
@@ -302,8 +305,8 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_contact_info"
+            <LinearLayout
+                android:id="@+id/card_basic_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -311,7 +314,9 @@
                 app:cardCornerRadius="24dp"
                 app:cardElevation="8dp"
                 app:strokeColor="#33FFFFFF"
-                app:strokeWidth="1dp">
+                app:strokeWidth="1dp"
+                android:backgroundTint="#9DFFFFFF"
+                android:background="@drawable/glass_background">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -321,163 +326,207 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
                         android:id="@+id/til_mobile_number"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Mobile Number"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
                         android:layout_marginBottom="16dp"
-                        android:textColorHint="#80333333"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        app:startIconTint="#1A5276">
+                        app:hintEnabled="true"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:clipToOutline="true"
                             android:id="@+id/et_mobile_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Mobile Number"
-                            android:inputType="phone"
-                            android:textColor="#333333" />
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="#222222"
+                            android:padding="12dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
-
                     <com.google.android.material.textfield.TextInputLayout
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
                         android:id="@+id/til_alternate_number"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Alternate Number (Optional)"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
                         android:layout_marginBottom="16dp"
-                        android:textColorHint="#80333333"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        app:startIconTint="#1A5276">
+                        app:hintEnabled="true"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:clipToOutline="true"
                             android:id="@+id/et_alternate_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Alternate Number (Optional)"
-                            android:inputType="phone"
-                            android:textColor="#333333" />
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="#222222"
+                            android:padding="12dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
-
-
                     <com.google.android.material.textfield.TextInputLayout
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
                         android:id="@+id/til_permanent_address"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Permanent Address"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
                         android:layout_marginBottom="16dp"
-                        android:textColorHint="#80333333"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        app:startIconTint="#1A5276">
+                        app:hintEnabled="true"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:clipToOutline="true"
                             android:id="@+id/et_permanent_address"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Permanent Address"
-                            android:inputType="textMultiLine"
-                            android:minLines="2"
-                            android:textColor="#333333" />
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="#222222"
+                            android:padding="12dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
-
-
                     <com.google.android.material.textfield.TextInputLayout
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
                         android:id="@+id/til_city"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="City"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
                         android:layout_marginBottom="16dp"
-                        android:textColorHint="#80333333"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        app:startIconTint="#1A5276">
+                        app:hintEnabled="true"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:clipToOutline="true"
                             android:id="@+id/et_city"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="City"
-                            android:inputType="text"
-                            android:textColor="#333333" />
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="#222222"
+                            android:padding="12dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
-
-
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
                         android:id="@+id/til_province"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
                         android:layout_marginBottom="16dp"
-                        android:textColorHint="#80333333"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeColor="#1A5276"
-                        app:boxStrokeWidth="1dp"
-                        app:hintTextColor="#1A5276"
-                        app:startIconTint="#1A5276">
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent">
 
                         <AutoCompleteTextView
+                            android:padding="12dp"
+                            android:hint="Province"
                             android:id="@+id/dropdown_province"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_medium"
-                            android:hint="Province"
                             android:inputType="none"
                             android:textColor="#333333" />
+
                     </com.google.android.material.textfield.TextInputLayout>
-
-
                     <com.google.android.material.textfield.TextInputLayout
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
                         android:id="@+id/til_postal_code"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColorHint="#80333333"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        app:startIconTint="#1A5276">
+                        android:hint="Postal Code"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
+                        android:layout_marginBottom="16dp"
+                        app:hintEnabled="true"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:clipToOutline="true"
                             android:id="@+id/et_postal_code"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Postal Code"
-                            android:inputType="text"
-                            android:textColor="#333333" />
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="#222222"
+                            android:padding="12dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
+
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
 
             <LinearLayout
@@ -505,8 +554,9 @@
             </LinearLayout>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_emergency_contact"
+
+            <LinearLayout
+                android:id="@+id/card_emergency_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -514,7 +564,9 @@
                 app:cardCornerRadius="24dp"
                 app:cardElevation="8dp"
                 app:strokeColor="#33FFFFFF"
-                app:strokeWidth="1dp">
+                app:strokeWidth="1dp"
+                android:backgroundTint="#9DFFFFFF"
+                android:background="@drawable/glass_background">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -523,85 +575,109 @@
                     android:padding="20dp">
 
 
+
                     <com.google.android.material.textfield.TextInputLayout
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
                         android:id="@+id/til_emergency_name"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Emergency Contact Name"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
                         android:layout_marginBottom="16dp"
-                        android:textColorHint="#80333333"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        app:startIconTint="#1A5276">
+                        app:hintEnabled="true"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:clipToOutline="true"
                             android:id="@+id/et_emergency_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Emergency Contact Name"
-                            android:inputType="textPersonName"
-                            android:textColor="#333333" />
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="#222222"
+                            android:padding="12dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
-
-
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
                         android:id="@+id/til_emergency_relationship"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
                         android:layout_marginBottom="16dp"
-                        android:textColorHint="#80333333"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeColor="#1A5276"
-                        app:boxStrokeWidth="1dp"
-                        app:hintTextColor="#1A5276"
-                        app:startIconTint="#1A5276">
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent">
 
                         <AutoCompleteTextView
+                            android:padding="12dp"
+                            android:hint="Relationship"
                             android:id="@+id/dropdown_emergency_relationship"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_medium"
-                            android:hint="Relationship"
                             android:inputType="none"
                             android:textColor="#333333" />
+
                     </com.google.android.material.textfield.TextInputLayout>
-
-
                     <com.google.android.material.textfield.TextInputLayout
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
                         android:id="@+id/til_emergency_number"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColorHint="#80333333"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        app:startIconTint="#1A5276">
+                        android:hint="Emergency Contact Number"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
+                        android:layout_marginBottom="16dp"
+                        app:hintEnabled="true"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent">
 
                         <com.google.android.material.textfield.TextInputEditText
+                            android:clipToOutline="true"
                             android:id="@+id/et_emergency_number"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Emergency Contact Number"
-                            android:inputType="phone"
-                            android:textColor="#333333" />
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="#222222"
+                            android:padding="12dp"/>
                     </com.google.android.material.textfield.TextInputLayout>
+
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_submit"
