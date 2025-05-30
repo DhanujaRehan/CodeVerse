@@ -1,6 +1,5 @@
 package com.example.codeverse;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -75,7 +74,6 @@ public class ClassScheduleHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    @SuppressLint("Range")
     public List<ScheduleModel> getSchedulesByDate(String date, boolean isStudentSchedule) {
         List<ScheduleModel> schedules = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -85,25 +83,29 @@ public class ClassScheduleHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.query(TABLE_NAME, null, selection, selectionArgs, null, null, COL_START_TIME);
 
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             do {
-                @SuppressLint("Range") ScheduleModel schedule = new ScheduleModel(
-                        cursor.getString(cursor.getColumnIndex(COL_SUBJECT_NAME)),
-                        cursor.getString(cursor.getColumnIndex(COL_MODULE_NUMBER)),
-                        cursor.getString(cursor.getColumnIndex(COL_LECTURER_NAME)),
-                        cursor.getString(cursor.getColumnIndex(COL_CLASSROOM)),
-                        cursor.getString(cursor.getColumnIndex(COL_START_TIME)),
-                        cursor.getString(cursor.getColumnIndex(COL_END_TIME)),
-                        cursor.getString(cursor.getColumnIndex(COL_AM_PM)),
-                        cursor.getInt(cursor.getColumnIndex(COL_IS_STUDENT_SCHEDULE)) == 1,
-                        cursor.getString(cursor.getColumnIndex(COL_STATUS))
-                );
-                schedule.setId(cursor.getLong(cursor.getColumnIndex(COL_ID)));
-                schedules.add(schedule);
+                try {
+                    ScheduleModel schedule = new ScheduleModel(
+                            cursor.getString(cursor.getColumnIndexOrThrow(COL_SUBJECT_NAME)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COL_MODULE_NUMBER)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COL_LECTURER_NAME)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COL_CLASSROOM)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COL_START_TIME)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COL_END_TIME)),
+                            cursor.getString(cursor.getColumnIndexOrThrow(COL_AM_PM)),
+                            cursor.getInt(cursor.getColumnIndexOrThrow(COL_IS_STUDENT_SCHEDULE)) == 1,
+                            cursor.getString(cursor.getColumnIndexOrThrow(COL_STATUS))
+                    );
+                    schedule.setId(cursor.getLong(cursor.getColumnIndexOrThrow(COL_ID)));
+                    schedules.add(schedule);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } while (cursor.moveToNext());
+            cursor.close();
         }
 
-        cursor.close();
         db.close();
         return schedules;
     }
@@ -123,14 +125,20 @@ public class ClassScheduleHelper extends SQLiteOpenHelper {
         values.put(COL_STATUS, schedule.getStatus());
         values.put(COL_DATE, date);
 
-        int result = db.update(TABLE_NAME, values, COL_ID + " = ?", new String[]{String.valueOf(schedule.getId())});
+        String whereClause = COL_ID + " = ?";
+        String[] whereArgs = {String.valueOf(schedule.getId())};
+
+        int result = db.update(TABLE_NAME, values, whereClause, whereArgs);
         db.close();
         return result;
     }
 
     public int deleteSchedule(long id) {
         SQLiteDatabase db = this.getWritableDatabase();
-        int result = db.delete(TABLE_NAME, COL_ID + " = ?", new String[]{String.valueOf(id)});
+        String whereClause = COL_ID + " = ?";
+        String[] whereArgs = {String.valueOf(id)};
+
+        int result = db.delete(TABLE_NAME, whereClause, whereArgs);
         db.close();
         return result;
     }
@@ -145,14 +153,39 @@ public class ClassScheduleHelper extends SQLiteOpenHelper {
 
         Cursor cursor = db.rawQuery(query, selectionArgs);
 
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst()) {
             do {
-                dates.add(cursor.getString(0));
+                try {
+                    dates.add(cursor.getString(0));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             } while (cursor.moveToNext());
+            cursor.close();
         }
 
-        cursor.close();
         db.close();
         return dates;
+    }
+
+    public void clearAllSchedules() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, null, null);
+        db.close();
+    }
+
+    public int getScheduleCount() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT COUNT(*) FROM " + TABLE_NAME;
+        Cursor cursor = db.rawQuery(query, null);
+
+        int count = 0;
+        if (cursor != null && cursor.moveToFirst()) {
+            count = cursor.getInt(0);
+            cursor.close();
+        }
+
+        db.close();
+        return count;
     }
 }
