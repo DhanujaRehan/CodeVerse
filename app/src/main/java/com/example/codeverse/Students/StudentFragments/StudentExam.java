@@ -17,9 +17,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.codeverse.AdmitCardDialog;
+import com.example.codeverse.Students.Activities.AdmitCardDialog;
 import com.example.codeverse.Exam;
-import com.example.codeverse.ExamSchedulingHelper;
+import com.example.codeverse.Students.Helpers.ExamSchedulingHelper;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Adapters.StudentExamAdapter;
 import com.google.android.material.card.MaterialCardView;

@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.Models;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -10,6 +10,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.codeverse.Exam;
+import com.example.codeverse.R;
 import com.google.android.material.card.MaterialCardView;
 import java.util.Calendar;
 

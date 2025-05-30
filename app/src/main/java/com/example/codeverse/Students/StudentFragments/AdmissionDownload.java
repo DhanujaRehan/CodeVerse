@@ -1,6 +1,5 @@
 package com.example.codeverse.Students.StudentFragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.codeverse.AdmitCardDialog;
+import com.example.codeverse.Students.Activities.AdmitCardDialog;
 import com.example.codeverse.Exam;
-import com.example.codeverse.ExamSchedulingHelper;
+import com.example.codeverse.Students.Helpers.ExamSchedulingHelper;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Adapters.StudentExamAdapter;
 import com.google.android.material.button.MaterialButton;
