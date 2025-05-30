@@ -1,66 +1,97 @@
 package com.example.codeverse.Students.StudentFragments;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.example.codeverse.R;
+import com.google.android.material.card.MaterialCardView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link DialogSupport#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class DialogSupport extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private MaterialCardView btnCall;
+    private MaterialCardView btnEmail;
+    private MaterialCardView btnChat;
+    private ImageView btnClose;
 
     public DialogSupport() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DialogSupport.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DialogSupport newInstance(String param1, String param2) {
-        DialogSupport fragment = new DialogSupport();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_dialog_support, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        btnCall = view.findViewById(R.id.btn_call);
+        btnEmail = view.findViewById(R.id.btn_email);
+        btnChat = view.findViewById(R.id.btn_chat);
+        btnClose = view.findViewById(R.id.btn_close);
+
+        setupClickListeners();
+    }
+
+    private void setupClickListeners() {
+        btnClose.setOnClickListener(v -> {
+            if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                getParentFragmentManager().popBackStack();
+            } else if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        btnCall.setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse("content://contacts/people/"));
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Cannot open contacts", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnEmail.setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_SENDTO);
+                intent.setData(Uri.parse("mailto:exam@university.edu"));
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Cannot open email", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnChat.setOnClickListener(v -> {
+            try {
+                Intent intent = new Intent(Intent.ACTION_MAIN);
+                intent.addCategory(Intent.CATEGORY_DEFAULT);
+                intent.setType("vnd.android-dir/mms-sms");
+                startActivity(intent);
+            } catch (Exception e) {
+                Toast.makeText(getContext(), "Cannot open messages", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

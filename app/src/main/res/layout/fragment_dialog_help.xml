@@ -29,13 +29,12 @@
             android:fontFamily="@font/poppins_bold"
             android:layout_marginStart="12dp"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/btn_close"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_close"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            app:tint="#9E9E9E"/>
+            app:tint="#663AB6"/>
     </LinearLayout>
 
     <View

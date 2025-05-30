@@ -106,21 +106,13 @@ public class AdmissionDownload extends Fragment {
     private void setupClickListeners() {
         // Back button click listener
         cvBack.setOnClickListener(view -> {
-            if (listener != null) {
-                listener.onBackPressed();
-            } else {
-                // Fallback navigation
-                navigateBack();
-            }
+            navigateToBack();
+
         });
 
-        // Help button click listener
+        // Help button click listener - UPDATED TO NAVIGATE TO FRAGMENT
         ivHelp.setOnClickListener(view -> {
-            if (listener != null) {
-                listener.onHelpRequested();
-            } else {
-                showHelpDialog();
-            }
+            navigateToHelpFragment();
         });
 
         // Semester selector click listener
@@ -137,23 +129,48 @@ public class AdmissionDownload extends Fragment {
 
         // Support card click listener
         cardSupport.setOnClickListener(view -> {
-            if (listener != null) {
-                listener.onSupportRequested();
-            } else {
-                showSupportDialog();
-            }
+            showSupportDialog();
+
         });
     }
 
-    /**
-     * Show the help dialog
-     */
-    private void showHelpDialog() {
-        if (getContext() != null) {
-            Intent intent = new Intent(getContext(), DialogHelp.class);
-            startActivity(intent);
+    private void navigateToBack() {
+        // Create new instance of ExamAdmissionsFragment
+        StudentExam studentExamFragment = new StudentExam();
+
+        // Navigate to the new fragment
+        if (getParentFragmentManager() != null) {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.framelayout, studentExamFragment) // Make sure to use your actual container ID
+                    .addToBackStack(null) // Add to back stack so user can navigate back
+                    .commit();
         }
     }
+
+
+    private void navigateToHelpFragment() {
+        try {
+            // Create DialogHelp fragment
+            DialogHelp helpFragment = new DialogHelp();
+
+            // Navigate to help fragment
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.framelayout, helpFragment) // Use your container ID
+                    .addToBackStack(null)
+                    .commit();
+
+        } catch (Exception e) {
+            // If something goes wrong, show simple message
+            Toast.makeText(getContext(), "Help not available", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Show the help dialog - UPDATED
+     */
+
 
     /**
      * Show the semester selection dialog
@@ -223,13 +240,16 @@ public class AdmissionDownload extends Fragment {
         currentDialog.show();
     }
 
-    /**
-     * Show the support dialog
-     */
     private void showSupportDialog() {
-        if (getContext() != null) {
-            Intent intent = new Intent(getContext(), DialogSupport.class);
-            startActivity(intent);
+
+        DialogSupport dialogSupport = new DialogSupport();
+
+        if (getParentFragmentManager() != null) {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.framelayout, dialogSupport)
+                    .addToBackStack(null)
+                    .commit();
         }
     }
 
@@ -237,31 +257,26 @@ public class AdmissionDownload extends Fragment {
      * Refresh admission cards based on selected semester
      */
     private void refreshAdmissionCards(String semester) {
-        // This would typically fetch new data from your database
-        // For this example, we'll just update the existing data
 
-        // Show loading animation
         showToast("Loading admission cards for " + semester);
 
-        // Simulate loading delay
+
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            // Create updated admission cards based on semester
             List<AdmissionCardModel> updatedCards;
 
             if ("All".equals(semester)) {
-                // Show more cards for all semesters
                 updatedCards = createHardcodedAdmissionCards();
                 updatedCards.addAll(createPastAdmissionCards());
             } else {
-                // Show only cards for current semester
+
                 updatedCards = createHardcodedAdmissionCards();
             }
 
-            // Update adapter with new cards
+
             AdmissionCardAdapter adapter = new AdmissionCardAdapter(updatedCards);
             rvAdmissionCards.setAdapter(adapter);
 
-        }, 500); // Short delay to simulate loading
+        }, 500);
     }
 
     /**
