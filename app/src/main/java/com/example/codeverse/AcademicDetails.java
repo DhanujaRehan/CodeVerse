@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.codeverse.R;
-import com.example.codeverse.Student;
+import com.example.codeverse.AcademicDetails;
 import com.example.codeverse.StudentDatabaseHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;

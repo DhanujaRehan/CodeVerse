@@ -31,7 +31,7 @@ public class AccountDetails extends Fragment {
 
     // Interface for communication with parent activity
     public interface OnAccountInfoListener {
-        void onAccountInfoCompleted(StudentDetails accountInfo);
+        void onAccountInfoCompleted(Student accountInfo);
         void onAccountInfoCancelled();
         void onNavigateToStep(int step);
     }
@@ -55,7 +55,7 @@ public class AccountDetails extends Fragment {
             cardAccountIndicator, cardContactIndicator;
 
     // Data
-    private StudentDetails studentDetails;
+    private Student studentDetails;
     private OnAccountInfoListener listener;
     private StudentDatabaseHelper databaseHelper;
 
@@ -90,7 +90,7 @@ public class AccountDetails extends Fragment {
         }
 
         if (studentDetails == null) {
-            studentDetails = new StudentDetails();
+            studentDetails = new Student();
         }
     }
 

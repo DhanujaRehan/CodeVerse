@@ -27,7 +27,7 @@ public class ContactDetails extends Fragment {
 
     // Interface for communication with parent activity
     public interface OnContactInfoListener {
-        void onContactInfoCompleted(StudentDetails contactInfo);
+        void onContactInfoCompleted(Student contactInfo);
         void onContactInfoCancelled();
         void onNavigateToStep(int step);
         void onRegistrationCompleted();
@@ -46,7 +46,7 @@ public class ContactDetails extends Fragment {
     private LottieAnimationView ivBack, ivHelp;
 
     // Data
-    private StudentDetails studentDetails;
+    private Student studentDetails;
     private OnContactInfoListener listener;
     private StudentDatabaseHelper databaseHelper;
 
@@ -86,7 +86,7 @@ public class ContactDetails extends Fragment {
         }
 
         if (studentDetails == null) {
-            studentDetails = new StudentDetails();
+            studentDetails = new Student();
         }
     }
 
@@ -469,8 +469,8 @@ public class ContactDetails extends Fragment {
             if (studentDetails.getPostalCode() != null) {
                 etPostalCode.setText(studentDetails.getPostalCode());
             }
-            if (studentDetails.getEmergencyName() != null) {
-                etEmergencyName.setText(studentDetails.getEmergencyName());
+            if (studentDetails.getEmergencyContactName() != null) {
+                etEmergencyName.setText(studentDetails.getEmergencyContactName());
             }
             if (studentDetails.getEmergencyRelationship() != null) {
                 dropdownEmergencyRelationship.setText(studentDetails.getEmergencyRelationship(), false);
@@ -489,7 +489,7 @@ public class ContactDetails extends Fragment {
         studentDetails.setCity(etCity.getText().toString().trim());
         studentDetails.setProvince(dropdownProvince.getText().toString());
         studentDetails.setPostalCode(etPostalCode.getText().toString().trim());
-        studentDetails.setEmergencyName(etEmergencyName.getText().toString().trim());
+        studentDetails.setEmergencyContactName(etEmergencyName.getText().toString().trim());
         studentDetails.setEmergencyRelationship(dropdownEmergencyRelationship.getText().toString());
         studentDetails.setEmergencyNumber(etEmergencyNumber.getText().toString().trim());
 

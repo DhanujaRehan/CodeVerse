@@ -29,7 +29,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.codeverse.R;
 import com.example.codeverse.StudentDatabaseHelper;
-import com.example.codeverse.Student;
+import com.example.codeverse.CreateStudent;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -147,11 +147,6 @@ public class CreateStudent extends Fragment {
         btnNextStep.setOnClickListener(v -> {
             if (validateInput()) {
                 saveBasicInfo();
-
-                // Always move to academic details fragment after saving
-                openAcademicDetailsFragment();
-
-                // Also notify parent activity if listener exists (for tracking purposes)
                 if (stepCompleteListener != null) {
                     stepCompleteListener.onStepCompleted(currentStudent, 2);
                 }
@@ -161,26 +156,12 @@ public class CreateStudent extends Fragment {
         btnCancel.setOnClickListener(v -> {
             if (stepCompleteListener != null) {
                 stepCompleteListener.onCancel();
-            } else {
-                // If no listener, just finish the activity
-                if (getActivity() != null) {
-                    getActivity().finish();
-                }
             }
         });
 
         cvBack.setOnClickListener(v -> {
             if (stepCompleteListener != null) {
                 stepCompleteListener.onBack();
-            } else {
-                // If no listener, handle back navigation manually
-                if (getActivity() != null) {
-                    if (getActivity().getSupportFragmentManager().getBackStackEntryCount() > 0) {
-                        getActivity().getSupportFragmentManager().popBackStack();
-                    } else {
-                        getActivity().finish();
-                    }
-                }
             }
         });
     }
@@ -293,19 +274,24 @@ public class CreateStudent extends Fragment {
 
     private String saveImageToInternalStorage(Uri imageUri) {
         try {
+            // Create a unique filename using timestamp and university ID
             String fileName = "student_" + System.currentTimeMillis() + "_" +
                     etUniversityId.getText().toString().trim().replaceAll("[^a-zA-Z0-9]", "") + ".jpg";
 
+            // Create the directory if it doesn't exist
             File directory = new File(getContext().getFilesDir(), "student_photos");
             if (!directory.exists()) {
                 directory.mkdirs();
             }
 
+            // Create the file
             File file = new File(directory, fileName);
 
+            // Copy the image from URI to internal storage
             InputStream inputStream = getContext().getContentResolver().openInputStream(imageUri);
             FileOutputStream outputStream = new FileOutputStream(file);
 
+            // Compress and save the image
             Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
             if (bitmap != null) {
                 // Resize bitmap if too large (optional)
@@ -355,6 +341,7 @@ public class CreateStudent extends Fragment {
             }
         }
 
+        // Set basic info
         currentStudent.setFullName(etFullName.getText().toString().trim());
         currentStudent.setUniversityId(etUniversityId.getText().toString().trim().toUpperCase());
         currentStudent.setNicNumber(etNicNumber.getText().toString().trim().toUpperCase());
@@ -362,6 +349,7 @@ public class CreateStudent extends Fragment {
         currentStudent.setDateOfBirth(etDateOfBirth.getText().toString().trim());
         currentStudent.setPhotoPath(selectedPhotoPath);
 
+        // Set placeholder values for required NOT NULL fields
         currentStudent.setEmail("temp_" + System.currentTimeMillis() + "@placeholder.com");
         currentStudent.setUsername("temp_user_" + System.currentTimeMillis());
         currentStudent.setPassword("temp_password");
@@ -369,18 +357,18 @@ public class CreateStudent extends Fragment {
         currentStudent.setTermsAccepted(false);
         currentStudent.setStatus("DRAFT"); // Mark as draft until all steps completed
 
-        currentStudent.setRegistrationDate(java.text.DateFormat.getDateTimeInstance().format(new java.util.Date()));
+        // Set current date as registration date
+        currentStudent.setEnrollmentDate(java.text.DateFormat.getDateTimeInstance().format(new java.util.Date()));
 
+        // Save to database
         long studentId = dbHelper.addStudent(currentStudent);
         if (studentId != -1) {
             currentStudent.setId((int) studentId);
             Toast.makeText(getContext(), "Basic information and photo saved", Toast.LENGTH_SHORT).show();
             clearform();
-
-            openAcademicDetailsFragment();
-
         } else {
             Toast.makeText(getContext(), "Failed to save student information", Toast.LENGTH_SHORT).show();
+            // Delete the saved image if database save failed
             if (selectedPhotoPath != null) {
                 File imageFile = new File(selectedPhotoPath);
                 if (imageFile.exists()) {

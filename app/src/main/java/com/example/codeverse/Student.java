@@ -3,7 +3,7 @@ package com.example.codeverse;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class StudentDetails implements Parcelable {
+public class Student implements Parcelable {
 
     // Primary Key
     private long id;
@@ -47,13 +47,13 @@ public class StudentDetails implements Parcelable {
     private String updatedAt;
 
     // Default constructor
-    public StudentDetails() {
+    public Student() {
         this.id = 0;
         this.termsAccepted = false;
     }
 
     // Constructor with basic information
-    public StudentDetails(String fullName, String universityId, String nicNumber, String gender, String dateOfBirth) {
+    public Student(String fullName, String universityId, String nicNumber, String gender, String dateOfBirth) {
         this();
         this.fullName = fullName;
         this.universityId = universityId;
@@ -63,7 +63,7 @@ public class StudentDetails implements Parcelable {
     }
 
     // Constructor with all basic and academic info
-    public StudentDetails(String fullName, String universityId, String nicNumber, String gender,
+    public Student(String fullName, String universityId, String nicNumber, String gender,
                           String dateOfBirth, String faculty, String department, String batch, String semester) {
         this(fullName, universityId, nicNumber, gender, dateOfBirth);
         this.faculty = faculty;
@@ -73,7 +73,7 @@ public class StudentDetails implements Parcelable {
     }
 
     // Parcelable implementation
-    protected StudentDetails(Parcel in) {
+    protected Student(Parcel in) {
         id = in.readLong();
         fullName = in.readString();
         universityId = in.readString();
@@ -139,15 +139,15 @@ public class StudentDetails implements Parcelable {
         return 0;
     }
 
-    public static final Creator<StudentDetails> CREATOR = new Creator<StudentDetails>() {
+    public static final Creator<Student > CREATOR = new Creator<Student>() {
         @Override
-        public StudentDetails createFromParcel(Parcel in) {
-            return new StudentDetails(in);
+        public Student createFromParcel(Parcel in) {
+            return new Student();
         }
 
         @Override
-        public StudentDetails[] newArray(int size) {
-            return new StudentDetails[size];
+        public Student[] newArray(int size) {
+            return new Student[size];
         }
     };
 
@@ -238,11 +238,11 @@ public class StudentDetails implements Parcelable {
         this.batch = batch != null ? batch.trim() : null;
     }
 
-    public String getSemester() {
+    public String getCurrentSemester() {
         return semester;
     }
 
-    public void setSemester(String semester) {
+    public void setCurrentSemester(String semester) {
         this.semester = semester;
     }
 
@@ -337,11 +337,11 @@ public class StudentDetails implements Parcelable {
     }
 
     // Emergency Contact
-    public String getEmergencyName() {
+    public String getEmergencyContactName() {
         return emergencyName;
     }
 
-    public void setEmergencyName(String emergencyName) {
+    public void setEmergencyContactName(String emergencyName) {
         this.emergencyName = emergencyName != null ? emergencyName.trim() : null;
     }
 
@@ -553,7 +553,7 @@ public class StudentDetails implements Parcelable {
     /**
      * Copy data from another StudentDetails object
      */
-    public void copyFrom(StudentDetails other) {
+    public void copyFrom(Student other) {
         if (other == null) return;
 
         // Copy all non-null fields
@@ -567,7 +567,7 @@ public class StudentDetails implements Parcelable {
         if (other.getFaculty() != null) this.faculty = other.getFaculty();
         if (other.getDepartment() != null) this.department = other.getDepartment();
         if (other.getBatch() != null) this.batch = other.getBatch();
-        if (other.getSemester() != null) this.semester = other.getSemester();
+        if (other.getCurrentSemester() != null) this.semester = other.getCurrentSemester();
         if (other.getEnrollmentDate() != null) this.enrollmentDate = other.getEnrollmentDate();
 
         if (other.getEmail() != null) this.email = other.getEmail();
@@ -582,7 +582,7 @@ public class StudentDetails implements Parcelable {
         if (other.getProvince() != null) this.province = other.getProvince();
         if (other.getPostalCode() != null) this.postalCode = other.getPostalCode();
 
-        if (other.getEmergencyName() != null) this.emergencyName = other.getEmergencyName();
+        if (other.getEmergencyContactName() != null) this.emergencyName = other.getEmergencyContactName();
         if (other.getEmergencyRelationship() != null) this.emergencyRelationship = other.getEmergencyRelationship();
         if (other.getEmergencyNumber() != null) this.emergencyNumber = other.getEmergencyNumber();
     }
@@ -631,7 +631,7 @@ public class StudentDetails implements Parcelable {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
 
-        StudentDetails that = (StudentDetails) obj;
+        Student that = (Student) obj;
 
         // Compare by university ID if both have it
         if (isNotEmpty(this.universityId) && isNotEmpty(that.universityId)) {

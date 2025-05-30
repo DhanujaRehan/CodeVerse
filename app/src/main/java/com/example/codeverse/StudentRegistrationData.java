@@ -93,8 +93,8 @@ public class StudentRegistrationData {
     }
 
     // Convert to StudentDetails object
-    public StudentDetails toStudentDetails() {
-        StudentDetails student = new StudentDetails();
+    public Student toStudentDetails() {
+        Student student = new Student();
 
         // Basic Information
         student.setFullName(fullName);
@@ -108,7 +108,7 @@ public class StudentRegistrationData {
         student.setFaculty(faculty);
         student.setDepartment(department);
         student.setBatch(batch);
-        student.setSemester(semester);
+        student.setCurrentSemester(semester);
         student.setEnrollmentDate(enrollmentDate);
 
         // Account Details
@@ -126,7 +126,7 @@ public class StudentRegistrationData {
         student.setPostalCode(postalCode);
 
         // Emergency Contact
-        student.setEmergencyName(emergencyName);
+        student.setEmergencyContactName(emergencyName);
         student.setEmergencyRelationship(emergencyRelationship);
         student.setEmergencyNumber(emergencyNumber);
 
@@ -134,7 +134,7 @@ public class StudentRegistrationData {
     }
 
     // Load from StudentDetails object
-    public void fromStudentDetails(StudentDetails student) {
+    public void fromStudentDetails(Student student) {
         if (student == null) return;
 
         // Basic Information
@@ -149,7 +149,7 @@ public class StudentRegistrationData {
         faculty = student.getFaculty();
         department = student.getDepartment();
         batch = student.getBatch();
-        semester = student.getSemester();
+        semester = student.getCurrentSemester();
         enrollmentDate = student.getEnrollmentDate();
 
         // Account Details
@@ -167,7 +167,7 @@ public class StudentRegistrationData {
         postalCode = student.getPostalCode();
 
         // Emergency Contact
-        emergencyName = student.getEmergencyName();
+        emergencyName = student.getEmergencyContactName();
         emergencyRelationship = student.getEmergencyRelationship();
         emergencyNumber = student.getEmergencyNumber();
     }

@@ -186,8 +186,8 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
                     student.setPostalCode(cursor.getString(cursor.getColumnIndex(KEY_POSTAL_CODE)));
                     student.setEmergencyContactName(cursor.getString(cursor.getColumnIndex(KEY_EMERGENCY_CONTACT_NAME)));
                     student.setEmergencyRelationship(cursor.getString(cursor.getColumnIndex(KEY_EMERGENCY_RELATIONSHIP)));
-                    student.setEmergencyContactNumber(cursor.getString(cursor.getColumnIndex(KEY_EMERGENCY_CONTACT_NUMBER)));
-                    student.setRegistrationDate(cursor.getString(cursor.getColumnIndex(KEY_REGISTRATION_DATE)));
+                    student.setEmergencyNumber(cursor.getString(cursor.getColumnIndex(KEY_EMERGENCY_CONTACT_NUMBER)));
+                    student.setEnrollmentDate(cursor.getString(cursor.getColumnIndex(KEY_REGISTRATION_DATE)));
                     student.setStatus(cursor.getString(cursor.getColumnIndex(KEY_STATUS)));
 
                     students.add(student);
@@ -236,8 +236,8 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
                 student.setPostalCode(cursor.getString(cursor.getColumnIndex(KEY_POSTAL_CODE)));
                 student.setEmergencyContactName(cursor.getString(cursor.getColumnIndex(KEY_EMERGENCY_CONTACT_NAME)));
                 student.setEmergencyRelationship(cursor.getString(cursor.getColumnIndex(KEY_EMERGENCY_RELATIONSHIP)));
-                student.setEmergencyContactNumber(cursor.getString(cursor.getColumnIndex(KEY_EMERGENCY_CONTACT_NUMBER)));
-                student.setRegistrationDate(cursor.getString(cursor.getColumnIndex(KEY_REGISTRATION_DATE)));
+                student.setEmergencyNumber(cursor.getString(cursor.getColumnIndex(KEY_EMERGENCY_CONTACT_NUMBER)));
+                student.setEnrollmentDate(cursor.getString(cursor.getColumnIndex(KEY_REGISTRATION_DATE)));
                 student.setStatus(cursor.getString(cursor.getColumnIndex(KEY_STATUS)));
             }
         } catch (Exception e) {
@@ -257,7 +257,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return exists;
     }
-    public boolean isEmailExists(String email) {
+    public boolean isEmailExists(String email, long excludeId) {
         SQLiteDatabase db = getReadableDatabase();
         String selectQuery = "SELECT " + KEY_ID + " FROM " + TABLE_STUDENTS + " WHERE " + KEY_EMAIL + " = ?";
         Cursor cursor = db.rawQuery(selectQuery, new String[]{email});
@@ -379,5 +379,8 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             Log.e(TAG, "Error loading student photo", e);
         }
         return null;
+    }
+
+    public void insertOrUpdateStudent(Student studentDetails) {
     }
 }
