@@ -33,7 +33,7 @@ public class AddExamDialog {
 
     private void createDialog() {
         dialog = new Dialog(context);
-        dialog.setContentView(R.layout.add_exam_dialog);
+        dialog.setContentView(R.layout.fragment_add_exam_dialog);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setupViews();
     }

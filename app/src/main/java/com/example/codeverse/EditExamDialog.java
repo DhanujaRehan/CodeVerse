@@ -37,7 +37,7 @@ public class EditExamDialog {
 
     private void createDialog() {
         dialog = new Dialog(context);
-        dialog.setContentView(R.layout.edit_exam);
+        dialog.setContentView(R.layout.fragment_edit_exam_dialog);
         dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         setupViews();
     }
