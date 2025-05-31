@@ -276,7 +276,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-             <LinearLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
@@ -486,7 +486,7 @@
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-            <!-- Password Requirements Card -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_password_requirements"
                 android:layout_width="match_parent"
@@ -569,7 +569,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Next Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_next_step"
                 android:layout_width="match_parent"
@@ -584,7 +583,6 @@
                 app:iconGravity="end"
                 app:iconTint="#FFFFFF" />
 
-            <!-- Cancel Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_cancel"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -602,7 +600,6 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Loading Overlay -->
     <FrameLayout
         android:id="@+id/loading_overlay"
         android:layout_width="match_parent"
