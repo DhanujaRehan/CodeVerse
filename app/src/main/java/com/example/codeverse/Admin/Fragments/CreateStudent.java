@@ -47,12 +47,9 @@ public class CreateStudent extends Fragment {
 
     private static final String TAG = "CreateStudent";
     private static final String ARG_STUDENT_ID = "student_id";
-
     private StudentDatabaseHelper dbHelper;
     private Student currentStudent;
     private long studentId = -1;
-
-    // Views from XML layout
     private ImageView ivStudentPhoto;
     private FloatingActionButton fabAddPhoto;
     private TextInputEditText etFullName;
@@ -72,7 +69,6 @@ public class CreateStudent extends Fragment {
     private String selectedImageUri = null;
     private Calendar calendar = Calendar.getInstance();
 
-    // Initialize image picker launcher
     private ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -80,7 +76,6 @@ public class CreateStudent extends Fragment {
                     Uri selectedImageUri = result.getData().getData();
                     if (selectedImageUri != null) {
                         ivStudentPhoto.setImageURI(selectedImageUri);
-                        // Save the image and get the file path
                         String savedImagePath = saveImageToInternalStorage(selectedImageUri);
                         if (savedImagePath != null) {
                             this.selectedImageUri = savedImagePath;
@@ -101,15 +96,11 @@ public class CreateStudent extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize database helper
         dbHelper = new StudentDatabaseHelper(getContext());
 
-        // Get student ID from arguments if provided
         if (getArguments() != null) {
             studentId = getArguments().getLong(ARG_STUDENT_ID, -1);
         }
-
-        // Check if we're editing an existing student or creating new
         Bundle args = getArguments();
         if (args != null && args.containsKey("student")) {
             currentStudent = (Student) args.getSerializable("student");
@@ -130,20 +121,10 @@ public class CreateStudent extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_create_student, container, false);
-
-        // Initialize views
         initializeViews(view);
-
-        // Set up click listeners
         setupClickListeners();
-
-        // Setup text change listeners
         setupTextChangeListeners();
-
-        // Setup gender dropdown
         setupGenderDropdown();
-
-        // Populate fields if editing existing student
         populateFieldsFromStudent();
 
         return view;
@@ -151,7 +132,6 @@ public class CreateStudent extends Fragment {
 
     private void initializeViews(View view) {
         try {
-            // Initialize views with exact IDs from XML
             ivStudentPhoto = view.findViewById(R.id.iv_student_photo);
             fabAddPhoto = view.findViewById(R.id.fab_add_photo);
             etFullName = view.findViewById(R.id.et_full_name);
@@ -160,7 +140,6 @@ public class CreateStudent extends Fragment {
             dropdownGender = view.findViewById(R.id.dropdown_gender);
             etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
 
-            // Initialize TextInputLayouts for error handling
             tilFullName = view.findViewById(R.id.til_full_name);
             tilUniversityId = view.findViewById(R.id.til_university_id);
             tilNicNumber = view.findViewById(R.id.til_nic_number);
@@ -177,20 +156,16 @@ public class CreateStudent extends Fragment {
     }
 
     private void setupClickListeners() {
-        // Photo selection
         fabAddPhoto.setOnClickListener(v -> openImagePicker());
 
-        // Date picker for date of birth
         etDateOfBirth.setOnClickListener(v -> showDatePicker());
 
-        // Next step button
         btnNextStep.setOnClickListener(v -> {
             if (validateBasicInformation()) {
                 proceedToNextStep();
             }
         });
 
-        // Cancel button
         btnCancel.setOnClickListener(v -> cancelRegistration());
 
     }
@@ -257,56 +232,43 @@ public class CreateStudent extends Fragment {
                 calendar.get(Calendar.DAY_OF_MONTH)
         );
 
-        // Set maximum date to today (can't select future dates)
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
         datePickerDialog.show();
     }
 
     private void proceedToNextStep() {
-        // Check for duplicate values
         if (checkForDuplicates()) {
             return;
         }
 
-        // Show loading
         showLoading(true);
 
-        // Save basic information to current student object
         saveBasicInformation();
 
-        // Save to database with partial data using Handler for smooth UI
         new Handler().postDelayed(() -> {
             try {
                 long resultId;
                 if (currentStudent.getId() > 0) {
-                    // Update existing student
                     int rowsAffected = dbHelper.updateStudent(currentStudent);
                     resultId = currentStudent.getId();
                     Log.d(TAG, "Student updated in database. Rows affected: " + rowsAffected);
                 } else {
-                    // Insert new student
                     resultId = dbHelper.insertStudent(currentStudent);
                     currentStudent.setId(resultId);
                     Log.d(TAG, "Student saved to database with ID: " + resultId);
                 }
 
-                // Hide loading
                 showLoading(false);
 
                 if (resultId > 0) {
                     showToast("Basic information saved successfully!");
 
-                    // Clear form after successful save
-                    clearForm();
-
-                    // Navigate to next step (Academic Details)
                     navigateToAcademicDetails();
                 } else {
                     Log.e(TAG, "Failed to save student to database");
                     showToast("Failed to save student information");
                 }
             } catch (Exception e) {
-                // Hide loading
                 showLoading(false);
                 Log.e(TAG, "Error saving student: " + e.getMessage(), e);
                 showToast("Error saving student: " + e.getMessage());
@@ -321,29 +283,23 @@ public class CreateStudent extends Fragment {
             return;
         }
 
-        // Show loading
         showLoading(true);
 
-        // Save basic information to current student object
         saveBasicInformation();
 
-        // Save to database using Handler for smooth UI
         new Handler().postDelayed(() -> {
             try {
                 long resultId;
                 if (currentStudent.getId() > 0) {
-                    // Update existing student
                     int rowsAffected = dbHelper.updateStudent(currentStudent);
                     resultId = currentStudent.getId();
                     Log.d(TAG, "Student updated in database. Rows affected: " + rowsAffected);
                 } else {
-                    // Insert new student
                     resultId = dbHelper.insertStudent(currentStudent);
                     currentStudent.setId(resultId);
                     Log.d(TAG, "Student saved as draft with ID: " + resultId);
                 }
 
-                // Hide loading
                 showLoading(false);
 
                 if (resultId > 0) {
@@ -352,7 +308,6 @@ public class CreateStudent extends Fragment {
                     showToast("Failed to save draft");
                 }
             } catch (Exception e) {
-                // Hide loading
                 showLoading(false);
                 Log.e(TAG, "Error saving draft: " + e.getMessage(), e);
                 showToast("Error saving draft: " + e.getMessage());
@@ -363,7 +318,6 @@ public class CreateStudent extends Fragment {
     private boolean validateBasicInformation() {
         boolean isValid = true;
 
-        // Validate full name
         if (etFullName.getText().toString().trim().isEmpty()) {
             if (tilFullName != null) {
                 tilFullName.setError("Full name is required");
@@ -374,7 +328,6 @@ public class CreateStudent extends Fragment {
             isValid = false;
         }
 
-        // Validate university ID
         if (etUniversityId.getText().toString().trim().isEmpty()) {
             if (tilUniversityId != null) {
                 tilUniversityId.setError("University ID is required");
@@ -455,7 +408,6 @@ public class CreateStudent extends Fragment {
     }
 
     private void saveBasicInformation() {
-        // Save basic information to student object
         currentStudent.setFullName(etFullName.getText().toString().trim());
         currentStudent.setUniversityId(etUniversityId.getText().toString().trim());
         currentStudent.setNicNumber(etNicNumber.getText().toString().trim());
@@ -468,15 +420,8 @@ public class CreateStudent extends Fragment {
 
     private void navigateToAcademicDetails() {
         try {
-            // Create bundle to pass student data to the next fragment
-            Bundle args = new Bundle();
-            args.putSerializable("student", currentStudent);
+            AcademicDetails academicFragment = AcademicDetails.newInstance(currentStudent.getId());
 
-            // Create instance of AcademicDetailsFragment
-            AcademicDetails academicFragment = new AcademicDetails();
-            academicFragment.setArguments(args);
-
-            // Navigate to Academic Details Fragment
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.framelayout, academicFragment)
                     .addToBackStack("CreateStudent") // Add to back stack so user can return
@@ -495,6 +440,10 @@ public class CreateStudent extends Fragment {
                 .setTitle("Cancel Registration")
                 .setMessage("Are you sure you want to cancel? All entered data will be lost.")
                 .setPositiveButton("Yes, Cancel", (dialog, which) -> {
+                    // Delete the student record if it exists
+                    if (currentStudent != null && currentStudent.getId() > 0) {
+                        dbHelper.deleteStudent(currentStudent.getId());
+                    }
                     clearAllData();
                     if (getActivity() != null) {
                         getActivity().onBackPressed();
@@ -538,7 +487,6 @@ public class CreateStudent extends Fragment {
             String filename = "student_photo_" + timestamp + ".jpg";
             File imageFile = new File(photosDir, filename);
 
-            // Copy image from URI to internal storage
             InputStream inputStream = getContext().getContentResolver().openInputStream(imageUri);
             FileOutputStream outputStream = new FileOutputStream(imageFile);
 
@@ -560,7 +508,6 @@ public class CreateStudent extends Fragment {
         }
     }
 
-    // Getter method for other fragments to access the current student data
     public Student getCurrentStudent() {
         return currentStudent;
     }
@@ -594,7 +541,6 @@ public class CreateStudent extends Fragment {
             Log.d(TAG, "Fields populated from student: " + currentStudent.toString());
         }
     }
-
     private void clearForm() {
         etFullName.setText("");
         etUniversityId.setText("");

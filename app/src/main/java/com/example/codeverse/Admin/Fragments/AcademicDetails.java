@@ -35,30 +35,20 @@ import java.util.Locale;
 
 public class AcademicDetails extends Fragment {
 
-    // UI Components
     private TextInputEditText etBatch, etEnrollmentDate;
     private AutoCompleteTextView dropdownFaculty, dropdownSemester;
     private MaterialButton btnNextStep, btnCancel;
     private MaterialCardView cvBack, cvHelp;
     private FrameLayout loadingOverlay;
 
-    // TextInputLayouts for validation
     private TextInputLayout tilFaculty, tilBatch, tilSemester, tilEnrollmentDate;
 
-    // Step indicators
     private LinearLayout cardBasicInfoIndicator, cardAcademicIndicator,
             cardAccountIndicator, cardContactIndicator;
-
-    // Database helper
     private StudentDatabaseHelper dbHelper;
-
-    // Student ID passed from previous step
     private long studentId = -1;
-
-    // Constants
     private static final String TAG = "AcademicDetailsFragment";
     private static final String ARG_STUDENT_ID = "student_id";
-
     public static AcademicDetails newInstance(long studentId) {
         AcademicDetails fragment = new AcademicDetails();
         Bundle args = new Bundle();
@@ -74,42 +64,32 @@ public class AcademicDetails extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_academic_details, container, false);
 
-        // Initialize database helper first
         dbHelper = new StudentDatabaseHelper(getContext());
 
-        // Get student ID from multiple sources
         studentId = getStudentIdFromSources();
 
         Log.d(TAG, "Final resolved studentId: " + studentId);
 
-        // Validate studentId
         if (studentId == -1 || !isValidStudentId(studentId)) {
             Log.e(TAG, "Invalid or non-existent studentId: " + studentId);
             handleInvalidStudentId(view);
             return view;
         }
 
-        // Initialize UI components
         initializeViews(view);
 
-        // Set up dropdowns
         setupDropdowns();
 
-        // Set up click listeners
         setupClickListeners();
 
-        // Set up text change listeners for validation
         setupTextChangeListeners();
 
-        // Populate fields with existing data (if any)
         populateFieldsFromData();
 
         return view;
     }
 
-    /**
-     * Get student ID from multiple sources with fallback options
-     */
+
     private long getStudentIdFromSources() {
         long resolvedStudentId = -1;
 
@@ -162,10 +142,6 @@ public class AcademicDetails extends Fragment {
         Log.w(TAG, "Could not resolve studentId from any source");
         return -1;
     }
-
-    /**
-     * Check if the student ID is valid by verifying it exists in the database
-     */
     private boolean isValidStudentId(long studentId) {
         if (studentId <= 0) {
             return false;
@@ -182,9 +158,6 @@ public class AcademicDetails extends Fragment {
         }
     }
 
-    /**
-     * Get the most recently created student (fallback method)
-     */
     private Student getMostRecentlyCreatedStudent() {
         try {
             List<Student> allStudents = dbHelper.getAllStudent();
@@ -198,9 +171,6 @@ public class AcademicDetails extends Fragment {
         return null;
     }
 
-    /**
-     * Get a student with incomplete academic details (another fallback method)
-     */
     private Student getStudentWithIncompleteAcademicDetails() {
         try {
             List<Student> allStudents = dbHelper.getAllStudent();
@@ -219,16 +189,12 @@ public class AcademicDetails extends Fragment {
         return null;
     }
 
-    /**
-     * Handle invalid student ID scenario
-     */
+
     private void handleInvalidStudentId(View view) {
-        // Show error dialog with options
         new AlertDialog.Builder(getContext())
                 .setTitle("Student ID Error")
                 .setMessage("Unable to find student record. Would you like to:")
                 .setPositiveButton("Start New Registration", (dialog, which) -> {
-                    // Navigate to the first step of registration
                     navigateToFirstStep();
                 })
                 .setNegativeButton("Go Back", (dialog, which) -> {
@@ -237,33 +203,23 @@ public class AcademicDetails extends Fragment {
                     }
                 })
                 .setNeutralButton("Show All Students", (dialog, which) -> {
-                    // Show a list of existing students to choose from
                     showStudentSelectionDialog();
                 })
                 .setCancelable(false)
                 .show();
     }
 
-    /**
-     * Navigate to the first step of registration
-     */
     private void navigateToFirstStep() {
         if (getActivity() != null) {
-            // Replace with your first registration fragment
-            // BasicDetails basicDetailsFragment = new BasicDetails();
-            // getActivity().getSupportFragmentManager()
-            //         .beginTransaction()
-            //         .replace(R.id.framelayout, basicDetailsFragment)
-            //         .commit();
-
-            // Or finish activity and start registration activity
+            CreateStudent createStudent = new CreateStudent();
+            getActivity().getSupportFragmentManager()
+                     .beginTransaction()
+                     .replace(R.id.framelayout, createStudent)
+                     .commit();
             getActivity().finish();
         }
     }
 
-    /**
-     * Show dialog to select from existing students
-     */
     private void showStudentSelectionDialog() {
         try {
             List<Student> allStudents = dbHelper.getAllStudent();
@@ -286,7 +242,6 @@ public class AcademicDetails extends Fragment {
                         studentId = selectedStudent.getId();
                         Log.d(TAG, "Student selected from dialog: " + studentId);
 
-                        // Update arguments
                         Bundle args = getArguments();
                         if (args == null) {
                             args = new Bundle();
@@ -321,33 +276,27 @@ public class AcademicDetails extends Fragment {
 
     private void initializeViews(View view) {
         try {
-            // Input fields
             etBatch = view.findViewById(R.id.et_batch);
             etEnrollmentDate = view.findViewById(R.id.et_enrollment_date);
             dropdownFaculty = view.findViewById(R.id.dropdown_faculty);
             dropdownSemester = view.findViewById(R.id.dropdown_semester);
 
-            // TextInputLayouts for validation
             tilFaculty = view.findViewById(R.id.til_faculty);
             tilBatch = view.findViewById(R.id.til_batch);
             tilSemester = view.findViewById(R.id.til_semester);
             tilEnrollmentDate = view.findViewById(R.id.til_enrollment_date);
 
-            // Buttons
             btnNextStep = view.findViewById(R.id.btn_next_step);
             btnCancel = view.findViewById(R.id.btn_cancel);
 
-            // Navigation components
             cvBack = view.findViewById(R.id.cv_back);
             cvHelp = view.findViewById(R.id.cv_help);
 
-            // Step indicators
             cardBasicInfoIndicator = view.findViewById(R.id.card_basic_info_indicator);
             cardAcademicIndicator = view.findViewById(R.id.card_academic_indicator);
             cardAccountIndicator = view.findViewById(R.id.card_account_indicator);
             cardContactIndicator = view.findViewById(R.id.card_contact_indicator);
 
-            // Loading overlay
             loadingOverlay = view.findViewById(R.id.loading_overlay);
         } catch (Exception e) {
             Log.e(TAG, "Error initializing views: " + e.getMessage());
@@ -357,7 +306,6 @@ public class AcademicDetails extends Fragment {
 
     private void setupDropdowns() {
         try {
-            // Faculty dropdown
             String[] faculties = new String[]{"Science", "Engineering", "Medicine", "Business", "Arts", "Law"};
             ArrayAdapter<String> facultyAdapter = new ArrayAdapter<>(
                     getContext(),
@@ -365,7 +313,6 @@ public class AcademicDetails extends Fragment {
                     faculties);
             dropdownFaculty.setAdapter(facultyAdapter);
 
-            // Semester dropdown
             String[] semesters = new String[]{"Semester 1", "Semester 2", "Semester 3", "Semester 4",
                     "Semester 5", "Semester 6", "Semester 7", "Semester 8"};
             ArrayAdapter<String> semesterAdapter = new ArrayAdapter<>(
@@ -379,40 +326,35 @@ public class AcademicDetails extends Fragment {
     }
 
     private void setupClickListeners() {
-        // Back button click listener
         cvBack.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
         });
 
-        // Help button click listener
         cvHelp.setOnClickListener(v -> showHelpDialog());
 
-        // Enrollment date field click listener
         etEnrollmentDate.setOnClickListener(v -> showDatePickerDialog());
 
-        // Next step button click listener
         btnNextStep.setOnClickListener(v -> {
             if (validateInputs()) {
                 saveAcademicDetails();
             }
         });
 
-        // Cancel button click listener
         btnCancel.setOnClickListener(v -> {
-            // Show confirmation dialog before canceling
             new AlertDialog.Builder(getContext())
                     .setTitle("Cancel Student Creation")
                     .setMessage("Are you sure you want to cancel? All entered information will be lost.")
                     .setPositiveButton("Yes", (dialog, which) -> {
-                        // Delete the student record if it exists
+
                         if (studentId != -1) {
                             dbHelper.deleteStudent(studentId);
                         }
                         if (getActivity() != null) {
                             getActivity().finish();
                         }
+                        clearForm();
                     })
                     .setNegativeButton("No", null)
                     .show();
@@ -420,36 +362,28 @@ public class AcademicDetails extends Fragment {
     }
 
     private void setupTextChangeListeners() {
-        // Create a generic TextWatcher for clearing errors when text changes
         TextWatcher textWatcher = new TextWatcher() {
             @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+            @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // Not needed
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // Clear errors when text changes
                 clearErrors();
             }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Not needed
-            }
         };
-
-        // Apply the TextWatcher to all input fields
         etBatch.addTextChangedListener(textWatcher);
         etEnrollmentDate.addTextChangedListener(textWatcher);
-
-        // For dropdowns, use the item click listener
         dropdownFaculty.setOnItemClickListener((parent, view, position, id) -> clearErrors());
         dropdownSemester.setOnItemClickListener((parent, view, position, id) -> clearErrors());
     }
 
     private void clearErrors() {
-        // Clear all error messages
         tilFaculty.setError(null);
         tilBatch.setError(null);
         tilSemester.setError(null);
@@ -459,13 +393,11 @@ public class AcademicDetails extends Fragment {
     private boolean validateInputs() {
         boolean isValid = true;
 
-        // Validate faculty
         if (TextUtils.isEmpty(dropdownFaculty.getText())) {
             tilFaculty.setError("Faculty is required");
             isValid = false;
         }
 
-        // Validate batch
         if (TextUtils.isEmpty(etBatch.getText())) {
             tilBatch.setError("Batch year is required");
             isValid = false;
@@ -484,13 +416,11 @@ public class AcademicDetails extends Fragment {
             }
         }
 
-        // Validate semester
         if (TextUtils.isEmpty(dropdownSemester.getText())) {
             tilSemester.setError("Current semester is required");
             isValid = false;
         }
 
-        // Validate enrollment date
         if (TextUtils.isEmpty(etEnrollmentDate.getText())) {
             tilEnrollmentDate.setError("Enrollment date is required");
             isValid = false;
@@ -500,14 +430,11 @@ public class AcademicDetails extends Fragment {
     }
 
     private void saveAcademicDetails() {
-        // Show loading
         loadingOverlay.setVisibility(View.VISIBLE);
 
-        // Add comprehensive debugging
         Log.d(TAG, "saveAcademicDetails called with studentId: " + studentId);
 
         try {
-            // Double check studentId
             if (studentId == -1 || studentId <= 0) {
                 Log.e(TAG, "Invalid student ID: " + studentId);
                 loadingOverlay.setVisibility(View.GONE);
@@ -515,8 +442,6 @@ public class AcademicDetails extends Fragment {
                 handleInvalidStudentId(null);
                 return;
             }
-
-            // Verify student exists in database before updating
             Student existingStudent = dbHelper.getStudentById(studentId);
             if (existingStudent == null) {
                 Log.e(TAG, "Student not found in database with ID: " + studentId);
@@ -528,7 +453,6 @@ public class AcademicDetails extends Fragment {
 
             Log.d(TAG, "Student found in database: " + existingStudent.getFullName());
 
-            // Get input values
             String faculty = dropdownFaculty.getText().toString().trim();
             String batch = etBatch.getText().toString().trim();
             String semester = dropdownSemester.getText().toString().trim();
@@ -537,8 +461,6 @@ public class AcademicDetails extends Fragment {
             Log.d(TAG, "Updating academic details - Faculty: " + faculty + ", Batch: " + batch +
                     ", Semester: " + semester + ", Enrollment Date: " + enrollmentDate);
 
-            // Update academic details in database
-            // FIXED: Remove the (int) cast - pass studentId as long
             int result = dbHelper.updateStudentAcademicDetails(studentId, faculty,
                     batch, semester, enrollmentDate);
 
@@ -547,11 +469,10 @@ public class AcademicDetails extends Fragment {
             if (result > 0) {
                 showToast("Academic details saved successfully!");
 
-                // Navigate to next step after a short delay
+
                 loadingOverlay.postDelayed(() -> {
                     loadingOverlay.setVisibility(View.GONE);
 
-                    // Navigate to Account Details Fragment
                     if (getActivity() != null) {
                         AccountDetails accountFragment = AccountDetails.newInstance(studentId);
 
@@ -575,7 +496,6 @@ public class AcademicDetails extends Fragment {
             showToast("An error occurred while saving data: " + e.getMessage());
         }
     }
-
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
 
@@ -589,17 +509,15 @@ public class AcademicDetails extends Fragment {
                     Calendar selectedDate = Calendar.getInstance();
                     selectedDate.set(selectedYear, selectedMonth, selectedDay);
 
-                    // Format the date
+
                     SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy", Locale.US);
                     String formattedDate = dateFormat.format(selectedDate.getTime());
 
-                    // Set the formatted date to the input field
                     etEnrollmentDate.setText(formattedDate);
                 },
                 year, month, day
         );
 
-        // Limit the date picker to be no later than today
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
 
         datePickerDialog.show();
@@ -627,13 +545,11 @@ public class AcademicDetails extends Fragment {
         try {
             Log.d(TAG, "Attempting to populate fields for studentId: " + studentId);
 
-            // Get existing student data from database
             Student student = dbHelper.getStudentById(studentId);
 
             if (student != null) {
                 Log.d(TAG, "Student data found, populating fields");
 
-                // Populate fields with existing academic data if available
                 if (student.getFaculty() != null && !student.getFaculty().isEmpty()) {
                     dropdownFaculty.setText(student.getFaculty(), false);
                 }
@@ -661,6 +577,14 @@ public class AcademicDetails extends Fragment {
         if (getContext() != null) {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void clearForm() {
+        etBatch.setText("");
+        etEnrollmentDate.setText("");
+        dropdownFaculty.setText("");
+        dropdownSemester.setText("");
+        clearErrors();
     }
 
     @Override

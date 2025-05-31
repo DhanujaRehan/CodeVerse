@@ -68,12 +68,10 @@ public class AccountDetails extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account_details, container, false);
 
-        // Get student ID from arguments
         if (getArguments() != null) {
             studentId = getArguments().getLong(ARG_STUDENT_ID, -1);
         }
 
-        // Initialize database helper
         dbHelper = new StudentDatabaseHelper(getContext());
 
         initializeViews(view);
@@ -235,7 +233,6 @@ public class AccountDetails extends Fragment {
     private boolean validateInputs() {
         boolean isValid = true;
 
-        // Validate email
         if (TextUtils.isEmpty(etEmail.getText())) {
             tilEmail.setError("Email is required");
             isValid = false;
@@ -250,7 +247,6 @@ public class AccountDetails extends Fragment {
             }
         }
 
-        // Validate username
         if (TextUtils.isEmpty(etUsername.getText())) {
             tilUsername.setError("Username is required");
             isValid = false;
@@ -265,7 +261,6 @@ public class AccountDetails extends Fragment {
             }
         }
 
-        // Validate password
         String password = etPassword.getText() != null ? etPassword.getText().toString() : "";
         String confirmPassword = etConfirmPassword.getText() != null ? etConfirmPassword.getText().toString() : "";
 
@@ -284,7 +279,6 @@ public class AccountDetails extends Fragment {
             }
         }
 
-        // Validate confirm password
         if (TextUtils.isEmpty(confirmPassword)) {
             tilConfirmPassword.setError("Please confirm your password");
             isValid = false;
@@ -293,7 +287,6 @@ public class AccountDetails extends Fragment {
             isValid = false;
         }
 
-        // Validate terms acceptance
         if (!checkboxTerms.isChecked()) {
             showToast("You must accept the Terms of Service and Privacy Policy");
             isValid = false;
@@ -313,24 +306,20 @@ public class AccountDetails extends Fragment {
                 return;
             }
 
-            // Get input values
             String email = etEmail.getText().toString().trim();
             String username = etUsername.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
             boolean termsAccepted = checkboxTerms.isChecked();
 
-            // Update account details in database
             int result = dbHelper.updateStudentAccountDetails(studentId, email, username,
                     password, termsAccepted);
 
-            // Simulate some processing time
             new Handler().postDelayed(() -> {
                 loadingOverlay.setVisibility(View.GONE);
 
                 if (result > 0) {
                     showToast("Account details saved successfully!");
 
-                    // Navigate to Contact Details Fragment
                     if (getActivity() != null) {
                         ContactDetails contactFragment = ContactDetails.newInstance(studentId);
 
@@ -387,11 +376,9 @@ public class AccountDetails extends Fragment {
         if (studentId == -1) return;
 
         try {
-            // Get existing student data from database
             Student student = dbHelper.getStudentById(studentId);
 
             if (student != null) {
-                // Populate fields with existing account data if available
                 if (student.getEmail() != null && !student.getEmail().isEmpty()) {
                     etEmail.setText(student.getEmail());
                 }
@@ -407,7 +394,6 @@ public class AccountDetails extends Fragment {
 
                 checkboxTerms.setChecked(student.isTermsAccepted());
 
-                // Update password requirements display
                 updatePasswordRequirements();
             }
         } catch (Exception e) {
@@ -417,6 +403,14 @@ public class AccountDetails extends Fragment {
 
     private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void clearform(){
+        etEmail.setText("");
+        etUsername.setText("");
+        etPassword.setText("");
+        etConfirmPassword.setText("");
+        checkboxTerms.setChecked(false);
     }
 
     @Override

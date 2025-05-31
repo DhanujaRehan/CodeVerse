@@ -13,17 +13,17 @@ import com.example.codeverse.Admin.Fragments.StaffPersonalInfo;
 import com.example.codeverse.Staff.StaffFragments.StaffSchedule;
 import com.example.codeverse.Admin.Fragments.CreateStudent;
 import com.example.codeverse.R;
-import com.example.codeverse.databinding.ActivityMainBinding;
+import com.example.codeverse.databinding.ActivityAdminMainBinding;
 
 public class AdminMainActivity extends AppCompatActivity {
 
-    ActivityMainBinding binding;
+    ActivityAdminMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityAdminMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
 
@@ -53,10 +53,7 @@ public class AdminMainActivity extends AppCompatActivity {
         });
 
         EdgeToEdge.enable(this);
-
-
-
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.admin_main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;

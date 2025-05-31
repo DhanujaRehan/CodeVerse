@@ -3,6 +3,7 @@ package com.example.codeverse.Admin.Fragments;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,10 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.example.codeverse.R;
@@ -24,12 +28,10 @@ import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.Objects;
 import java.util.regex.Pattern;
 
 public class ContactDetails extends Fragment {
 
-    // UI Components
     private MaterialCardView cvBack, cvHelp;
     private TextInputLayout tilMobileNumber, tilAlternateNumber, tilPermanentAddress;
     private TextInputLayout tilCity, tilProvince, tilPostalCode;
@@ -38,26 +40,22 @@ public class ContactDetails extends Fragment {
     private TextInputEditText etCity, etPostalCode, etEmergencyName, etEmergencyNumber;
     private AutoCompleteTextView dropdownProvince, dropdownEmergencyRelationship;
     private MaterialButton btnSubmit, btnCancel, btnGoToDashboard;
-    private View loadingOverlay, successOverlay;
+    private FrameLayout loadingOverlay, successOverlay;
+    private LinearLayout cardBasicInfoIndicator, cardAcademicIndicator,
+            cardAccountIndicator, cardContactIndicator;
 
-    // Database helper
     private StudentDatabaseHelper dbHelper;
 
-    // Student ID passed from previous step
     private long studentId = -1;
 
-    // Data
     private final String[] provinceItems = {"Western Province", "Central Province", "Southern Province",
             "Northern Province", "Eastern Province", "North Western Province",
             "North Central Province", "Uva Province", "Sabaragamuwa Province"};
 
     private final String[] relationshipItems = {"Parent", "Guardian", "Sibling", "Spouse", "Relative", "Friend", "Other"};
+    private static final Pattern PHONE_PATTERN = Pattern.compile("^[0-9]{10}$");
+    private static final Pattern POSTAL_CODE_PATTERN = Pattern.compile("^[0-9]{5}$");
 
-    // Validation patterns
-    private final Pattern PHONE_PATTERN = Pattern.compile("^[0-9]{10}$");
-    private final Pattern POSTAL_CODE_PATTERN = Pattern.compile("^[0-9]{5}$");
-
-    // Constants
     private static final String TAG = "ContactDetails";
     private static final String ARG_STUDENT_ID = "student_id";
 
@@ -75,124 +73,222 @@ public class ContactDetails extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_contact_details, container, false);
 
-        // Get student ID from arguments
         if (getArguments() != null) {
             studentId = getArguments().getLong(ARG_STUDENT_ID, -1);
         }
 
-        // Initialize database helper
         dbHelper = new StudentDatabaseHelper(getContext());
 
-        // Initialize UI components
         initializeViews(view);
         setupDropdowns();
-        setupListeners();
-        setupInputValidation();
-
-        // Populate fields with existing data (if any)
+        setupClickListeners();
+        setupTextChangeListeners();
         populateFieldsFromData();
 
         return view;
     }
 
     private void initializeViews(View view) {
-        // Cards
-        cvBack = view.findViewById(R.id.cv_back);
-        cvHelp = view.findViewById(R.id.cv_help);
+        try {
+            cvBack = view.findViewById(R.id.cv_back);
+            cvHelp = view.findViewById(R.id.cv_help);
 
-        // TextInputLayouts
-        tilMobileNumber = view.findViewById(R.id.til_mobile_number);
-        tilAlternateNumber = view.findViewById(R.id.til_alternate_number);
-        tilPermanentAddress = view.findViewById(R.id.til_permanent_address);
-        tilCity = view.findViewById(R.id.til_city);
-        tilProvince = view.findViewById(R.id.til_province);
-        tilPostalCode = view.findViewById(R.id.til_postal_code);
-        tilEmergencyName = view.findViewById(R.id.til_emergency_name);
-        tilEmergencyRelationship = view.findViewById(R.id.til_emergency_relationship);
-        tilEmergencyNumber = view.findViewById(R.id.til_emergency_number);
+            tilMobileNumber = view.findViewById(R.id.til_mobile_number);
+            tilAlternateNumber = view.findViewById(R.id.til_alternate_number);
+            tilPermanentAddress = view.findViewById(R.id.til_permanent_address);
+            tilCity = view.findViewById(R.id.til_city);
+            tilProvince = view.findViewById(R.id.til_province);
+            tilPostalCode = view.findViewById(R.id.til_postal_code);
+            tilEmergencyName = view.findViewById(R.id.til_emergency_name);
+            tilEmergencyRelationship = view.findViewById(R.id.til_emergency_relationship);
+            tilEmergencyNumber = view.findViewById(R.id.til_emergency_number);
 
-        // EditTexts
-        etMobileNumber = view.findViewById(R.id.et_mobile_number);
-        etAlternateNumber = view.findViewById(R.id.et_alternate_number);
-        etPermanentAddress = view.findViewById(R.id.et_permanent_address);
-        etCity = view.findViewById(R.id.et_city);
-        etPostalCode = view.findViewById(R.id.et_postal_code);
-        etEmergencyName = view.findViewById(R.id.et_emergency_name);
-        etEmergencyNumber = view.findViewById(R.id.et_emergency_number);
+            etMobileNumber = view.findViewById(R.id.et_mobile_number);
+            etAlternateNumber = view.findViewById(R.id.et_alternate_number);
+            etPermanentAddress = view.findViewById(R.id.et_permanent_address);
+            etCity = view.findViewById(R.id.et_city);
+            etPostalCode = view.findViewById(R.id.et_postal_code);
+            etEmergencyName = view.findViewById(R.id.et_emergency_name);
+            etEmergencyNumber = view.findViewById(R.id.et_emergency_number);
 
-        // Dropdowns
-        dropdownProvince = view.findViewById(R.id.dropdown_province);
-        dropdownEmergencyRelationship = view.findViewById(R.id.dropdown_emergency_relationship);
+            dropdownProvince = view.findViewById(R.id.dropdown_province);
+            dropdownEmergencyRelationship = view.findViewById(R.id.dropdown_emergency_relationship);
 
-        // Buttons
-        btnSubmit = view.findViewById(R.id.btn_submit);
-        btnCancel = view.findViewById(R.id.btn_cancel);
-        btnGoToDashboard = view.findViewById(R.id.btn_go_to_dashboard);
+            btnSubmit = view.findViewById(R.id.btn_submit);
+            btnCancel = view.findViewById(R.id.btn_cancel);
+            btnGoToDashboard = view.findViewById(R.id.btn_go_to_dashboard);
 
-        // Overlays
-        loadingOverlay = view.findViewById(R.id.loading_overlay);
-        successOverlay = view.findViewById(R.id.success_overlay);
+            loadingOverlay = view.findViewById(R.id.loading_overlay);
+            successOverlay = view.findViewById(R.id.success_overlay);
+
+            cardBasicInfoIndicator = view.findViewById(R.id.card_basic_info_indicator);
+            cardAcademicIndicator = view.findViewById(R.id.card_academic_indicator);
+            cardAccountIndicator = view.findViewById(R.id.card_account_indicator);
+            cardContactIndicator = view.findViewById(R.id.card_contact_indicator);
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error initializing views: " + e.getMessage());
+            showToast("Failed to initialize the form");
+        }
     }
 
     private void setupDropdowns() {
-        // Set up Province dropdown
         ArrayAdapter<String> provinceAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_dropdown_item_1line, provinceItems);
         dropdownProvince.setAdapter(provinceAdapter);
 
-        // Set up Relationship dropdown
         ArrayAdapter<String> relationshipAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_dropdown_item_1line, relationshipItems);
         dropdownEmergencyRelationship.setAdapter(relationshipAdapter);
     }
 
-    private void setupListeners() {
-        // Back button click
+    private void setupClickListeners() {
         cvBack.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
         });
 
-        // Help button click
-        cvHelp.setOnClickListener(v -> {
-            Toast.makeText(getContext(),
-                    "Fill in your contact details and emergency contact information.",
-                    Toast.LENGTH_LONG).show();
-        });
+        cvHelp.setOnClickListener(v -> showHelpDialog());
 
-        // Submit button click
         btnSubmit.setOnClickListener(v -> {
             if (validateAllFields()) {
                 saveContactDetails();
             }
         });
 
-        // Cancel button click
         btnCancel.setOnClickListener(v -> {
-            // Delete the student record if it exists
-            if (studentId != -1) {
-                dbHelper.deleteStudent(studentId);
-            }
-
-            // Navigate to home/dashboard screen
-            if (getActivity() != null) {
-                getActivity().finish();
-            }
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Cancel Student Creation")
+                    .setMessage("Are you sure you want to cancel? All entered information will be lost.")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // Delete the student record if it exists
+                        if (studentId != -1) {
+                            dbHelper.deleteStudent(studentId);
+                        }
+                        if (getActivity() != null) {
+                            getActivity().finish();
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .show();
         });
 
-        // Go to Dashboard button (in success overlay)
         btnGoToDashboard.setOnClickListener(v -> {
-            // Navigate to dashboard screen
             showToast("Student registration completed successfully!");
+
+            clearAllRegistrationData();
+
             if (getActivity() != null) {
                 getActivity().finish();
             }
         });
     }
 
+    private void setupTextChangeListeners() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clearErrors();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        };
+
+        etMobileNumber.addTextChangedListener(textWatcher);
+        etAlternateNumber.addTextChangedListener(textWatcher);
+        etPermanentAddress.addTextChangedListener(textWatcher);
+        etCity.addTextChangedListener(textWatcher);
+        etPostalCode.addTextChangedListener(textWatcher);
+        etEmergencyName.addTextChangedListener(textWatcher);
+        etEmergencyNumber.addTextChangedListener(textWatcher);
+    }
+
+    private void clearErrors() {
+        tilMobileNumber.setError(null);
+        tilAlternateNumber.setError(null);
+        tilPermanentAddress.setError(null);
+        tilCity.setError(null);
+        tilProvince.setError(null);
+        tilPostalCode.setError(null);
+        tilEmergencyName.setError(null);
+        tilEmergencyRelationship.setError(null);
+        tilEmergencyNumber.setError(null);
+    }
+
+    private boolean validateAllFields() {
+        boolean isValid = true;
+
+        if (TextUtils.isEmpty(etMobileNumber.getText())) {
+            tilMobileNumber.setError("Mobile number is required");
+            isValid = false;
+        } else if (!PHONE_PATTERN.matcher(etMobileNumber.getText().toString().trim()).matches()) {
+            tilMobileNumber.setError("Please enter a valid 10-digit mobile number");
+            isValid = false;
+        }
+
+        String alternateNumber = etAlternateNumber.getText() != null ? etAlternateNumber.getText().toString().trim() : "";
+        if (!TextUtils.isEmpty(alternateNumber) && !PHONE_PATTERN.matcher(alternateNumber).matches()) {
+            tilAlternateNumber.setError("Please enter a valid 10-digit mobile number");
+            isValid = false;
+        }
+
+        if (TextUtils.isEmpty(etPermanentAddress.getText())) {
+            tilPermanentAddress.setError("Permanent address is required");
+            isValid = false;
+        } else if (etPermanentAddress.getText().toString().trim().length() < 5) {
+            tilPermanentAddress.setError("Please enter a valid address");
+            isValid = false;
+        }
+
+        if (TextUtils.isEmpty(etCity.getText())) {
+            tilCity.setError("City is required");
+            isValid = false;
+        }
+
+        if (TextUtils.isEmpty(dropdownProvince.getText())) {
+            tilProvince.setError("Province is required");
+            isValid = false;
+        }
+
+        if (TextUtils.isEmpty(etPostalCode.getText())) {
+            tilPostalCode.setError("Postal code is required");
+            isValid = false;
+        } else if (!POSTAL_CODE_PATTERN.matcher(etPostalCode.getText().toString().trim()).matches()) {
+            tilPostalCode.setError("Please enter a valid 5-digit postal code");
+            isValid = false;
+        }
+
+        if (TextUtils.isEmpty(etEmergencyName.getText())) {
+            tilEmergencyName.setError("Emergency contact name is required");
+            isValid = false;
+        }
+
+        if (TextUtils.isEmpty(dropdownEmergencyRelationship.getText())) {
+            tilEmergencyRelationship.setError("Relationship is required");
+            isValid = false;
+        }
+
+        if (TextUtils.isEmpty(etEmergencyNumber.getText())) {
+            tilEmergencyNumber.setError("Emergency contact number is required");
+            isValid = false;
+        } else if (!PHONE_PATTERN.matcher(etEmergencyNumber.getText().toString().trim()).matches()) {
+            tilEmergencyNumber.setError("Please enter a valid 10-digit mobile number");
+            isValid = false;
+        }
+
+        if (!isValid) {
+            showToast("Please correct the errors before submitting");
+        }
+
+        return isValid;
+    }
+
     private void saveContactDetails() {
-        // Show loading
         loadingOverlay.setVisibility(View.VISIBLE);
 
         try {
@@ -202,7 +298,6 @@ public class ContactDetails extends Fragment {
                 return;
             }
 
-            // Get input values
             String mobileNumber = etMobileNumber.getText().toString().trim();
             String alternateNumber = etAlternateNumber.getText().toString().trim();
             String permanentAddress = etPermanentAddress.getText().toString().trim();
@@ -213,17 +308,18 @@ public class ContactDetails extends Fragment {
             String emergencyRelationship = dropdownEmergencyRelationship.getText().toString().trim();
             String emergencyNumber = etEmergencyNumber.getText().toString().trim();
 
-            // Update contact details in database
             int result = dbHelper.updateStudentContactDetails(studentId, mobileNumber, alternateNumber,
                     permanentAddress, city, province, postalCode, emergencyName, emergencyRelationship, emergencyNumber);
 
-            // Simulate some processing time
             new Handler().postDelayed(() -> {
                 loadingOverlay.setVisibility(View.GONE);
 
                 if (result > 0) {
-                    // Show success overlay
+                    clearForm();
+
                     successOverlay.setVisibility(View.VISIBLE);
+
+                    Log.d(TAG, "Student registration completed successfully for ID: " + studentId);
                 } else {
                     showToast("Failed to save contact details. Please try again.");
                 }
@@ -236,256 +332,32 @@ public class ContactDetails extends Fragment {
         }
     }
 
-    private void setupInputValidation() {
-        // Mobile Number validation
-        etMobileNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                validateMobileNumber();
-            }
-        });
-
-        // Alternate Number validation (optional)
-        etAlternateNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() > 0) {
-                    validateAlternateNumber();
-                } else {
-                    tilAlternateNumber.setError(null);
-                }
-            }
-        });
-
-        // Permanent Address validation
-        etPermanentAddress.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                validatePermanentAddress();
-            }
-        });
-
-        // City validation
-        etCity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                validateCity();
-            }
-        });
-
-        // Postal Code validation
-        etPostalCode.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                validatePostalCode();
-            }
-        });
-
-        // Emergency Name validation
-        etEmergencyName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                validateEmergencyName();
-            }
-        });
-
-        // Emergency Number validation
-        etEmergencyNumber.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                validateEmergencyNumber();
-            }
-        });
-    }
-
-    // Validation methods
-    private boolean validateMobileNumber() {
-        String mobileNumber = Objects.requireNonNull(etMobileNumber.getText()).toString().trim();
-        if (mobileNumber.isEmpty()) {
-            tilMobileNumber.setError("Mobile number is required");
-            return false;
-        } else if (!PHONE_PATTERN.matcher(mobileNumber).matches()) {
-            tilMobileNumber.setError("Please enter a valid 10-digit mobile number");
-            return false;
-        } else {
-            tilMobileNumber.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validateAlternateNumber() {
-        String alternateNumber = Objects.requireNonNull(etAlternateNumber.getText()).toString().trim();
-        if (alternateNumber.isEmpty()) {
-            // Optional field, no error needed
-            return true;
-        } else if (!PHONE_PATTERN.matcher(alternateNumber).matches()) {
-            tilAlternateNumber.setError("Please enter a valid 10-digit mobile number");
-            return false;
-        } else {
-            tilAlternateNumber.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validatePermanentAddress() {
-        String address = Objects.requireNonNull(etPermanentAddress.getText()).toString().trim();
-        if (address.isEmpty()) {
-            tilPermanentAddress.setError("Permanent address is required");
-            return false;
-        } else if (address.length() < 5) {
-            tilPermanentAddress.setError("Please enter a valid address");
-            return false;
-        } else {
-            tilPermanentAddress.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validateCity() {
-        String city = Objects.requireNonNull(etCity.getText()).toString().trim();
-        if (city.isEmpty()) {
-            tilCity.setError("City is required");
-            return false;
-        } else {
-            tilCity.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validateProvince() {
-        String province = dropdownProvince.getText().toString().trim();
-        if (province.isEmpty()) {
-            tilProvince.setError("Province is required");
-            return false;
-        } else {
-            tilProvince.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validatePostalCode() {
-        String postalCode = Objects.requireNonNull(etPostalCode.getText()).toString().trim();
-        if (postalCode.isEmpty()) {
-            tilPostalCode.setError("Postal code is required");
-            return false;
-        } else if (!POSTAL_CODE_PATTERN.matcher(postalCode).matches()) {
-            tilPostalCode.setError("Please enter a valid 5-digit postal code");
-            return false;
-        } else {
-            tilPostalCode.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validateEmergencyName() {
-        String name = Objects.requireNonNull(etEmergencyName.getText()).toString().trim();
-        if (name.isEmpty()) {
-            tilEmergencyName.setError("Emergency contact name is required");
-            return false;
-        } else {
-            tilEmergencyName.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validateEmergencyRelationship() {
-        String relationship = dropdownEmergencyRelationship.getText().toString().trim();
-        if (relationship.isEmpty()) {
-            tilEmergencyRelationship.setError("Relationship is required");
-            return false;
-        } else {
-            tilEmergencyRelationship.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validateEmergencyNumber() {
-        String emergencyNumber = Objects.requireNonNull(etEmergencyNumber.getText()).toString().trim();
-        if (emergencyNumber.isEmpty()) {
-            tilEmergencyNumber.setError("Emergency contact number is required");
-            return false;
-        } else if (!PHONE_PATTERN.matcher(emergencyNumber).matches()) {
-            tilEmergencyNumber.setError("Please enter a valid 10-digit mobile number");
-            return false;
-        } else {
-            tilEmergencyNumber.setError(null);
-            return true;
-        }
-    }
-
-    private boolean validateAllFields() {
-        boolean isValid = true;
-
-        // Validate all fields
-        if (!validateMobileNumber()) isValid = false;
-        if (!validateAlternateNumber()) isValid = false;
-        if (!validatePermanentAddress()) isValid = false;
-        if (!validateCity()) isValid = false;
-        if (!validateProvince()) isValid = false;
-        if (!validatePostalCode()) isValid = false;
-        if (!validateEmergencyName()) isValid = false;
-        if (!validateEmergencyRelationship()) isValid = false;
-        if (!validateEmergencyNumber()) isValid = false;
-
-        // If any field is invalid, show toast message
-        if (!isValid) {
-            Toast.makeText(getContext(), "Please correct the errors before submitting", Toast.LENGTH_SHORT).show();
-        }
-
-        return isValid;
+    private void showHelpDialog() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Contact Details Help")
+                .setMessage("Please fill in your contact information:\n\n" +
+                        "• Mobile Number: Your primary contact number (10 digits)\n" +
+                        "• Alternate Number: Optional secondary contact (10 digits)\n" +
+                        "• Address: Your complete permanent address\n" +
+                        "• City: Your city of residence\n" +
+                        "• Province: Select your province from the dropdown\n" +
+                        "• Postal Code: Your 5-digit postal code\n\n" +
+                        "Emergency Contact:\n" +
+                        "• Name: Full name of emergency contact person\n" +
+                        "• Relationship: How this person relates to you\n" +
+                        "• Number: Their contact number (10 digits)\n\n" +
+                        "All fields except alternate number are required.")
+                .setPositiveButton("Got it", null)
+                .show();
     }
 
     private void populateFieldsFromData() {
         if (studentId == -1) return;
 
         try {
-            // Get existing student data from database
             Student student = dbHelper.getStudentById(studentId);
 
             if (student != null) {
-                // Populate fields with existing contact data if available
                 if (student.getMobileNumber() != null && !student.getMobileNumber().isEmpty()) {
                     etMobileNumber.setText(student.getMobileNumber());
                 }
@@ -529,6 +401,24 @@ public class ContactDetails extends Fragment {
 
     private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void clearForm() {
+        etMobileNumber.setText("");
+        etAlternateNumber.setText("");
+        etPermanentAddress.setText("");
+        etCity.setText("");
+        dropdownProvince.setText("");
+        etPostalCode.setText("");
+        etEmergencyName.setText("");
+        dropdownEmergencyRelationship.setText("");
+        etEmergencyNumber.setText("");
+        clearErrors();
+    }
+
+    private void clearAllRegistrationData() {
+        clearForm();
+        Log.d(TAG, "All registration data cleared for completed student registration");
     }
 
     @Override
