@@ -18,20 +18,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
-            android:paddingTop="52dp"
             android:paddingBottom="32dp">
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:padding="9dp"
-                android:background="@drawable/circle_ripple_background"
-                android:src="@drawable/ic_arrow_right"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:cardBackgroundColor="#33FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="#FFFFFF"
-                android:contentDescription="Back" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/iv_back"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    android:scaleType="centerCrop"
+                    app:lottie_rawRes="@raw/back_button_animation"
+                    android:contentDescription="Back" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:id="@+id/tv_screen_title"
@@ -41,22 +51,11 @@
                 android:text="Make Payment"
                 android:textColor="#FFFFFF"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@id/iv_back"
+                app:layout_constraintBottom_toBottomOf="@id/cv_back"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/iv_back" />
+                app:layout_constraintTop_toTopOf="@id/cv_back" />
 
-            <ImageView
-                android:id="@+id/iv_more"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:padding="9dp"
-                android:background="@drawable/circle_ripple_background"
-                android:src="@drawable/ic_more_vert"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="#FFFFFF"
-                android:contentDescription="More options" />
 
             <!-- Outstanding Amount Pill -->
             <TextView
@@ -210,21 +209,18 @@
                                 android:orientation="horizontal"
                                 android:paddingStart="20dp"
                                 android:paddingEnd="20dp" />
-
-                            <!-- Add New Card Button -->
-                            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                                android:id="@+id/fab_add_card"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="bottom|end"
-                                android:layout_marginEnd="16dp"
-                                android:layout_marginBottom="8dp"
-                                android:contentDescription="Add Card"
-                                android:src="@drawable/ic_add"
-                                app:backgroundTint="#6A11CB"
-                                app:tint="#FFFFFF" />
                         </FrameLayout>
-
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/fab_add_card"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="bottom|end"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="8dp"
+                            android:contentDescription="Add Card"
+                            android:src="@drawable/ic_add"
+                            app:backgroundTint="#6A11CB"
+                            app:tint="#FFFFFF" />
                         <!-- Sample Credit Card Preview -->
                         <androidx.cardview.widget.CardView
                             android:id="@+id/card_preview"
