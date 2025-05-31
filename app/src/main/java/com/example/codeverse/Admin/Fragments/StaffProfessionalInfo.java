@@ -1,0 +1,588 @@
+package com.example.codeverse.Admin.Fragments;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.FrameLayout;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.Fragment;
+
+import com.example.codeverse.R;
+import com.example.codeverse.Admin.Models.Staff;
+import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.Calendar;
+
+public class StaffProfessionalInfo extends Fragment {
+
+    private static final String TAG = "AddStaffProfessionalFragment";
+    private static final String ARG_STAFF_ID = "staff_id";
+
+    private StaffDatabaseHelper dbHelper;
+    private Staff currentStaff;
+    private long staffId = -1;
+
+    // Views from XML layout
+    private MaterialCardView cvBack, cvHelp;
+    private TextInputLayout tilPosition, tilDepartment, tilTeachingSubject, tilProgramCoordinating;
+    private TextInputLayout tilHighestQualification, tilFieldOfStudy, tilUniversity, tilGraduationYear, tilExperienceYears;
+    private AutoCompleteTextView dropdownPosition, dropdownDepartment, dropdownQualification, dropdownProgram;
+    private TextInputEditText etTeachingSubject, etFieldOfStudy, etUniversity, etGraduationYear, etExperienceYears;
+    private MaterialButton btnComplete, btnBack;
+    private FrameLayout loadingOverlay;
+
+    public static StaffProfessionalInfo newInstance(long staffId) {
+        StaffProfessionalInfo staffProfessionalInfo = new StaffProfessionalInfo();
+        Bundle args = new Bundle();
+        args.putLong(ARG_STAFF_ID, staffId);
+        staffProfessionalInfo.setArguments(args);
+        return staffProfessionalInfo;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Initialize database helper
+        dbHelper = new StaffDatabaseHelper(getContext());
+
+        // Get staff ID from arguments if provided
+        if (getArguments() != null) {
+            staffId = getArguments().getLong(ARG_STAFF_ID, -1);
+        }
+
+        // Check if we're editing an existing staff or creating new
+        Bundle args = getArguments();
+        if (args != null && args.containsKey("staff")) {
+            currentStaff = (Staff) args.getSerializable("staff");
+            Log.d(TAG, "Editing existing staff: " + currentStaff.getFullName());
+        } else if (staffId != -1) {
+            // Load existing staff by ID
+            currentStaff = dbHelper.getStaffById(staffId);
+            if (currentStaff != null) {
+                Log.d(TAG, "Loaded existing staff: " + currentStaff.getFullName());
+            }
+        } else {
+            currentStaff = new Staff();
+            Log.d(TAG, "Creating new staff");
+        }
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_staff_professional_info, container, false);
+
+        // Initialize views
+        initializeViews(view);
+
+        // Set up click listeners
+        setupClickListeners();
+
+        // Setup text change listeners
+        setupTextChangeListeners();
+
+        // Setup dropdowns
+        setupDropdowns();
+
+        // Setup position dependent fields
+        setupPositionDependentFields();
+
+        // Populate fields if editing existing staff
+        populateFieldsFromStaff();
+
+        return view;
+    }
+
+    private void initializeViews(View view) {
+        try {
+            // Initialize views with exact IDs from XML
+            cvBack = view.findViewById(R.id.cv_back);
+            cvHelp = view.findViewById(R.id.cv_help);
+
+            tilPosition = view.findViewById(R.id.til_position);
+            tilDepartment = view.findViewById(R.id.til_department);
+            tilTeachingSubject = view.findViewById(R.id.til_teaching_subject);
+            tilProgramCoordinating = view.findViewById(R.id.til_program_coordinating);
+            tilHighestQualification = view.findViewById(R.id.til_highest_qualification);
+            tilFieldOfStudy = view.findViewById(R.id.til_field_of_study);
+            tilUniversity = view.findViewById(R.id.til_university);
+            tilGraduationYear = view.findViewById(R.id.til_graduation_year);
+            tilExperienceYears = view.findViewById(R.id.til_experience_years);
+
+            dropdownPosition = view.findViewById(R.id.dropdown_position);
+            dropdownDepartment = view.findViewById(R.id.dropdown_department);
+            dropdownQualification = view.findViewById(R.id.dropdown_qualification);
+            dropdownProgram = view.findViewById(R.id.dropdown_program);
+
+            etTeachingSubject = view.findViewById(R.id.et_teaching_subject);
+            etFieldOfStudy = view.findViewById(R.id.et_field_of_study);
+            etUniversity = view.findViewById(R.id.et_university);
+            etGraduationYear = view.findViewById(R.id.et_graduation_year);
+            etExperienceYears = view.findViewById(R.id.et_experience_years);
+
+            btnComplete = view.findViewById(R.id.btn_complete);
+            btnBack = view.findViewById(R.id.btn_back);
+            loadingOverlay = view.findViewById(R.id.loading_overlay);
+        } catch (Exception e) {
+            Log.e(TAG, "Error initializing views: " + e.getMessage());
+            showToast("Failed to initialize the form");
+        }
+    }
+
+    private void setupClickListeners() {
+        // Back button
+        cvBack.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        // Help button
+        cvHelp.setOnClickListener(v -> showHelpDialog());
+
+        // Complete button
+        btnComplete.setOnClickListener(v -> {
+            if (validateProfessionalInformation()) {
+                completeRegistration();
+            }
+        });
+
+        // Back to personal info button
+        btnBack.setOnClickListener(v -> goBackToPersonalInfo());
+    }
+
+    private void setupTextChangeListeners() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clearErrors();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+
+        dropdownPosition.addTextChangedListener(textWatcher);
+        dropdownDepartment.addTextChangedListener(textWatcher);
+        etTeachingSubject.addTextChangedListener(textWatcher);
+        dropdownProgram.addTextChangedListener(textWatcher);
+        dropdownQualification.addTextChangedListener(textWatcher);
+        etFieldOfStudy.addTextChangedListener(textWatcher);
+        etUniversity.addTextChangedListener(textWatcher);
+        etGraduationYear.addTextChangedListener(textWatcher);
+        etExperienceYears.addTextChangedListener(textWatcher);
+    }
+
+    private void clearErrors() {
+        if (tilPosition != null) tilPosition.setError(null);
+        if (tilDepartment != null) tilDepartment.setError(null);
+        if (tilTeachingSubject != null) tilTeachingSubject.setError(null);
+        if (tilProgramCoordinating != null) tilProgramCoordinating.setError(null);
+        if (tilHighestQualification != null) tilHighestQualification.setError(null);
+        if (tilFieldOfStudy != null) tilFieldOfStudy.setError(null);
+        if (tilUniversity != null) tilUniversity.setError(null);
+        if (tilGraduationYear != null) tilGraduationYear.setError(null);
+        if (tilExperienceYears != null) tilExperienceYears.setError(null);
+    }
+
+    private void setupDropdowns() {
+        // Position dropdown
+        String[] positions = {"Lecturer", "Senior Lecturer", "Assistant Professor", "Associate Professor",
+                "Professor", "Program Coordinator", "Department Head", "Administrative Staff"};
+        ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_dropdown_item_1line, positions);
+        dropdownPosition.setAdapter(positionAdapter);
+
+        // Department dropdown
+        String[] departments = {"Computer Science", "Information Technology", "Software Engineering",
+                "Data Science", "Cybersecurity", "Management", "Finance", "Marketing"};
+        ArrayAdapter<String> departmentAdapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_dropdown_item_1line, departments);
+        dropdownDepartment.setAdapter(departmentAdapter);
+
+        // Qualification dropdown
+        String[] qualifications = {"Bachelor's Degree", "Master's Degree", "PhD", "Postdoc",
+                "Professional Certificate", "Diploma"};
+        ArrayAdapter<String> qualificationAdapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_dropdown_item_1line, qualifications);
+        dropdownQualification.setAdapter(qualificationAdapter);
+
+        // Program dropdown
+        String[] programs = {"Computer Science", "Information Technology", "Software Engineering",
+                "Data Science", "Cybersecurity", "Business Administration", "MBA"};
+        ArrayAdapter<String> programAdapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_dropdown_item_1line, programs);
+        dropdownProgram.setAdapter(programAdapter);
+    }
+
+    private void setupPositionDependentFields() {
+        dropdownPosition.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedPosition = dropdownPosition.getText().toString();
+            updateFieldVisibility(selectedPosition);
+        });
+    }
+
+    private void updateFieldVisibility(String position) {
+        // Hide all conditional fields first
+        tilDepartment.setVisibility(View.GONE);
+        tilTeachingSubject.setVisibility(View.GONE);
+        tilProgramCoordinating.setVisibility(View.GONE);
+
+        if (position.toLowerCase().contains("lecturer") || position.toLowerCase().contains("professor")) {
+            // Show fields for lecturers and professors
+            tilDepartment.setVisibility(View.VISIBLE);
+            tilTeachingSubject.setVisibility(View.VISIBLE);
+        } else if (position.toLowerCase().contains("coordinator")) {
+            // Show fields for coordinators
+            tilProgramCoordinating.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void showHelpDialog() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Help")
+                .setMessage("Fill in professional and educational details. Different fields will appear based on the selected position.")
+                .setPositiveButton("OK", null)
+                .show();
+    }
+
+    private void completeRegistration() {
+        // Show loading
+        showLoading(true);
+
+        // Save professional information to current staff object
+        saveProfessionalInformation();
+
+        // Update staff in database using Handler for smooth UI
+        new Handler().postDelayed(() -> {
+            try {
+                int rowsAffected = dbHelper.updateStaffProfessionalDetails(
+                        currentStaff.getId(),
+                        currentStaff.getPosition(),
+                        currentStaff.getDepartment(),
+                        currentStaff.getTeachingSubject(),
+                        currentStaff.getProgramCoordinating(),
+                        currentStaff.getHighestQualification(),
+                        currentStaff.getFieldOfStudy(),
+                        currentStaff.getUniversity(),
+                        currentStaff.getGraduationYear(),
+                        currentStaff.getExperienceYears()
+                );
+
+                // Hide loading
+                showLoading(false);
+
+                if (rowsAffected > 0) {
+                    Log.d(TAG, "Staff professional details updated successfully");
+                    showToast("Staff registered successfully!");
+
+                    // Navigate back to previous screen or show completion
+                    navigateToCompletion();
+                } else {
+                    Log.e(TAG, "Failed to update staff professional details");
+                    showToast("Failed to complete staff registration");
+                }
+            } catch (Exception e) {
+                // Hide loading
+                showLoading(false);
+                Log.e(TAG, "Error completing registration: " + e.getMessage(), e);
+                showToast("Error completing registration: " + e.getMessage());
+            }
+        }, 1500); // 1.5 second delay for smooth loading experience
+    }
+
+    private boolean validateProfessionalInformation() {
+        boolean isValid = true;
+
+        // Validate position
+        if (dropdownPosition.getText().toString().trim().isEmpty()) {
+            if (tilPosition != null) {
+                tilPosition.setError("Please select a position");
+            } else {
+                dropdownPosition.setError("Please select a position");
+            }
+            dropdownPosition.requestFocus();
+            isValid = false;
+        }
+
+        // Validate department for lecturers/professors
+        if (tilDepartment.getVisibility() == View.VISIBLE) {
+            if (dropdownDepartment.getText().toString().trim().isEmpty()) {
+                if (tilDepartment != null) {
+                    tilDepartment.setError("Please select a department");
+                } else {
+                    dropdownDepartment.setError("Please select a department");
+                }
+                dropdownDepartment.requestFocus();
+                isValid = false;
+            }
+        }
+
+        // Validate program for coordinators
+        if (tilProgramCoordinating.getVisibility() == View.VISIBLE) {
+            if (dropdownProgram.getText().toString().trim().isEmpty()) {
+                if (tilProgramCoordinating != null) {
+                    tilProgramCoordinating.setError("Please select a program");
+                } else {
+                    dropdownProgram.setError("Please select a program");
+                }
+                dropdownProgram.requestFocus();
+                isValid = false;
+            }
+        }
+
+        // Validate highest qualification
+        if (dropdownQualification.getText().toString().trim().isEmpty()) {
+            if (tilHighestQualification != null) {
+                tilHighestQualification.setError("Please select highest qualification");
+            } else {
+                dropdownQualification.setError("Please select highest qualification");
+            }
+            dropdownQualification.requestFocus();
+            isValid = false;
+        }
+
+        // Validate field of study
+        if (etFieldOfStudy.getText().toString().trim().isEmpty()) {
+            if (tilFieldOfStudy != null) {
+                tilFieldOfStudy.setError("Field of study is required");
+            } else {
+                etFieldOfStudy.setError("Field of study is required");
+            }
+            etFieldOfStudy.requestFocus();
+            isValid = false;
+        }
+
+        // Validate university
+        if (etUniversity.getText().toString().trim().isEmpty()) {
+            if (tilUniversity != null) {
+                tilUniversity.setError("University/Institution is required");
+            } else {
+                etUniversity.setError("University/Institution is required");
+            }
+            etUniversity.requestFocus();
+            isValid = false;
+        }
+
+        // Validate graduation year
+        String graduationYear = etGraduationYear.getText().toString().trim();
+        if (graduationYear.isEmpty()) {
+            if (tilGraduationYear != null) {
+                tilGraduationYear.setError("Graduation year is required");
+            } else {
+                etGraduationYear.setError("Graduation year is required");
+            }
+            etGraduationYear.requestFocus();
+            isValid = false;
+        } else {
+            try {
+                int year = Integer.parseInt(graduationYear);
+                int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+                if (year < 1950 || year > currentYear) {
+                    if (tilGraduationYear != null) {
+                        tilGraduationYear.setError("Please enter a valid year");
+                    } else {
+                        etGraduationYear.setError("Please enter a valid year");
+                    }
+                    etGraduationYear.requestFocus();
+                    isValid = false;
+                }
+            } catch (NumberFormatException e) {
+                if (tilGraduationYear != null) {
+                    tilGraduationYear.setError("Please enter a valid year");
+                } else {
+                    etGraduationYear.setError("Please enter a valid year");
+                }
+                etGraduationYear.requestFocus();
+                isValid = false;
+            }
+        }
+
+        // Validate experience years
+        String experienceYears = etExperienceYears.getText().toString().trim();
+        if (experienceYears.isEmpty()) {
+            if (tilExperienceYears != null) {
+                tilExperienceYears.setError("Years of experience is required");
+            } else {
+                etExperienceYears.setError("Years of experience is required");
+            }
+            etExperienceYears.requestFocus();
+            isValid = false;
+        } else {
+            try {
+                double experience = Double.parseDouble(experienceYears);
+                if (experience < 0 || experience > 50) {
+                    if (tilExperienceYears != null) {
+                        tilExperienceYears.setError("Please enter valid experience years");
+                    } else {
+                        etExperienceYears.setError("Please enter valid experience years");
+                    }
+                    etExperienceYears.requestFocus();
+                    isValid = false;
+                }
+            } catch (NumberFormatException e) {
+                if (tilExperienceYears != null) {
+                    tilExperienceYears.setError("Please enter a valid number");
+                } else {
+                    etExperienceYears.setError("Please enter a valid number");
+                }
+                etExperienceYears.requestFocus();
+                isValid = false;
+            }
+        }
+
+        return isValid;
+    }
+
+    private void saveProfessionalInformation() {
+        if (currentStaff == null) {
+            currentStaff = new Staff();
+        }
+
+        currentStaff.setPosition(dropdownPosition.getText().toString().trim());
+
+        // Set conditional fields based on visibility
+        if (tilDepartment.getVisibility() == View.VISIBLE) {
+            currentStaff.setDepartment(dropdownDepartment.getText().toString().trim());
+        }
+
+        if (tilTeachingSubject.getVisibility() == View.VISIBLE) {
+            currentStaff.setTeachingSubject(etTeachingSubject.getText().toString().trim());
+        }
+
+        if (tilProgramCoordinating.getVisibility() == View.VISIBLE) {
+            currentStaff.setProgramCoordinating(dropdownProgram.getText().toString().trim());
+        }
+
+        // Educational qualifications
+        currentStaff.setHighestQualification(dropdownQualification.getText().toString().trim());
+        currentStaff.setFieldOfStudy(etFieldOfStudy.getText().toString().trim());
+        currentStaff.setUniversity(etUniversity.getText().toString().trim());
+        currentStaff.setGraduationYear(etGraduationYear.getText().toString().trim());
+        currentStaff.setExperienceYears(etExperienceYears.getText().toString().trim());
+
+        Log.d(TAG, "Professional information saved to staff object: " + currentStaff.toString());
+    }
+
+    private void navigateToCompletion() {
+        try {
+            // Show completion dialog and navigate back
+            new AlertDialog.Builder(getContext())
+                    .setTitle("Registration Complete")
+                    .setMessage("Staff member " + currentStaff.getFullName() + " has been successfully registered!")
+                    .setPositiveButton("OK", (dialog, which) -> {
+                        // Navigate back to main screen or staff list
+                        if (getActivity() != null) {
+                            getActivity().finish();
+                        } else {
+                            // Clear back stack and go to home
+                            getParentFragmentManager().popBackStack(null,
+                                    androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error navigating to completion: " + e.getMessage(), e);
+            showToast("Registration completed but error in navigation");
+        }
+    }
+
+    private void goBackToPersonalInfo() {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Go Back")
+                .setMessage("Do you want to go back to personal information? Any unsaved professional details will be lost.")
+                .setPositiveButton("Yes, Go Back", (dialog, which) -> {
+                    getParentFragmentManager().popBackStack();
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void showLoading(boolean show) {
+        if (loadingOverlay != null) {
+            loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    // Getter method for other fragments to access the current staff data
+    public Staff getCurrentStaff() {
+        return currentStaff;
+    }
+
+    public void setCurrentStaff(Staff staff) {
+        this.currentStaff = staff;
+        populateFieldsFromStaff();
+    }
+
+    private void populateFieldsFromStaff() {
+        if (currentStaff != null) {
+            if (currentStaff.getPosition() != null) {
+                dropdownPosition.setText(currentStaff.getPosition());
+                updateFieldVisibility(currentStaff.getPosition());
+            }
+            if (currentStaff.getDepartment() != null) {
+                dropdownDepartment.setText(currentStaff.getDepartment());
+            }
+            if (currentStaff.getTeachingSubject() != null) {
+                etTeachingSubject.setText(currentStaff.getTeachingSubject());
+            }
+            if (currentStaff.getProgramCoordinating() != null) {
+                dropdownProgram.setText(currentStaff.getProgramCoordinating());
+            }
+            if (currentStaff.getHighestQualification() != null) {
+                dropdownQualification.setText(currentStaff.getHighestQualification());
+            }
+            if (currentStaff.getFieldOfStudy() != null) {
+                etFieldOfStudy.setText(currentStaff.getFieldOfStudy());
+            }
+            if (currentStaff.getUniversity() != null) {
+                etUniversity.setText(currentStaff.getUniversity());
+            }
+            if (currentStaff.getGraduationYear() != null) {
+                etGraduationYear.setText(currentStaff.getGraduationYear());
+            }
+            if (currentStaff.getExperienceYears() != null) {
+                etExperienceYears.setText(currentStaff.getExperienceYears());
+            }
+            Log.d(TAG, "Fields populated from staff: " + currentStaff.toString());
+        }
+    }
+
+    private void showToast(String message) {
+        if (getContext() != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dbHelper != null) {
+            dbHelper.close();
+        }
+    }
+}

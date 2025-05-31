@@ -11,11 +11,11 @@
         android:title="Assignments" />
     <item
         android:id="@+id/navschedule"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/student"
         android:title="Schedule" />
     <item
         android:id="@+id/navprofile"
-        android:icon="@drawable/ic_profile"
+        android:icon="@drawable/staff"
         android:title="Profile" />
 
 </menu>
