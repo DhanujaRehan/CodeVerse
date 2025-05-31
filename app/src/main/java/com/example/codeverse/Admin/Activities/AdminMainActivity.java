@@ -9,8 +9,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Admin.Fragments.AdminSendNotification;
-import com.example.codeverse.Admin.Fragments.StaffPersonalInfo;
-import com.example.codeverse.Staff.StaffFragments.StaffSchedule;
+import com.example.codeverse.RecieptUpload;
+import com.example.codeverse.Students.StudentFragments.StudentClass;
 import com.example.codeverse.Admin.Fragments.CreateStudent;
 import com.example.codeverse.R;
 import com.example.codeverse.databinding.ActivityAdminMainBinding;
@@ -29,7 +29,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.framelayout, new StaffSchedule())
+                    .replace(R.id.framelayout, new RecieptUpload())
                     .commit();
         }
 
@@ -37,7 +37,7 @@ public class AdminMainActivity extends AppCompatActivity {
             int itemid = item.getItemId();
             if (itemid == R.id.navhome) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new StaffSchedule())
+                        .replace(R.id.framelayout, new RecieptUpload())
                         .commit();
             }
             else if (itemid == R.id.navassignments){
@@ -47,7 +47,7 @@ public class AdminMainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new CreateStudent()).commit();
             }
             else if (itemid == R.id.navprofile){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffPersonalInfo()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new AdminSendNotification()).commit();
             }
             return true;
         });

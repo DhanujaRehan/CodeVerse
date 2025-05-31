@@ -8,14 +8,13 @@
     android:layout_height="match_parent"
     android:background="@drawable/exam_header_gradient">
 
-    <!-- Customized Status Bar -->
     <View
         android:id="@+id/status_bar"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@android:color/transparent" />
 
-    <!-- Top Header with Wave Effect -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -30,7 +29,7 @@
             android:paddingTop="56dp"
             android:paddingBottom="30dp">
 
-            <!-- Staff Profile Image With Animation -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_profile"
                 android:layout_width="56dp"
@@ -58,7 +57,7 @@
                     android:alpha="0.3" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Staff Welcome Message -->
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -91,7 +90,7 @@
             </LinearLayout>
 
 
-            <!-- University Animation -->
+
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_university"
                 android:layout_width="260dp"
@@ -106,14 +105,14 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Curved bottom shape for AppBar -->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="@drawable/staff_home_curved_bottom_shape" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -129,7 +128,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="80dp">
 
-            <!-- Quick Actions Section -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -223,7 +222,7 @@
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Grades Action -->
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_grades"
                         android:layout_width="120dp"
