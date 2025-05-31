@@ -1,12 +1,12 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.Helper;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.codeverse.StudentClassSchedule;
-import com.example.codeverse.LecturerClassSchedule;
+import com.example.codeverse.Staff.Models.StudentClassSchedule;
+import com.example.codeverse.Staff.Models.LecturerClassSchedule;
 import java.util.ArrayList;
 import java.util.List;
 

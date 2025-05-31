@@ -1,6 +1,6 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.Models;
 
-public class LecturerClassSchedule {
+public class StudentClassSchedule {
     private int id;
     private String subjectName;
     private String moduleNumber;
@@ -12,12 +12,12 @@ public class LecturerClassSchedule {
     private String status;
     private String date;
 
-    public LecturerClassSchedule() {
+    public StudentClassSchedule() {
     }
 
-    public LecturerClassSchedule(String subjectName, String moduleNumber, String lecturerName,
-                                 String classroom, String startTime, String endTime, String amPm,
-                                 String status, String date) {
+    public StudentClassSchedule(String subjectName, String moduleNumber, String lecturerName,
+                                String classroom, String startTime, String endTime, String amPm,
+                                String status, String date) {
         this.subjectName = subjectName;
         this.moduleNumber = moduleNumber;
         this.lecturerName = lecturerName;
