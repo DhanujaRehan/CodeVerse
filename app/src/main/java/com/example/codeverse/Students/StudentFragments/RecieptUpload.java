@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -15,8 +15,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.codeverse.Students.StudentFragments.DialogHelp;
-import com.example.codeverse.Students.StudentFragments.PaymentScreenFragment;
+import com.example.codeverse.R;
+import com.example.codeverse.Students.Helpers.PaymentHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
