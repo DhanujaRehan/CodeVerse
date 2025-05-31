@@ -10,9 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Admin.Fragments.AdminSendNotification;
 import com.example.codeverse.Admin.Fragments.StaffPersonalInfo;
-import com.example.codeverse.Staff.StaffFragments.StaffProfile;
-import com.example.codeverse.StudentProfile;
-import com.example.codeverse.Students.StudentFragments.RecieptUpload;
+import com.example.codeverse.Students.StudentFragments.StudentProfile;
 import com.example.codeverse.Admin.Fragments.CreateStudent;
 import com.example.codeverse.R;
 import com.example.codeverse.databinding.ActivityAdminMainBinding;
