@@ -5,7 +5,10 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,11 +23,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,8 +43,11 @@ import java.util.Locale;
 public class CreateStudent extends Fragment {
 
     private static final String TAG = "CreateStudent";
+    private static final String ARG_STUDENT_ID = "student_id";
+
     private StudentDatabaseHelper dbHelper;
     private Student currentStudent;
+    private long studentId = -1;
 
     // Views from XML layout
     private ImageView ivStudentPhoto;
@@ -49,9 +57,13 @@ public class CreateStudent extends Fragment {
     private TextInputEditText etNicNumber;
     private AutoCompleteTextView dropdownGender;
     private TextInputEditText etDateOfBirth;
+    private TextInputLayout tilFullName;
+    private TextInputLayout tilUniversityId;
+    private TextInputLayout tilNicNumber;
+    private TextInputLayout tilGender;
+    private TextInputLayout tilDateOfBirth;
     private MaterialButton btnNextStep;
     private MaterialButton btnCancel;
-    private MaterialButton btnSaveForLater;
     private FrameLayout loadingOverlay;
 
     private String selectedImageUri = null;
@@ -74,17 +86,37 @@ public class CreateStudent extends Fragment {
                 }
             });
 
+    public static CreateStudent newInstance(long studentId) {
+        CreateStudent fragment = new CreateStudent();
+        Bundle args = new Bundle();
+        args.putLong(ARG_STUDENT_ID, studentId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Initialize database helper
         dbHelper = new StudentDatabaseHelper(getContext());
+
+        // Get student ID from arguments if provided
+        if (getArguments() != null) {
+            studentId = getArguments().getLong(ARG_STUDENT_ID, -1);
+        }
 
         // Check if we're editing an existing student or creating new
         Bundle args = getArguments();
         if (args != null && args.containsKey("student")) {
             currentStudent = (Student) args.getSerializable("student");
             Log.d(TAG, "Editing existing student: " + currentStudent.getUniversityId());
+        } else if (studentId != -1) {
+            // Load existing student by ID
+            currentStudent = dbHelper.getStudentById(studentId);
+            if (currentStudent != null) {
+                Log.d(TAG, "Loaded existing student: " + currentStudent.getUniversityId());
+            }
         } else {
             currentStudent = new Student();
             Log.d(TAG, "Creating new student");
@@ -102,6 +134,9 @@ public class CreateStudent extends Fragment {
         // Set up click listeners
         setupClickListeners();
 
+        // Setup text change listeners
+        setupTextChangeListeners();
+
         // Setup gender dropdown
         setupGenderDropdown();
 
@@ -112,17 +147,30 @@ public class CreateStudent extends Fragment {
     }
 
     private void initializeViews(View view) {
-        // Initialize views with exact IDs from XML
-        ivStudentPhoto = view.findViewById(R.id.iv_student_photo);
-        fabAddPhoto = view.findViewById(R.id.fab_add_photo);
-        etFullName = view.findViewById(R.id.et_full_name);
-        etUniversityId = view.findViewById(R.id.et_university_id);
-        etNicNumber = view.findViewById(R.id.et_nic_number);
-        dropdownGender = view.findViewById(R.id.dropdown_gender);
-        etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
-        btnNextStep = view.findViewById(R.id.btn_next_step);
-        btnCancel = view.findViewById(R.id.btn_cancel);
-        loadingOverlay = view.findViewById(R.id.loading_overlay);
+        try {
+            // Initialize views with exact IDs from XML
+            ivStudentPhoto = view.findViewById(R.id.iv_student_photo);
+            fabAddPhoto = view.findViewById(R.id.fab_add_photo);
+            etFullName = view.findViewById(R.id.et_full_name);
+            etUniversityId = view.findViewById(R.id.et_university_id);
+            etNicNumber = view.findViewById(R.id.et_nic_number);
+            dropdownGender = view.findViewById(R.id.dropdown_gender);
+            etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
+
+            // Initialize TextInputLayouts for error handling
+            tilFullName = view.findViewById(R.id.til_full_name);
+            tilUniversityId = view.findViewById(R.id.til_university_id);
+            tilNicNumber = view.findViewById(R.id.til_nic_number);
+            tilGender = view.findViewById(R.id.til_gender);
+            tilDateOfBirth = view.findViewById(R.id.til_date_of_birth);
+
+            btnNextStep = view.findViewById(R.id.btn_next_step);
+            btnCancel = view.findViewById(R.id.btn_cancel);
+            loadingOverlay = view.findViewById(R.id.loading_overlay);
+        } catch (Exception e) {
+            Log.e(TAG, "Error initializing views: " + e.getMessage());
+            showToast("Failed to initialize the form");
+        }
     }
 
     private void setupClickListeners() {
@@ -133,15 +181,46 @@ public class CreateStudent extends Fragment {
         etDateOfBirth.setOnClickListener(v -> showDatePicker());
 
         // Next step button
-        btnNextStep.setOnClickListener(v -> proceedToNextStep());
+        btnNextStep.setOnClickListener(v -> {
+            if (validateBasicInformation()) {
+                proceedToNextStep();
+            }
+        });
 
         // Cancel button
         btnCancel.setOnClickListener(v -> cancelRegistration());
 
-        // Save for later button
-        if (btnSaveForLater != null) {
-            btnSaveForLater.setOnClickListener(v -> saveForLater());
-        }
+    }
+
+    private void setupTextChangeListeners() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                clearErrors();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        };
+
+        etFullName.addTextChangedListener(textWatcher);
+        etUniversityId.addTextChangedListener(textWatcher);
+        etNicNumber.addTextChangedListener(textWatcher);
+        dropdownGender.addTextChangedListener(textWatcher);
+        etDateOfBirth.addTextChangedListener(textWatcher);
+    }
+
+    private void clearErrors() {
+        if (tilFullName != null) tilFullName.setError(null);
+        if (tilUniversityId != null) tilUniversityId.setError(null);
+        if (tilNicNumber != null) tilNicNumber.setError(null);
+        if (tilGender != null) tilGender.setError(null);
+        if (tilDateOfBirth != null) tilDateOfBirth.setError(null);
     }
 
     private void setupGenderDropdown() {
@@ -181,11 +260,6 @@ public class CreateStudent extends Fragment {
     }
 
     private void proceedToNextStep() {
-        // Validate basic information
-        if (!validateBasicInformation()) {
-            return;
-        }
-
         // Check for duplicate values
         if (checkForDuplicates()) {
             return;
@@ -197,77 +271,90 @@ public class CreateStudent extends Fragment {
         // Save basic information to current student object
         saveBasicInformation();
 
-        // Save to database with partial data
-        try {
-            long studentId;
-            if (currentStudent.getId() > 0) {
-                // Update existing student
-                int rowsAffected = dbHelper.updateStudent(currentStudent);
-                studentId = currentStudent.getId();
-                Log.d(TAG, "Student updated in database. Rows affected: " + rowsAffected);
-            } else {
-                // Insert new student
-                studentId = dbHelper.insertStudent(currentStudent);
-                currentStudent.setId(studentId);
-                Log.d(TAG, "Student saved to database with ID: " + studentId);
+        // Save to database with partial data using Handler for smooth UI
+        new Handler().postDelayed(() -> {
+            try {
+                long resultId;
+                if (currentStudent.getId() > 0) {
+                    // Update existing student
+                    int rowsAffected = dbHelper.updateStudent(currentStudent);
+                    resultId = currentStudent.getId();
+                    Log.d(TAG, "Student updated in database. Rows affected: " + rowsAffected);
+                } else {
+                    // Insert new student
+                    resultId = dbHelper.insertStudent(currentStudent);
+                    currentStudent.setId(resultId);
+                    Log.d(TAG, "Student saved to database with ID: " + resultId);
+                }
+
+                // Hide loading
+                showLoading(false);
+
+                if (resultId > 0) {
+                    showToast("Basic information saved successfully!");
+
+                    // Clear form after successful save
+                    clearForm();
+
+                    // Navigate to next step (Academic Details)
+                    navigateToAcademicDetails();
+                } else {
+                    Log.e(TAG, "Failed to save student to database");
+                    showToast("Failed to save student information");
+                }
+            } catch (Exception e) {
+                // Hide loading
+                showLoading(false);
+                Log.e(TAG, "Error saving student: " + e.getMessage(), e);
+                showToast("Error saving student: " + e.getMessage());
             }
-
-            if (studentId > 0) {
-                Toast.makeText(getContext(), "Basic information saved successfully!", Toast.LENGTH_SHORT).show();
-
-                // Clear form after successful save
-                clearform();
-
-                // Navigate to next step (Academic Details)
-                navigateToAcademicDetails();
-            } else {
-                Log.e(TAG, "Failed to save student to database");
-                Toast.makeText(getContext(), "Failed to save student information", Toast.LENGTH_SHORT).show();
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Error saving student: " + e.getMessage(), e);
-            Toast.makeText(getContext(), "Error saving student: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        } finally {
-            // Hide loading
-            showLoading(false);
-        }
+        }, 1500); // 1.5 second delay for smooth loading experience
     }
 
     private void saveForLater() {
         // This method allows saving incomplete data as draft
         if (etFullName.getText().toString().trim().isEmpty()) {
-            Toast.makeText(getContext(), "At least full name is required to save", Toast.LENGTH_SHORT).show();
+            showToast("At least full name is required to save");
             return;
         }
 
+        // Show loading
         showLoading(true);
+
+        // Save basic information to current student object
         saveBasicInformation();
 
-        try {
-            long studentId;
-            if (currentStudent.getId() > 0) {
-                // Update existing student
-                int rowsAffected = dbHelper.updateStudent(currentStudent);
-                studentId = currentStudent.getId();
-                Log.d(TAG, "Student updated in database. Rows affected: " + rowsAffected);
-            } else {
-                // Insert new student
-                studentId = dbHelper.insertStudent(currentStudent);
-                currentStudent.setId(studentId);
-                Log.d(TAG, "Student saved as draft with ID: " + studentId);
-            }
+        // Save to database using Handler for smooth UI
+        new Handler().postDelayed(() -> {
+            try {
+                long resultId;
+                if (currentStudent.getId() > 0) {
+                    // Update existing student
+                    int rowsAffected = dbHelper.updateStudent(currentStudent);
+                    resultId = currentStudent.getId();
+                    Log.d(TAG, "Student updated in database. Rows affected: " + rowsAffected);
+                } else {
+                    // Insert new student
+                    resultId = dbHelper.insertStudent(currentStudent);
+                    currentStudent.setId(resultId);
+                    Log.d(TAG, "Student saved as draft with ID: " + resultId);
+                }
 
-            if (studentId > 0) {
-                Toast.makeText(getContext(), "Information saved as draft!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "Failed to save draft", Toast.LENGTH_SHORT).show();
+                // Hide loading
+                showLoading(false);
+
+                if (resultId > 0) {
+                    showToast("Information saved as draft!");
+                } else {
+                    showToast("Failed to save draft");
+                }
+            } catch (Exception e) {
+                // Hide loading
+                showLoading(false);
+                Log.e(TAG, "Error saving draft: " + e.getMessage(), e);
+                showToast("Error saving draft: " + e.getMessage());
             }
-        } catch (Exception e) {
-            Log.e(TAG, "Error saving draft: " + e.getMessage(), e);
-            Toast.makeText(getContext(), "Error saving draft: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        } finally {
-            showLoading(false);
-        }
+        }, 1500); // 1.5 second delay for smooth loading experience
     }
 
     private boolean validateBasicInformation() {
@@ -275,35 +362,52 @@ public class CreateStudent extends Fragment {
 
         // Validate full name
         if (etFullName.getText().toString().trim().isEmpty()) {
-            etFullName.setError("Full name is required");
+            if (tilFullName != null) {
+                tilFullName.setError("Full name is required");
+            } else {
+                etFullName.setError("Full name is required");
+            }
             etFullName.requestFocus();
             isValid = false;
         }
 
         // Validate university ID
         if (etUniversityId.getText().toString().trim().isEmpty()) {
-            etUniversityId.setError("University ID is required");
+            if (tilUniversityId != null) {
+                tilUniversityId.setError("University ID is required");
+            } else {
+                etUniversityId.setError("University ID is required");
+            }
             etUniversityId.requestFocus();
             isValid = false;
         }
 
-        // Validate NIC number
         if (etNicNumber.getText().toString().trim().isEmpty()) {
-            etNicNumber.setError("NIC number is required");
+            if (tilNicNumber != null) {
+                tilNicNumber.setError("NIC number is required");
+            } else {
+                etNicNumber.setError("NIC number is required");
+            }
             etNicNumber.requestFocus();
             isValid = false;
         }
 
-        // Validate gender
         if (dropdownGender.getText().toString().trim().isEmpty()) {
-            dropdownGender.setError("Please select gender");
+            if (tilGender != null) {
+                tilGender.setError("Please select gender");
+            } else {
+                dropdownGender.setError("Please select gender");
+            }
             dropdownGender.requestFocus();
             isValid = false;
         }
 
-        // Validate date of birth
         if (etDateOfBirth.getText().toString().trim().isEmpty()) {
-            etDateOfBirth.setError("Date of birth is required");
+            if (tilDateOfBirth != null) {
+                tilDateOfBirth.setError("Date of birth is required");
+            } else {
+                etDateOfBirth.setError("Date of birth is required");
+            }
             etDateOfBirth.requestFocus();
             isValid = false;
         }
@@ -314,29 +418,33 @@ public class CreateStudent extends Fragment {
     private boolean checkForDuplicates() {
         String universityId = etUniversityId.getText().toString().trim();
         String nicNumber = etNicNumber.getText().toString().trim();
-
-        // Skip duplicate check if we're editing the same student
         try {
             if (dbHelper.isUniversityIdExists(universityId)) {
-                // Check if it's the same student we're editing
                 if (currentStudent.getId() == 0 || !universityId.equals(currentStudent.getUniversityId())) {
-                    etUniversityId.setError("University ID already exists");
+                    if (tilUniversityId != null) {
+                        tilUniversityId.setError("University ID already exists");
+                    } else {
+                        etUniversityId.setError("University ID already exists");
+                    }
                     etUniversityId.requestFocus();
                     return true;
                 }
             }
 
             if (dbHelper.isNicExists(nicNumber)) {
-                // Check if it's the same student we're editing
                 if (currentStudent.getId() == 0 || !nicNumber.equals(currentStudent.getNicNumber())) {
-                    etNicNumber.setError("NIC number already exists");
+                    if (tilNicNumber != null) {
+                        tilNicNumber.setError("NIC number already exists");
+                    } else {
+                        etNicNumber.setError("NIC number already exists");
+                    }
                     etNicNumber.requestFocus();
                     return true;
                 }
             }
         } catch (Exception e) {
             Log.e(TAG, "Error checking duplicates: " + e.getMessage(), e);
-            Toast.makeText(getContext(), "Error validating data", Toast.LENGTH_SHORT).show();
+            showToast("Error validating data");
             return true;
         }
 
@@ -375,17 +483,21 @@ public class CreateStudent extends Fragment {
 
         } catch (Exception e) {
             Log.e(TAG, "Error navigating to Academic Details: " + e.getMessage(), e);
-            Toast.makeText(getContext(), "Error proceeding to next step", Toast.LENGTH_SHORT).show();
+            showToast("Error proceeding to next step");
         }
     }
 
     private void cancelRegistration() {
-        new androidx.appcompat.app.AlertDialog.Builder(getContext())
+        new AlertDialog.Builder(getContext())
                 .setTitle("Cancel Registration")
                 .setMessage("Are you sure you want to cancel? All entered data will be lost.")
                 .setPositiveButton("Yes, Cancel", (dialog, which) -> {
                     clearAllData();
-                    getParentFragmentManager().popBackStack();
+                    if (getActivity() != null) {
+                        getActivity().onBackPressed();
+                    } else {
+                        getParentFragmentManager().popBackStack();
+                    }
                 })
                 .setNegativeButton("Continue", null)
                 .show();
@@ -402,6 +514,7 @@ public class CreateStudent extends Fragment {
         selectedImageUri = null;
 
         currentStudent = new Student();
+        clearErrors();
     }
 
     private void showLoading(boolean show) {
@@ -439,7 +552,7 @@ public class CreateStudent extends Fragment {
             return imageFile.getAbsolutePath();
         } catch (IOException e) {
             Log.e(TAG, "Error saving image: " + e.getMessage(), e);
-            Toast.makeText(getContext(), "Error saving image", Toast.LENGTH_SHORT).show();
+            showToast("Error saving image");
             return null;
         }
     }
@@ -475,12 +588,11 @@ public class CreateStudent extends Fragment {
                 selectedImageUri = currentStudent.getPhotoUri();
                 ivStudentPhoto.setImageURI(Uri.fromFile(new File(selectedImageUri)));
             }
-
             Log.d(TAG, "Fields populated from student: " + currentStudent.toString());
         }
     }
 
-    private void clearform() {
+    private void clearForm() {
         etFullName.setText("");
         etUniversityId.setText("");
         etNicNumber.setText("");
@@ -488,6 +600,13 @@ public class CreateStudent extends Fragment {
         etDateOfBirth.setText("");
         ivStudentPhoto.setImageResource(R.drawable.addpropic);
         selectedImageUri = null;
+        clearErrors();
+    }
+
+    private void showToast(String message) {
+        if (getContext() != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

@@ -39,23 +39,15 @@ public class AccountDetails extends Fragment {
     private MaterialButton btnNextStep, btnCancel;
     private MaterialCardView cvBack, cvHelp;
     private FrameLayout loadingOverlay;
-
     private TextView tvPasswordRequirementLength, tvPasswordRequirementUppercase;
     private TextView tvPasswordRequirementNumber, tvPasswordRequirementSpecial;
     private TextView tvPasswordRequirementMatch;
-
     private LinearLayout cardBasicInfoIndicator, cardAcademicIndicator,
             cardAccountIndicator, cardContactIndicator;
-
-    // Database helper
     private StudentDatabaseHelper dbHelper;
-
-    // Student ID passed from previous step
     private long studentId = -1;
-
     private static final String TAG = "AccountDetailsFragment";
     private static final String ARG_STUDENT_ID = "student_id";
-
     private static final Pattern PASSWORD_UPPERCASE = Pattern.compile("[A-Z]");
     private static final Pattern PASSWORD_NUMBER = Pattern.compile("[0-9]");
     private static final Pattern PASSWORD_SPECIAL = Pattern.compile("[^A-Za-z0-9]");
