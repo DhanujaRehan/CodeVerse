@@ -350,7 +350,6 @@
                     android:layout_height="32dp"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_colorFilter="#0D47A1"
                     app:lottie_rawRes="@raw/user_info_animation" />
 
                 <TextView
