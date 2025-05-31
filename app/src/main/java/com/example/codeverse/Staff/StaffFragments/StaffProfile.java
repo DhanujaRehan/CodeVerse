@@ -29,7 +29,6 @@ public class StaffProfile extends Fragment {
     private StaffCourseAdapter staffCourseAdapter;
     private List<StaffCourse> courseList;
 
-    // UI elements that we'll interact with
     private MaterialCardView cvBack;
     private MaterialCardView cvDepartmentSelector;
     private FloatingActionButton fabSchedule;

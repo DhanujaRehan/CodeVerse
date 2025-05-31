@@ -11,6 +11,13 @@ public class CalendarDayModel {
     public CalendarDayModel() {
     }
 
+    public CalendarDayModel(Date date, boolean isCurrentMonth, boolean hasEvents, boolean isSelected) {
+        this.date = date;
+        this.isCurrentMonth = isCurrentMonth;
+        this.hasEvents = hasEvents;
+        this.isSelected = isSelected;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -27,7 +34,7 @@ public class CalendarDayModel {
         isCurrentMonth = currentMonth;
     }
 
-    public boolean hasEvents() {
+    public boolean isHasEvents() {
         return hasEvents;
     }
 
