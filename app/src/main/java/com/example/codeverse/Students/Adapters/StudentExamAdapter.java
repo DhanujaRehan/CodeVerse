@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.codeverse.Exam;
+import com.example.codeverse.Students.Models.Exam;
 import com.example.codeverse.R;
 import com.google.android.material.card.MaterialCardView;
 import java.util.List;

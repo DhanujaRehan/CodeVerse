@@ -8,7 +8,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.codeverse.Exam;
+import com.example.codeverse.Students.Models.Exam;
 import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
 

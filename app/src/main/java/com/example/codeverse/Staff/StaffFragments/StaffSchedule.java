@@ -36,12 +36,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class StaffSchedule extends Fragment {
+public  class StaffSchedule extends Fragment {
 
+    // Required empty public constructor for fragment recreation
+    public StaffSchedule() {
+        // Required empty public constructor
+    }
+
+    // Constants
     private static final String TAG = "StaffScheduleFragment";
     private static final int DAYS_IN_WEEK = 7;
     private static final int MAX_WEEKS_DISPLAY = 6;
 
+    // UI Components
     private RecyclerView rvCalendar;
     private RecyclerView rvSchedules;
     private TextView tvMonthYear;
@@ -58,33 +65,35 @@ public class StaffSchedule extends Fragment {
     private ImageView btnNextMonth;
     private MaterialButton btnCreateSchedule;
 
+    // Adapters
     private CalendarAdapter calendarAdapter;
     private ScheduleAdapter scheduleAdapter;
 
+    // Data
     private Calendar currentCalendar = Calendar.getInstance();
     private Date selectedDate = new Date();
     private boolean isStudentSchedule = true;
 
+    // Bottom Sheet
     private BottomSheetBehavior<MaterialCardView> bottomSheetBehavior;
 
+    // Form fields
     private TextInputEditText etSubjectName;
     private TextInputEditText etModuleNumber;
     private TextInputEditText etLecturerName;
     private TextInputEditText etClassRoom;
     private TextInputEditText etTime;
 
+    // Root view
     private View rootView;
-
-    public StaffSchedule() {
-    }
 
     public static StaffSchedule newInstance() {
         return new StaffSchedule();
     }
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_staff_schedule, container, false);
         return rootView;
     }
@@ -93,12 +102,16 @@ public class StaffSchedule extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // Initialize all UI components
         initViews();
 
+        // Setup calendar UI
         setupCalendar();
 
+        // Setup schedules list
         setupSchedulesList();
 
+        // Setup click listeners
         setupListeners();
     }
 
@@ -106,13 +119,16 @@ public class StaffSchedule extends Fragment {
      * Initialize all UI components
      */
     private void initViews() {
+        // RecyclerViews
         rvCalendar = rootView.findViewById(R.id.rv_calendar);
         rvSchedules = rootView.findViewById(R.id.rv_schedules);
 
+        // TextViews
         tvMonthYear = rootView.findViewById(R.id.tv_month_year);
         tvScheduleDate = rootView.findViewById(R.id.tv_schedule_date);
         tvScheduleType = rootView.findViewById(R.id.tv_schedule_type);
 
+        // Buttons
         btnStudentSchedule = rootView.findViewById(R.id.btn_student_schedule);
         btnLecturerSchedule = rootView.findViewById(R.id.btn_lecturer_schedule);
         fabAddSchedule = rootView.findViewById(R.id.fab_add_schedule);
@@ -120,30 +136,37 @@ public class StaffSchedule extends Fragment {
         btnNextMonth = rootView.findViewById(R.id.btn_next_month);
         btnCreateSchedule = rootView.findViewById(R.id.btn_create_schedule);
 
+        // Layout containers
         bottomSheetContainer = rootView.findViewById(R.id.bottom_sheet_container);
         bottomSheet = rootView.findViewById(R.id.bottom_sheet);
         successOverlay = rootView.findViewById(R.id.success_overlay);
         layoutEmptyState = rootView.findViewById(R.id.layout_empty_state);
 
+        // Form fields
         etSubjectName = rootView.findViewById(R.id.et_subject_name);
         etModuleNumber = rootView.findViewById(R.id.et_module_number);
         etLecturerName = rootView.findViewById(R.id.et_lecturer_name);
         etClassRoom = rootView.findViewById(R.id.et_class_room);
         etTime = rootView.findViewById(R.id.et_time);
 
-        if (bottomSheet != null) {
-            bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
+        // Setup Bottom Sheet behavior
+        bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
 
+        // Set current date text
         updateDateDisplay();
     }
 
+    /**
+     * Setup the calendar grid view
+     */
     private void setupCalendar() {
+        // Create and set adapter
         List<CalendarDayModel> days = generateCalendarDays();
         calendarAdapter = new CalendarAdapter(days, this::onDateSelected);
 
-         rvCalendar.setLayoutManager(new GridLayoutManager(getContext(), DAYS_IN_WEEK));
+        // Configure RecyclerView for calendar grid
+        rvCalendar.setLayoutManager(new GridLayoutManager(getContext(), DAYS_IN_WEEK));
         rvCalendar.setAdapter(calendarAdapter);
         rvCalendar.setNestedScrollingEnabled(false);
     }
@@ -152,102 +175,87 @@ public class StaffSchedule extends Fragment {
      * Setup the schedules list
      */
     private void setupSchedulesList() {
-         List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
+        // Get schedules for the selected date
+        List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
 
-         scheduleAdapter = new ScheduleAdapter(schedules, this::onScheduleAction);
+        // Create and set adapter
+        scheduleAdapter = new ScheduleAdapter(schedules, this::onScheduleAction);
 
-         rvSchedules.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Configure RecyclerView for schedules
+        rvSchedules.setLayoutManager(new LinearLayoutManager(getContext()));
         rvSchedules.setAdapter(scheduleAdapter);
         rvSchedules.setNestedScrollingEnabled(false);
 
-         updateEmptyState(schedules.isEmpty());
+        // Show empty state if no schedules
+        updateEmptyState(schedules.isEmpty());
     }
 
+    /**
+     * Setup all click listeners
+     */
     private void setupListeners() {
-         if (btnPrevMonth != null) {
-            btnPrevMonth.setOnClickListener(v -> changeMonth(-1));
-        }
-        if (btnNextMonth != null) {
-            btnNextMonth.setOnClickListener(v -> changeMonth(1));
-        }
+        // Month navigation buttons
+        btnPrevMonth.setOnClickListener(v -> changeMonth(-1));
+        btnNextMonth.setOnClickListener(v -> changeMonth(1));
 
-         if (btnStudentSchedule != null) {
-            btnStudentSchedule.setOnClickListener(v -> {
-                if (!isStudentSchedule) {
-                    isStudentSchedule = true;
-                    updateScheduleTypeUI();
+        // Schedule type toggle buttons
+        btnStudentSchedule.setOnClickListener(v -> {
+            if (!isStudentSchedule) {
+                isStudentSchedule = true;
+                updateScheduleTypeUI();
+            }
+        });
+
+        btnLecturerSchedule.setOnClickListener(v -> {
+            if (isStudentSchedule) {
+                isStudentSchedule = false;
+                updateScheduleTypeUI();
+            }
+        });
+
+        // Add schedule buttons
+        fabAddSchedule.setOnClickListener(v -> showAddScheduleBottomSheet());
+        btnCreateSchedule.setOnClickListener(v -> showAddScheduleBottomSheet());
+
+        // Back button - handle fragment navigation
+        rootView.findViewById(R.id.cv_back).setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        // Bottom sheet buttons
+        rootView.findViewById(R.id.btn_cancel_schedule).setOnClickListener(v -> hideBottomSheet());
+        rootView.findViewById(R.id.btn_save_schedule).setOnClickListener(v -> saveSchedule());
+
+        // Bottom sheet behavior
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(View bottomSheet, int newState) {
+                if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                    bottomSheetContainer.setVisibility(View.GONE);
                 }
-            });
-        }
+            }
 
-        if (btnLecturerSchedule != null) {
-            btnLecturerSchedule.setOnClickListener(v -> {
-                if (isStudentSchedule) {
-                    isStudentSchedule = false;
-                    updateScheduleTypeUI();
-                }
-            });
-        }
-
-         if (fabAddSchedule != null) {
-            fabAddSchedule.setOnClickListener(v -> showAddScheduleBottomSheet());
-        }
-        if (btnCreateSchedule != null) {
-            btnCreateSchedule.setOnClickListener(v -> showAddScheduleBottomSheet());
-        }
-
-         View backButton = rootView.findViewById(R.id.cv_back);
-        if (backButton != null) {
-            backButton.setOnClickListener(v -> navigateBack());
-        }
-
-         View btnCancel = rootView.findViewById(R.id.btn_cancel_schedule);
-        if (btnCancel != null) {
-            btnCancel.setOnClickListener(v -> hideBottomSheet());
-        }
-
-        View btnSave = rootView.findViewById(R.id.btn_save_schedule);
-        if (btnSave != null) {
-            btnSave.setOnClickListener(v -> saveSchedule());
-        }
-
-         if (bottomSheetBehavior != null) {
-            bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-                @Override
-                public void onStateChanged(View bottomSheet, int newState) {
-                    if (newState == BottomSheetBehavior.STATE_HIDDEN && bottomSheetContainer != null) {
-                        bottomSheetContainer.setVisibility(View.GONE);
-                    }
-                }
-
-                @Override
-                public void onSlide(View bottomSheet, float slideOffset) {
-                     if (bottomSheetContainer != null) {
-                        bottomSheetContainer.setAlpha(slideOffset);
-                    }
-                }
-            });
-        }
+            @Override
+            public void onSlide(View bottomSheet, float slideOffset) {
+                // Optional: Add animation based on slide offset
+                bottomSheetContainer.setAlpha(slideOffset);
+            }
+        });
     }
 
-    private void navigateBack() {
-        if (getParentFragmentManager().getBackStackEntryCount() > 0) {
-            getParentFragmentManager().popBackStack();
-        } else if (getActivity() != null) {
-            getActivity().onBackPressed();
-        }
-    }
-
+    /**
+     * Update the month/year display and regenerate calendar days
+     */
     private void updateDateDisplay() {
-         SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
-        if (tvMonthYear != null) {
-            tvMonthYear.setText(sdf.format(currentCalendar.getTime()));
-        }
+        // Update month/year text
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM yyyy", Locale.getDefault());
+        tvMonthYear.setText(sdf.format(currentCalendar.getTime()));
 
-         SimpleDateFormat dateSdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
-        if (tvScheduleDate != null) {
-            tvScheduleDate.setText(dateSdf.format(selectedDate));
-        }
+        // Update selected date text
+        SimpleDateFormat dateSdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+        tvScheduleDate.setText(dateSdf.format(selectedDate));
     }
 
     /**
@@ -256,13 +264,17 @@ public class StaffSchedule extends Fragment {
     private List<CalendarDayModel> generateCalendarDays() {
         List<CalendarDayModel> days = new ArrayList<>();
 
-         Calendar calendar = (Calendar) currentCalendar.clone();
+        // Clone the current calendar to avoid modifying it
+        Calendar calendar = (Calendar) currentCalendar.clone();
 
-         calendar.set(Calendar.DAY_OF_MONTH, 1);
+        // Set to the first day of the month
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
 
-         int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        // Get the day of week for the first day of month (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+        int firstDayOfWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
-         calendar.add(Calendar.DAY_OF_MONTH, -firstDayOfWeek);
+        // Add empty days for previous month
+        calendar.add(Calendar.DAY_OF_MONTH, -firstDayOfWeek);
         for (int i = 0; i < firstDayOfWeek; i++) {
             CalendarDayModel day = new CalendarDayModel();
             day.setDate(calendar.getTime());
@@ -272,21 +284,26 @@ public class StaffSchedule extends Fragment {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-         calendar.set(Calendar.DAY_OF_MONTH, 1);
+        // Reset to first day of current month
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
         calendar.set(Calendar.MONTH, currentCalendar.get(Calendar.MONTH));
 
-         int maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        // Get the number of days in the month
+        int maxDays = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-         for (int i = 0; i < maxDays; i++) {
+        // Add days of current month
+        for (int i = 0; i < maxDays; i++) {
             CalendarDayModel day = new CalendarDayModel();
             day.setDate(calendar.getTime());
             day.setCurrentMonth(true);
 
-
+            // Mark some days as having events (in a real app, this would be from a database)
+            // For demo, mark every 3rd and 15th day as having events
             int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
             day.setHasEvents(dayOfMonth % 3 == 0 || dayOfMonth == 15);
 
-             Calendar selectedCal = Calendar.getInstance();
+            // Check if this is the selected date
+            Calendar selectedCal = Calendar.getInstance();
             selectedCal.setTime(selectedDate);
             day.setSelected(calendar.get(Calendar.YEAR) == selectedCal.get(Calendar.YEAR) &&
                     calendar.get(Calendar.MONTH) == selectedCal.get(Calendar.MONTH) &&
@@ -296,7 +313,8 @@ public class StaffSchedule extends Fragment {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
 
-         int remainingDays = (DAYS_IN_WEEK * MAX_WEEKS_DISPLAY) - days.size();
+        // Add days for next month to complete grid (42 days total for 6 rows)
+        int remainingDays = (DAYS_IN_WEEK * MAX_WEEKS_DISPLAY) - days.size();
         for (int i = 0; i < remainingDays; i++) {
             CalendarDayModel day = new CalendarDayModel();
             day.setDate(calendar.getTime());
@@ -309,190 +327,212 @@ public class StaffSchedule extends Fragment {
         return days;
     }
 
-
+    /**
+     * Change the displayed month and update the calendar
+     */
     private void changeMonth(int amount) {
-         currentCalendar.add(Calendar.MONTH, amount);
+        // Change month by the specified amount
+        currentCalendar.add(Calendar.MONTH, amount);
 
-         updateDateDisplay();
+        // Update display
+        updateDateDisplay();
 
-         if (calendarAdapter != null) {
-            calendarAdapter.updateData(generateCalendarDays());
-        }
+        // Regenerate calendar days
+        calendarAdapter.updateData(generateCalendarDays());
     }
 
-
+    /**
+     * Handle date selection from the calendar
+     */
     private void onDateSelected(Date date) {
-         this.selectedDate = date;
+        // Update selected date
+        this.selectedDate = date;
 
-         SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
-        if (tvScheduleDate != null) {
-            tvScheduleDate.setText(sdf.format(date));
-        }
+        // Update date display
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd, yyyy", Locale.getDefault());
+        tvScheduleDate.setText(sdf.format(date));
 
-         List<ScheduleModel> schedules = getSchedulesForDate(date, isStudentSchedule);
-        if (scheduleAdapter != null) {
-            scheduleAdapter.updateData(schedules);
-        }
+        // Get schedules for the new date
+        List<ScheduleModel> schedules = getSchedulesForDate(date, isStudentSchedule);
+        scheduleAdapter.updateData(schedules);
 
-         updateEmptyState(schedules.isEmpty());
+        // Show/hide empty state
+        updateEmptyState(schedules.isEmpty());
     }
 
-
+    /**
+     * Update UI based on selected schedule type (Student/Lecturer)
+     */
     private void updateScheduleTypeUI() {
         if (getContext() == null) return;
 
         if (isStudentSchedule) {
-             if (btnStudentSchedule != null) {
-                btnStudentSchedule.setBackgroundTintList(getContext().getColorStateList(R.color.blue_primary));
-                btnStudentSchedule.setTextColor(getContext().getColorStateList(R.color.white));
-            }
-            if (btnLecturerSchedule != null) {
-                btnLecturerSchedule.setBackgroundTintList(getContext().getColorStateList(R.color.light_background));
-                btnLecturerSchedule.setTextColor(getContext().getColorStateList(R.color.text_secondary));
-            }
+            // Update button styles
+            btnStudentSchedule.setBackgroundTintList(getContext().getColorStateList(R.color.blue_primary));
+            btnStudentSchedule.setTextColor(getContext().getColorStateList(R.color.white));
+            btnLecturerSchedule.setBackgroundTintList(getContext().getColorStateList(R.color.light_background));
+            btnLecturerSchedule.setTextColor(getContext().getColorStateList(R.color.text_secondary));
 
-             if (tvScheduleType != null) {
-                tvScheduleType.setText("Student Schedule");
-            }
+            // Update schedule type text
+            tvScheduleType.setText("Student Schedule");
         } else {
-             if (btnLecturerSchedule != null) {
-                btnLecturerSchedule.setBackgroundTintList(getContext().getColorStateList(R.color.blue_primary));
-                btnLecturerSchedule.setTextColor(getContext().getColorStateList(R.color.white));
-            }
-            if (btnStudentSchedule != null) {
-                btnStudentSchedule.setBackgroundTintList(getContext().getColorStateList(R.color.light_background));
-                btnStudentSchedule.setTextColor(getContext().getColorStateList(R.color.text_secondary));
-            }
+            // Update button styles
+            btnLecturerSchedule.setBackgroundTintList(getContext().getColorStateList(R.color.blue_primary));
+            btnLecturerSchedule.setTextColor(getContext().getColorStateList(R.color.white));
+            btnStudentSchedule.setBackgroundTintList(getContext().getColorStateList(R.color.light_background));
+            btnStudentSchedule.setTextColor(getContext().getColorStateList(R.color.text_secondary));
 
-             if (tvScheduleType != null) {
-                tvScheduleType.setText("Lecturer Schedule");
-            }
+            // Update schedule type text
+            tvScheduleType.setText("Lecturer Schedule");
         }
 
-         List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
-        if (scheduleAdapter != null) {
-            scheduleAdapter.updateData(schedules);
-        }
+        // Update schedules list
+        List<ScheduleModel> schedules = getSchedulesForDate(selectedDate, isStudentSchedule);
+        scheduleAdapter.updateData(schedules);
 
-         updateEmptyState(schedules.isEmpty());
+        // Show/hide empty state
+        updateEmptyState(schedules.isEmpty());
     }
 
-
+    /**
+     * Handle actions on schedule items (edit, delete, notify, reschedule)
+     */
     private void onScheduleAction(String action, ScheduleModel schedule) {
         switch (action) {
             case "edit":
-                 showEditScheduleForm(schedule);
+                // Open edit form
+                showEditScheduleForm(schedule);
                 break;
 
             case "delete":
-                 deleteSchedule(schedule);
+                // Confirm and delete schedule
+                deleteSchedule(schedule);
                 break;
 
             case "notify":
-                 sendNotification(schedule);
+                // Send notification to students/lecturer
+                sendNotification(schedule);
                 break;
 
             case "reschedule":
-                 showRescheduleForm(schedule);
+                // Open reschedule form
+                showRescheduleForm(schedule);
                 break;
         }
     }
 
-
+    /**
+     * Show the form to edit an existing schedule
+     */
     private void showEditScheduleForm(ScheduleModel schedule) {
-         Toast.makeText(getContext(), "Editing schedule: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
+        // In a real app, populate the form with existing data and update when saved
+        Toast.makeText(getContext(), "Editing schedule: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
 
-         if (bottomSheetContainer != null) {
-            bottomSheetContainer.setVisibility(View.VISIBLE);
-        }
-        if (bottomSheetBehavior != null) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }
+        // Show bottom sheet with populated fields
+        bottomSheetContainer.setVisibility(View.VISIBLE);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-         if (etSubjectName != null) etSubjectName.setText(schedule.getSubjectName());
-        if (etModuleNumber != null) etModuleNumber.setText(schedule.getModuleNumber());
-        if (etLecturerName != null) etLecturerName.setText(schedule.getLecturerName());
-        if (etClassRoom != null) etClassRoom.setText(schedule.getClassroom());
-        if (etTime != null) etTime.setText(schedule.getStartTime());
+        // Populate fields
+        etSubjectName.setText(schedule.getSubjectName());
+        etModuleNumber.setText(schedule.getModuleNumber());
+        etLecturerName.setText(schedule.getLecturerName());
+        etClassRoom.setText(schedule.getClassroom());
+        etTime.setText(schedule.getStartTime());
 
-         MaterialButton saveButton = rootView.findViewById(R.id.btn_save_schedule);
-        if (saveButton != null) {
-            saveButton.setText("Update");
-        }
+        // Change button text
+        ((MaterialButton) rootView.findViewById(R.id.btn_save_schedule)).setText("Update");
+
+        // Note: We can't change the title text because it's hardcoded in the XML
+        // In a real app, you'd make the title a separate TextView with an ID
     }
 
-
+    /**
+     * Delete a schedule with confirmation
+     */
     private void deleteSchedule(ScheduleModel schedule) {
-         Toast.makeText(getContext(), "Deleted schedule: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
+        // In a real app, show a confirmation dialog and delete from database
+        Toast.makeText(getContext(), "Deleted schedule: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
 
-         if (scheduleAdapter != null) {
-            scheduleAdapter.removeItem(schedule);
+        // Remove from adapter
+        scheduleAdapter.removeItem(schedule);
 
-             updateEmptyState(scheduleAdapter.getItemCount() == 0);
-        }
+        // Show empty state if no schedules left
+        updateEmptyState(scheduleAdapter.getItemCount() == 0);
     }
 
-
+    /**
+     * Send notification about a schedule
+     */
     private void sendNotification(ScheduleModel schedule) {
-         String recipient = isStudentSchedule ? "students" : "lecturer";
+        // In a real app, would send push notification or email
+        String recipient = isStudentSchedule ? "students" : "lecturer";
         Toast.makeText(getContext(), "Notification sent to " + recipient + " about: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
     }
 
-
+    /**
+     * Show form to reschedule a class
+     */
     private void showRescheduleForm(ScheduleModel schedule) {
-         Toast.makeText(getContext(), "Rescheduling: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
+        // In a real app, would show a date/time picker
+        Toast.makeText(getContext(), "Rescheduling: " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
     }
 
-
+    /**
+     * Show the bottom sheet to add a new schedule
+     */
     private void showAddScheduleBottomSheet() {
-         if (bottomSheetContainer != null) {
-            bottomSheetContainer.setVisibility(View.VISIBLE);
-        }
-        if (bottomSheetBehavior != null) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-        }
+        // Show bottom sheet
+        bottomSheetContainer.setVisibility(View.VISIBLE);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
-         if (etSubjectName != null) etSubjectName.setText("");
-        if (etModuleNumber != null) etModuleNumber.setText("");
-        if (etLecturerName != null) etLecturerName.setText("");
-        if (etClassRoom != null) etClassRoom.setText("");
-        if (etTime != null) etTime.setText("");
+        // Reset all fields
+        etSubjectName.setText("");
+        etModuleNumber.setText("");
+        etLecturerName.setText("");
+        etClassRoom.setText("");
+        etTime.setText("");
 
         // Make sure button text is correct
-        MaterialButton saveButton = rootView.findViewById(R.id.btn_save_schedule);
-        if (saveButton != null) {
-            saveButton.setText("Save");
-        }
+        ((MaterialButton) rootView.findViewById(R.id.btn_save_schedule)).setText("Save");
+
+        // Note: The title is hardcoded in the XML as "Add New Schedule"
+        // No need to dynamically set it since it's already in the layout
     }
 
-
+    /**
+     * Hide the bottom sheet
+     */
     private void hideBottomSheet() {
-        if (bottomSheetBehavior != null) {
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        }
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
     }
 
-
+    /**
+     * Save a new schedule from the form
+     */
     private void saveSchedule() {
-         String subjectName = etSubjectName != null ? etSubjectName.getText().toString().trim() : "";
-        String moduleNumber = etModuleNumber != null ? etModuleNumber.getText().toString().trim() : "";
-        String lecturerName = etLecturerName != null ? etLecturerName.getText().toString().trim() : "";
-        String classroom = etClassRoom != null ? etClassRoom.getText().toString().trim() : "";
-        String time = etTime != null ? etTime.getText().toString().trim() : "";
+        // Get values from form
+        String subjectName = etSubjectName.getText().toString().trim();
+        String moduleNumber = etModuleNumber.getText().toString().trim();
+        String lecturerName = etLecturerName.getText().toString().trim();
+        String classroom = etClassRoom.getText().toString().trim();
+        String time = etTime.getText().toString().trim();
 
-         if (subjectName.isEmpty() || moduleNumber.isEmpty() || lecturerName.isEmpty() ||
+        // Validate inputs
+        if (subjectName.isEmpty() || moduleNumber.isEmpty() || lecturerName.isEmpty() ||
                 classroom.isEmpty() || time.isEmpty()) {
             Toast.makeText(getContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-         MaterialButton saveButton = rootView.findViewById(R.id.btn_save_schedule);
-        boolean isEdit = saveButton != null && saveButton.getText().toString().equals("Update");
+        // Determine if this is an edit or new schedule
+        boolean isEdit = ((MaterialButton) rootView.findViewById(R.id.btn_save_schedule)).getText().toString().equals("Update");
 
         if (isEdit) {
-             Toast.makeText(getContext(), "Schedule updated", Toast.LENGTH_SHORT).show();
+            // In a real app, would update the existing schedule in database
+            Toast.makeText(getContext(), "Schedule updated", Toast.LENGTH_SHORT).show();
         } else {
-             ScheduleModel newSchedule = new ScheduleModel(
+            // Create new schedule
+            ScheduleModel newSchedule = new ScheduleModel(
                     subjectName,
                     moduleNumber,
                     lecturerName,
@@ -504,21 +544,26 @@ public class StaffSchedule extends Fragment {
                     "Active"
             );
 
-             if (scheduleAdapter != null) {
-                scheduleAdapter.addItem(newSchedule);
+            // Add to adapter
+            scheduleAdapter.addItem(newSchedule);
 
-                 updateEmptyState(false);
-            }
+            // Update empty state
+            updateEmptyState(false);
         }
 
-         hideBottomSheet();
+        // Hide bottom sheet
+        hideBottomSheet();
 
-         showSuccessOverlay(isEdit ? "Schedule Updated!" : "Schedule Added!");
+        // Show success overlay
+        showSuccessOverlay(isEdit ? "Schedule Updated!" : "Schedule Added!");
     }
 
-
+    /**
+     * Calculate end time based on start time
+     */
     private String calculateEndTime(String startTime) {
-         try {
+        // Simple calculation: add 1.5 hours to start time
+        try {
             String[] parts = startTime.split(":");
             int hour = Integer.parseInt(parts[0]);
             int minute = 0;
@@ -527,85 +572,98 @@ public class StaffSchedule extends Fragment {
                 minute = Integer.parseInt(parts[1]);
             }
 
-             minute += 30;
+            // Add 1 hour and 30 minutes
+            minute += 30;
             if (minute >= 60) {
                 minute -= 60;
                 hour += 1;
             }
             hour += 1;
 
-             if (hour > 12) {
+            // Keep in 12-hour format
+            if (hour > 12) {
                 hour -= 12;
             }
 
             return String.format(Locale.getDefault(), "%d:%02d", hour, minute);
         } catch (Exception e) {
-             return "11:30";
+            // Default to 1.5 hours later if parsing fails
+            return "12:00";
         }
     }
 
-
+    /**
+     * Determine AM/PM based on time
+     */
     private String getAmPm(String time) {
         try {
             int hour = Integer.parseInt(time.split(":")[0]);
 
-             if (hour >= 12) {
+            // If using 24-hour format
+            if (hour >= 12) {
                 return "PM";
             } else {
                 return "AM";
             }
         } catch (Exception e) {
-             return "AM";
+            // Default to AM if parsing fails
+            return "AM";
         }
     }
 
-
+    /**
+     * Show the success overlay with animation
+     */
     private void showSuccessOverlay(String message) {
-        if (successOverlay == null) return;
+        // Note: We can't set the success message since the TextView doesn't have an ID
+        // The message is hardcoded in the XML as "Schedule Added!"
 
-         successOverlay.setVisibility(View.VISIBLE);
+        // Show the overlay with fade-in animation
+        successOverlay.setVisibility(View.VISIBLE);
         successOverlay.setAlpha(0f);
         successOverlay.animate()
                 .alpha(1f)
                 .setDuration(300)
                 .setListener(null);
 
-         successOverlay.postDelayed(() -> {
+        // Auto-hide after delay
+        successOverlay.postDelayed(() -> {
             successOverlay.animate()
                     .alpha(0f)
                     .setDuration(300)
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            if (successOverlay != null) {
-                                successOverlay.setVisibility(View.GONE);
-                            }
+                            successOverlay.setVisibility(View.GONE);
                         }
                     });
         }, 2000);
     }
 
-
+    /**
+     * Show/hide empty state based on whether there are schedules
+     */
     private void updateEmptyState(boolean isEmpty) {
-        if (layoutEmptyState != null) {
-            layoutEmptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
-        }
-        if (rvSchedules != null) {
-            rvSchedules.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
-        }
+        layoutEmptyState.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        rvSchedules.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
     }
 
-
+    /**
+     * Get schedules for the selected date (in a real app, this would query a database)
+     */
     private List<ScheduleModel> getSchedulesForDate(Date date, boolean isStudentSchedule) {
         List<ScheduleModel> schedules = new ArrayList<>();
 
-         Calendar cal = Calendar.getInstance();
+        // Extract day of month from the date
+        Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 
-         if (dayOfMonth % 3 == 0 || dayOfMonth == 15) {
+        // For demo purposes, only show schedules on days that have events (3rd, 15th, etc.)
+        if (dayOfMonth % 3 == 0 || dayOfMonth == 15) {
             if (isStudentSchedule) {
-                 schedules.add(new ScheduleModel(
+                // Student schedules
+                schedules.add(new ScheduleModel(
                         "Data Structures and Algorithms",
                         "CS3021",
                         "Dr. Sarah Wilson",
@@ -629,7 +687,8 @@ public class StaffSchedule extends Fragment {
                         "Active"
                 ));
 
-                 if (dayOfMonth == 15) {
+                // Add a third class only on the 15th
+                if (dayOfMonth == 15) {
                     schedules.add(new ScheduleModel(
                             "Machine Learning Fundamentals",
                             "CS4071",
@@ -643,7 +702,8 @@ public class StaffSchedule extends Fragment {
                     ));
                 }
             } else {
-                 schedules.add(new ScheduleModel(
+                // Lecturer schedules
+                schedules.add(new ScheduleModel(
                         "Artificial Intelligence",
                         "CS4032",
                         "Dr. Sarah Wilson",
@@ -667,7 +727,8 @@ public class StaffSchedule extends Fragment {
                         "Active"
                 ));
 
-                 if (dayOfMonth == 15) {
+                // Add a canceled class on the 15th
+                if (dayOfMonth == 15) {
                     schedules.add(new ScheduleModel(
                             "Software Engineering",
                             "CS3013",
@@ -687,34 +748,9 @@ public class StaffSchedule extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-         rootView = null;
-        calendarAdapter = null;
-        scheduleAdapter = null;
-        bottomSheetBehavior = null;
-
-         rvCalendar = null;
-        rvSchedules = null;
-        tvMonthYear = null;
-        tvScheduleDate = null;
-        tvScheduleType = null;
-        btnStudentSchedule = null;
-        btnLecturerSchedule = null;
-        fabAddSchedule = null;
-        bottomSheetContainer = null;
-        successOverlay = null;
-        layoutEmptyState = null;
-        bottomSheet = null;
-        btnPrevMonth = null;
-        btnNextMonth = null;
-        btnCreateSchedule = null;
-
-         etSubjectName = null;
-        etModuleNumber = null;
-        etLecturerName = null;
-        etClassRoom = null;
-        etTime = null;
+    public void onDestroy() {
+        super.onDestroy();
+        // Clean up resources if needed
+        rootView = null;
     }
 }

@@ -12,6 +12,10 @@
     <color name="calendar_selected_red">#F44336</color>
     <color name="calendar_selected_gray">#9E9E9E</color>
 
+    <color name="green_light">#E8F5E9</color>
+    <color name="green_primary">#4CAF50</color>
+    <color name="red_light">#FFEBEE</color>
+    <color name="red_primary">#E53935</color>
 
     <color name="success_text">#2E7D32</color>
     <color name="warning_text">#E65100</color>
@@ -193,5 +197,36 @@
 
         <color name="exam_icon_background">#F0F6FF</color>
         <color name="ripple_color">#1A263A5B</color>
+
+    <color name="selected_button_bg">#1A5276</color>
+    <color name="unselected_button_bg">#F5F7FE</color>
+    <color name="unselected_button_text">#666666</color>
+
+    <color name="selected_day_color">#1A5276</color>
+    <color name="default_day_color">#F5F7FE</color>
+    <color name="day_text_color">#333333</color>
+
+    <color name="active_status_bg">#E8F5E9</color>
+    <color name="active_status_text">#4CAF50</color>
+    <color name="inactive_status_bg">#FFEBEE</color>
+    <color name="inactive_status_text">#F44336</color>
+
+
+    <color name="background_primary">#F8F9FA</color>
+    <color name="background_secondary">#FFFFFF</color>
+
+    <color name="success_green">#4CAF50</color>
+    <color name="error_red">#E53935</color>
+    <color name="warning_orange">#FF9800</color>
+    <color name="info_blue">#2196F3</color>
+
+    <color name="schedule_indicator">#1A5276</color>
+    <color name="today_highlight">#FF5722</color>
+
+    <color name="overlay_background">#80000000</color>
+    <color name="bottom_sheet_background">#FFFFFF</color>
+
+    <color name="button_ripple">#1A1A1A1A</color>
+
 
 </resources>

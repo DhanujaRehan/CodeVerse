@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.Staff.Models.AddExamDialog;
-import com.example.codeverse.Exam;
+import com.example.codeverse.Students.Models.Exam;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Adapters.ExamAdapter;
 import com.example.codeverse.Staff.Models.EditExamDialog;
