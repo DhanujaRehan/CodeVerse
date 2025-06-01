@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Admin.Fragments.AdminSendNotification;
 import com.example.codeverse.Admin.Fragments.StaffPersonalInfo;
+import com.example.codeverse.AssignmentUpload;
 import com.example.codeverse.Students.StudentFragments.EventRegistration;
 import com.example.codeverse.Admin.Fragments.CreateStudent;
 import com.example.codeverse.R;
@@ -29,7 +30,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.framelayout, new EventRegistration())
+                    .replace(R.id.framelayout, new AssignmentUpload())
                     .commit();
         }
 
@@ -37,7 +38,7 @@ public class AdminMainActivity extends AppCompatActivity {
             int itemid = item.getItemId();
             if (itemid == R.id.navhome) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new EventRegistration())
+                        .replace(R.id.framelayout, new AssignmentUpload())
                         .commit();
             }
             else if (itemid == R.id.navassignments){
