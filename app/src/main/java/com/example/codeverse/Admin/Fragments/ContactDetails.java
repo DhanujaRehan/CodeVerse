@@ -43,7 +43,6 @@ public class ContactDetails extends Fragment {
     private FrameLayout loadingOverlay, successOverlay;
     private LinearLayout cardBasicInfoIndicator, cardAcademicIndicator,
             cardAccountIndicator, cardContactIndicator;
-
     private StudentDatabaseHelper dbHelper;
 
     private long studentId = -1;

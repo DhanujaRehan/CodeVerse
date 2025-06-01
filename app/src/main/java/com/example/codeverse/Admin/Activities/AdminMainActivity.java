@@ -10,7 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Admin.Fragments.AdminSendNotification;
 import com.example.codeverse.RecieptUpload;
-import com.example.codeverse.Students.StudentFragments.StudentClass;
+import com.example.codeverse.Staff.StaffFragments.StaffAssignment;
 import com.example.codeverse.Admin.Fragments.CreateStudent;
 import com.example.codeverse.R;
 import com.example.codeverse.databinding.ActivityAdminMainBinding;
@@ -47,7 +47,7 @@ public class AdminMainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new CreateStudent()).commit();
             }
             else if (itemid == R.id.navprofile){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new AdminSendNotification()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffAssignment()).commit();
             }
             return true;
         });
