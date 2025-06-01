@@ -598,10 +598,10 @@
                     android:fontFamily="@font/poppins_medium"
                     android:text="Save as Draft"
                     android:textAllCaps="false"
-                    android:textColor="#1A5276"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
                     app:cornerRadius="24dp"
-                    app:strokeColor="#1A5276"
+                    app:strokeColor="@color/white"
                     app:strokeWidth="1dp" />
 
                 <com.google.android.material.button.MaterialButton
@@ -617,7 +617,6 @@
                     android:textSize="16sp"
                     app:backgroundTint="#1A5276"
                     app:cornerRadius="24dp"
-                    app:icon="@drawable/ivforward"
                     app:iconGravity="end"
                     app:iconTint="#FFFFFF" />
             </LinearLayout>
