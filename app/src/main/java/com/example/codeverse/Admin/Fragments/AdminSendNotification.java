@@ -116,7 +116,7 @@ public class AdminSendNotification extends Fragment {
         tvPreviewMessage = view.findViewById(R.id.tvPreviewMessage);
 
         // Navigation
-        ivBack = view.findViewById(R.id.ivBack);
+        ivBack = view.findViewById(R.id.iv_back);
         ivNotificationHistory = view.findViewById(R.id.iv_notification_history);
     }
 

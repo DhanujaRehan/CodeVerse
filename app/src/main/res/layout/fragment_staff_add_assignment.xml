@@ -2,7 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/send_notification_container"
+    android:id="@+id/add_assignment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_gradient_background">
@@ -44,34 +44,20 @@
                     app:lottie_rawRes="@raw/back_button_animation" />
             </com.google.android.material.card.MaterialCardView>
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/logoAnimation"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="16dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cv_back"
-                app:layout_constraintTop_toTopOf="parent"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/codeversepurple" />
-
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
-                android:text="Send Notification"
+                android:text="Add Assignment"
                 android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/cv_notification_history"
-                app:layout_constraintStart_toEndOf="@id/logoAnimation"
+                app:layout_constraintEnd_toStartOf="@id/cv_notification"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_notification_history"
+                android:id="@+id/cv_notification"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 app:cardBackgroundColor="#33FFFFFF"
@@ -82,11 +68,11 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:id="@+id/iv_notification_history"
+                    android:id="@+id/iv_notification"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:contentDescription="Notification History"
+                    android:contentDescription="Notifications"
                     android:src="@drawable/notification"
                     app:tint="#FFFFFF" />
             </com.google.android.material.card.MaterialCardView>
@@ -126,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Send University Notification"
+                    android:text="Create New Assignment"
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
             </LinearLayout>
@@ -148,8 +134,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Broadcast Notification"
-                    android:textColor="@color/black"
+                    android:text="Assignment Details"
+                    android:textColor="#1A5276"
                     android:textSize="18sp" />
 
                 <TextView
@@ -157,14 +143,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Broadcast urgent notices and important updates to students and staff"
-                    android:textColor="@color/white"
+                    android:text="Fill in the details to create a new assignment for your students"
+                    android:textColor="#5A7A9A"
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Notification Form -->
+            <!-- Assignment Form -->
             <LinearLayout
-                android:id="@+id/card_notification_form"
+                android:id="@+id/card_assignment_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -175,10 +161,17 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- Priority Level -->
+                <!-- Module Selection -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Module"
+                    android:textColor="#1A5276"
+                    android:textSize="14sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_priority"
+                    android:id="@+id/til_module"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -193,74 +186,27 @@
                     app:hintTextColor="@color/white">
 
                     <AutoCompleteTextView
-                        android:id="@+id/dropdownPriority"
+                        android:id="@+id/dropdownModule"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
                         android:inputType="none"
                         android:padding="12dp"
-                        android:text="Select Priority"
+                        android:text="Select Module"
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_recipients"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
+                <!-- Assignment Title -->
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#54FFFFFF"
-                    app:boxCornerRadiusBottomEnd="20dp"
-                    app:boxCornerRadiusBottomStart="20dp"
-                    app:boxCornerRadiusTopEnd="20dp"
-                    app:boxCornerRadiusTopStart="20dp"
-                    app:boxStrokeColor="@color/white"
-                    app:boxStrokeWidthFocused="2dp"
-                    app:hintTextColor="@color/white">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/dropdownRecipients"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_regular"
-                        android:inputType="none"
-                        android:padding="12dp"
-                        android:text="Select Recipients"
-                        android:textColor="#222222" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Category Selection -->
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Assignment Title"
+                    android:textColor="#1A5276"
+                    android:textSize="14sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_category"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#54FFFFFF"
-                    app:boxCornerRadiusBottomEnd="20dp"
-                    app:boxCornerRadiusBottomStart="20dp"
-                    app:boxCornerRadiusTopEnd="20dp"
-                    app:boxCornerRadiusTopStart="20dp"
-                    app:boxStrokeColor="@color/white"
-                    app:boxStrokeWidthFocused="2dp"
-                    app:hintTextColor="@color/white">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/dropdownCategory"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_regular"
-                        android:inputType="none"
-                        android:padding="12dp"
-                        android:text="Select Category"
-                        android:textColor="#222222" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Notification Title -->
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_notification_title"
+                    android:id="@+id/til_assignment_title"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -275,21 +221,80 @@
                     app:hintTextColor="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etNotificationTitle"
+                        android:id="@+id/etAssignmentTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
-                        android:hint="Enter notification title"
-                        android:inputType="textCapSentences"
-                        android:maxLines="2"
+                        android:hint="e.g. Coursework 1, Final Project"
+                        android:inputType="text"
                         android:padding="12dp"
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Notification Message -->
+                <!-- Assignment Type -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Assignment Type"
+                    android:textColor="#1A5276"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipGroupAssignmentType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCoursework"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Coursework"
+                        android:textColor="#1A5276"
+                        app:chipBackgroundColor="#80FFFFFF" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipExam"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Exam"
+                        android:textColor="#1A5276"
+                        app:chipBackgroundColor="#80FFFFFF" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipProject"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Project"
+                        android:textColor="#1A5276"
+                        app:chipBackgroundColor="#80FFFFFF" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipQuiz"
+                        style="@style/Widget.MaterialComponents.Chip.Choice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Quiz"
+                        android:textColor="#1A5276"
+                        app:chipBackgroundColor="#80FFFFFF" />
+                </com.google.android.material.chip.ChipGroup>
+
+                <!-- Assignment Description -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Description"
+                    android:textColor="#1A5276"
+                    android:textSize="14sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_message"
+                    android:id="@+id/til_description"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -304,63 +309,46 @@
                     app:hintTextColor="@color/white">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etMessage"
+                        android:id="@+id/etDescription"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
                         android:gravity="top"
-                        android:hint="Enter detailed message"
-                        android:inputType="textMultiLine|textCapSentences"
-                        android:minLines="4"
+                        android:hint="Brief description of the assignment"
+                        android:inputType="textMultiLine"
+                        android:minLines="3"
                         android:padding="12dp"
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Schedule Section -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="Schedule Options"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchScheduleNotification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:checked="false"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Schedule for later"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    app:thumbTint="@color/white"
-                    app:trackTint="#D1C4E9" />
-
-                <!-- Date and Time Selection -->
+                <!-- Dates Section -->
                 <LinearLayout
-                    android:id="@+id/layoutScheduleOptions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="horizontal">
 
+                    <!-- Release Date -->
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:layout_marginEnd="8dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
-                        <!-- Date Selection -->
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/til_schedule_date"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="0dp"
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginEnd="8dp"
-                            android:layout_weight="1"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Release Date"
+                            android:textColor="#1A5276"
+                            android:textSize="14sp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/til_release_date"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             app:boxBackgroundColor="#54FFFFFF"
                             app:boxCornerRadiusBottomEnd="20dp"
                             app:boxCornerRadiusBottomStart="20dp"
@@ -371,24 +359,38 @@
                             app:hintTextColor="@color/white">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/etScheduleDate"
+                                android:id="@+id/etReleaseDate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:focusable="false"
                                 android:fontFamily="@font/poppins_regular"
-                                android:hint="Select Date"
+                                android:hint="Select date"
                                 android:inputType="none"
                                 android:textColor="#222222" />
                         </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
 
-                        <!-- Time Selection -->
-                        <com.google.android.material.textfield.TextInputLayout
-                            android:id="@+id/til_schedule_time"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="0dp"
+                    <!-- Due Date -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_weight="1"
+                            android:fontFamily="@font/poppins_medium"
+                            android:text="Due Date"
+                            android:textColor="#1A5276"
+                            android:textSize="14sp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/til_due_date"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             app:boxBackgroundColor="#54FFFFFF"
                             app:boxCornerRadiusBottomEnd="20dp"
                             app:boxCornerRadiusBottomStart="20dp"
@@ -399,26 +401,61 @@
                             app:hintTextColor="@color/white">
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/etScheduleTime"
+                                android:id="@+id/etDueDate"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:focusable="false"
                                 android:fontFamily="@font/poppins_regular"
-                                android:hint="Select Time"
+                                android:hint="Select date"
                                 android:inputType="none"
                                 android:textColor="#222222" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Attachment Section -->
+                <!-- Weighting -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Weighting (%)"
+                    android:textColor="#1A5276"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_weighting"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundColor="#54FFFFFF"
+                    app:boxCornerRadiusBottomEnd="20dp"
+                    app:boxCornerRadiusBottomStart="20dp"
+                    app:boxCornerRadiusTopEnd="20dp"
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:hintTextColor="@color/white">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etWeighting"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:hint="e.g. 30"
+                        android:inputType="number"
+                        android:padding="12dp"
+                        android:textColor="#222222" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Upload File Section -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Attachments"
-                    android:textColor="@color/white"
+                    android:text="Assignment Materials"
+                    android:textColor="#1A5276"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -429,67 +466,83 @@
                     android:background="@drawable/glass_background"
                     android:backgroundTint="#80FFFFFF"
                     android:clipToOutline="true"
-                    android:orientation="vertical">
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-                    <!-- Upload Area -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_marginBottom="8dp"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/upload" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical"
-                        android:padding="20dp">
+                        android:fontFamily="@font/poppins_semibold"
+                        android:text="Upload Assignment Files"
+                        android:textColor="#1A5276"
+                        android:textSize="16sp" />
 
-                        <com.airbnb.lottie.LottieAnimationView
-                            android:layout_width="56dp"
-                            android:layout_height="56dp"
-                            android:layout_marginBottom="8dp"
-                            app:lottie_autoPlay="true"
-                            app:lottie_loop="true"
-                            app:lottie_rawRes="@raw/upload" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_semibold"
-                            android:text="Attach Documents or Images"
-                            android:textColor="@color/white"
-                            android:textSize="16sp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:fontFamily="@font/poppins_regular"
-                            android:text="PDF, DOC, JPG, PNG (Max 10MB each)"
-                            android:textColor="#000000"
-                            android:textSize="12sp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btnBrowse"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:fontFamily="@font/poppins_medium"
-                            android:text="Browse Files"
-                            android:textAllCaps="false"
-                            android:textColor="@color/white"
-                            app:cornerRadius="20dp"
-                            app:strokeColor="@color/white" />
-                    </LinearLayout>
-
-                    <!-- Attached Files Container -->
-                    <LinearLayout
-                        android:id="@+id/layoutAttachedFiles"
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:paddingTop="0dp"
-                        android:visibility="gone">
-                        <!-- Files will be added here dynamically -->
-                    </LinearLayout>
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:text="PDF, DOC, PPT (Max 10MB)"
+                        android:textColor="#5A7A9A"
+                        android:textSize="12sp" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnBrowse"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:text="Browse Files"
+                        android:textAllCaps="false"
+                        android:textColor="#1A5276"
+                        app:cornerRadius="20dp"
+                        app:strokeColor="#1A5276" />
                 </LinearLayout>
+
+                <!-- Target Groups -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Target Groups"
+                    android:textColor="#1A5276"
+                    android:textSize="14sp" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_target_groups"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundColor="#54FFFFFF"
+                    app:boxCornerRadiusBottomEnd="20dp"
+                    app:boxCornerRadiusBottomStart="20dp"
+                    app:boxCornerRadiusTopEnd="20dp"
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:hintTextColor="@color/white">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/dropdownTargetGroups"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_regular"
+                        android:inputType="none"
+                        android:padding="12dp"
+                        android:text="Select Groups"
+                        android:textColor="#222222" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Notification Options -->
                 <TextView
@@ -497,105 +550,35 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Notification Options"
-                    android:textColor="@color/white"
+                    android:text="Notifications"
+                    android:textColor="#1A5276"
                     android:textSize="14sp" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchPushNotification"
+                    android:id="@+id/switchNotifyStudents"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:checked="true"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Send push notification"
-                    android:textColor="@color/white"
+                    android:text="Notify students about this assignment"
+                    android:textColor="#1A5276"
                     android:textSize="14sp"
-                    app:thumbTint="@color/white"
-                    app:trackTint="#D1C4E9" />
+                    app:thumbTint="#1A5276"
+                    app:trackTint="#B3DFFF" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchEmailNotification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:checked="false"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Send email notification"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    app:thumbTint="@color/white"
-                    app:trackTint="#D1C4E9" />
-
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchSMSNotification"
+                    android:id="@+id/switchEnableReminders"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:checked="false"
+                    android:checked="true"
                     android:fontFamily="@font/poppins_regular"
-                    android:text="Send SMS for urgent notifications"
-                    android:textColor="@color/white"
+                    android:text="Enable automatic reminders"
+                    android:textColor="#1A5276"
                     android:textSize="14sp"
-                    app:thumbTint="@color/white"
-                    app:trackTint="#D1C4E9" />
-            </LinearLayout>
-
-            <!-- Preview Card -->
-            <LinearLayout
-                android:id="@+id/card_preview"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:background="@drawable/glass_background"
-                android:backgroundTint="#B3FFFFFF"
-                android:clipToOutline="true"
-                android:clipToPadding="true"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <com.airbnb.lottie.LottieAnimationView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        app:lottie_autoPlay="true"
-                        app:lottie_loop="true"
-                        app:lottie_rawRes="@raw/preview" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:fontFamily="@font/poppins_bold"
-                        android:text="Preview"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tvPreviewTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Notification title will appear here"
-                    android:textColor="@color/white"
-                    android:textSize="16sp" />
-
-                <TextView
-                    android:id="@+id/tvPreviewMessage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Message content will appear here"
-                    android:textColor="@color/white"
-                    android:textSize="14sp" />
+                    app:thumbTint="#1A5276"
+                    app:trackTint="#B3DFFF" />
             </LinearLayout>
 
             <!-- Action Buttons -->
@@ -615,24 +598,24 @@
                     android:fontFamily="@font/poppins_medium"
                     android:text="Save as Draft"
                     android:textAllCaps="false"
-                    android:textColor="@color/white"
+                    android:textColor="#1A5276"
                     android:textSize="16sp"
                     app:cornerRadius="24dp"
-                    app:strokeColor="@color/white"
+                    app:strokeColor="#1A5276"
                     app:strokeWidth="1dp" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnSend"
+                    android:id="@+id/btnPublish"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Send Now"
+                    android:text="Publish"
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
-                    app:backgroundTint="@color/white"
+                    app:backgroundTint="#1A5276"
                     app:cornerRadius="24dp"
                     app:icon="@drawable/ivforward"
                     app:iconGravity="end"
@@ -677,7 +660,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Sending Notification..."
+                    android:text="Creating Assignment..."
                     android:textColor="#FFFFFF"
                     android:textSize="18sp" />
             </LinearLayout>

@@ -107,7 +107,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "Database tables created");
     }
 
-    // Called when the database needs to be upgraded.
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
