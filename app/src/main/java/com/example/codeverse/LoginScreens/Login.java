@@ -26,7 +26,6 @@ public class Login extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Login button listener
         binding.btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,13 +33,11 @@ public class Login extends AppCompatActivity {
                 String inputEmail = binding.etEmail.getText().toString().trim();
                 String inputPassword = binding.etpassword.getText().toString().trim();
 
-                // Check credentials
                 if (inputEmail.isEmpty() || inputPassword.isEmpty()) {
                     Toast.makeText(Login.this, "Please enter both email and password.", Toast.LENGTH_SHORT).show();
                 } else if (inputEmail.equals(AdminEmail) && inputPassword.equals(AdminPassword)) {
                     Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-                    // Proceed to the next activity (e.g., Dashboard)
                     Intent intent = new Intent(Login.this, MainActivity.class); // replace with your actual class
                     startActivity(intent);
                     finish();
