@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.Models;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

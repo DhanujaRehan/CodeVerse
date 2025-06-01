@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.Adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.example.codeverse.R;
-import com.example.codeverse.AssignmentModel;
+import com.example.codeverse.Students.Models.AssignmentModel;
 
 import java.util.List;
 

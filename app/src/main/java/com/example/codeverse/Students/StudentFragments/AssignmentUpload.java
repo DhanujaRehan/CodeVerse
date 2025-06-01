@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -23,6 +23,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.codeverse.Students.Models.AssignmentModel;
+import com.example.codeverse.Students.Helpers.AssignmentUploadHelper;
+import com.example.codeverse.R;
+import com.example.codeverse.Students.Adapters.UploadedFilesAdapter;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.google.android.material.textfield.TextInputEditText;
