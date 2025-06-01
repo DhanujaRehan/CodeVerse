@@ -20,7 +20,7 @@ import com.example.codeverse.R;
 public class StaffAssignment extends Fragment {
 
     ImageView ivback;
-    LinearLayout cardAddAssignment, cardManageAssignment, cardGradeSubmissions;
+    LinearLayout cardAddAssignment, cardManageAssignment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,6 @@ public class StaffAssignment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_staff_assignment, container, false);
         ivback = view.findViewById(R.id.iv_back);
         cardAddAssignment = view.findViewById(R.id.cardAddAssignment);
-        cardGradeSubmissions = view.findViewById(R.id.cardGradeSubmissions);
         cardManageAssignment = view.findViewById(R.id.cardManageAssignment);
 
         ivback.setOnClickListener(view1 ->  {
@@ -50,13 +49,6 @@ public class StaffAssignment extends Fragment {
             transaction.addToBackStack(null);
             transaction.commit();
 
-        });
-
-        cardGradeSubmissions.setOnClickListener(view1 -> {
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.framelayout, new GradeSubmissions());
-            transaction.addToBackStack(null);
-            transaction.commit();
         });
 
         cardManageAssignment.setOnClickListener(view1 -> {
