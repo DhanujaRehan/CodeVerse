@@ -44,7 +44,7 @@ public class StaffProfessionalInfo extends Fragment {
     private AutoCompleteTextView dropdownPosition, dropdownDepartment, dropdownQualification, dropdownProgram;
     private TextInputEditText etTeachingSubject, etFieldOfStudy, etUniversity, etGraduationYear, etExperienceYears;
     private MaterialButton btnComplete, btnBack;
-    private FrameLayout loadingOverlay;
+    private FrameLayout loadingOverlay, successOverlay;
 
     public static StaffProfessionalInfo newInstance(long staffId) {
         StaffProfessionalInfo staffProfessionalInfo = new StaffProfessionalInfo();
@@ -140,6 +140,8 @@ public class StaffProfessionalInfo extends Fragment {
             btnComplete = view.findViewById(R.id.btn_complete);
             btnBack = view.findViewById(R.id.btn_back);
             loadingOverlay = view.findViewById(R.id.loading_overlay);
+            successOverlay = view.findViewById(R.id.success_overlay);
+
         } catch (Exception e) {
             Log.e(TAG, "Error initializing views: " + e.getMessage());
             showToast("Failed to initialize the form");
@@ -487,23 +489,11 @@ public class StaffProfessionalInfo extends Fragment {
     }
 
     private void navigateToCompletion() {
+        loadingOverlay.setVisibility(View.VISIBLE);
+
         try {
-            // Show completion dialog and navigate back
-            new AlertDialog.Builder(getContext())
-                    .setTitle("Registration Complete")
-                    .setMessage("Staff member " + currentStaff.getFullName() + " has been successfully registered!")
-                    .setPositiveButton("OK", (dialog, which) -> {
-                        // Navigate back to main screen or staff list
-                        if (getActivity() != null) {
-                            getActivity().finish();
-                        } else {
-                            // Clear back stack and go to home
-                            getParentFragmentManager().popBackStack(null,
-                                    androidx.fragment.app.FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                        }
-                    })
-                    .setCancelable(false)
-                    .show();
+            loadingOverlay.setVisibility(View.GONE);
+            successOverlay.setVisibility(View.VISIBLE);
 
         } catch (Exception e) {
             Log.e(TAG, "Error navigating to completion: " + e.getMessage(), e);

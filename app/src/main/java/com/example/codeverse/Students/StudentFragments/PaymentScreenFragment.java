@@ -1,13 +1,10 @@
 package com.example.codeverse.Students.StudentFragments;
 
 import android.app.AlertDialog;
-import android.app.DownloadManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,14 +15,10 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.codeverse.PaymentDetail;
-import com.example.codeverse.PaymentHelper;
+import com.example.codeverse.Students.Models.PaymentDetail;
+import com.example.codeverse.Students.Helpers.PaymentHelper;
 import com.example.codeverse.R;
-import com.example.codeverse.RecieptUpload;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;

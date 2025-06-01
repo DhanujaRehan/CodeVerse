@@ -41,17 +41,13 @@ public class DialogHelp extends Fragment {
 
         close = view.findViewById(R.id.btn_close);
 
-        close.setOnClickListener(v->{
-
-            StudentExam studentExamFragment = new StudentExam();
-
-            AdmissionDownload admission = new AdmissionDownload();
-
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.framelayout, admission)
-                    .addToBackStack(null)
-                    .commit();
+        close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            }
         });
 
     }
