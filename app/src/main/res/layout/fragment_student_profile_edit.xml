@@ -55,28 +55,6 @@
                 app:layout_constraintStart_toEndOf="@id/cv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_save"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/iv_save"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="Save"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/download" />
-            </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
