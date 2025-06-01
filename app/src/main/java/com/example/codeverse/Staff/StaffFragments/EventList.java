@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.StaffFragments;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +13,11 @@ import androidx.fragment.app.Fragment;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.codeverse.Staff.Models.Event;
+import com.example.codeverse.Staff.Helper.EventHelper;
+import com.example.codeverse.Students.StudentFragments.EventRegistration;
+import com.example.codeverse.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 

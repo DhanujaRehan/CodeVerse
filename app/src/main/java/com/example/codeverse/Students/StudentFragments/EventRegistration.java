@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,6 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
+
+import com.example.codeverse.Staff.Models.Event;
+import com.example.codeverse.Staff.Helper.EventHelper;
+import com.example.codeverse.Students.Models.EventRegister;
+import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;

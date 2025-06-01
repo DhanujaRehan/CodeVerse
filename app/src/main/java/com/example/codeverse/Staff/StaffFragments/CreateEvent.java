@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.StaffFragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -18,6 +18,10 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 import androidx.cardview.widget.CardView;
+
+import com.example.codeverse.Staff.Models.Event;
+import com.example.codeverse.Staff.Helper.EventHelper;
+import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import java.io.ByteArrayOutputStream;

@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Staff.Models;
 
 public class Event {
     private int id;
