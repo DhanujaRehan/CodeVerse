@@ -10,6 +10,7 @@ constraintlayout = "2.2.1"
 lottie = "6.1.0"
 recyclerview = "1.4.0"
 swiperefreshlayout = "1.1.0"
+navigationRuntimeAndroid = "2.9.0"
 
 [libraries]
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
@@ -22,6 +23,7 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }
 swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+navigation-runtime-android = { group = "androidx.navigation", name = "navigation-runtime-android", version.ref = "navigationRuntimeAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -28,7 +28,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Models.Student;
-import com.example.codeverse.Students.Helpers.StudentDatabaseHelper;
+import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;

@@ -22,7 +22,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Models.Student;
-import com.example.codeverse.Students.Helpers.StudentDatabaseHelper;
+import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
@@ -40,11 +40,7 @@ public class AcademicDetails extends Fragment {
     private MaterialButton btnNextStep, btnCancel;
     private MaterialCardView cvBack, cvHelp;
     private FrameLayout loadingOverlay;
-
     private TextInputLayout tilFaculty, tilBatch, tilSemester, tilEnrollmentDate;
-
-    private LinearLayout cardBasicInfoIndicator, cardAcademicIndicator,
-            cardAccountIndicator, cardContactIndicator;
     private StudentDatabaseHelper dbHelper;
     private long studentId = -1;
     private static final String TAG = "AcademicDetailsFragment";
@@ -292,11 +288,6 @@ public class AcademicDetails extends Fragment {
             cvBack = view.findViewById(R.id.cv_back);
             cvHelp = view.findViewById(R.id.cv_help);
 
-            cardBasicInfoIndicator = view.findViewById(R.id.card_basic_info_indicator);
-            cardAcademicIndicator = view.findViewById(R.id.card_academic_indicator);
-            cardAccountIndicator = view.findViewById(R.id.card_account_indicator);
-            cardContactIndicator = view.findViewById(R.id.card_contact_indicator);
-
             loadingOverlay = view.findViewById(R.id.loading_overlay);
         } catch (Exception e) {
             Log.e(TAG, "Error initializing views: " + e.getMessage());
@@ -306,7 +297,7 @@ public class AcademicDetails extends Fragment {
 
     private void setupDropdowns() {
         try {
-            String[] faculties = new String[]{"Science", "Engineering", "Medicine", "Business", "Arts", "Law"};
+            String[] faculties = new String[]{"Software Engineering", "Data Science", "Computer Science", "Artificial Intelligence"};
             ArrayAdapter<String> facultyAdapter = new ArrayAdapter<>(
                     getContext(),
                     android.R.layout.simple_dropdown_item_1line,

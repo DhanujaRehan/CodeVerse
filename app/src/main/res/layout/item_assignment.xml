@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- item_assignment.xml -->
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_assignment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="4dp"
+    app:cardBackgroundColor="#FAFAFA"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header with Title and Status -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_assignment_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Assignment Title"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#1A5276"
+                    android:fontFamily="@font/poppins_bold" />
+
+                <TextView
+                    android:id="@+id/tv_module"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Module Name"
+                    android:textSize="14sp"
+                    android:textColor="#5A7A9A"
+                    android:fontFamily="@font/poppins_medium"
+                    android:layout_marginTop="4dp" />
+
+            </LinearLayout>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Draft"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF"
+                app:chipBackgroundColor="#FF9800" />
+
+        </LinearLayout>
+
+        <!-- Description -->
+        <TextView
+            android:id="@+id/tv_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Assignment description goes here..."
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:fontFamily="@font/poppins_regular"
+            android:layout_marginTop="8dp"
+            android:maxLines="2"
+            android:ellipsize="end" />
+
+        <!-- Chips Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Coursework"
+                android:textSize="12sp"
+                android:textColor="#FFFFFF"
+                app:chipBackgroundColor="#4CAF50" />
+
+            <TextView
+                android:id="@+id/tv_weighting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="30%"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#1A5276"
+                android:fontFamily="@font/poppins_semibold"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/weighting_background"
+                android:padding="6dp" />
+
+        </LinearLayout>
+
+        <!-- Footer with Dates -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_due_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Due: Dec 15, 2024"
+                android:textSize="12sp"
+                android:textColor="#E91E63"
+                android:fontFamily="@font/poppins_medium"
+                android:drawablePadding="4dp"
+                android:gravity="center_vertical" />
+
+            <TextView
+                android:id="@+id/tv_created_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Created: Dec 1, 2024"
+                android:textSize="12sp"
+                android:textColor="#757575"
+                android:fontFamily="@font/poppins_regular" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

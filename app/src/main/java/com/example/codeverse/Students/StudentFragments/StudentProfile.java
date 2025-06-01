@@ -14,7 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.codeverse.R;
-import com.example.codeverse.Students.Helpers.StudentDatabaseHelper;
+import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.Students.Models.Student;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;

@@ -39,9 +39,9 @@ public class StaffProfessionalInfo extends Fragment {
 
     // Views from XML layout
     private MaterialCardView cvBack, cvHelp;
-    private TextInputLayout tilPosition, tilDepartment, tilTeachingSubject, tilProgramCoordinating;
+    private TextInputLayout tilPosition, tilDepartment, tilProgramCoordinating, tilTeachingSubjectSoftware, tilTeachingSubjectDatascience;
     private TextInputLayout tilHighestQualification, tilFieldOfStudy, tilUniversity, tilGraduationYear, tilExperienceYears;
-    private AutoCompleteTextView dropdownPosition, dropdownDepartment, dropdownQualification, dropdownProgram;
+    private AutoCompleteTextView dropdownPosition, dropdownDepartment, dropdownQualification, dropdownProgram, dropdownTeachingSubjectSoftware, dropdownTeachingSubjectDatascience;
     private TextInputEditText etTeachingSubject, etFieldOfStudy, etUniversity, etGraduationYear, etExperienceYears;
     private MaterialButton btnComplete, btnBack;
     private FrameLayout loadingOverlay, successOverlay;
@@ -88,25 +88,12 @@ public class StaffProfessionalInfo extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_staff_professional_info, container, false);
-
-        // Initialize views
         initializeViews(view);
-
-        // Set up click listeners
         setupClickListeners();
-
-        // Setup text change listeners
         setupTextChangeListeners();
-
-        // Setup dropdowns
         setupDropdowns();
-
-        // Setup position dependent fields
         setupPositionDependentFields();
-
-        // Populate fields if editing existing staff
         populateFieldsFromStaff();
-
         return view;
     }
 
@@ -118,7 +105,8 @@ public class StaffProfessionalInfo extends Fragment {
 
             tilPosition = view.findViewById(R.id.til_position);
             tilDepartment = view.findViewById(R.id.til_department);
-            tilTeachingSubject = view.findViewById(R.id.til_teaching_subject);
+            tilTeachingSubjectSoftware = view.findViewById(R.id.til_teaching_subject_software);
+            tilTeachingSubjectDatascience = view.findViewById(R.id.til_teaching_subject_datascience);
             tilProgramCoordinating = view.findViewById(R.id.til_program_coordinating);
             tilHighestQualification = view.findViewById(R.id.til_highest_qualification);
             tilFieldOfStudy = view.findViewById(R.id.til_field_of_study);
@@ -130,8 +118,9 @@ public class StaffProfessionalInfo extends Fragment {
             dropdownDepartment = view.findViewById(R.id.dropdown_department);
             dropdownQualification = view.findViewById(R.id.dropdown_qualification);
             dropdownProgram = view.findViewById(R.id.dropdown_program);
+            dropdownTeachingSubjectSoftware = view.findViewById(R.id.dropdown_teaching_subject_software);
+            dropdownTeachingSubjectDatascience = view.findViewById(R.id.dropdown_teaching_subject_datascience);
 
-            etTeachingSubject = view.findViewById(R.id.et_teaching_subject);
             etFieldOfStudy = view.findViewById(R.id.et_field_of_study);
             etUniversity = view.findViewById(R.id.et_university);
             etGraduationYear = view.findViewById(R.id.et_graduation_year);
@@ -188,7 +177,8 @@ public class StaffProfessionalInfo extends Fragment {
 
         dropdownPosition.addTextChangedListener(textWatcher);
         dropdownDepartment.addTextChangedListener(textWatcher);
-        etTeachingSubject.addTextChangedListener(textWatcher);
+        dropdownTeachingSubjectSoftware.addTextChangedListener(textWatcher);
+        dropdownTeachingSubjectDatascience.addTextChangedListener(textWatcher);
         dropdownProgram.addTextChangedListener(textWatcher);
         dropdownQualification.addTextChangedListener(textWatcher);
         etFieldOfStudy.addTextChangedListener(textWatcher);
@@ -200,7 +190,8 @@ public class StaffProfessionalInfo extends Fragment {
     private void clearErrors() {
         if (tilPosition != null) tilPosition.setError(null);
         if (tilDepartment != null) tilDepartment.setError(null);
-        if (tilTeachingSubject != null) tilTeachingSubject.setError(null);
+        if (tilTeachingSubjectSoftware != null) tilTeachingSubjectSoftware.setError(null);
+        if (tilTeachingSubjectDatascience != null) tilTeachingSubjectDatascience.setError(null);
         if (tilProgramCoordinating != null) tilProgramCoordinating.setError(null);
         if (tilHighestQualification != null) tilHighestQualification.setError(null);
         if (tilFieldOfStudy != null) tilFieldOfStudy.setError(null);
@@ -211,32 +202,37 @@ public class StaffProfessionalInfo extends Fragment {
 
     private void setupDropdowns() {
         // Position dropdown
-        String[] positions = {"Lecturer", "Senior Lecturer", "Assistant Professor", "Associate Professor",
-                "Professor", "Program Coordinator", "Department Head", "Administrative Staff"};
+        String[] positions = {"Lecturer", "Program Coordinator"};
         ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_dropdown_item_1line, positions);
         dropdownPosition.setAdapter(positionAdapter);
 
-        // Department dropdown
-        String[] departments = {"Computer Science", "Information Technology", "Software Engineering",
-                "Data Science", "Cybersecurity", "Management", "Finance", "Marketing"};
+        String[] departments = {"Software Engineering", "Data Science"};
         ArrayAdapter<String> departmentAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_dropdown_item_1line, departments);
         dropdownDepartment.setAdapter(departmentAdapter);
 
-        // Qualification dropdown
         String[] qualifications = {"Bachelor's Degree", "Master's Degree", "PhD", "Postdoc",
                 "Professional Certificate", "Diploma"};
         ArrayAdapter<String> qualificationAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_dropdown_item_1line, qualifications);
         dropdownQualification.setAdapter(qualificationAdapter);
 
-        // Program dropdown
-        String[] programs = {"Computer Science", "Information Technology", "Software Engineering",
-                "Data Science", "Cybersecurity", "Business Administration", "MBA"};
+        String[] programs = {"Software Engineering", "Data Science"};
         ArrayAdapter<String> programAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_dropdown_item_1line, programs);
         dropdownProgram.setAdapter(programAdapter);
+
+        String[] software = {"Introduction to Programming", "Data Structures & Algorithms", "Object-Oriented Programming", "Web Application Development", "Mobile Application development"};
+        ArrayAdapter<String> softwareAdapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_dropdown_item_1line, software);
+        dropdownTeachingSubjectSoftware.setAdapter(softwareAdapter);
+
+        String[] datascience = {"Introduction to Programming for Data Science", "Mathematics for Data Science", "Data Wrangling and Exploration", "Database Systems and Big Data", "Data Visualization"};
+        ArrayAdapter<String> datascienceAdapter = new ArrayAdapter<>(
+                getContext(), android.R.layout.simple_dropdown_item_1line, datascience);
+        dropdownTeachingSubjectDatascience.setAdapter(datascienceAdapter);
+
     }
 
     private void setupPositionDependentFields() {
@@ -244,21 +240,42 @@ public class StaffProfessionalInfo extends Fragment {
             String selectedPosition = dropdownPosition.getText().toString();
             updateFieldVisibility(selectedPosition);
         });
+
+        // Add department listener to show appropriate teaching subject dropdown
+        dropdownDepartment.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedDepartment = dropdownDepartment.getText().toString();
+            updateTeachingSubjectVisibility(selectedDepartment);
+        });
     }
 
     private void updateFieldVisibility(String position) {
         // Hide all conditional fields first
         tilDepartment.setVisibility(View.GONE);
-        tilTeachingSubject.setVisibility(View.GONE);
         tilProgramCoordinating.setVisibility(View.GONE);
+        tilTeachingSubjectSoftware.setVisibility(View.GONE);
+        tilTeachingSubjectDatascience.setVisibility(View.GONE);
 
         if (position.toLowerCase().contains("lecturer") || position.toLowerCase().contains("professor")) {
-            // Show fields for lecturers and professors
             tilDepartment.setVisibility(View.VISIBLE);
-            tilTeachingSubject.setVisibility(View.VISIBLE);
+            // Don't show teaching subjects yet - wait for department selection
         } else if (position.toLowerCase().contains("coordinator")) {
-            // Show fields for coordinators
             tilProgramCoordinating.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void updateTeachingSubjectVisibility(String department) {
+        // Hide both teaching subject dropdowns first
+        tilTeachingSubjectSoftware.setVisibility(View.GONE);
+        tilTeachingSubjectDatascience.setVisibility(View.GONE);
+
+        // Clear previous selections
+        dropdownTeachingSubjectSoftware.setText("", false);
+        dropdownTeachingSubjectDatascience.setText("", false);
+
+        if ("Software Engineering".equals(department)) {
+            tilTeachingSubjectSoftware.setVisibility(View.VISIBLE);
+        } else if ("Data Science".equals(department)) {
+            tilTeachingSubjectDatascience.setVisibility(View.VISIBLE);
         }
     }
 
@@ -338,6 +355,30 @@ public class StaffProfessionalInfo extends Fragment {
                     dropdownDepartment.setError("Please select a department");
                 }
                 dropdownDepartment.requestFocus();
+                isValid = false;
+            }
+        }
+
+        if (tilTeachingSubjectSoftware.getVisibility()==View.VISIBLE){
+            if (dropdownTeachingSubjectSoftware.getText().toString().trim().isEmpty()) {
+                if (tilTeachingSubjectSoftware != null) {
+                    tilTeachingSubjectSoftware.setError("Please select a teaching subject");
+                } else {
+                    dropdownTeachingSubjectSoftware.setError("Please select a teaching subject");
+                }
+                dropdownTeachingSubjectSoftware.requestFocus();
+                isValid = false;
+            }
+        }
+
+        if (tilTeachingSubjectDatascience.getVisibility()==View.VISIBLE){
+            if (dropdownTeachingSubjectDatascience.getText().toString().trim().isEmpty()) {
+                if (tilTeachingSubjectDatascience != null) {
+                    tilTeachingSubjectDatascience.setError("Please select a teaching subject");
+                } else {
+                    dropdownTeachingSubjectDatascience.setError("Please select a teaching subject");
+                }
+                dropdownTeachingSubjectDatascience.requestFocus();
                 isValid = false;
             }
         }
@@ -470,8 +511,11 @@ public class StaffProfessionalInfo extends Fragment {
             currentStaff.setDepartment(dropdownDepartment.getText().toString().trim());
         }
 
-        if (tilTeachingSubject.getVisibility() == View.VISIBLE) {
-            currentStaff.setTeachingSubject(etTeachingSubject.getText().toString().trim());
+        // Save teaching subject from the visible dropdown
+        if (tilTeachingSubjectSoftware.getVisibility() == View.VISIBLE) {
+            currentStaff.setTeachingSubject(dropdownTeachingSubjectSoftware.getText().toString().trim());
+        } else if (tilTeachingSubjectDatascience.getVisibility() == View.VISIBLE) {
+            currentStaff.setTeachingSubject(dropdownTeachingSubjectDatascience.getText().toString().trim());
         }
 
         if (tilProgramCoordinating.getVisibility() == View.VISIBLE) {
@@ -536,9 +580,16 @@ public class StaffProfessionalInfo extends Fragment {
             }
             if (currentStaff.getDepartment() != null) {
                 dropdownDepartment.setText(currentStaff.getDepartment());
+                updateTeachingSubjectVisibility(currentStaff.getDepartment());
             }
             if (currentStaff.getTeachingSubject() != null) {
-                etTeachingSubject.setText(currentStaff.getTeachingSubject());
+                // Set teaching subject in the appropriate dropdown based on department
+                String department = currentStaff.getDepartment();
+                if ("Software Engineering".equals(department)) {
+                    dropdownTeachingSubjectSoftware.setText(currentStaff.getTeachingSubject());
+                } else if ("Data Science".equals(department)) {
+                    dropdownTeachingSubjectDatascience.setText(currentStaff.getTeachingSubject());
+                }
             }
             if (currentStaff.getProgramCoordinating() != null) {
                 dropdownProgram.setText(currentStaff.getProgramCoordinating());

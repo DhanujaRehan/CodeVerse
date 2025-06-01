@@ -303,14 +303,13 @@
                     <com.google.android.material.textfield.TextInputLayout
                         android:clipToPadding="true"
                         android:clipToOutline="true"
-                        android:id="@+id/til_teaching_subject"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:id="@+id/til_teaching_subject_software"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Teaching Subject"
                         app:hintTextColor="@color/white"
                         app:hintAnimationEnabled="true"
-                        app:hintEnabled="true"
+                        android:layout_marginBottom="16dp"
                         app:boxBackgroundMode="outline"
                         app:boxBackgroundColor="#54FFFFFF"
                         app:boxStrokeColor="@color/white"
@@ -319,21 +318,56 @@
                         app:boxCornerRadiusTopEnd="20dp"
                         app:boxCornerRadiusBottomStart="20dp"
                         app:boxCornerRadiusBottomEnd="20dp"
-                        android:layout_marginBottom="16dp"
                         app:startIconTint="#6200EE"
                         app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent"
                         android:visibility="gone">
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:clipToOutline="true"
-                            android:id="@+id/et_teaching_subject"
+                        <AutoCompleteTextView
+                            android:padding="12dp"
+                            android:hint="Teaching Subject"
+                            android:id="@+id/dropdown_teaching_subject_software"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_regular"
-                            android:inputType="textCapWords"
-                            android:textColor="#222222"
-                            android:padding="12dp"/>
+                            android:fontFamily="@font/poppins_medium"
+                            android:inputType="none"
+                            android:textColor="#333333" />
                     </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
+                        android:id="@+id/til_teaching_subject_datascience"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
+                        android:layout_marginBottom="16dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent"
+                        android:visibility="gone">
+
+                        <AutoCompleteTextView
+                            android:padding="12dp"
+                            android:hint="Teaching Subject"
+                            android:id="@+id/dropdown_teaching_subject_datascience"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_medium"
+                            android:inputType="none"
+                            android:textColor="#333333" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
 
                     <!-- Program Coordinating field - shown only for coordinators -->
                     <com.google.android.material.textfield.TextInputLayout

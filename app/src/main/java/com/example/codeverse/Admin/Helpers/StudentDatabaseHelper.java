@@ -1,4 +1,4 @@
-package com.example.codeverse.Students.Helpers;
+package com.example.codeverse.Admin.Helpers;
 
 import android.content.ContentValues;
 import android.content.Context;

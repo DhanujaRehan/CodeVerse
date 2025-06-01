@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Lecturer.Activities.LecturerMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".Admin.Activities.AdminMainActivity"
             android:exported="true">
             <intent-filter>
