@@ -62,6 +62,7 @@ public class EventHelper extends SQLiteOpenHelper {
                 COL_DEPARTMENT + " TEXT, " +
                 COL_DESC + " TEXT)";
         db.execSQL(createRegisterTable);
+
     }
 
     @Override

@@ -33,7 +33,7 @@ public class StudentProfile extends Fragment {
     private TextView tvProfileAdvisor, tvProfileGraduation, tvGpaValue, tvCreditsValue, tvSemesterValue;
     private Chip chipFaculty;
     private FloatingActionButton fabEditProfile, fabHelp;
-    private MaterialCardView cvBack, cvSettings;
+    private MaterialCardView  cvSettings;
 
     private StudentDatabaseHelper databaseHelper;
     private SharedPreferences sharedPreferences;
@@ -78,7 +78,6 @@ public class StudentProfile extends Fragment {
         chipFaculty = view.findViewById(R.id.chip_faculty);
         fabEditProfile = view.findViewById(R.id.fab_edit_profile);
         fabHelp = view.findViewById(R.id.fab_help);
-        cvBack = view.findViewById(R.id.cv_back);
         cvSettings = view.findViewById(R.id.cv_settings);
     }
 
@@ -190,14 +189,7 @@ public class StudentProfile extends Fragment {
     }
 
     private void setupClickListeners() {
-        cvBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() != null) {
-                    getActivity().onBackPressed();
-                }
-            }
-        });
+
 
         cvSettings.setOnClickListener(new View.OnClickListener() {
             @Override
