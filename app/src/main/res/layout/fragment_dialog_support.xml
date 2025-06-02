@@ -150,7 +150,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="exam@university.edu"
+                    android:text="codeverse@university.edu"
                     android:textColor="#0D47A1"
                     android:fontFamily="@font/poppins_medium"/>
             </LinearLayout>
