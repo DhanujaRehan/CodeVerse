@@ -1,5 +1,6 @@
 package com.example.codeverse.Staff.StaffFragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,9 +15,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.codeverse.LoginScreens.LogoutStaff;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Models.StaffCourse;
 import com.example.codeverse.Staff.Adapters.StaffCourseAdapter;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -34,10 +37,9 @@ public class StaffProfile extends Fragment {
     private FloatingActionButton fabSchedule;
     private LottieAnimationView ivBack;
     private TextView tvViewAllCourses;
-
+    private MaterialButton btnStaffLogout;
 
     private View rootView;
-
 
     public interface OnStaffFragmentListener {
         void onBackPressed();
@@ -60,13 +62,8 @@ public class StaffProfile extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         initializeViews();
-
-
         setupRecyclerView();
-
-
         setupClickListeners();
     }
 
@@ -77,17 +74,15 @@ public class StaffProfile extends Fragment {
         fabSchedule = rootView.findViewById(R.id.fab_schedule);
         ivBack = rootView.findViewById(R.id.iv_back);
         tvViewAllCourses = rootView.findViewById(R.id.tv_view_all_courses);
+        btnStaffLogout = rootView.findViewById(R.id.btn_staff_logout);
     }
 
     private void setupRecyclerView() {
-
         courseList = createHardcodedCourseList();
-
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvTeachingCourses.setLayoutManager(layoutManager);
-
 
         staffCourseAdapter = new StaffCourseAdapter(getContext(), courseList, new StaffCourseAdapter.OnCourseClickListener() {
             @Override
@@ -95,13 +90,11 @@ public class StaffProfile extends Fragment {
                 if (listener != null) {
                     listener.onCourseClicked(course);
                 } else {
-
                     showToast("Course clicked: " + course.getCourseName());
                 }
             }
         });
         rvTeachingCourses.setAdapter(staffCourseAdapter);
-
 
         if (getResources() != null) {
             int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
@@ -110,16 +103,13 @@ public class StaffProfile extends Fragment {
     }
 
     private void setupClickListeners() {
-
         cvBack.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onBackPressed();
             } else {
-
                 navigateBack();
             }
         });
-
 
         cvDepartmentSelector.setOnClickListener(v -> {
             if (listener != null) {
@@ -129,7 +119,6 @@ public class StaffProfile extends Fragment {
             }
         });
 
-
         fabSchedule.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onScheduleAppointmentClicked();
@@ -138,7 +127,6 @@ public class StaffProfile extends Fragment {
             }
         });
 
-
         tvViewAllCourses.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onViewAllCoursesClicked();
@@ -146,15 +134,15 @@ public class StaffProfile extends Fragment {
                 showToast("View all courses clicked");
             }
         });
+
+        btnStaffLogout.setOnClickListener(v -> {
+            logoutStaff();
+        });
     }
 
-    /**
-     * Create a list of hardcoded courses for demonstration
-     */
     private List<StaffCourse> createHardcodedCourseList() {
         List<StaffCourse> courses = new ArrayList<>();
 
-        // Add hardcoded courses
         courses.add(new StaffCourse(
                 "CS401",
                 "Advanced Machine Learning",
@@ -203,18 +191,12 @@ public class StaffProfile extends Fragment {
         return courses;
     }
 
-    /**
-     * Display a toast message
-     */
     private void showToast(String message) {
         if (getContext() != null) {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         }
     }
 
-    /**
-     * Navigate back using fragment manager
-     */
     private void navigateBack() {
         if (getParentFragmentManager().getBackStackEntryCount() > 0) {
             getParentFragmentManager().popBackStack();
@@ -223,9 +205,12 @@ public class StaffProfile extends Fragment {
         }
     }
 
-    /**
-     * Update course list with new data
-     */
+    private void logoutStaff() {
+        Intent intent = new Intent(getActivity(), LogoutStaff.class);
+        startActivity(intent);
+        getActivity().finish();
+    }
+
     public void updateCourseList(List<StaffCourse> newCourseList) {
         if (newCourseList != null && staffCourseAdapter != null) {
             courseList.clear();
@@ -234,9 +219,6 @@ public class StaffProfile extends Fragment {
         }
     }
 
-    /**
-     * Add a new course to the list
-     */
     public void addCourse(StaffCourse course) {
         if (course != null && courseList != null && staffCourseAdapter != null) {
             courseList.add(course);
@@ -244,9 +226,6 @@ public class StaffProfile extends Fragment {
         }
     }
 
-    /**
-     * Remove a course from the list
-     */
     public void removeCourse(int position) {
         if (position >= 0 && position < courseList.size() && staffCourseAdapter != null) {
             courseList.remove(position);
@@ -254,16 +233,10 @@ public class StaffProfile extends Fragment {
         }
     }
 
-    /**
-     * Get current course list
-     */
     public List<StaffCourse> getCourseList() {
         return new ArrayList<>(courseList);
     }
 
-    /**
-     * Custom item decoration for horizontal spacing between RecyclerView items
-     */
     public static class HorizontalSpaceItemDecoration extends RecyclerView.ItemDecoration {
         private final int horizontalSpaceWidth;
 
@@ -273,23 +246,19 @@ public class StaffProfile extends Fragment {
 
         @Override
         public void getItemOffsets(android.graphics.Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-
             if (parent.getChildAdapterPosition(view) != parent.getAdapter().getItemCount() - 1) {
                 outRect.right = horizontalSpaceWidth;
             }
         }
     }
 
-
     public void setOnStaffFragmentListener(OnStaffFragmentListener listener) {
         this.listener = listener;
     }
 
-
     public static StaffProfile newInstance() {
         return new StaffProfile();
     }
-
 
     public static StaffProfile newInstance(String staffId, String department) {
         StaffProfile fragment = new StaffProfile();
@@ -299,7 +268,6 @@ public class StaffProfile extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
 
     private String getStaffIdFromArguments() {
         if (getArguments() != null) {
@@ -318,7 +286,6 @@ public class StaffProfile extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-
 
         rootView = null;
         listener = null;
