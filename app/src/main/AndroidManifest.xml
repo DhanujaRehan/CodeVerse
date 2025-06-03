@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Logout"
+            android:exported="false" />
+        <activity
             android:name=".Students.Activities.StudentMainActivity"
             android:exported="false" />
         <activity
@@ -38,6 +41,7 @@
         <activity
             android:name=".Admin.Activities.AdminMainActivity"
             android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
