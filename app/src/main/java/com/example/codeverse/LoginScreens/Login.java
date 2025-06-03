@@ -11,8 +11,12 @@ import com.example.codeverse.Admin.Activities.AdminMainActivity;
 import com.example.codeverse.MainActivity;
 import com.example.codeverse.Students.Activities.StudentMainActivity;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
+import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
 import com.example.codeverse.Students.Models.Student;
+import com.example.codeverse.Admin.Models.Staff;
 import com.example.codeverse.Utils.StudentSessionManager;
+import com.example.codeverse.StaffSessionManager;
+import com.example.codeverse.LoginScreens.LoadingScreen;
 import com.example.codeverse.databinding.ActivityLoginBinding;
 
 public class Login extends AppCompatActivity {
@@ -21,7 +25,9 @@ public class Login extends AppCompatActivity {
     private String AdminEmail;
     private String AdminPassword;
     private StudentDatabaseHelper studentDbHelper;
+    private StaffDatabaseHelper staffDbHelper;
     private StudentSessionManager sessionManager;
+    private StaffSessionManager staffSessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +39,20 @@ public class Login extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Initialize database helper and session manager
         studentDbHelper = new StudentDatabaseHelper(this);
+        staffDbHelper = new StaffDatabaseHelper(this);
         sessionManager = new StudentSessionManager(this);
+        staffSessionManager = new StaffSessionManager(this);
 
-        // Check if student is already logged in
         if (sessionManager.isLoggedIn()) {
-            // Redirect to student main activity
             Intent intent = new Intent(Login.this, StudentMainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        if (staffSessionManager.isLoggedIn()) {
+            Intent intent = new Intent(Login.this, AdminMainActivity.class);
             startActivity(intent);
             finish();
             return;
@@ -67,7 +79,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        // Check if it's admin login
         if (inputEmail.equals(AdminEmail) && inputPassword.equals(AdminPassword)) {
             Toast.makeText(Login.this, "Admin login successful!", Toast.LENGTH_SHORT).show();
 
@@ -77,23 +88,56 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        // Check for student login
-        authenticateStudent(inputEmail, inputPassword);
+        authenticateStaff(inputEmail, inputPassword);
+    }
+
+    private void authenticateStaff(String email, String password) {
+        Staff staff = findStaffByEmail(email);
+
+        if (staff != null) {
+            if (staff.getPassword() != null && staff.getPassword().equals(password)) {
+                Toast.makeText(this, "Welcome, " + staff.getFullName() + "!", Toast.LENGTH_SHORT).show();
+
+                staffSessionManager.createLoginSession(
+                        String.valueOf(staff.getId()),
+                        staff.getFullName(),
+                        staff.getEmail(),
+                        staff.getDepartment()
+                );
+
+                Intent intent = new Intent(Login.this, LoadingScreen.class);
+                intent.putExtra("nextActivity", "AdminMainActivity");
+                startActivity(intent);
+                finish();
+            } else {
+                authenticateStudent(email, password);
+            }
+        } else {
+            authenticateStudent(email, password);
+        }
+    }
+
+    private Staff findStaffByEmail(String email) {
+        java.util.List<Staff> allStaff = staffDbHelper.getAllStaff();
+
+        for (Staff staff : allStaff) {
+            if (staff.getEmail() != null && staff.getEmail().equalsIgnoreCase(email)) {
+                return staff;
+            }
+        }
+
+        return null;
     }
 
     private void authenticateStudent(String emailOrUsername, String password) {
         Student student = findStudentByEmailOrUsername(emailOrUsername);
 
         if (student != null) {
-            // Check if the password matches
             if (student.getPassword() != null && student.getPassword().equals(password)) {
-                // Login successful
                 Toast.makeText(this, "Welcome, " + student.getFullName() + "!", Toast.LENGTH_SHORT).show();
 
-                // Create login session using session manager
                 sessionManager.createLoginSession(student);
 
-                // Redirect to Student Main Activity
                 Intent intent = new Intent(Login.this, StudentMainActivity.class);
                 startActivity(intent);
                 finish();
@@ -106,10 +150,8 @@ public class Login extends AppCompatActivity {
     }
 
     private Student findStudentByEmailOrUsername(String emailOrUsername) {
-        // First try to find by email
         Student student = findStudentByEmail(emailOrUsername);
 
-        // If not found by email, try by username
         if (student == null) {
             student = findStudentByUsername(emailOrUsername);
         }
@@ -118,7 +160,6 @@ public class Login extends AppCompatActivity {
     }
 
     private Student findStudentByEmail(String email) {
-        // Get all students and check email
         java.util.List<Student> allStudents = studentDbHelper.getAllStudent();
 
         for (Student student : allStudents) {
@@ -131,7 +172,6 @@ public class Login extends AppCompatActivity {
     }
 
     private Student findStudentByUsername(String username) {
-        // Get all students and check username
         java.util.List<Student> allStudents = studentDbHelper.getAllStudent();
 
         for (Student student : allStudents) {
@@ -148,6 +188,9 @@ public class Login extends AppCompatActivity {
         super.onDestroy();
         if (studentDbHelper != null) {
             studentDbHelper.close();
+        }
+        if (staffDbHelper != null) {
+            staffDbHelper.close();
         }
     }
 }
