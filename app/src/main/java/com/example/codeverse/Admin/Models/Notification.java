@@ -7,7 +7,7 @@ public class Notification {
     private String priority;
     private String category;
     private String recipients;
-    private String status; // draft, scheduled, sent
+    private String status;
     private boolean pushEnabled;
     private boolean emailEnabled;
     private boolean smsEnabled;
@@ -15,7 +15,7 @@ public class Notification {
     private long createdAt;
     private String attachmentPath;
 
-    // Constructors
+
     public Notification() {
     }
 
@@ -30,7 +30,7 @@ public class Notification {
         this.createdAt = System.currentTimeMillis();
     }
 
-    // Getters and Setters
+
     public int getId() {
         return id;
     }
@@ -135,19 +135,19 @@ public class Notification {
         this.attachmentPath = attachmentPath;
     }
 
-    // Utility methods
+
     public String getPriorityColor() {
         switch (priority.toLowerCase()) {
             case "urgent":
-                return "#F44336"; // Red
+                return "#F44336";
             case "high":
-                return "#FF9800"; // Orange
+                return "#FF9800";
             case "medium":
-                return "#2196F3"; // Blue
+                return "#2196F3";
             case "low":
-                return "#4CAF50"; // Green
+                return "#4CAF50";
             default:
-                return "#757575"; // Grey
+                return "#757575";
         }
     }
 
