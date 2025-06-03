@@ -14,10 +14,9 @@ import java.util.List;
 public class AssignmentUploadHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "AssignmentsUploads.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2; // Updated version
 
     private static final String TABLE_ASSIGNMENTS = "AssignmentsUpload";
-
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_TITLE = "title";
     private static final String COLUMN_SUBJECT = "subject";
@@ -27,6 +26,17 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
     private static final String COLUMN_UPLOAD_DATE = "upload_date";
     private static final String COLUMN_FILE_SIZE = "file_size";
     private static final String COLUMN_STATUS = "status";
+    // New columns for grading system
+    private static final String COLUMN_STUDENT_ID = "student_id";
+    private static final String COLUMN_STUDENT_NAME = "student_name";
+    private static final String COLUMN_BATCH = "batch";
+    private static final String COLUMN_PROGRAMME = "programme";
+    private static final String COLUMN_MODULE = "module";
+    private static final String COLUMN_MARKS = "marks";
+    private static final String COLUMN_GRADE = "grade";
+    private static final String COLUMN_FEEDBACK = "feedback";
+    private static final String COLUMN_IS_GRADED = "is_graded";
+    private static final String COLUMN_GRADED_DATE = "graded_date";
 
     private static final String CREATE_TABLE_ASSIGNMENTS =
             "CREATE TABLE " + TABLE_ASSIGNMENTS + " (" +
@@ -38,7 +48,17 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
                     COLUMN_FILE_PATH + " TEXT NOT NULL, " +
                     COLUMN_UPLOAD_DATE + " INTEGER NOT NULL, " +
                     COLUMN_FILE_SIZE + " INTEGER DEFAULT 0, " +
-                    COLUMN_STATUS + " TEXT DEFAULT 'uploaded'" +
+                    COLUMN_STATUS + " TEXT DEFAULT 'uploaded', " +
+                    COLUMN_STUDENT_ID + " TEXT, " +
+                    COLUMN_STUDENT_NAME + " TEXT, " +
+                    COLUMN_BATCH + " TEXT, " +
+                    COLUMN_PROGRAMME + " TEXT, " +
+                    COLUMN_MODULE + " TEXT, " +
+                    COLUMN_MARKS + " REAL DEFAULT 0, " +
+                    COLUMN_GRADE + " TEXT, " +
+                    COLUMN_FEEDBACK + " TEXT, " +
+                    COLUMN_IS_GRADED + " INTEGER DEFAULT 0, " +
+                    COLUMN_GRADED_DATE + " INTEGER DEFAULT 0" +
                     ")";
 
     public AssignmentUploadHelper(Context context) {
@@ -52,8 +72,19 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_ASSIGNMENTS);
-        onCreate(db);
+        if (oldVersion < 2) {
+            // Add new columns for existing tables
+            db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_STUDENT_ID + " TEXT");
+            db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_STUDENT_NAME + " TEXT");
+            db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_BATCH + " TEXT");
+            db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_PROGRAMME + " TEXT");
+            db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_MODULE + " TEXT");
+            db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_MARKS + " REAL DEFAULT 0");
+            db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_GRADE + " TEXT");
+            db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_FEEDBACK + " TEXT");
+            db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_IS_GRADED + " INTEGER DEFAULT 0");
+            db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_GRADED_DATE + " INTEGER DEFAULT 0");
+        }
     }
 
     public long insertAssignment(AssignmentModel assignment) {
@@ -68,6 +99,12 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         values.put(COLUMN_UPLOAD_DATE, assignment.getUploadDate());
         values.put(COLUMN_FILE_SIZE, assignment.getFileSize());
         values.put(COLUMN_STATUS, assignment.getStatus());
+        values.put(COLUMN_STUDENT_ID, assignment.getStudentId());
+        values.put(COLUMN_STUDENT_NAME, assignment.getStudentName());
+        values.put(COLUMN_BATCH, assignment.getBatch());
+        values.put(COLUMN_PROGRAMME, assignment.getProgramme());
+        values.put(COLUMN_MODULE, assignment.getModule());
+        values.put(COLUMN_IS_GRADED, assignment.isGraded() ? 1 : 0);
 
         long id = db.insert(TABLE_ASSIGNMENTS, null, values);
         db.close();
@@ -77,27 +114,14 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
 
     public List<AssignmentModel> getAllAssignments() {
         List<AssignmentModel> assignments = new ArrayList<>();
-        String selectQuery = "SELECT " + COLUMN_ID + "," + COLUMN_TITLE + "," + COLUMN_SUBJECT + "," +
-                COLUMN_DESCRIPTION + "," + COLUMN_FILE_NAME + "," + COLUMN_FILE_PATH + "," +
-                COLUMN_UPLOAD_DATE + "," + COLUMN_FILE_SIZE + "," + COLUMN_STATUS +
-                " FROM " + TABLE_ASSIGNMENTS + " ORDER BY " + COLUMN_UPLOAD_DATE + " DESC";
+        String selectQuery = "SELECT * FROM " + TABLE_ASSIGNMENTS + " ORDER BY " + COLUMN_UPLOAD_DATE + " DESC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
-                AssignmentModel assignment = new AssignmentModel();
-                assignment.setId(cursor.getInt(0));
-                assignment.setTitle(cursor.getString(1));
-                assignment.setSubject(cursor.getString(2));
-                assignment.setDescription(cursor.getString(3));
-                assignment.setFileName(cursor.getString(4));
-                assignment.setFilePath(cursor.getString(5));
-                assignment.setUploadDate(cursor.getLong(6));
-                assignment.setFileSize(cursor.getLong(7));
-                assignment.setStatus(cursor.getString(8));
-
+                AssignmentModel assignment = getAssignmentFromCursor(cursor);
                 assignments.add(assignment);
             } while (cursor.moveToNext());
         }
@@ -110,25 +134,13 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
 
     public AssignmentModel getAssignmentById(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String selectQuery = "SELECT " + COLUMN_ID + "," + COLUMN_TITLE + "," + COLUMN_SUBJECT + "," +
-                COLUMN_DESCRIPTION + "," + COLUMN_FILE_NAME + "," + COLUMN_FILE_PATH + "," +
-                COLUMN_UPLOAD_DATE + "," + COLUMN_FILE_SIZE + "," + COLUMN_STATUS +
-                " FROM " + TABLE_ASSIGNMENTS + " WHERE " + COLUMN_ID + " = ?";
+        String selectQuery = "SELECT * FROM " + TABLE_ASSIGNMENTS + " WHERE " + COLUMN_ID + " = ?";
 
         Cursor cursor = db.rawQuery(selectQuery, new String[]{String.valueOf(id)});
         AssignmentModel assignment = null;
 
         if (cursor.moveToFirst()) {
-            assignment = new AssignmentModel();
-            assignment.setId(cursor.getInt(0));
-            assignment.setTitle(cursor.getString(1));
-            assignment.setSubject(cursor.getString(2));
-            assignment.setDescription(cursor.getString(3));
-            assignment.setFileName(cursor.getString(4));
-            assignment.setFilePath(cursor.getString(5));
-            assignment.setUploadDate(cursor.getLong(6));
-            assignment.setFileSize(cursor.getLong(7));
-            assignment.setStatus(cursor.getString(8));
+            assignment = getAssignmentFromCursor(cursor);
         }
 
         cursor.close();
@@ -139,27 +151,14 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
 
     public List<AssignmentModel> getAssignmentsBySubject(String subject) {
         List<AssignmentModel> assignments = new ArrayList<>();
-        String selectQuery = "SELECT " + COLUMN_ID + "," + COLUMN_TITLE + "," + COLUMN_SUBJECT + "," +
-                COLUMN_DESCRIPTION + "," + COLUMN_FILE_NAME + "," + COLUMN_FILE_PATH + "," +
-                COLUMN_UPLOAD_DATE + "," + COLUMN_FILE_SIZE + "," + COLUMN_STATUS +
-                " FROM " + TABLE_ASSIGNMENTS + " WHERE " + COLUMN_SUBJECT + " = ? ORDER BY " + COLUMN_UPLOAD_DATE + " DESC";
+        String selectQuery = "SELECT * FROM " + TABLE_ASSIGNMENTS + " WHERE " + COLUMN_SUBJECT + " = ? ORDER BY " + COLUMN_UPLOAD_DATE + " DESC";
 
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, new String[]{subject});
 
         if (cursor.moveToFirst()) {
             do {
-                AssignmentModel assignment = new AssignmentModel();
-                assignment.setId(cursor.getInt(0));
-                assignment.setTitle(cursor.getString(1));
-                assignment.setSubject(cursor.getString(2));
-                assignment.setDescription(cursor.getString(3));
-                assignment.setFileName(cursor.getString(4));
-                assignment.setFilePath(cursor.getString(5));
-                assignment.setUploadDate(cursor.getLong(6));
-                assignment.setFileSize(cursor.getLong(7));
-                assignment.setStatus(cursor.getString(8));
-
+                AssignmentModel assignment = getAssignmentFromCursor(cursor);
                 assignments.add(assignment);
             } while (cursor.moveToNext());
         }
@@ -168,6 +167,151 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         db.close();
 
         return assignments;
+    }
+
+    // New method to get assignments by criteria for grading
+    public List<AssignmentModel> getAssignmentsByCriteria(String programme, String batch, String module, String assessment) {
+        List<AssignmentModel> assignments = new ArrayList<>();
+        StringBuilder queryBuilder = new StringBuilder("SELECT * FROM " + TABLE_ASSIGNMENTS + " WHERE 1=1");
+        List<String> selectionArgs = new ArrayList<>();
+
+        if (programme != null && !programme.isEmpty()) {
+            queryBuilder.append(" AND ").append(COLUMN_PROGRAMME).append(" = ?");
+            selectionArgs.add(programme);
+        }
+
+        if (batch != null && !batch.isEmpty()) {
+            queryBuilder.append(" AND ").append(COLUMN_BATCH).append(" = ?");
+            selectionArgs.add(batch);
+        }
+
+        if (module != null && !module.isEmpty()) {
+            queryBuilder.append(" AND ").append(COLUMN_MODULE).append(" = ?");
+            selectionArgs.add(module);
+        }
+
+        if (assessment != null && !assessment.isEmpty()) {
+            queryBuilder.append(" AND ").append(COLUMN_TITLE).append(" LIKE ?");
+            selectionArgs.add("%" + assessment + "%");
+        }
+
+        queryBuilder.append(" ORDER BY ").append(COLUMN_UPLOAD_DATE).append(" DESC");
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(queryBuilder.toString(), selectionArgs.toArray(new String[0]));
+
+        if (cursor.moveToFirst()) {
+            do {
+                AssignmentModel assignment = getAssignmentFromCursor(cursor);
+                assignments.add(assignment);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return assignments;
+    }
+
+    // Method to update grade information
+    public int gradeAssignment(int assignmentId, double marks, String grade, String feedback) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(COLUMN_MARKS, marks);
+        values.put(COLUMN_GRADE, grade);
+        values.put(COLUMN_FEEDBACK, feedback);
+        values.put(COLUMN_IS_GRADED, 1);
+        values.put(COLUMN_GRADED_DATE, System.currentTimeMillis());
+
+        int result = db.update(TABLE_ASSIGNMENTS, values, COLUMN_ID + " = ?", new String[]{String.valueOf(assignmentId)});
+        db.close();
+
+        return result;
+    }
+
+    // Get distinct programmes
+    public List<String> getAllProgrammes() {
+        List<String> programmes = new ArrayList<>();
+        String selectQuery = "SELECT DISTINCT " + COLUMN_PROGRAMME + " FROM " + TABLE_ASSIGNMENTS +
+                " WHERE " + COLUMN_PROGRAMME + " IS NOT NULL ORDER BY " + COLUMN_PROGRAMME;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                programmes.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return programmes;
+    }
+
+    // Get distinct batches
+    public List<String> getAllBatches() {
+        List<String> batches = new ArrayList<>();
+        String selectQuery = "SELECT DISTINCT " + COLUMN_BATCH + " FROM " + TABLE_ASSIGNMENTS +
+                " WHERE " + COLUMN_BATCH + " IS NOT NULL ORDER BY " + COLUMN_BATCH;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                batches.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return batches;
+    }
+
+    // Get distinct modules
+    public List<String> getAllModules() {
+        List<String> modules = new ArrayList<>();
+        String selectQuery = "SELECT DISTINCT " + COLUMN_MODULE + " FROM " + TABLE_ASSIGNMENTS +
+                " WHERE " + COLUMN_MODULE + " IS NOT NULL ORDER BY " + COLUMN_MODULE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                modules.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return modules;
+    }
+
+    // Get distinct assessment types
+    public List<String> getAllAssessmentTypes() {
+        List<String> assessments = new ArrayList<>();
+        String selectQuery = "SELECT DISTINCT " + COLUMN_TITLE + " FROM " + TABLE_ASSIGNMENTS +
+                " WHERE " + COLUMN_TITLE + " IS NOT NULL ORDER BY " + COLUMN_TITLE;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                assessments.add(cursor.getString(0));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return assessments;
     }
 
     public int updateAssignment(AssignmentModel assignment) {
@@ -283,5 +427,52 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_ASSIGNMENTS, null, null);
         db.close();
+    }
+
+    // Helper method to create AssignmentModel from cursor
+    private AssignmentModel getAssignmentFromCursor(Cursor cursor) {
+        AssignmentModel assignment = new AssignmentModel();
+        assignment.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)));
+        assignment.setTitle(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)));
+        assignment.setSubject(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_SUBJECT)));
+        assignment.setDescription(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DESCRIPTION)));
+        assignment.setFileName(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FILE_NAME)));
+        assignment.setFilePath(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_FILE_PATH)));
+        assignment.setUploadDate(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_UPLOAD_DATE)));
+        assignment.setFileSize(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_FILE_SIZE)));
+        assignment.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STATUS)));
+
+        // Handle new columns with null checks
+        int studentIdIndex = cursor.getColumnIndex(COLUMN_STUDENT_ID);
+        if (studentIdIndex != -1) assignment.setStudentId(cursor.getString(studentIdIndex));
+
+        int studentNameIndex = cursor.getColumnIndex(COLUMN_STUDENT_NAME);
+        if (studentNameIndex != -1) assignment.setStudentName(cursor.getString(studentNameIndex));
+
+        int batchIndex = cursor.getColumnIndex(COLUMN_BATCH);
+        if (batchIndex != -1) assignment.setBatch(cursor.getString(batchIndex));
+
+        int programmeIndex = cursor.getColumnIndex(COLUMN_PROGRAMME);
+        if (programmeIndex != -1) assignment.setProgramme(cursor.getString(programmeIndex));
+
+        int moduleIndex = cursor.getColumnIndex(COLUMN_MODULE);
+        if (moduleIndex != -1) assignment.setModule(cursor.getString(moduleIndex));
+
+        int marksIndex = cursor.getColumnIndex(COLUMN_MARKS);
+        if (marksIndex != -1) assignment.setMarks(cursor.getDouble(marksIndex));
+
+        int gradeIndex = cursor.getColumnIndex(COLUMN_GRADE);
+        if (gradeIndex != -1) assignment.setGrade(cursor.getString(gradeIndex));
+
+        int feedbackIndex = cursor.getColumnIndex(COLUMN_FEEDBACK);
+        if (feedbackIndex != -1) assignment.setFeedback(cursor.getString(feedbackIndex));
+
+        int isGradedIndex = cursor.getColumnIndex(COLUMN_IS_GRADED);
+        if (isGradedIndex != -1) assignment.setGraded(cursor.getInt(isGradedIndex) == 1);
+
+        int gradedDateIndex = cursor.getColumnIndex(COLUMN_GRADED_DATE);
+        if (gradedDateIndex != -1) assignment.setGradedDate(cursor.getLong(gradedDateIndex));
+
+        return assignment;
     }
 }

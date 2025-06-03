@@ -232,57 +232,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Assignment Type -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="Assignment Type"
-                    android:textColor="#1A5276"
-                    android:textSize="14sp" />
 
-                <com.google.android.material.chip.ChipGroup
-                    android:id="@+id/chipGroupAssignmentType"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    app:singleSelection="true">
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipCoursework"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Coursework"
-                        android:textColor="#1A5276"
-                        app:chipBackgroundColor="#80FFFFFF" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipExam"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Exam"
-                        android:textColor="#1A5276"
-                        app:chipBackgroundColor="#80FFFFFF" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipProject"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Project"
-                        android:textColor="#1A5276"
-                        app:chipBackgroundColor="#80FFFFFF" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/chipQuiz"
-                        style="@style/Widget.MaterialComponents.Chip.Choice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Quiz"
-                        android:textColor="#1A5276"
-                        app:chipBackgroundColor="#80FFFFFF" />
-                </com.google.android.material.chip.ChipGroup>
 
                 <!-- Assignment Description -->
                 <TextView
@@ -514,7 +464,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
-                    android:text="Target Groups"
+                    android:text="Target Batch"
                     android:textColor="#1A5276"
                     android:textSize="14sp" />
 
@@ -540,45 +490,13 @@
                         android:fontFamily="@font/poppins_regular"
                         android:inputType="none"
                         android:padding="12dp"
-                        android:text="Select Groups"
+                        android:text="Select Batch"
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Notification Options -->
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:text="Notifications"
-                    android:textColor="#1A5276"
-                    android:textSize="14sp" />
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchNotifyStudents"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:checked="true"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Notify students about this assignment"
-                    android:textColor="#1A5276"
-                    android:textSize="14sp"
-                    app:thumbTint="#1A5276"
-                    app:trackTint="#B3DFFF" />
 
-                <com.google.android.material.switchmaterial.SwitchMaterial
-                    android:id="@+id/switchEnableReminders"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
-                    android:checked="true"
-                    android:fontFamily="@font/poppins_regular"
-                    android:text="Enable automatic reminders"
-                    android:textColor="#1A5276"
-                    android:textSize="14sp"
-                    app:thumbTint="#1A5276"
-                    app:trackTint="#B3DFFF" />
             </LinearLayout>
 
             <!-- Action Buttons -->

@@ -1,11 +1,6 @@
 package com.example.codeverse.Students.Models;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 public class AssignmentModel {
-
     private int id;
     private String title;
     private String subject;
@@ -16,23 +11,41 @@ public class AssignmentModel {
     private long fileSize;
     private String status;
 
+    // New fields for grading system
+    private String studentId;
+    private String studentName;
+    private String batch;
+    private String programme;
+    private String module;
+    private double marks;
+    private String grade;
+    private String feedback;
+    private boolean isGraded;
+    private long gradedDate;
+
+    // Default constructor
     public AssignmentModel() {
-        this.uploadDate = System.currentTimeMillis();
         this.status = "uploaded";
-        this.fileSize = 0;
+        this.isGraded = false;
+        this.marks = 0.0;
     }
 
-    public AssignmentModel(String title, String subject, String description, String fileName, String filePath) {
+    // Constructor with basic fields
+    public AssignmentModel(String title, String subject, String description, String fileName,
+                           String filePath, long uploadDate, long fileSize) {
         this.title = title;
         this.subject = subject;
         this.description = description;
         this.fileName = fileName;
         this.filePath = filePath;
-        this.uploadDate = System.currentTimeMillis();
+        this.uploadDate = uploadDate;
+        this.fileSize = fileSize;
         this.status = "uploaded";
-        this.fileSize = 0;
+        this.isGraded = false;
+        this.marks = 0.0;
     }
 
+    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -105,39 +118,117 @@ public class AssignmentModel {
         this.status = status;
     }
 
-    public String getFormattedUploadDate() {
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault());
-        return sdf.format(new Date(uploadDate));
+    public String getStudentId() {
+        return studentId;
     }
 
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getStudentName() {
+        return studentName;
+    }
+
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
+    }
+
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
+    }
+
+    public String getProgramme() {
+        return programme;
+    }
+
+    public void setProgramme(String programme) {
+        this.programme = programme;
+    }
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
+    }
+
+    public double getMarks() {
+        return marks;
+    }
+
+    public void setMarks(double marks) {
+        this.marks = marks;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
+    }
+
+    public boolean isGraded() {
+        return isGraded;
+    }
+
+    public void setGraded(boolean graded) {
+        isGraded = graded;
+    }
+
+    public long getGradedDate() {
+        return gradedDate;
+    }
+
+    public void setGradedDate(long gradedDate) {
+        this.gradedDate = gradedDate;
+    }
+
+    // Helper method to get formatted file size
     public String getFormattedFileSize() {
-        if (fileSize <= 0) return "Unknown size";
-
-        String[] units = {"B", "KB", "MB", "GB"};
-        int unitIndex = 0;
-        double size = fileSize;
-
-        while (size >= 1024 && unitIndex < units.length - 1) {
-            size /= 1024;
-            unitIndex++;
+        if (fileSize < 1024) {
+            return fileSize + " B";
+        } else if (fileSize < 1024 * 1024) {
+            return String.format("%.1f KB", fileSize / 1024.0);
+        } else {
+            return String.format("%.1f MB", fileSize / (1024.0 * 1024.0));
         }
-
-        return String.format(Locale.getDefault(), "%.1f %s", size, units[unitIndex]);
     }
 
-    public String getFileExtension() {
-        if (fileName != null && fileName.contains(".")) {
-            return fileName.substring(fileName.lastIndexOf(".") + 1).toUpperCase();
-        }
-        return "FILE";
+    // Helper method to get formatted upload date
+    public String getFormattedUploadDate() {
+        java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("MMM dd, yyyy 'at' HH:mm", java.util.Locale.getDefault());
+        return dateFormat.format(new java.util.Date(uploadDate));
     }
 
+    // Helper method to check if file is PDF
     public boolean isPdfFile() {
         return fileName != null && fileName.toLowerCase().endsWith(".pdf");
     }
 
+    // Helper method to check if file is Word document
     public boolean isWordFile() {
         return fileName != null && (fileName.toLowerCase().endsWith(".doc") || fileName.toLowerCase().endsWith(".docx"));
+    }
+
+    // Helper method to check if assignment is overdue (you can implement based on your requirements)
+    public boolean isOverdue() {
+        // Implement your logic for determining if assignment is overdue
+        return false;
     }
 
     @Override
@@ -146,23 +237,14 @@ public class AssignmentModel {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", subject='" + subject + '\'' +
-                ", fileName='" + fileName + '\'' +
-                ", uploadDate=" + uploadDate +
-                ", status='" + status + '\'' +
+                ", studentId='" + studentId + '\'' +
+                ", studentName='" + studentName + '\'' +
+                ", batch='" + batch + '\'' +
+                ", programme='" + programme + '\'' +
+                ", module='" + module + '\'' +
+                ", isGraded=" + isGraded +
+                ", marks=" + marks +
+                ", grade='" + grade + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-
-        AssignmentModel that = (AssignmentModel) obj;
-        return id == that.id;
-    }
-
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(id);
     }
 }

@@ -297,7 +297,7 @@ public class AcademicDetails extends Fragment {
 
     private void setupDropdowns() {
         try {
-            String[] faculties = new String[]{"Software Engineering", "Data Science", "Computer Science", "Artificial Intelligence"};
+            String[] faculties = new String[]{"Software Engineering", "Data Science"};
             ArrayAdapter<String> facultyAdapter = new ArrayAdapter<>(
                     getContext(),
                     android.R.layout.simple_dropdown_item_1line,

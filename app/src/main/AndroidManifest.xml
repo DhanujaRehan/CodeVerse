@@ -11,12 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-       
+        <activity
+            android:name=".Students.Activities.StudentMainActivity"
+            android:exported="false" />
         <activity
             android:name=".Lecturer.Activities.LecturerMainActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.Activities.AdminMainActivity"
+            android:name=".LoginScreens.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,7 +36,7 @@
             android:name=".LoginScreens.WelcomeScreen"
             android:exported="false" />
         <activity
-            android:name=".LoginScreens.Login"
+            android:name=".Admin.Activities.AdminMainActivity"
             android:exported="false" />
     </application>
 

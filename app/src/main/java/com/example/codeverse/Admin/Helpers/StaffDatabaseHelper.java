@@ -22,7 +22,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
     // Database Info
     private static final String DATABASE_NAME = "StaffDetails.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2; // Incremented to trigger schema update
 
     // Table Names
     private static final String TABLE_STAFF = "StaffDetails";
@@ -39,7 +39,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
     // Professional Information Columns
     private static final String KEY_POSITION = "position";
-    private static final String KEY_DEPARTMENT = "department";
+    private static final String KEY_PROGRAMME = "programme";
     private static final String KEY_TEACHING_SUBJECT = "teaching_subject";
     private static final String KEY_PROGRAM_COORDINATING = "program_coordinating";
 
@@ -61,18 +61,19 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        // Fixed schema: removed UNIQUE constraint from email, made it nullable
         String CREATE_STAFF_TABLE = "CREATE TABLE " + TABLE_STAFF +
                 "(" +
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_FULL_NAME + " TEXT NOT NULL," +
-                KEY_EMAIL + " TEXT UNIQUE," +
+                KEY_EMAIL + " TEXT," + // Removed UNIQUE constraint to avoid NULL/empty value issues
                 KEY_CONTACT_NUMBER + " TEXT," +
                 KEY_NIC_NUMBER + " TEXT UNIQUE NOT NULL," +
                 KEY_GENDER + " TEXT," +
                 KEY_DATE_OF_BIRTH + " TEXT," +
                 KEY_PHOTO_URI + " TEXT," +
                 KEY_POSITION + " TEXT," +
-                KEY_DEPARTMENT + " TEXT," +
+                KEY_PROGRAMME + " TEXT," +
                 KEY_TEACHING_SUBJECT + " TEXT," +
                 KEY_PROGRAM_COORDINATING + " TEXT," +
                 KEY_HIGHEST_QUALIFICATION + " TEXT," +
@@ -85,40 +86,51 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
                 ")";
 
         db.execSQL(CREATE_STAFF_TABLE);
-        Log.d(TAG, "Database tables created");
+        Log.d(TAG, "Database tables created successfully");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
+            Log.d(TAG, "Upgrading database from version " + oldVersion + " to " + newVersion);
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_STAFF);
             onCreate(db);
         }
     }
 
-    // Insert a staff member into the database
+    // Insert a staff member into the database with improved error handling
     public long insertStaff(Staff staff) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         long staffId = -1;
+
+        Log.d(TAG, "Attempting to insert staff: " + staff.getFullName());
 
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put(KEY_FULL_NAME, staff.getFullName());
-            values.put(KEY_EMAIL, staff.getEmail());
+
+            // Handle email properly - only insert if not empty
+            String email = staff.getEmail();
+            if (email != null && !email.trim().isEmpty()) {
+                values.put(KEY_EMAIL, email.trim());
+            } else {
+                values.putNull(KEY_EMAIL);
+            }
+
             values.put(KEY_CONTACT_NUMBER, staff.getContactNumber());
             values.put(KEY_NIC_NUMBER, staff.getNicNumber());
             values.put(KEY_GENDER, staff.getGender());
             values.put(KEY_DATE_OF_BIRTH, staff.getDateOfBirth());
             values.put(KEY_PHOTO_URI, staff.getPhotoUri());
 
-            // Professional Information
+            // Professional Information (can be null for personal info step)
             values.put(KEY_POSITION, staff.getPosition());
-            values.put(KEY_DEPARTMENT, staff.getDepartment());
+            values.put(KEY_PROGRAMME, staff.getDepartment());
             values.put(KEY_TEACHING_SUBJECT, staff.getTeachingSubject());
             values.put(KEY_PROGRAM_COORDINATING, staff.getProgramCoordinating());
 
-            // Educational Qualifications
+            // Educational Qualifications (can be null for personal info step)
             values.put(KEY_HIGHEST_QUALIFICATION, staff.getHighestQualification());
             values.put(KEY_FIELD_OF_STUDY, staff.getFieldOfStudy());
             values.put(KEY_UNIVERSITY, staff.getUniversity());
@@ -130,12 +142,15 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_CREATED_AT, currentTimestamp);
             values.put(KEY_UPDATED_AT, currentTimestamp);
 
+            Log.d(TAG, "Inserting staff with values: " + values.toString());
+
             staffId = db.insertOrThrow(TABLE_STAFF, null, values);
             db.setTransactionSuccessful();
 
-            Log.d(TAG, "Staff inserted with ID: " + staffId);
+            Log.d(TAG, "Staff inserted successfully with ID: " + staffId);
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to add staff to database: " + e.getMessage());
+            Log.e(TAG, "Error while trying to add staff to database: " + e.getMessage(), e);
+            Log.e(TAG, "Staff details - Name: " + staff.getFullName() + ", NIC: " + staff.getNicNumber() + ", Email: " + staff.getEmail());
         } finally {
             db.endTransaction();
         }
@@ -145,7 +160,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
     // Get a staff member by ID
     public Staff getStaffById(long staffId) {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Staff staff = null;
 
         String STAFF_SELECT_QUERY =
@@ -156,9 +171,12 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         try {
             if (cursor.moveToFirst()) {
                 staff = getStaffFromCursor(cursor);
+                Log.d(TAG, "Staff retrieved by ID: " + staffId);
+            } else {
+                Log.w(TAG, "No staff found with ID: " + staffId);
             }
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to get staff from database: " + e.getMessage());
+            Log.e(TAG, "Error while trying to get staff from database: " + e.getMessage(), e);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
@@ -171,7 +189,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
     // Get all staff members
     public List<Staff> getAllStaff() {
         List<Staff> staffList = new ArrayList<>();
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         String STAFF_SELECT_QUERY =
                 "SELECT * FROM " + TABLE_STAFF +
@@ -185,8 +203,9 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
                     staffList.add(staff);
                 } while (cursor.moveToNext());
             }
+            Log.d(TAG, "Retrieved " + staffList.size() + " staff members");
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to get staff from database: " + e.getMessage());
+            Log.e(TAG, "Error while trying to get staff from database: " + e.getMessage(), e);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
@@ -196,16 +215,26 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return staffList;
     }
 
-    // Update a staff member
+    // Update a staff member with improved error handling
     public int updateStaff(Staff staff) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         int rowsAffected = 0;
+
+        Log.d(TAG, "Attempting to update staff ID: " + staff.getId());
 
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put(KEY_FULL_NAME, staff.getFullName());
-            values.put(KEY_EMAIL, staff.getEmail());
+
+            // Handle email properly
+            String email = staff.getEmail();
+            if (email != null && !email.trim().isEmpty()) {
+                values.put(KEY_EMAIL, email.trim());
+            } else {
+                values.putNull(KEY_EMAIL);
+            }
+
             values.put(KEY_CONTACT_NUMBER, staff.getContactNumber());
             values.put(KEY_NIC_NUMBER, staff.getNicNumber());
             values.put(KEY_GENDER, staff.getGender());
@@ -214,7 +243,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
             // Professional Information
             values.put(KEY_POSITION, staff.getPosition());
-            values.put(KEY_DEPARTMENT, staff.getDepartment());
+            values.put(KEY_PROGRAMME, staff.getDepartment());
             values.put(KEY_TEACHING_SUBJECT, staff.getTeachingSubject());
             values.put(KEY_PROGRAM_COORDINATING, staff.getProgramCoordinating());
 
@@ -230,10 +259,14 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
             rowsAffected = db.update(TABLE_STAFF, values, KEY_ID + " = ?",
                     new String[]{String.valueOf(staff.getId())});
 
-            db.setTransactionSuccessful();
-            Log.d(TAG, "Staff updated. Rows affected: " + rowsAffected);
+            if (rowsAffected > 0) {
+                db.setTransactionSuccessful();
+                Log.d(TAG, "Staff updated successfully. Rows affected: " + rowsAffected);
+            } else {
+                Log.w(TAG, "No rows affected during update. Staff ID might not exist: " + staff.getId());
+            }
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to update staff: " + e.getMessage());
+            Log.e(TAG, "Error while trying to update staff: " + e.getMessage(), e);
         } finally {
             db.endTransaction();
         }
@@ -245,14 +278,23 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
     public int updateStaffPersonalDetails(long staffId, String fullName, String email,
                                           String contactNumber, String nicNumber, String gender,
                                           String dateOfBirth, String photoUri) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         int rowsAffected = 0;
+
+        Log.d(TAG, "Updating personal details for staff ID: " + staffId);
 
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put(KEY_FULL_NAME, fullName);
-            values.put(KEY_EMAIL, email);
+
+            // Handle email properly
+            if (email != null && !email.trim().isEmpty()) {
+                values.put(KEY_EMAIL, email.trim());
+            } else {
+                values.putNull(KEY_EMAIL);
+            }
+
             values.put(KEY_CONTACT_NUMBER, contactNumber);
             values.put(KEY_NIC_NUMBER, nicNumber);
             values.put(KEY_GENDER, gender);
@@ -263,10 +305,14 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
             rowsAffected = db.update(TABLE_STAFF, values, KEY_ID + " = ?",
                     new String[]{String.valueOf(staffId)});
 
-            db.setTransactionSuccessful();
-            Log.d(TAG, "Staff personal details updated. Rows affected: " + rowsAffected);
+            if (rowsAffected > 0) {
+                db.setTransactionSuccessful();
+                Log.d(TAG, "Staff personal details updated successfully. Rows affected: " + rowsAffected);
+            } else {
+                Log.w(TAG, "No rows affected during personal details update. Staff ID might not exist: " + staffId);
+            }
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to update staff personal details: " + e.getMessage());
+            Log.e(TAG, "Error while trying to update staff personal details: " + e.getMessage(), e);
         } finally {
             db.endTransaction();
         }
@@ -275,23 +321,20 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Update only professional details for a staff member
-    public int updateStaffProfessionalDetails(long staffId, String position, String department,
+    public int updateStaffProfessionalDetails(long staffId, String position, String programme,
                                               String teachingSubject, String programCoordinating,
                                               String highestQualification, String fieldOfStudy,
                                               String university, String graduationYear, String experienceYears) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         int rowsAffected = 0;
 
-        Log.d(TAG, "updateStaffProfessionalDetails called with:");
-        Log.d(TAG, "  staffId: " + staffId);
-        Log.d(TAG, "  position: " + position);
-        Log.d(TAG, "  department: " + department);
+        Log.d(TAG, "Updating professional details for staff ID: " + staffId);
 
         db.beginTransaction();
         try {
             ContentValues values = new ContentValues();
             values.put(KEY_POSITION, position);
-            values.put(KEY_DEPARTMENT, department);
+            values.put(KEY_PROGRAMME, programme);
             values.put(KEY_TEACHING_SUBJECT, teachingSubject);
             values.put(KEY_PROGRAM_COORDINATING, programCoordinating);
             values.put(KEY_HIGHEST_QUALIFICATION, highestQualification);
@@ -308,7 +351,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
                 db.setTransactionSuccessful();
                 Log.d(TAG, "Staff professional details updated successfully. Rows affected: " + rowsAffected);
             } else {
-                Log.e(TAG, "No rows affected during update. Staff ID might not exist: " + staffId);
+                Log.w(TAG, "No rows affected during professional details update. Staff ID might not exist: " + staffId);
             }
 
         } catch (Exception e) {
@@ -322,15 +365,15 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
     // Delete a staff member by ID
     public void deleteStaff(long staffId) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         db.beginTransaction();
         try {
-            db.delete(TABLE_STAFF, KEY_ID + " = ?", new String[]{String.valueOf(staffId)});
+            int rowsDeleted = db.delete(TABLE_STAFF, KEY_ID + " = ?", new String[]{String.valueOf(staffId)});
             db.setTransactionSuccessful();
-            Log.d(TAG, "Staff deleted with ID: " + staffId);
+            Log.d(TAG, "Staff deleted with ID: " + staffId + ". Rows deleted: " + rowsDeleted);
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to delete staff: " + e.getMessage());
+            Log.e(TAG, "Error while trying to delete staff: " + e.getMessage(), e);
         } finally {
             db.endTransaction();
         }
@@ -338,7 +381,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
     // Delete a staff member with photo cleanup
     public void deleteStaffWithPhotoCleanup(Staff staff) {
-        SQLiteDatabase db = getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
 
         db.beginTransaction();
         try {
@@ -357,25 +400,30 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
             db.setTransactionSuccessful();
             Log.d(TAG, "Staff deleted from database. Rows affected: " + rowsDeleted);
         } catch (Exception e) {
-            Log.d(TAG, "Error while trying to delete staff with photo cleanup: " + e.getMessage());
+            Log.e(TAG, "Error while trying to delete staff with photo cleanup: " + e.getMessage(), e);
         } finally {
             db.endTransaction();
         }
     }
 
-    // Check if Email already exists
+    // Check if Email already exists - improved to handle empty emails
     public boolean isEmailExists(String email) {
-        SQLiteDatabase db = getReadableDatabase();
+        if (email == null || email.trim().isEmpty()) {
+            return false; // Empty emails don't count as duplicates
+        }
+
+        SQLiteDatabase db = this.getReadableDatabase();
         boolean exists = false;
 
         String query = "SELECT 1 FROM " + TABLE_STAFF +
-                " WHERE " + KEY_EMAIL + " = ?";
+                " WHERE " + KEY_EMAIL + " = ? AND " + KEY_EMAIL + " IS NOT NULL AND " + KEY_EMAIL + " != ''";
 
-        Cursor cursor = db.rawQuery(query, new String[]{email});
+        Cursor cursor = db.rawQuery(query, new String[]{email.trim()});
         try {
             exists = cursor.getCount() > 0;
+            Log.d(TAG, "Email exists check for '" + email + "': " + exists);
         } catch (Exception e) {
-            Log.d(TAG, "Error checking email: " + e.getMessage());
+            Log.e(TAG, "Error checking email: " + e.getMessage(), e);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
@@ -387,17 +435,22 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
     // Check if NIC number already exists
     public boolean isNicExists(String nicNumber) {
-        SQLiteDatabase db = getReadableDatabase();
+        if (nicNumber == null || nicNumber.trim().isEmpty()) {
+            return false;
+        }
+
+        SQLiteDatabase db = this.getReadableDatabase();
         boolean exists = false;
 
         String query = "SELECT 1 FROM " + TABLE_STAFF +
                 " WHERE " + KEY_NIC_NUMBER + " = ?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{nicNumber});
+        Cursor cursor = db.rawQuery(query, new String[]{nicNumber.trim()});
         try {
             exists = cursor.getCount() > 0;
+            Log.d(TAG, "NIC exists check for '" + nicNumber + "': " + exists);
         } catch (Exception e) {
-            Log.d(TAG, "Error checking NIC number: " + e.getMessage());
+            Log.e(TAG, "Error checking NIC number: " + e.getMessage(), e);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
@@ -410,7 +463,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
     // Search staff by name
     public List<Staff> searchStaff(String searchQuery) {
         List<Staff> staffList = new ArrayList<>();
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
 
         String SEARCH_QUERY =
                 "SELECT * FROM " + TABLE_STAFF +
@@ -427,8 +480,9 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
                     staffList.add(staff);
                 } while (cursor.moveToNext());
             }
+            Log.d(TAG, "Search for '" + searchQuery + "' returned " + staffList.size() + " results");
         } catch (Exception e) {
-            Log.d(TAG, "Error while searching staff: " + e.getMessage());
+            Log.e(TAG, "Error while searching staff: " + e.getMessage(), e);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
@@ -440,7 +494,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
     // Get staff count
     public int getStaffCount() {
-        SQLiteDatabase db = getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         int count = 0;
 
         String COUNT_QUERY = "SELECT COUNT(*) FROM " + TABLE_STAFF;
@@ -450,8 +504,9 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 count = cursor.getInt(0);
             }
+            Log.d(TAG, "Total staff count: " + count);
         } catch (Exception e) {
-            Log.d(TAG, "Error while getting staff count: " + e.getMessage());
+            Log.e(TAG, "Error while getting staff count: " + e.getMessage(), e);
         } finally {
             if (cursor != null && !cursor.isClosed()) {
                 cursor.close();
@@ -465,30 +520,34 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
     private Staff getStaffFromCursor(Cursor cursor) {
         Staff staff = new Staff();
 
-        staff.setId(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ID)));
-        staff.setFullName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_FULL_NAME)));
-        staff.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMAIL)));
-        staff.setContactNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CONTACT_NUMBER)));
-        staff.setNicNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_NIC_NUMBER)));
-        staff.setGender(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GENDER)));
-        staff.setDateOfBirth(cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE_OF_BIRTH)));
-        staff.setPhotoUri(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PHOTO_URI)));
+        try {
+            staff.setId(cursor.getLong(cursor.getColumnIndexOrThrow(KEY_ID)));
+            staff.setFullName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_FULL_NAME)));
+            staff.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMAIL)));
+            staff.setContactNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CONTACT_NUMBER)));
+            staff.setNicNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_NIC_NUMBER)));
+            staff.setGender(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GENDER)));
+            staff.setDateOfBirth(cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE_OF_BIRTH)));
+            staff.setPhotoUri(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PHOTO_URI)));
 
-        // Professional Information
-        staff.setPosition(cursor.getString(cursor.getColumnIndexOrThrow(KEY_POSITION)));
-        staff.setDepartment(cursor.getString(cursor.getColumnIndexOrThrow(KEY_DEPARTMENT)));
-        staff.setTeachingSubject(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TEACHING_SUBJECT)));
-        staff.setProgramCoordinating(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PROGRAM_COORDINATING)));
+            // Professional Information
+            staff.setPosition(cursor.getString(cursor.getColumnIndexOrThrow(KEY_POSITION)));
+            staff.setDepartment(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PROGRAMME)));
+            staff.setTeachingSubject(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TEACHING_SUBJECT)));
+            staff.setProgramCoordinating(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PROGRAM_COORDINATING)));
 
-        // Educational Qualifications
-        staff.setHighestQualification(cursor.getString(cursor.getColumnIndexOrThrow(KEY_HIGHEST_QUALIFICATION)));
-        staff.setFieldOfStudy(cursor.getString(cursor.getColumnIndexOrThrow(KEY_FIELD_OF_STUDY)));
-        staff.setUniversity(cursor.getString(cursor.getColumnIndexOrThrow(KEY_UNIVERSITY)));
-        staff.setGraduationYear(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GRADUATION_YEAR)));
-        staff.setExperienceYears(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EXPERIENCE_YEARS)));
+            // Educational Qualifications
+            staff.setHighestQualification(cursor.getString(cursor.getColumnIndexOrThrow(KEY_HIGHEST_QUALIFICATION)));
+            staff.setFieldOfStudy(cursor.getString(cursor.getColumnIndexOrThrow(KEY_FIELD_OF_STUDY)));
+            staff.setUniversity(cursor.getString(cursor.getColumnIndexOrThrow(KEY_UNIVERSITY)));
+            staff.setGraduationYear(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GRADUATION_YEAR)));
+            staff.setExperienceYears(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EXPERIENCE_YEARS)));
 
-        staff.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CREATED_AT)));
-        staff.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(KEY_UPDATED_AT)));
+            staff.setCreatedAt(cursor.getString(cursor.getColumnIndexOrThrow(KEY_CREATED_AT)));
+            staff.setUpdatedAt(cursor.getString(cursor.getColumnIndexOrThrow(KEY_UPDATED_AT)));
+        } catch (Exception e) {
+            Log.e(TAG, "Error creating staff object from cursor: " + e.getMessage(), e);
+        }
 
         return staff;
     }

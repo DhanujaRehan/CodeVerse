@@ -2,6 +2,7 @@ package com.example.codeverse.Students.StudentFragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -24,7 +25,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.codeverse.Students.Models.AssignmentModel;
+import com.example.codeverse.Students.Models.Student;
 import com.example.codeverse.Students.Helpers.AssignmentUploadHelper;
+import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Adapters.UploadedFilesAdapter;
 import com.google.android.material.button.MaterialButton;
@@ -49,12 +52,17 @@ public class AssignmentUpload extends Fragment {
     private RecyclerView rvUploadedFiles;
 
     private AssignmentUploadHelper dbHelper;
+    private StudentDatabaseHelper studentDbHelper;
     private UploadedFilesAdapter filesAdapter;
     private List<AssignmentModel> uploadedFiles;
 
     private Uri selectedFileUri;
     private String selectedFileName;
     private ActivityResultLauncher<Intent> filePickerLauncher;
+
+    // Student information
+    private long currentStudentId;
+    private Student currentStudent;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +71,7 @@ public class AssignmentUpload extends Fragment {
         initViews(view);
         setupFilePickerLauncher();
         setupDatabase();
+        loadCurrentStudent();
         setupSubjectDropdown();
         setupClickListeners(view);
         loadUploadedFiles();
@@ -86,6 +95,31 @@ public class AssignmentUpload extends Fragment {
         rvUploadedFiles = view.findViewById(R.id.rv_uploaded_files);
     }
 
+    private void setupDatabase() {
+        dbHelper = new AssignmentUploadHelper(getContext());
+        studentDbHelper = new StudentDatabaseHelper(getContext());
+        uploadedFiles = new ArrayList<>();
+        filesAdapter = new UploadedFilesAdapter(uploadedFiles, this::onFileAction);
+        rvUploadedFiles.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvUploadedFiles.setAdapter(filesAdapter);
+    }
+
+    private void loadCurrentStudent() {
+        // Get current student ID from SharedPreferences or session management
+        SharedPreferences prefs = getContext().getSharedPreferences("student_session", getContext().MODE_PRIVATE);
+        currentStudentId = prefs.getLong("student_id", -1);
+
+        if (currentStudentId != -1) {
+            currentStudent = studentDbHelper.getStudentById(currentStudentId);
+        }
+
+        // If no student found, you might want to redirect to login
+        if (currentStudent == null) {
+            Toast.makeText(getContext(), "Please log in first", Toast.LENGTH_SHORT).show();
+            // Handle redirect to login
+        }
+    }
+
     private void setupFilePickerLauncher() {
         filePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -102,16 +136,8 @@ public class AssignmentUpload extends Fragment {
         );
     }
 
-    private void setupDatabase() {
-        dbHelper = new AssignmentUploadHelper(getContext());
-        uploadedFiles = new ArrayList<>();
-        filesAdapter = new UploadedFilesAdapter(uploadedFiles, this::onFileAction);
-        rvUploadedFiles.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvUploadedFiles.setAdapter(filesAdapter);
-    }
-
     private void setupSubjectDropdown() {
-        String[] subjects = {"Mathematics", "Computer Science", "Physics", "Chemistry", "Biology", "English", "History"};
+        String[] subjects = {"Programming Fundamentals", "Data Structures", "Database Systems", "Software Engineering", "Web Development"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, subjects);
         dropdownSubject.setAdapter(adapter);
     }
@@ -163,6 +189,10 @@ public class AssignmentUpload extends Fragment {
 
     private void uploadAssignment() {
         if (!validateInputs()) return;
+        if (currentStudent == null) {
+            Toast.makeText(getContext(), "Student information not found. Please log in again.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         String title = etAssignmentTitle.getText().toString().trim();
         String subject = dropdownSubject.getText().toString().trim();
@@ -185,6 +215,13 @@ public class AssignmentUpload extends Fragment {
                 assignment.setUploadDate(System.currentTimeMillis());
                 assignment.setFileSize(file.exists() ? file.length() : 0);
 
+                // Set student information
+                assignment.setStudentId(currentStudent.getUniversityId());
+                assignment.setStudentName(currentStudent.getFullName());
+                assignment.setBatch(currentStudent.getBatch());
+                assignment.setProgramme(determineProgrammeFromFaculty(currentStudent.getFaculty()));
+                assignment.setModule(subject); // Using subject as module for now
+
                 long id = dbHelper.insertAssignment(assignment);
 
                 if (id > 0) {
@@ -201,6 +238,24 @@ public class AssignmentUpload extends Fragment {
                 Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }, 3000);
+    }
+
+    private String determineProgrammeFromFaculty(String faculty) {
+        // Map faculty to programme - adjust based on your university structure
+        if (faculty != null) {
+            switch (faculty.toLowerCase()) {
+                case "computing":
+                case "computer science":
+                    return "Computer Science";
+                case "engineering":
+                    return "Software Engineering";
+                case "information technology":
+                    return "Information Technology";
+                default:
+                    return faculty;
+            }
+        }
+        return "General Studies";
     }
 
     private boolean validateInputs() {
