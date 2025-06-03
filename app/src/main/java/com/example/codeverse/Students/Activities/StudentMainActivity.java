@@ -9,8 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Lecturer.Fragments.GradeSubmission;
-import com.example.codeverse.StaffTimeTabePDF;
-import com.example.codeverse.Students.StudentFragments.AssignmentUpload;
+import com.example.codeverse.Staff.StaffFragments.StaffTimeTabePDF;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.StudentFragments.StudentProfile;
 import com.example.codeverse.Students.StudentFragments.TimetableDownloadFragment;
