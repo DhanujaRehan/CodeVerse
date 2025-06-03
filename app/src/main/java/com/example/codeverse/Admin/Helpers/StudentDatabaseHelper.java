@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
+import com.example.codeverse.StudentModel;
 import com.example.codeverse.Students.Models.Student;
 
 import java.io.File;
@@ -442,7 +443,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     }
 
     // Delete a student object (with photo cleanup)
-    public void deleteStudentWithPhotoCleanup(Student student) {
+    public void deleteStudentWithPhotoCleanup(StudentModel student) {
         SQLiteDatabase db = getWritableDatabase();
 
         db.beginTransaction();

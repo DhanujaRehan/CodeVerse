@@ -12,18 +12,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
-import com.example.codeverse.R;
-import com.example.codeverse.Students.Models.Student;
 
 import java.util.List;
 
-
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
 
-    private List<Student> students;
+    private List<StudentModel> students;
     private OnStudentActionListener listener;
 
-    public StudentAdapter(List<Student> students, OnStudentActionListener listener) {
+    public StudentAdapter(List<StudentModel> students, OnStudentActionListener listener) {
         this.students = students;
         this.listener = listener;
     }
@@ -31,19 +28,28 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     @NonNull
     @Override
     public StudentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_student_card, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_student_list_card, parent, false);
         return new StudentViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
-        Student student = students.get(position);
-        holder.bind(student, listener);
+        if (students != null && position < students.size()) {
+            StudentModel student = students.get(position);
+            if (student != null) {
+                holder.bind(student, listener);
+            }
+        }
     }
 
     @Override
     public int getItemCount() {
-        return students.size();
+        return students != null ? students.size() : 0;
+    }
+
+    public void updateStudents(List<StudentModel> newStudents) {
+        this.students = newStudents;
+        notifyDataSetChanged();
     }
 
     public static class StudentViewHolder extends RecyclerView.ViewHolder {
@@ -70,68 +76,77 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
 
-        public void bind(Student student, OnStudentActionListener listener) {
-            tvFullName.setText(student.getFullName());
-            tvUniversityId.setText("ID: " + student.getUniversityId());
+        public void bind(StudentModel student, OnStudentActionListener listener) {
+            if (student == null) return;
 
-            if (student.getFaculty() != null && !student.getFaculty().isEmpty()) {
-                tvFaculty.setText(student.getFaculty());
-                tvFaculty.setVisibility(View.VISIBLE);
-            } else {
-                tvFaculty.setVisibility(View.GONE);
+            if (tvFullName != null) {
+                tvFullName.setText(student.getFullName());
             }
 
-            if (student.getBatch() != null && !student.getBatch().isEmpty()) {
-                tvBatch.setText(student.getBatch());
-                tvBatch.setVisibility(View.VISIBLE);
-            } else {
-                tvBatch.setVisibility(View.GONE);
+            if (tvUniversityId != null) {
+                tvUniversityId.setText("ID: " + student.getUniversityId());
             }
 
-            if (student.getMobileNumber() != null && !student.getMobileNumber().isEmpty()) {
-                tvContactInfo.setText("📱 " + student.getMobileNumber());
-                tvContactInfo.setVisibility(View.VISIBLE);
-            } else if (student.getEmail() != null && !student.getEmail().isEmpty()) {
-                tvContactInfo.setText("✉️ " + student.getEmail());
-                tvContactInfo.setVisibility(View.VISIBLE);
-            } else {
-                tvContactInfo.setVisibility(View.GONE);
+            if (tvFaculty != null) {
+                if (!student.getFaculty().trim().isEmpty()) {
+                    tvFaculty.setText(student.getFaculty());
+                    tvFaculty.setVisibility(View.VISIBLE);
+                } else {
+                    tvFaculty.setVisibility(View.GONE);
+                }
             }
 
-            if (student.getPhotoUri() != null && !student.getPhotoUri().isEmpty()) {
-                Bitmap photoBitmap = StudentDatabaseHelper.getStudentPhoto(student.getPhotoUri());
-                if (photoBitmap != null) {
-                    ivStudentPhoto.setImageBitmap(photoBitmap);
+            if (tvBatch != null) {
+                if (!student.getBatch().trim().isEmpty()) {
+                    tvBatch.setText(student.getBatch());
+                    tvBatch.setVisibility(View.VISIBLE);
+                } else {
+                    tvBatch.setVisibility(View.GONE);
+                }
+            }
+
+            if (tvContactInfo != null) {
+                if (!student.getMobileNumber().trim().isEmpty()) {
+                    tvContactInfo.setText("📱 " + student.getMobileNumber());
+                    tvContactInfo.setVisibility(View.VISIBLE);
+                } else if (!student.getEmail().trim().isEmpty()) {
+                    tvContactInfo.setText("✉️ " + student.getEmail());
+                    tvContactInfo.setVisibility(View.VISIBLE);
+                } else {
+                    tvContactInfo.setVisibility(View.GONE);
+                }
+            }
+
+            if (ivStudentPhoto != null) {
+                if (!student.getPhotoUri().trim().isEmpty()) {
+                    Bitmap photoBitmap = StudentDatabaseHelper.getStudentPhoto(student.getPhotoUri());
+                    if (photoBitmap != null) {
+                        ivStudentPhoto.setImageBitmap(photoBitmap);
+                    } else {
+                        ivStudentPhoto.setImageResource(R.drawable.ic_person);
+                    }
                 } else {
                     ivStudentPhoto.setImageResource(R.drawable.ic_person);
                 }
-            } else {
-                ivStudentPhoto.setImageResource(R.drawable.ic_person);
             }
 
-            itemView.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onStudentClick(student);
-                }
-            });
+            if (listener != null) {
+                itemView.setOnClickListener(v -> listener.onStudentClick(student));
 
-            btnEdit.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onEditStudent(student);
+                if (btnEdit != null) {
+                    btnEdit.setOnClickListener(v -> listener.onEditStudent(student));
                 }
-            });
 
-            btnDelete.setOnClickListener(v -> {
-                if (listener != null) {
-                    listener.onDeleteStudent(student);
+                if (btnDelete != null) {
+                    btnDelete.setOnClickListener(v -> listener.onDeleteStudent(student));
                 }
-            });
+            }
         }
     }
 
     public interface OnStudentActionListener {
-        void onEditStudent(Student student);
-        void onDeleteStudent(Student student);
-        void onStudentClick(Student student);
+        void onEditStudent(StudentModel student);
+        void onDeleteStudent(StudentModel student);
+        void onStudentClick(StudentModel student);
     }
 }

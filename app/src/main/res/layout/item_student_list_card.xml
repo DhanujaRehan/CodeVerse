@@ -18,13 +18,22 @@
         android:orientation="horizontal"
         android:padding="16dp">
 
-        <ImageView
-            android:id="@+id/ivStudentPhoto"
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:src="@drawable/ic_person"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@color/primary_color" />
+            app:cardCornerRadius="32dp"
+            app:cardElevation="2dp"
+            app:strokeWidth="0dp">
+
+            <ImageView
+                android:id="@+id/ivStudentPhoto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_person"
+                android:scaleType="centerCrop"
+                android:contentDescription="Student Photo" />
+
+        </com.google.android.material.card.MaterialCardView>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -40,7 +49,7 @@
                 android:text="Student Name"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="@color/text_primary"
+                android:textColor="#212121"
                 android:maxLines="1"
                 android:ellipsize="end" />
 
@@ -50,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:text="ID: 2021001"
                 android:textSize="14sp"
-                android:textColor="@color/text_secondary"
+                android:textColor="#757575"
                 android:layout_marginTop="2dp" />
 
             <LinearLayout
@@ -65,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:text="Engineering"
                     android:textSize="12sp"
-                    android:textColor="@color/text_tertiary"
+                    android:textColor="#1976D2"
                     android:background="@drawable/chip_default_background"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="2dp" />
@@ -76,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:text="Batch 21"
                     android:textSize="12sp"
-                    android:textColor="@color/text_tertiary"
+                    android:textColor="#1976D2"
                     android:background="@drawable/chip_default_background"
                     android:paddingHorizontal="8dp"
                     android:paddingVertical="2dp"
@@ -90,7 +99,7 @@
                 android:layout_height="wrap_content"
                 android:text="📱 +94 77 123 4567"
                 android:textSize="12sp"
-                android:textColor="@color/text_secondary"
+                android:textColor="#757575"
                 android:layout_marginTop="4dp" />
 
         </LinearLayout>
@@ -102,24 +111,27 @@
             android:gravity="center">
 
             <ImageButton
-                android:scaleType="centerCrop"
                 android:id="@+id/btnEdit"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:src="@drawable/ic_edit"
-                android:background="@drawable/bg_circle_button"
-                android:backgroundTint="@color/primary_color"
-                android:layout_marginBottom="8dp" />
+                android:background="@drawable/circle_button_background"
+                android:backgroundTint="#2196F3"
+                android:scaleType="centerCrop"
+                android:layout_marginBottom="8dp"
+                android:contentDescription="Edit Student"
+                app:tint="@android:color/white" />
 
             <ImageButton
                 android:id="@+id/btnDelete"
                 android:layout_width="36dp"
                 android:layout_height="36dp"
-                android:scaleType="centerCrop"
                 android:src="@drawable/ic_delete"
-                android:background="@drawable/bg_circle_button"
-                android:backgroundTintMode="add"
-                />
+                android:background="@drawable/circle_button_background"
+                android:backgroundTint="#F44336"
+                android:scaleType="centerCrop"
+                android:contentDescription="Delete Student"
+                app:tint="@android:color/white" />
 
         </LinearLayout>
 
