@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.codeverse.R;
@@ -320,8 +321,15 @@ public class StudentProfile extends Fragment {
     }
 
     private void editProfile() {
-        // TODO: Implement edit profile functionality
-        Toast.makeText(getContext(), "Edit Profile clicked", Toast.LENGTH_SHORT).show();
+
+        FragmentTransaction transaction = requireActivity()
+                .getSupportFragmentManager()
+                .beginTransaction();
+        transaction.replace(R.id.framelayout, new StudentProfileEdit());
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+
     }
 
     private void showHelp() {
