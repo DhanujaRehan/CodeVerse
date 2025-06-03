@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Lecturer.Fragments.GradeSubmission;
+import com.example.codeverse.StaffTimeTabePDF;
 import com.example.codeverse.Students.StudentFragments.AssignmentUpload;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.StudentFragments.StudentProfile;
@@ -47,7 +48,7 @@ public class StudentMainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();
             }
             else if (itemid == R.id.navprofile){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new AssignmentUpload()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffTimeTabePDF()).commit();
             }
             return true;
         });
