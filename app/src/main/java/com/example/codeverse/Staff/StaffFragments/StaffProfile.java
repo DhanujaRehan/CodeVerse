@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.codeverse.LoginScreens.LogoutStaff;
+import com.example.codeverse.LogoutStaff;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Models.StaffCourse;
 import com.example.codeverse.Staff.Adapters.StaffCourseAdapter;
