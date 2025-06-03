@@ -39,7 +39,7 @@ public class StaffCourseAdapter extends RecyclerView.Adapter<StaffCourseAdapter.
     public void onBindViewHolder(@NonNull StaffCourseViewHolder holder, int position) {
         StaffCourse course = courseList.get(position);
 
-        // Set course data to views
+
         holder.tvCourseName.setText(course.getCourseName());
         holder.tvCourseId.setText(course.getCourseId());
         holder.tvSemester.setText(course.getSemester());
@@ -47,10 +47,10 @@ public class StaffCourseAdapter extends RecyclerView.Adapter<StaffCourseAdapter.
         holder.chipStudentCount.setText(course.getStudentCount() + " Students");
         holder.ivCourseImage.setImageResource(course.getImageResourceId());
 
-        // Set click listener for the course details button
+
         holder.btnCourseDetails.setOnClickListener(v -> {
             Toast.makeText(context, "Viewing details for " + course.getCourseName(), Toast.LENGTH_SHORT).show();
-            // You can navigate to a course details activity here
+
         });
     }
 
@@ -72,7 +72,7 @@ public class StaffCourseAdapter extends RecyclerView.Adapter<StaffCourseAdapter.
         public StaffCourseViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            // Initialize views
+
             ivCourseImage = itemView.findViewById(R.id.iv_course_image);
             tvCourseName = itemView.findViewById(R.id.tv_course_name);
             tvCourseId = itemView.findViewById(R.id.tv_course_id);

@@ -50,7 +50,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
     public void onBindViewHolder(@NonNull StudentViewHolder holder, int position) {
         StudentModel student = students.get(position);
 
-        // Set student details
+
         holder.tvStudentName.setText(student.getName());
         holder.tvStudentId.setText(student.getStudentId());
         holder.tvDepartment.setText(student.getDepartment());
@@ -58,7 +58,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         holder.tvBadge.setText(student.getBadge());
         holder.ivStudentImage.setImageResource(student.getImageResource());
 
-        // Set gradient color based on badge
+
         switch (student.getBadge()) {
             case "Honor Roll":
                 holder.studentImageBg.setBackgroundResource(R.drawable.student_image_gradient);
@@ -83,7 +83,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
                 break;
         }
 
-        // Set action listeners
+
         holder.btnViewProfile.setOnClickListener(v ->
                 actionListener.onAction("profile", student));
 
