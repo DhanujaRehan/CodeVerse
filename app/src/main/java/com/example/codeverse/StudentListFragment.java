@@ -1,5 +1,6 @@
 package com.example.codeverse;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,20 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.example.codeverse.StudentAdapter;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
-import com.example.codeverse.R;
-import com.example.codeverse.Students.Models.Student;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class StudentListFragment extends Fragment implements StudentAdapter.OnStudentActionListener {
 
@@ -32,10 +34,21 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
     private TextInputEditText etSearch;
     private FloatingActionButton fabAddStudent;
 
-    private List<Student> allStudents;
-    private List<Student> filteredStudents;
+    private List<StudentModel> allStudents;
+    private List<StudentModel> filteredStudents;
+    private ExecutorService executorService;
 
     public StudentListFragment() {
+    }
+
+    public static StudentListFragment newInstance() {
+        return new StudentListFragment();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        executorService = Executors.newFixedThreadPool(2);
     }
 
     @Override
@@ -46,11 +59,8 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         setupRecyclerView();
         setupSearchFilter();
         setupSwipeRefresh();
+        setupFab();
         loadStudents();
-
-        fabAddStudent.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Add Student clicked", Toast.LENGTH_SHORT).show();
-        });
 
         return view;
     }
@@ -61,11 +71,9 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         etSearch = view.findViewById(R.id.etSearch);
         fabAddStudent = view.findViewById(R.id.fabAddStudent);
 
-        // Initialize lists first
         allStudents = new ArrayList<>();
         filteredStudents = new ArrayList<>();
 
-        // Initialize database helper
         if (getContext() != null) {
             dbHelper = new StudentDatabaseHelper(getContext());
         }
@@ -99,7 +107,22 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
     private void setupSwipeRefresh() {
         if (swipeRefresh != null) {
             swipeRefresh.setOnRefreshListener(this::loadStudents);
-            swipeRefresh.setColorSchemeResources(R.color.primary_color);
+            swipeRefresh.setColorSchemeResources(
+                    android.R.color.holo_blue_bright,
+                    android.R.color.holo_green_light,
+                    android.R.color.holo_orange_light,
+                    android.R.color.holo_red_light
+            );
+        }
+    }
+
+    private void setupFab() {
+        if (fabAddStudent != null) {
+            fabAddStudent.setOnClickListener(v -> {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Add Student feature coming soon!", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -108,31 +131,18 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
             swipeRefresh.setRefreshing(true);
         }
 
-        // Check if dbHelper is initialized and context is available
         if (dbHelper == null && getContext() != null) {
             dbHelper = new StudentDatabaseHelper(getContext());
         }
 
-        if (dbHelper != null) {
-            new Thread(() -> {
+        if (dbHelper != null && executorService != null) {
+            executorService.execute(() -> {
                 try {
-                    List<Student> students = dbHelper.getAllStudent();
+                    List<StudentModel> students = convertToStudentModel(dbHelper.getAllStudent());
 
-                    // Check if fragment is still attached before updating UI
-                    if (getActivity() != null && !getActivity().isFinishing()) {
+                    if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
                         getActivity().runOnUiThread(() -> {
-                            if (allStudents != null && filteredStudents != null) {
-                                allStudents.clear();
-                                allStudents.addAll(students != null ? students : new ArrayList<>());
-
-                                filteredStudents.clear();
-                                filteredStudents.addAll(allStudents);
-
-                                if (studentAdapter != null) {
-                                    studentAdapter.notifyDataSetChanged();
-                                }
-                            }
-
+                            updateStudentLists(students);
                             if (swipeRefresh != null) {
                                 swipeRefresh.setRefreshing(false);
                             }
@@ -140,20 +150,54 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    // Handle database error gracefully
-                    if (getActivity() != null && !getActivity().isFinishing()) {
+                    if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
                         getActivity().runOnUiThread(() -> {
                             if (swipeRefresh != null) {
                                 swipeRefresh.setRefreshing(false);
                             }
-                            Toast.makeText(getContext(), "Error loading students", Toast.LENGTH_SHORT).show();
+                            if (getContext() != null) {
+                                Toast.makeText(getContext(), "Error loading students", Toast.LENGTH_SHORT).show();
+                            }
                         });
                     }
                 }
-            }).start();
+            });
         } else {
             if (swipeRefresh != null) {
                 swipeRefresh.setRefreshing(false);
+            }
+        }
+    }
+
+    private List<StudentModel> convertToStudentModel(List<com.example.codeverse.Students.Models.Student> students) {
+        List<StudentModel> studentModels = new ArrayList<>();
+        for (com.example.codeverse.Students.Models.Student student : students) {
+            StudentModel model = new StudentModel();
+            model.setId(student.getId());
+            model.setFullName(student.getFullName());
+            model.setUniversityId(student.getUniversityId());
+            model.setFaculty(student.getFaculty());
+            model.setBatch(student.getBatch());
+            model.setMobileNumber(student.getMobileNumber());
+            model.setEmail(student.getEmail());
+            model.setPhotoUri(student.getPhotoUri());
+            studentModels.add(model);
+        }
+        return studentModels;
+    }
+
+    private void updateStudentLists(List<StudentModel> students) {
+        if (allStudents != null && filteredStudents != null) {
+            allStudents.clear();
+            if (students != null) {
+                allStudents.addAll(students);
+            }
+
+            filteredStudents.clear();
+            filteredStudents.addAll(allStudents);
+
+            if (studentAdapter != null) {
+                studentAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -169,11 +213,8 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
             filteredStudents.addAll(allStudents);
         } else {
             String lowerQuery = query.toLowerCase().trim();
-            for (Student student : allStudents) {
-                if (student != null && (
-                        (student.getFullName() != null && student.getFullName().toLowerCase().contains(lowerQuery)) ||
-                                (student.getUniversityId() != null && student.getUniversityId().toLowerCase().contains(lowerQuery)) ||
-                                (student.getFaculty() != null && student.getFaculty().toLowerCase().contains(lowerQuery)))) {
+            for (StudentModel student : allStudents) {
+                if (student != null && matchesQuery(student, lowerQuery)) {
                     filteredStudents.add(student);
                 }
             }
@@ -184,55 +225,74 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         }
     }
 
+    private boolean matchesQuery(StudentModel student, String query) {
+        return student.getFullName().toLowerCase().contains(query) ||
+                student.getUniversityId().toLowerCase().contains(query) ||
+                student.getFaculty().toLowerCase().contains(query) ||
+                student.getBatch().toLowerCase().contains(query) ||
+                student.getMobileNumber().toLowerCase().contains(query) ||
+                student.getEmail().toLowerCase().contains(query);
+    }
+
     @Override
-    public void onEditStudent(Student student) {
+    public void onEditStudent(StudentModel student) {
         if (student != null && getContext() != null) {
             Toast.makeText(getContext(), "Edit: " + student.getFullName(), Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
-    public void onDeleteStudent(Student student) {
-        if (student == null || dbHelper == null) {
+    public void onDeleteStudent(StudentModel student) {
+        if (student == null || getContext() == null) {
             return;
         }
 
-        new Thread(() -> {
-            try {
-                dbHelper.deleteStudentWithPhotoCleanup(student);
+        new AlertDialog.Builder(getContext())
+                .setTitle("Delete Student")
+                .setMessage("Are you sure you want to delete " + student.getFullName() + "?")
+                .setPositiveButton("Delete", (dialog, which) -> performDeleteStudent(student))
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
 
-                // Check if fragment is still attached before updating UI
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    getActivity().runOnUiThread(() -> {
-                        if (allStudents != null && filteredStudents != null) {
-                            allStudents.remove(student);
-                            filteredStudents.remove(student);
+    private void performDeleteStudent(StudentModel student) {
+        if (dbHelper != null && executorService != null) {
+            executorService.execute(() -> {
+                try {
+                    dbHelper.deleteStudentWithPhotoCleanup(student);
 
-                            if (studentAdapter != null) {
-                                studentAdapter.notifyDataSetChanged();
+                    if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
+                        getActivity().runOnUiThread(() -> {
+                            if (allStudents != null && filteredStudents != null) {
+                                allStudents.remove(student);
+                                filteredStudents.remove(student);
+
+                                if (studentAdapter != null) {
+                                    studentAdapter.notifyDataSetChanged();
+                                }
                             }
-                        }
 
-                        if (getContext() != null) {
-                            Toast.makeText(getContext(), "Student deleted", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            if (getContext() != null) {
+                                Toast.makeText(getContext(), student.getFullName() + " deleted", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
+                        getActivity().runOnUiThread(() -> {
+                            if (getContext() != null) {
+                                Toast.makeText(getContext(), "Error deleting student", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
-                if (getActivity() != null && !getActivity().isFinishing()) {
-                    getActivity().runOnUiThread(() -> {
-                        if (getContext() != null) {
-                            Toast.makeText(getContext(), "Error deleting student", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-            }
-        }).start();
+            });
+        }
     }
 
     @Override
-    public void onStudentClick(Student student) {
+    public void onStudentClick(StudentModel student) {
         if (student != null && getContext() != null) {
             Toast.makeText(getContext(), "Clicked: " + student.getFullName(), Toast.LENGTH_SHORT).show();
         }
@@ -241,11 +301,15 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        // Clean up references to prevent memory leaks
+        if (executorService != null) {
+            executorService.shutdown();
+            executorService = null;
+        }
         studentAdapter = null;
         rvStudents = null;
         swipeRefresh = null;
         etSearch = null;
         fabAddStudent = null;
+        dbHelper = null;
     }
 }

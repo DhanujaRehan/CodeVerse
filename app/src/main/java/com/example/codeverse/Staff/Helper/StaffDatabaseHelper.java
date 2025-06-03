@@ -17,10 +17,10 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "StaffDetails.db";
     private static final int DATABASE_VERSION = 1;
 
-    // Table name
+
     private static final String TABLE_STAFF = "staff_details";
 
-    // Column names
+
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_STAFF_ID = "staff_id";
     private static final String COLUMN_NAME = "name";
@@ -43,7 +43,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_CREATED_DATE = "created_date";
     private static final String COLUMN_UPDATED_DATE = "updated_date";
 
-    // Create table query
+
     private static final String CREATE_STAFF_TABLE = "CREATE TABLE " + TABLE_STAFF + "("
             + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
             + COLUMN_STAFF_ID + " TEXT UNIQUE NOT NULL,"
@@ -89,7 +89,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(CREATE_STAFF_TABLE);
             Log.d(TAG, "Staff table created successfully");
 
-            // Insert sample data
+
             insertSampleData(db);
         } catch (Exception e) {
             Log.e(TAG, "Error creating staff table: " + e.getMessage());
@@ -132,7 +132,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         Log.d(TAG, "Sample data inserted with ID: " + result);
     }
 
-    // Insert new staff member
+
     public long insertStaff(StaffDetails staff) {
         Log.d(TAG, "Inserting staff: " + staff.getName());
 
@@ -163,7 +163,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    // Update existing staff member
+
     public int updateStaff(StaffDetails staff) {
         Log.d(TAG, "Updating staff: " + staff.getStaffId());
 
@@ -195,7 +195,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    // Get staff by staff ID
+
     public StaffDetails getStaffByStaffId(String staffId) {
         Log.d(TAG, "Getting staff by ID: " + staffId);
 
@@ -228,7 +228,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return staff;
     }
 
-    // Get all staff members
+
     public List<StaffDetails> getAllStaff() {
         Log.d(TAG, "Getting all staff members");
 
@@ -263,7 +263,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return staffList;
     }
 
-    // Delete staff member
+
     public int deleteStaff(String staffId) {
         Log.d(TAG, "Deleting staff: " + staffId);
 
@@ -292,7 +292,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    // Check if staff ID exists
+
     public boolean staffExists(String staffId) {
         SQLiteDatabase db = null;
         Cursor cursor = null;
@@ -318,7 +318,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Helper method to create ContentValues from StaffDetails
+
     private ContentValues createContentValues(StaffDetails staff) {
         ContentValues values = new ContentValues();
 
@@ -344,7 +344,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return values;
     }
 
-    // Helper method to create StaffDetails from cursor
+
     private StaffDetails createStaffFromCursor(Cursor cursor) {
         try {
             StaffDetails staff = new StaffDetails();
@@ -420,18 +420,18 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Get current date and time
+
     private String getCurrentDateTime() {
         return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
                 java.util.Locale.getDefault()).format(new java.util.Date());
     }
 
-    // Get database path for debugging
+
     public String getDatabasePath() {
         return this.getReadableDatabase().getPath();
     }
 
-    // Test database connection
+
     public boolean testConnection() {
         SQLiteDatabase db = null;
         try {

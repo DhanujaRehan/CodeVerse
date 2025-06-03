@@ -16,7 +16,7 @@ public class NotificationHistory {
     private boolean emailSent;
     private boolean smsSent;
 
-    // Constructors
+
     public NotificationHistory() {
     }
 
@@ -32,7 +32,7 @@ public class NotificationHistory {
         this.sentAt = System.currentTimeMillis();
     }
 
-    // Constructor from Notification object
+
     public NotificationHistory(Notification notification) {
         this.notificationId = notification.getId();
         this.title = notification.getTitle();
@@ -47,7 +47,7 @@ public class NotificationHistory {
         this.smsSent = notification.isSmsEnabled();
     }
 
-    // Getters and Setters
+
     public int getId() {
         return id;
     }
@@ -160,19 +160,19 @@ public class NotificationHistory {
         this.smsSent = smsSent;
     }
 
-    // Utility methods
+
     public String getPriorityColor() {
         switch (priority.toLowerCase()) {
             case "urgent":
-                return "#F44336"; // Red
+                return "#F44336";
             case "high":
-                return "#FF9800"; // Orange
+                return "#FF9800";
             case "medium":
-                return "#2196F3"; // Blue
+                return "#2196F3";
             case "low":
-                return "#4CAF50"; // Green
+                return "#4CAF50";
             default:
-                return "#757575"; // Grey
+                return "#757575";
         }
     }
 

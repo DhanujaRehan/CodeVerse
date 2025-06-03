@@ -35,10 +35,10 @@ public class StaffProfile extends Fragment {
     private LottieAnimationView ivBack;
     private TextView tvViewAllCourses;
 
-    // Root view reference
+
     private View rootView;
 
-    // Interface for communicating with parent Activity
+
     public interface OnStaffFragmentListener {
         void onBackPressed();
         void onDepartmentSelectorClicked();
@@ -60,13 +60,13 @@ public class StaffProfile extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize UI components
+
         initializeViews();
 
-        // Set up the course recycler view
+
         setupRecyclerView();
 
-        // Set up click listeners
+
         setupClickListeners();
     }
 
@@ -80,29 +80,29 @@ public class StaffProfile extends Fragment {
     }
 
     private void setupRecyclerView() {
-        // Create a list of hardcoded courses
+
         courseList = createHardcodedCourseList();
 
-        // Set up the RecyclerView with a horizontal layout manager
+
         LinearLayoutManager layoutManager = new LinearLayoutManager(
                 getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvTeachingCourses.setLayoutManager(layoutManager);
 
-        // Set up the adapter with click listener
+
         staffCourseAdapter = new StaffCourseAdapter(getContext(), courseList, new StaffCourseAdapter.OnCourseClickListener() {
             @Override
             public void onCourseClick(StaffCourse course) {
                 if (listener != null) {
                     listener.onCourseClicked(course);
                 } else {
-                    // Fallback behavior
+
                     showToast("Course clicked: " + course.getCourseName());
                 }
             }
         });
         rvTeachingCourses.setAdapter(staffCourseAdapter);
 
-        // Add spacing between items
+
         if (getResources() != null) {
             int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
             rvTeachingCourses.addItemDecoration(new HorizontalSpaceItemDecoration(spacingInPixels));
@@ -110,17 +110,17 @@ public class StaffProfile extends Fragment {
     }
 
     private void setupClickListeners() {
-        // Back button click listener
+
         cvBack.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onBackPressed();
             } else {
-                // Fallback navigation
+
                 navigateBack();
             }
         });
 
-        // Department selector click listener
+
         cvDepartmentSelector.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onDepartmentSelectorClicked();
@@ -129,7 +129,7 @@ public class StaffProfile extends Fragment {
             }
         });
 
-        // Schedule appointment FAB click listener
+
         fabSchedule.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onScheduleAppointmentClicked();
@@ -138,7 +138,7 @@ public class StaffProfile extends Fragment {
             }
         });
 
-        // View all courses click listener
+
         tvViewAllCourses.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onViewAllCoursesClicked();
@@ -273,24 +273,24 @@ public class StaffProfile extends Fragment {
 
         @Override
         public void getItemOffsets(android.graphics.Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-            // Add right margin only for all items except the last one
+
             if (parent.getChildAdapterPosition(view) != parent.getAdapter().getItemCount() - 1) {
                 outRect.right = horizontalSpaceWidth;
             }
         }
     }
 
-    // Method to set the listener from parent Activity/Fragment
+
     public void setOnStaffFragmentListener(OnStaffFragmentListener listener) {
         this.listener = listener;
     }
 
-    // Static method to create fragment instance
+
     public static StaffProfile newInstance() {
         return new StaffProfile();
     }
 
-    // Method to create fragment with arguments if needed
+
     public static StaffProfile newInstance(String staffId, String department) {
         StaffProfile fragment = new StaffProfile();
         Bundle args = new Bundle();
@@ -300,7 +300,7 @@ public class StaffProfile extends Fragment {
         return fragment;
     }
 
-    // Method to get arguments if needed
+
     private String getStaffIdFromArguments() {
         if (getArguments() != null) {
             return getArguments().getString("staff_id");
@@ -319,7 +319,7 @@ public class StaffProfile extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
 
-        // Clear references to prevent memory leaks
+
         rootView = null;
         listener = null;
         staffCourseAdapter = null;

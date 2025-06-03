@@ -58,36 +58,36 @@ public class NotificationHistoryAdapter extends RecyclerView.Adapter<Notificatio
         holder.tvPriority.setText(history.getPriority());
         holder.tvStatus.setText(history.getStatusDisplayText());
 
-        // Set priority indicator color
+
         try {
             holder.viewPriorityIndicator.setBackgroundColor(Color.parseColor(history.getPriorityColor()));
         } catch (IllegalArgumentException e) {
             holder.viewPriorityIndicator.setBackgroundColor(Color.GRAY);
         }
 
-        // Set status color
+
         setStatusColor(holder.tvStatus, history.getStatus());
 
-        // Format and set sent date
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault());
         holder.tvSentDate.setText("Sent: " + dateFormat.format(new Date(history.getSentAt())));
 
-        // Set delivery methods
+
         holder.tvDeliveryMethods.setText(history.getDeliveryMethodsText());
 
-        // Set delivery stats
+
         holder.tvDeliveredCount.setText(String.valueOf(history.getDeliveredCount()));
         holder.tvReadCount.setText(String.valueOf(history.getReadCount()));
 
-        // Set read percentage
+
         double readPercentage = history.getReadPercentage();
         holder.progressReadRate.setProgress((int) readPercentage);
         holder.tvReadPercentage.setText(String.format(Locale.getDefault(), "%.1f%%", readPercentage));
 
-        // Set progress bar color based on read rate
+
         setProgressBarColor(holder.progressReadRate, readPercentage);
 
-        // Set click listeners
+
         holder.itemView.setOnClickListener(v -> {
             if (clickListener != null) {
                 clickListener.onHistoryClick(history);
@@ -106,16 +106,16 @@ public class NotificationHistoryAdapter extends RecyclerView.Adapter<Notificatio
         switch (status.toLowerCase()) {
             case "sent":
             case "delivered":
-                color = Color.parseColor("#4CAF50"); // Green
+                color = Color.parseColor("#4CAF50");
                 break;
             case "pending":
-                color = Color.parseColor("#FF9800"); // Orange
+                color = Color.parseColor("#FF9800");
                 break;
             case "failed":
-                color = Color.parseColor("#F44336"); // Red
+                color = Color.parseColor("#F44336");
                 break;
             default:
-                color = Color.parseColor("#757575"); // Grey
+                color = Color.parseColor("#757575");
                 break;
         }
         statusTextView.setTextColor(color);
@@ -124,11 +124,11 @@ public class NotificationHistoryAdapter extends RecyclerView.Adapter<Notificatio
     private void setProgressBarColor(ProgressBar progressBar, double percentage) {
         int color;
         if (percentage >= 70) {
-            color = Color.parseColor("#4CAF50"); // Green
+            color = Color.parseColor("#4CAF50");
         } else if (percentage >= 40) {
-            color = Color.parseColor("#FF9800"); // Orange
+            color = Color.parseColor("#FF9800");
         } else {
-            color = Color.parseColor("#F44336"); // Red
+            color = Color.parseColor("#F44336");
         }
         progressBar.getProgressDrawable().setTint(color);
     }
@@ -144,12 +144,12 @@ public class NotificationHistoryAdapter extends RecyclerView.Adapter<Notificatio
     }
 
     public void filterByCategory(String category) {
-        // Implementation for filtering by category if needed
+
         notifyDataSetChanged();
     }
 
     public void filterByStatus(String status) {
-        // Implementation for filtering by status if needed
+
         notifyDataSetChanged();
     }
 
