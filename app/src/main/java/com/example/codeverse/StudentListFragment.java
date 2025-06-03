@@ -61,91 +61,191 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         etSearch = view.findViewById(R.id.etSearch);
         fabAddStudent = view.findViewById(R.id.fabAddStudent);
 
-        dbHelper = new StudentDatabaseHelper(getContext());
+        // Initialize lists first
         allStudents = new ArrayList<>();
         filteredStudents = new ArrayList<>();
+
+        // Initialize database helper
+        if (getContext() != null) {
+            dbHelper = new StudentDatabaseHelper(getContext());
+        }
     }
 
     private void setupRecyclerView() {
-        studentAdapter = new StudentAdapter(filteredStudents, this);
-        rvStudents.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvStudents.setAdapter(studentAdapter);
+        if (getContext() != null && rvStudents != null) {
+            studentAdapter = new StudentAdapter(filteredStudents, this);
+            rvStudents.setLayoutManager(new LinearLayoutManager(getContext()));
+            rvStudents.setAdapter(studentAdapter);
+        }
     }
 
     private void setupSearchFilter() {
-        etSearch.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+        if (etSearch != null) {
+            etSearch.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterStudents(s.toString());
-            }
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    filterStudents(s.toString());
+                }
 
-            @Override
-            public void afterTextChanged(Editable s) {}
-        });
+                @Override
+                public void afterTextChanged(Editable s) {}
+            });
+        }
     }
 
     private void setupSwipeRefresh() {
-        swipeRefresh.setOnRefreshListener(this::loadStudents);
-        swipeRefresh.setColorSchemeResources(R.color.primary_color);
+        if (swipeRefresh != null) {
+            swipeRefresh.setOnRefreshListener(this::loadStudents);
+            swipeRefresh.setColorSchemeResources(R.color.primary_color);
+        }
     }
 
     private void loadStudents() {
-        swipeRefresh.setRefreshing(true);
+        if (swipeRefresh != null) {
+            swipeRefresh.setRefreshing(true);
+        }
 
-        new Thread(() -> {
-            allStudents = dbHelper.getAllStudent();
+        // Check if dbHelper is initialized and context is available
+        if (dbHelper == null && getContext() != null) {
+            dbHelper = new StudentDatabaseHelper(getContext());
+        }
 
-            getActivity().runOnUiThread(() -> {
-                filteredStudents.clear();
-                filteredStudents.addAll(allStudents);
-                studentAdapter.notifyDataSetChanged();
+        if (dbHelper != null) {
+            new Thread(() -> {
+                try {
+                    List<Student> students = dbHelper.getAllStudent();
+
+                    // Check if fragment is still attached before updating UI
+                    if (getActivity() != null && !getActivity().isFinishing()) {
+                        getActivity().runOnUiThread(() -> {
+                            if (allStudents != null && filteredStudents != null) {
+                                allStudents.clear();
+                                allStudents.addAll(students != null ? students : new ArrayList<>());
+
+                                filteredStudents.clear();
+                                filteredStudents.addAll(allStudents);
+
+                                if (studentAdapter != null) {
+                                    studentAdapter.notifyDataSetChanged();
+                                }
+                            }
+
+                            if (swipeRefresh != null) {
+                                swipeRefresh.setRefreshing(false);
+                            }
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    // Handle database error gracefully
+                    if (getActivity() != null && !getActivity().isFinishing()) {
+                        getActivity().runOnUiThread(() -> {
+                            if (swipeRefresh != null) {
+                                swipeRefresh.setRefreshing(false);
+                            }
+                            Toast.makeText(getContext(), "Error loading students", Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                }
+            }).start();
+        } else {
+            if (swipeRefresh != null) {
                 swipeRefresh.setRefreshing(false);
-            });
-        }).start();
+            }
+        }
     }
 
     private void filterStudents(String query) {
+        if (filteredStudents == null || allStudents == null) {
+            return;
+        }
+
         filteredStudents.clear();
 
-        if (query.isEmpty()) {
+        if (query == null || query.trim().isEmpty()) {
             filteredStudents.addAll(allStudents);
         } else {
+            String lowerQuery = query.toLowerCase().trim();
             for (Student student : allStudents) {
-                if (student.getFullName().toLowerCase().contains(query.toLowerCase()) ||
-                        student.getUniversityId().toLowerCase().contains(query.toLowerCase()) ||
-                        (student.getFaculty() != null && student.getFaculty().toLowerCase().contains(query.toLowerCase()))) {
+                if (student != null && (
+                        (student.getFullName() != null && student.getFullName().toLowerCase().contains(lowerQuery)) ||
+                                (student.getUniversityId() != null && student.getUniversityId().toLowerCase().contains(lowerQuery)) ||
+                                (student.getFaculty() != null && student.getFaculty().toLowerCase().contains(lowerQuery)))) {
                     filteredStudents.add(student);
                 }
             }
         }
 
-        studentAdapter.notifyDataSetChanged();
+        if (studentAdapter != null) {
+            studentAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void onEditStudent(Student student) {
-        Toast.makeText(getContext(), "Edit: " + student.getFullName(), Toast.LENGTH_SHORT).show();
+        if (student != null && getContext() != null) {
+            Toast.makeText(getContext(), "Edit: " + student.getFullName(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onDeleteStudent(Student student) {
-        new Thread(() -> {
-            dbHelper.deleteStudentWithPhotoCleanup(student);
+        if (student == null || dbHelper == null) {
+            return;
+        }
 
-            getActivity().runOnUiThread(() -> {
-                allStudents.remove(student);
-                filteredStudents.remove(student);
-                studentAdapter.notifyDataSetChanged();
-                Toast.makeText(getContext(), "Student deleted", Toast.LENGTH_SHORT).show();
-            });
+        new Thread(() -> {
+            try {
+                dbHelper.deleteStudentWithPhotoCleanup(student);
+
+                // Check if fragment is still attached before updating UI
+                if (getActivity() != null && !getActivity().isFinishing()) {
+                    getActivity().runOnUiThread(() -> {
+                        if (allStudents != null && filteredStudents != null) {
+                            allStudents.remove(student);
+                            filteredStudents.remove(student);
+
+                            if (studentAdapter != null) {
+                                studentAdapter.notifyDataSetChanged();
+                            }
+                        }
+
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Student deleted", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                if (getActivity() != null && !getActivity().isFinishing()) {
+                    getActivity().runOnUiThread(() -> {
+                        if (getContext() != null) {
+                            Toast.makeText(getContext(), "Error deleting student", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
         }).start();
     }
 
     @Override
     public void onStudentClick(Student student) {
-        Toast.makeText(getContext(), "Clicked: " + student.getFullName(), Toast.LENGTH_SHORT).show();
+        if (student != null && getContext() != null) {
+            Toast.makeText(getContext(), "Clicked: " + student.getFullName(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Clean up references to prevent memory leaks
+        studentAdapter = null;
+        rvStudents = null;
+        swipeRefresh = null;
+        etSearch = null;
+        fabAddStudent = null;
     }
 }
