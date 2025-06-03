@@ -151,7 +151,6 @@ public class GradeSubmission extends Fragment {
                 android.R.layout.simple_dropdown_item_1line, batches);
         dropdownBatch.setAdapter(batchAdapter);
 
-        // Module dropdown
         List<String> modules = dbHelper.getAllModules();
         if (modules.isEmpty()) {
             modules.add("Programming Fundamentals");
