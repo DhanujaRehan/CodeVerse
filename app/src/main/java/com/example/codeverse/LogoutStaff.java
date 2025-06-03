@@ -1,4 +1,4 @@
-package com.example.codeverse.LoginScreens;
+package com.example.codeverse;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.codeverse.LoginScreens.Login;
 import com.example.codeverse.R;
-import com.example.codeverse.Utils.StaffSessionManager;
+import com.example.codeverse.StaffSessionManager;
 
 public class LogoutStaff extends AppCompatActivity {
 
@@ -18,7 +19,7 @@ public class LogoutStaff extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.logout_staff_screen);
+        setContentView(R.layout.activity_logout_staff);
 
         staffSessionManager = new StaffSessionManager(this);
         tvGoodbyeStaff = findViewById(R.id.tv_goodbye_staff);
