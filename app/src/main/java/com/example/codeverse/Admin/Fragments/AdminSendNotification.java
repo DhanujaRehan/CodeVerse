@@ -62,7 +62,6 @@ public class AdminSendNotification extends Fragment {
     private NotificationDatabaseHelper dbHelper;
     private Calendar selectedDateTime;
 
-    // File browser variables
     private static final int PERMISSION_REQUEST_CODE = 100;
     private ArrayList<Uri> selectedFiles = new ArrayList<>();
     private ArrayList<String> selectedFileNames = new ArrayList<>();
@@ -85,58 +84,49 @@ public class AdminSendNotification extends Fragment {
     }
 
     private void initViews(View view) {
-        // Dropdowns
+
         dropdownPriority = view.findViewById(R.id.dropdownPriority);
         dropdownRecipients = view.findViewById(R.id.dropdownRecipients);
         dropdownCategory = view.findViewById(R.id.dropdownCategory);
 
-        // Text inputs
-        etNotificationTitle = view.findViewById(R.id.etNotificationTitle);
+         etNotificationTitle = view.findViewById(R.id.etNotificationTitle);
         etMessage = view.findViewById(R.id.etMessage);
         etScheduleDate = view.findViewById(R.id.etScheduleDate);
         etScheduleTime = view.findViewById(R.id.etScheduleTime);
 
-        // Switches
-        switchScheduleNotification = view.findViewById(R.id.switchScheduleNotification);
+         switchScheduleNotification = view.findViewById(R.id.switchScheduleNotification);
         switchPushNotification = view.findViewById(R.id.switchPushNotification);
         switchEmailNotification = view.findViewById(R.id.switchEmailNotification);
         switchSMSNotification = view.findViewById(R.id.switchSMSNotification);
 
-        // Layouts
-        layoutScheduleOptions = view.findViewById(R.id.layoutScheduleOptions);
+         layoutScheduleOptions = view.findViewById(R.id.layoutScheduleOptions);
         layoutAttachedFiles = view.findViewById(R.id.layoutAttachedFiles);
 
-        // Buttons
-        btnSaveAsDraft = view.findViewById(R.id.btnSaveAsDraft);
+         btnSaveAsDraft = view.findViewById(R.id.btnSaveAsDraft);
         btnSend = view.findViewById(R.id.btnSend);
         btnBrowse = view.findViewById(R.id.btnBrowse);
 
-        // Preview
-        tvPreviewTitle = view.findViewById(R.id.tvPreviewTitle);
+         tvPreviewTitle = view.findViewById(R.id.tvPreviewTitle);
         tvPreviewMessage = view.findViewById(R.id.tvPreviewMessage);
 
-        // Navigation
-        ivBack = view.findViewById(R.id.iv_back);
+         ivBack = view.findViewById(R.id.iv_back);
         ivNotificationHistory = view.findViewById(R.id.iv_notification_history);
     }
 
     private void setupDropdowns() {
-        // Priority dropdown
-        String[] priorities = {"Low", "Medium", "High", "Urgent"};
+         String[] priorities = {"Low", "Medium", "High", "Urgent"};
         ArrayAdapter<String> priorityAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_dropdown_item_1line, priorities);
         dropdownPriority.setAdapter(priorityAdapter);
 
-        // Recipients dropdown
-        String[] recipients = {"All Students", "All Staff", "All Users", "First Year Students",
+         String[] recipients = {"All Students", "All Staff", "All Users", "First Year Students",
                 "Second Year Students", "Third Year Students", "Fourth Year Students",
                 "Academic Staff", "Administrative Staff"};
         ArrayAdapter<String> recipientsAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_dropdown_item_1line, recipients);
         dropdownRecipients.setAdapter(recipientsAdapter);
 
-        // Category dropdown
-        String[] categories = {"Academic", "Administrative", "Emergency", "Event",
+         String[] categories = {"Academic", "Administrative", "Emergency", "Event",
                 "Examination", "General", "Library", "Sports", "Hostel"};
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(getContext(),
                 android.R.layout.simple_dropdown_item_1line, categories);
@@ -144,19 +134,15 @@ public class AdminSendNotification extends Fragment {
     }
 
     private void setupListeners() {
-        // Schedule switch listener
-        switchScheduleNotification.setOnCheckedChangeListener((buttonView, isChecked) -> {
+         switchScheduleNotification.setOnCheckedChangeListener((buttonView, isChecked) -> {
             layoutScheduleOptions.setVisibility(isChecked ? View.VISIBLE : View.GONE);
         });
 
-        // Date picker
-        etScheduleDate.setOnClickListener(v -> showDatePicker());
+         etScheduleDate.setOnClickListener(v -> showDatePicker());
 
-        // Time picker
-        etScheduleTime.setOnClickListener(v -> showTimePicker());
+         etScheduleTime.setOnClickListener(v -> showTimePicker());
 
-        // Preview listeners
-        etNotificationTitle.addTextChangedListener(new TextWatcher() {
+         etNotificationTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
@@ -182,13 +168,11 @@ public class AdminSendNotification extends Fragment {
             public void afterTextChanged(Editable s) {}
         });
 
-        // Button listeners
-        btnSaveAsDraft.setOnClickListener(v -> saveAsDraft());
+         btnSaveAsDraft.setOnClickListener(v -> saveAsDraft());
         btnSend.setOnClickListener(v -> sendNotification());
         btnBrowse.setOnClickListener(v -> browseFiles());
 
-        // Navigation listeners
-        ivBack.setOnClickListener(v -> {
+         ivBack.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
@@ -201,8 +185,7 @@ public class AdminSendNotification extends Fragment {
     }
 
     private void setupFilePickerLauncher() {
-        // File picker launcher
-        filePickerLauncher = registerForActivityResult(
+         filePickerLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
@@ -217,8 +200,7 @@ public class AdminSendNotification extends Fragment {
                 }
         );
 
-        // Permission launcher
-        requestPermissionLauncher = registerForActivityResult(
+         requestPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(),
                 isGranted -> {
                     if (isGranted) {
@@ -240,8 +222,7 @@ public class AdminSendNotification extends Fragment {
 
     private boolean checkStoragePermission() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            // Android 13+ doesn't need storage permission for file picker
-            return true;
+             return true;
         } else {
             return ContextCompat.checkSelfPermission(
                     getContext(),
@@ -252,8 +233,7 @@ public class AdminSendNotification extends Fragment {
 
     private void requestStoragePermission() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
-            // No permission needed for Android 13+
-            showFileSelectionDialog();
+             showFileSelectionDialog();
         } else {
             requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
         }
@@ -328,8 +308,7 @@ public class AdminSendNotification extends Fragment {
 
     private void handleSelectedFiles(Intent data) {
         if (data.getClipData() != null) {
-            // Multiple files selected
-            ClipData clipData = data.getClipData();
+             ClipData clipData = data.getClipData();
             for (int i = 0; i < clipData.getItemCount(); i++) {
                 Uri fileUri = clipData.getItemAt(i).getUri();
                 if (validateFile(fileUri)) {
@@ -337,8 +316,7 @@ public class AdminSendNotification extends Fragment {
                 }
             }
         } else if (data.getData() != null) {
-            // Single file selected
-            Uri fileUri = data.getData();
+             Uri fileUri = data.getData();
             if (validateFile(fileUri)) {
                 addSelectedFile(fileUri);
             }
@@ -415,8 +393,7 @@ public class AdminSendNotification extends Fragment {
                 String fileName = selectedFileNames.get(i);
                 tvFileName.setText(fileName);
 
-                // Set file size
-                try {
+                 try {
                     InputStream inputStream = getContext().getContentResolver().openInputStream(selectedFiles.get(i));
                     if (inputStream != null) {
                         long sizeInBytes = inputStream.available();
@@ -427,11 +404,9 @@ public class AdminSendNotification extends Fragment {
                     tvFileSize.setText("Unknown size");
                 }
 
-                // Set file icon based on type
-                setFileIcon(ivFileIcon, fileName);
+                 setFileIcon(ivFileIcon, fileName);
 
-                // Remove file listener
-                final int fileIndex = i;
+                 final int fileIndex = i;
                 ivRemoveFile.setOnClickListener(v -> {
                     selectedFiles.remove(fileIndex);
                     selectedFileNames.remove(fileIndex);
@@ -442,8 +417,7 @@ public class AdminSendNotification extends Fragment {
                 layoutAttachedFiles.addView(fileItemView);
             }
 
-            // Show/hide the files container
-            if (layoutAttachedFiles != null) {
+             if (layoutAttachedFiles != null) {
                 layoutAttachedFiles.setVisibility(selectedFiles.isEmpty() ? View.GONE : View.VISIBLE);
             }
         }
@@ -576,14 +550,12 @@ public class AdminSendNotification extends Fragment {
 
     private void saveNotification(Notification notification) {
         try {
-            // Insert the notification
-            long notificationId = dbHelper.insertNotification(notification);
+             long notificationId = dbHelper.insertNotification(notification);
 
             if (notificationId > 0) {
                 notification.setId((int) notificationId);
 
-                // Insert history record with the correct method signature
-                String action = notification.getStatus().toUpperCase(); // "DRAFT", "SENT", "SCHEDULED"
+                 String action = notification.getStatus().toUpperCase(); // "DRAFT", "SENT", "SCHEDULED"
                 String details = createNotificationDetails(notification);
 
                 dbHelper.insertHistory((int) notificationId, action, details);
@@ -602,8 +574,7 @@ public class AdminSendNotification extends Fragment {
         details.append("Notification ").append(notification.getStatus());
         details.append(" (").append(notification.getTitle()).append(")");
 
-        // Add delivery method information
-        List<String> methods = new ArrayList<>();
+         List<String> methods = new ArrayList<>();
         if (notification.isPushEnabled()) methods.add("Push");
         if (notification.isEmailEnabled()) methods.add("Email");
         if (notification.isSmsEnabled()) methods.add("SMS");
@@ -612,11 +583,9 @@ public class AdminSendNotification extends Fragment {
             details.append(" via ").append(String.join(", ", methods));
         }
 
-        // Add recipient information
-        details.append(" to ").append(notification.getRecipients());
+         details.append(" to ").append(notification.getRecipients());
 
-        // Add attachment info if any
-        if (!selectedFiles.isEmpty()) {
+         if (!selectedFiles.isEmpty()) {
             details.append(" with ").append(selectedFiles.size()).append(" attachment(s)");
         }
 
@@ -659,8 +628,7 @@ public class AdminSendNotification extends Fragment {
                 return false;
             }
 
-            // Validate that scheduled time is in the future
-            if (selectedDateTime.getTimeInMillis() <= System.currentTimeMillis()) {
+             if (selectedDateTime.getTimeInMillis() <= System.currentTimeMillis()) {
                 Toast.makeText(getContext(), "Scheduled time must be in the future", Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -688,8 +656,7 @@ public class AdminSendNotification extends Fragment {
 
         notification.setCreatedAt(System.currentTimeMillis());
 
-        // Add attachment paths (store as comma-separated string)
-        if (!selectedFiles.isEmpty()) {
+         if (!selectedFiles.isEmpty()) {
             StringBuilder attachmentPaths = new StringBuilder();
             for (int i = 0; i < selectedFiles.size(); i++) {
                 if (i > 0) attachmentPaths.append(",");
@@ -717,13 +684,11 @@ public class AdminSendNotification extends Fragment {
         tvPreviewTitle.setText("Notification title will appear here");
         tvPreviewMessage.setText("Message content will appear here");
 
-        // Clear attachments
-        selectedFiles.clear();
+         selectedFiles.clear();
         selectedFileNames.clear();
         updateAttachedFilesUI();
 
-        // Reset selected date time
-        selectedDateTime = Calendar.getInstance();
+         selectedDateTime = Calendar.getInstance();
     }
 
     @Override

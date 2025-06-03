@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Student implements Serializable {
 
-    // Basic Information
     private long id;
     private String fullName;
     private String universityId;
