@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background">
+    android:background="@drawable/loading_gradient_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -20,14 +20,35 @@
             android:paddingTop="48dp"
             android:paddingBottom="16dp">
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:cardBackgroundColor="#33FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/iv_back"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/back_button_animation"
+                    android:contentDescription="Back" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_bold"
-                android:text="My Profile"
-                android:textColor="#FFFFFF"
+                android:text="Student Profile"
+                android:textColor="@color/white"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
@@ -46,8 +67,9 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/iv_settings"
-                    android:layout_width="33dp"
-                    android:layout_height="25dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:scaleType="centerCrop"
                     android:layout_gravity="center"
                     android:contentDescription="Settings"
                     app:lottie_autoPlay="true"
@@ -79,12 +101,13 @@
                 app:cardCornerRadius="28dp"
                 app:strokeWidth="1dp"
                 app:strokeColor="#33FFFFFF"
-                app:cardElevation="10dp">
+                app:cardElevation="10dp"
+                >
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/glass_effect" />
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -109,7 +132,7 @@
                                 android:id="@+id/iv_profile_pic"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:src="@drawable/ic_profile"
+                                android:src="@drawable/ic_person"
                                 android:scaleType="centerCrop" />
 
                             <com.airbnb.lottie.LottieAnimationView
@@ -134,8 +157,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_extrabold"
-                                android:text="Alex Johnson"
-                                android:textColor="#FFFFFF"
+                                android:text="Student Name"
+                                android:textColor="@color/black"
                                 android:textSize="26sp"
                                 android:shadowColor="#50000000"
                                 android:shadowDx="0"
@@ -147,8 +170,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:text="Student ID: 2023CS105"
-                                android:textColor="#E6FFFFFF"
+                                android:text="Student ID: STU2023104"
+                                android:textColor="@color/black"
                                 android:textSize="14sp" />
 
                             <com.google.android.material.chip.Chip
@@ -157,7 +180,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Computer Science"
                                 android:textColor="#FFFFFF"
-                                app:chipBackgroundColor="#403F00F0"
+                                app:chipBackgroundColor="#0D47A1"
                                 app:chipStrokeColor="#33FFFFFF"
                                 app:chipStrokeWidth="1dp"
                                 android:layout_marginTop="4dp" />
@@ -171,7 +194,8 @@
                             android:src="@drawable/ic_edit"
                             app:tint="#FFFFFF"
                             app:fabSize="mini"
-                            app:backgroundTint="#6A11CB" />
+                            app:backgroundTint="#1A5276" />
+
                     </LinearLayout>
 
                     <LinearLayout
@@ -210,15 +234,15 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_bold"
                                     android:text="3.8"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/black"
                                     android:textSize="24sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_regular"
-                                    android:text="Current GPA"
-                                    android:textColor="#E6FFFFFF"
+                                    android:text="GPA"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -253,15 +277,15 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_bold"
                                     android:text="68"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/black"
                                     android:textSize="24sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_regular"
-                                    android:text="Credits Completed"
-                                    android:textColor="#E6FFFFFF"
+                                    android:text="Credits"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -296,15 +320,15 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_bold"
                                     android:text="5"
-                                    android:textColor="#FFFFFF"
+                                    android:textColor="@color/black"
                                     android:textSize="24sp" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_regular"
-                                    android:text="Current Courses"
-                                    android:textColor="#E6FFFFFF"
+                                    android:text="Semester"
+                                    android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
                         </com.google.android.material.card.MaterialCardView>
@@ -331,8 +355,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Personal Information"
-                    android:textColor="#FFFFFF"
+                    android:text="Contact Information"
+                    android:textColor="@color/white"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -345,6 +369,11 @@
                 app:strokeWidth="1dp"
                 app:strokeColor="#33FFFFFF"
                 app:cardElevation="8dp">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -361,13 +390,13 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E8E1F9"
+                            app:cardBackgroundColor="#E1E8F9"
                             app:cardCornerRadius="16dp"
                             app:cardElevation="4dp">
 
                             <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
@@ -394,7 +423,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:text="alex.johnson@unicerty.edu"
+                                android:text="student@university.edu"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -409,13 +438,13 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E8E1F9"
+                            app:cardBackgroundColor="#E1E8F9"
                             app:cardCornerRadius="16dp"
                             app:cardElevation="4dp">
 
                             <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
@@ -457,13 +486,13 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E8E1F9"
+                            app:cardBackgroundColor="#E1E8F9"
                             app:cardCornerRadius="16dp"
                             app:cardElevation="4dp">
 
                             <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
@@ -490,7 +519,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:text="September 15, 2001"
+                                android:text="01/01/2000"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -504,13 +533,13 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E8E1F9"
+                            app:cardBackgroundColor="#E1E8F9"
                             app:cardCornerRadius="16dp"
                             app:cardElevation="4dp">
 
                             <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
@@ -537,7 +566,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:text="123 University Ave, Campus Housing B, Room 305"
+                                android:text="123 Student Street, City"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -565,7 +594,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Academic Information"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -579,6 +608,11 @@
                 app:strokeColor="#33FFFFFF"
                 app:cardElevation="8dp">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -588,30 +622,30 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal">
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E8E1F9"
+                            app:cardBackgroundColor="#E1E8F9"
                             app:cardCornerRadius="16dp"
                             app:cardElevation="4dp">
 
                             <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/computer_animation" />
+                                app:lottie_rawRes="@raw/app_logo_animation" />
                         </com.google.android.material.card.MaterialCardView>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginStart="16dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
@@ -627,7 +661,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:text="Bachelor of Science in Computer Science"
+                                android:text="Computer Science"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -636,37 +670,37 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal">
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E8E1F9"
+                            app:cardBackgroundColor="#E1E8F9"
                             app:cardCornerRadius="16dp"
                             app:cardElevation="4dp">
 
                             <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/level_up_animation" />
+                                app:lottie_rawRes="@raw/info" />
                         </com.google.android.material.card.MaterialCardView>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginStart="16dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
-                                android:text="Year Level"
+                                android:text="Year"
                                 android:textColor="#80FFFFFF"
                                 android:textSize="14sp" />
 
@@ -675,7 +709,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:text="Second Year"
+                                android:text="3rd Year"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp" />
                         </LinearLayout>
@@ -684,37 +718,37 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
+                        android:layout_marginBottom="16dp"
+                        android:orientation="horizontal">
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E8E1F9"
+                            app:cardBackgroundColor="#E1E8F9"
                             app:cardCornerRadius="16dp"
                             app:cardElevation="4dp">
 
                             <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/advisor_animation" />
+                                app:lottie_rawRes="@raw/exam" />
                         </com.google.android.material.card.MaterialCardView>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginStart="16dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
-                                android:text="Academic Advisor"
+                                android:text="Advisor"
                                 android:textColor="#80FFFFFF"
                                 android:textSize="14sp" />
 
@@ -737,31 +771,31 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E8E1F9"
+                            app:cardBackgroundColor="#E1E8F9"
                             app:cardCornerRadius="16dp"
                             app:cardElevation="4dp">
 
                             <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="32dp"
-                                android:layout_height="32dp"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/academic_cap_animation" />
+                                app:lottie_rawRes="@raw/calendar" />
                         </com.google.android.material.card.MaterialCardView>
 
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:layout_marginStart="16dp"
+                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
-                                android:text="Expected Graduation"
+                                android:text="Enrollment"
                                 android:textColor="#80FFFFFF"
                                 android:textSize="14sp" />
 
@@ -770,13 +804,29 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
-                                android:text="May 2026"
+                                android:text="September 2022"
                                 android:textColor="#FFFFFF"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Logout"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_semibold"
+                app:backgroundTint="#D32F2F"
+                app:cornerRadius="16dp"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="#FFFFFF"
+                style="@style/Widget.MaterialComponents.Button" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -789,7 +839,7 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_help"
         app:tint="#FFFFFF"
-        app:backgroundTint="#6A11CB"
+        app:backgroundTint="#1A5276"
         app:rippleColor="#FFFFFF"
         app:fabSize="normal" />
 
