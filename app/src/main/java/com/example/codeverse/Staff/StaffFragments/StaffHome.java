@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class StaffHome extends Fragment {
 
-    // UI Components
+
     private RecyclerView rvStudents;
     private AutoCompleteTextView dropdownYear, dropdownDepartment, dropdownBadge;
     private TextView tvStudentCount;
@@ -37,21 +37,21 @@ public class StaffHome extends Fragment {
     private MaterialButton btnApplyFilters;
     private FloatingActionButton fabAddStudent;
 
-    // Adapters
+
     private StudentAdapter studentAdapter;
 
-    // Data
+
     private List<StudentModel> allStudents = new ArrayList<>();
     private List<StudentModel> filteredStudents = new ArrayList<>();
     private String selectedYear = "";
     private String selectedDepartment = "";
     private String selectedBadge = "";
 
-    // Root view reference
+
     private View rootView;
 
     public StaffHome() {
-        // Required empty public constructor
+
     }
 
     public static StaffHome newInstance() {
@@ -61,7 +61,7 @@ public class StaffHome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         rootView = inflater.inflate(R.layout.fragment_staff_home, container, false);
         return rootView;
     }
@@ -70,19 +70,19 @@ public class StaffHome extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize UI components
+
         initViews();
 
-        // Setup dropdown menus for filters
+
         setupDropdowns();
 
-        // Setup RecyclerView for students
+
         setupStudentsList();
 
-        // Setup click listeners
+
         setupListeners();
 
-        // Load sample data
+
         loadSampleData();
     }
 
@@ -90,21 +90,21 @@ public class StaffHome extends Fragment {
      * Initialize UI components
      */
     private void initViews() {
-        // RecyclerView
+
         rvStudents = rootView.findViewById(R.id.rv_students);
 
-        // Dropdowns
+
         dropdownYear = rootView.findViewById(R.id.dropdown_year);
         dropdownDepartment = rootView.findViewById(R.id.dropdown_department);
         dropdownBadge = rootView.findViewById(R.id.dropdown_badge);
 
-        // TextViews
+
         tvStudentCount = rootView.findViewById(R.id.tv_student_count);
 
-        // Layouts
+
         layoutEmptyState = rootView.findViewById(R.id.layout_empty_state);
 
-        // Buttons
+
         btnApplyFilters = rootView.findViewById(R.id.btn_apply_filters);
     }
 
@@ -140,10 +140,10 @@ public class StaffHome extends Fragment {
      * Setup RecyclerView for students
      */
     private void setupStudentsList() {
-        // Initialize adapter
+
         studentAdapter = new StudentAdapter(filteredStudents, this::onStudentAction);
 
-        // Configure RecyclerView
+
         rvStudents.setLayoutManager(new LinearLayoutManager(getContext()));
         rvStudents.setAdapter(studentAdapter);
         rvStudents.setNestedScrollingEnabled(false);
@@ -153,10 +153,10 @@ public class StaffHome extends Fragment {
      * Setup click listeners
      */
     private void setupListeners() {
-        // Apply filters button
+
         btnApplyFilters.setOnClickListener(v -> applyFilters());
 
-        // Quick actions
+
         rootView.findViewById(R.id.card_schedule).setOnClickListener(v ->
                 navigateToStaffSchedule());
 
@@ -169,11 +169,11 @@ public class StaffHome extends Fragment {
         rootView.findViewById(R.id.card_messages).setOnClickListener(v ->
                 Toast.makeText(getContext(), "Messages feature coming soon", Toast.LENGTH_SHORT).show());
 
-        // Profile image
+
         rootView.findViewById(R.id.cv_profile).setOnClickListener(v ->
                 Toast.makeText(getContext(), "Profile feature coming soon", Toast.LENGTH_SHORT).show());
 
-        // Add student FAB
+
         if (fabAddStudent != null) {
             fabAddStudent.setOnClickListener(v ->
                     Toast.makeText(getContext(), "Add student feature coming soon", Toast.LENGTH_SHORT).show());
@@ -188,10 +188,10 @@ public class StaffHome extends Fragment {
             StaffSchedule staffScheduleFragment = new StaffSchedule() {
             };
 
-            // Navigate to staff schedule fragment
+
             getParentFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.framelayout, staffScheduleFragment) // Use your container ID
+                    .replace(R.id.framelayout, staffScheduleFragment)
                     .addToBackStack(null)
                     .commit();
 

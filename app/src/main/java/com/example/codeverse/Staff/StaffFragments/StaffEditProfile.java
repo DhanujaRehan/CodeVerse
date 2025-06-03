@@ -48,7 +48,7 @@ import java.util.List;
 
 public class StaffEditProfile extends Fragment {
 
-    // UI Components
+
     private ImageView ivProfilePic;
     private FloatingActionButton fabEditPicture;
     private TextInputEditText etName, etStaffId, etEmail, etPhone, etOfficeHours, etOfficeLocation;
@@ -61,21 +61,21 @@ public class StaffEditProfile extends Fragment {
     private MaterialCardView cvBack, cvSave;
     private FrameLayout savingOverlay, successOverlay;
 
-    // Text Input Layouts for validation
+
     private TextInputLayout tilName, tilEmail, tilPhone, tilOfficeHours, tilOfficeLocation;
     private TextInputLayout tilSpecialization, tilYearsService, tilEducation;
     private TextInputLayout tilResearchTags, tilResearchDescription, tilPublications;
 
-    // Image picker launcher
+
     private ActivityResultLauncher<Intent> imagePickerLauncher;
 
-    // Flag to track changes
+
     private boolean dataChanged = false;
 
-    // Root view reference
+
     private View rootView;
 
-    // Interface for communicating with parent Activity
+
     public interface OnProfileEditListener {
         void onProfileSaved(String staffName, String department);
         void onProfileEditCanceled();
@@ -94,69 +94,69 @@ public class StaffEditProfile extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Initialize UI components
+
         initUI();
 
-        // Setup dropdowns
+
         setupDropdowns();
 
-        // Set click listeners
+
         setClickListeners();
 
-        // Setup image picker
+
         setupImagePicker();
 
-        // Load faculty data
+
         loadFacultyData();
     }
 
     private void initUI() {
-        // Profile image components
+
         ivProfilePic = rootView.findViewById(R.id.iv_profile_pic);
         fabEditPicture = rootView.findViewById(R.id.fab_edit_picture);
 
-        // Top bar components
+
         cvBack = rootView.findViewById(R.id.cv_back);
         cvSave = rootView.findViewById(R.id.cv_save);
         ivBack = rootView.findViewById(R.id.iv_back);
         ivSave = rootView.findViewById(R.id.iv_save);
 
-        // Basic info inputs
+
         etName = rootView.findViewById(R.id.et_name);
         etStaffId = rootView.findViewById(R.id.et_staff_id);
         dropdownDepartment = rootView.findViewById(R.id.dropdown_department);
         dropdownPosition = rootView.findViewById(R.id.dropdown_position);
 
-        // Contact information inputs
+
         etEmail = rootView.findViewById(R.id.et_email);
         etPhone = rootView.findViewById(R.id.et_phone);
         etOfficeHours = rootView.findViewById(R.id.et_office_hours);
         etOfficeLocation = rootView.findViewById(R.id.et_office_location);
 
-        // Professional information inputs
+
         etSpecialization = rootView.findViewById(R.id.et_specialization);
         etYearsService = rootView.findViewById(R.id.et_years_service);
         etEducation = rootView.findViewById(R.id.et_education);
 
-        // Research information inputs
+
         etResearchTags = rootView.findViewById(R.id.et_research_tags);
         etResearchDescription = rootView.findViewById(R.id.et_research_description);
         etPublications = rootView.findViewById(R.id.et_publications);
 
-        // Social media inputs
+
         etLinkedin = rootView.findViewById(R.id.et_linkedin);
         etResearchGate = rootView.findViewById(R.id.et_research_gate);
         etGithub = rootView.findViewById(R.id.et_github);
 
-        // Buttons
+
         btnCancel = rootView.findViewById(R.id.btn_cancel);
         btnSaveChanges = rootView.findViewById(R.id.btn_save_changes);
 
-        // Overlay views
+
         savingOverlay = rootView.findViewById(R.id.saving_overlay);
         successOverlay = rootView.findViewById(R.id.success_overlay);
 
-        // Get TextInputLayouts for validation
+
         tilName = (TextInputLayout) etName.getParent().getParent();
         tilEmail = (TextInputLayout) etEmail.getParent().getParent();
         tilPhone = (TextInputLayout) etPhone.getParent().getParent();
@@ -171,7 +171,7 @@ public class StaffEditProfile extends Fragment {
     }
 
     private void setupDropdowns() {
-        // Department dropdown options
+
         List<String> departments = new ArrayList<>(Arrays.asList(
                 "Computer Science Department",
                 "Electrical Engineering Department",
@@ -189,7 +189,7 @@ public class StaffEditProfile extends Fragment {
                 departments);
         dropdownDepartment.setAdapter(departmentAdapter);
 
-        // Position dropdown options
+
         List<String> positions = new ArrayList<>(Arrays.asList(
                 "Professor",
                 "Associate Professor",
@@ -209,45 +209,42 @@ public class StaffEditProfile extends Fragment {
     }
 
     private void setClickListeners() {
-        // Track text changes
+
         setupTextChangeListeners();
 
-        // Office hours date picker
+
         etOfficeHours.setOnClickListener(v -> showOfficeDatePicker());
 
-        // Back button
+
         cvBack.setOnClickListener(v -> handleBackPress());
 
-        // Save button in top bar
+
         cvSave.setOnClickListener(v -> saveProfile());
 
-        // Cancel button
+
         btnCancel.setOnClickListener(v -> handleBackPress());
 
-        // Save changes button
+
         btnSaveChanges.setOnClickListener(v -> saveProfile());
 
-        // Edit profile picture button
+
         fabEditPicture.setOnClickListener(v -> openImagePicker());
     }
 
     private void showOfficeDatePicker() {
         if (getContext() == null) return;
 
-        // Create an office hours picker dialog
-        // This is a simplified example - in a real app, you would use a more complex dialog
-        // for setting up office hours
+
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        // Show a date picker just as an example
-        // In real app, this would be a more complex custom dialog
+
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 requireContext(),
                 (view, selectedYear, selectedMonth, selectedDay) -> {
-                    // Use the day of week to set office hours
+
                     Calendar selected = Calendar.getInstance();
                     selected.set(selectedYear, selectedMonth, selectedDay);
                     int dayOfWeek = selected.get(Calendar.DAY_OF_WEEK);
@@ -273,7 +270,7 @@ public class StaffEditProfile extends Fragment {
 
                     String currentHours = etOfficeHours.getText().toString().trim();
 
-                    // Add the new day to existing office hours
+
                     String updatedHours;
                     if (TextUtils.isEmpty(currentHours)) {
                         updatedHours = dayName + ": 10:00 AM - 12:00 PM";
@@ -286,7 +283,7 @@ public class StaffEditProfile extends Fragment {
                 },
                 year, month, day);
 
-        // Show only weekdays (no weekends)
+
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
 
@@ -294,7 +291,7 @@ public class StaffEditProfile extends Fragment {
     }
 
     private void setupTextChangeListeners() {
-        // Add text watchers to all editable fields to track changes
+
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -308,7 +305,7 @@ public class StaffEditProfile extends Fragment {
             public void afterTextChanged(Editable s) {}
         };
 
-        // Apply text watcher to all editable fields
+
         TextInputEditText[] editableFields = {
                 etName, etEmail, etPhone, etOfficeHours, etOfficeLocation,
                 etSpecialization, etYearsService, etEducation,
@@ -320,7 +317,7 @@ public class StaffEditProfile extends Fragment {
             field.addTextChangedListener(textWatcher);
         }
 
-        // Add change listeners for dropdown fields
+
         dropdownDepartment.setOnItemClickListener((parent, view, position, id) -> dataChanged = true);
         dropdownPosition.setOnItemClickListener((parent, view, position, id) -> dataChanged = true);
     }
@@ -348,16 +345,16 @@ public class StaffEditProfile extends Fragment {
     private void openImagePicker() {
         if (getContext() == null) return;
 
-        // Create an intent to open the image picker
+
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
 
-        // Show options dialog for image source
+
         new AlertDialog.Builder(requireContext())
                 .setTitle("Select Image Source")
                 .setItems(new String[]{"Gallery", "Camera"}, (dialog, which) -> {
                     if (which == 0) {
-                        // Gallery
+
                         imagePickerLauncher.launch(intent);
                     } else {
                         Toast.makeText(getContext(), "Camera functionality would be implemented here", Toast.LENGTH_SHORT).show();
@@ -390,58 +387,57 @@ public class StaffEditProfile extends Fragment {
         etResearchGate.setText("researchgate.net/profile/Sarah_Wilson");
         etGithub.setText("github.com/sarahwilson");
 
-        // Load profile image
-        // Instead of Glide, use Android's built-in image loading capabilities
+
         try {
             if (getContext() != null) {
-                // Load the image resource directly
+
                 ivProfilePic.setImageResource(R.drawable.ic_profile);
 
-                // Apply circular crop effect manually
-                ivProfilePic.setBackgroundResource(R.drawable.circle_background); // You'll need to create this drawable
+
+                ivProfilePic.setBackgroundResource(R.drawable.circle_background);
                 ivProfilePic.setClipToOutline(true);
 
-                // Or use a RoundedBitmapDrawable approach
+
                 Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile);
                 RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
                 roundedDrawable.setCircular(true);
                 ivProfilePic.setImageDrawable(roundedDrawable);
             }
         } catch (Exception e) {
-            // Simple fallback - just load the image without any special effects
+
             ivProfilePic.setImageResource(R.drawable.ic_profile);
             Log.e("StaffProfileEditFragment", "Failed to apply circular crop: " + e.getMessage());
         }
 
-        // Reset data changed flag after loading
+
         dataChanged = false;
     }
 
     private void saveProfile() {
-        // Validate inputs
+
         if (!validateInputs()) {
             return;
         }
 
-        // Show saving overlay
+
         savingOverlay.setVisibility(View.VISIBLE);
 
-        // Create a staff profile object (not implemented here)
+
         createStaffProfile();
 
-        // Simulate network delay for saving profile
+
         new Handler(Looper.getMainLooper()).postDelayed(() -> {
-            // Hide saving overlay
+
             savingOverlay.setVisibility(View.GONE);
 
-            // Show success overlay
+
             successOverlay.setVisibility(View.VISIBLE);
 
-            // Close after delay
+
             new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 successOverlay.setVisibility(View.GONE);
 
-                // Notify parent activity/fragment about the successful save
+
                 if (listener != null) {
                     listener.onProfileSaved(
                             etName.getText().toString().trim(),
@@ -449,10 +445,10 @@ public class StaffEditProfile extends Fragment {
                     );
                 }
 
-                // Reset data changed flag
+
                 dataChanged = false;
 
-                // Navigate back
+
                 navigateBack();
             }, 1500);
         }, 2000);
@@ -475,7 +471,7 @@ public class StaffEditProfile extends Fragment {
     private boolean validateInputs() {
         boolean isValid = true;
 
-        // Reset all error states
+
         tilName.setError(null);
         tilEmail.setError(null);
         tilPhone.setError(null);
@@ -485,14 +481,14 @@ public class StaffEditProfile extends Fragment {
         tilYearsService.setError(null);
         tilPublications.setError(null);
 
-        // Validate name
+
         String name = etName.getText().toString().trim();
         if (TextUtils.isEmpty(name)) {
             tilName.setError("Name cannot be empty");
             isValid = false;
         }
 
-        // Validate email
+
         String email = etEmail.getText().toString().trim();
         if (TextUtils.isEmpty(email)) {
             tilEmail.setError("Email cannot be empty");
@@ -502,40 +498,40 @@ public class StaffEditProfile extends Fragment {
             isValid = false;
         }
 
-        // Validate phone
+
         String phone = etPhone.getText().toString().trim();
         if (TextUtils.isEmpty(phone)) {
             tilPhone.setError("Phone number cannot be empty");
             isValid = false;
         }
 
-        // Validate office hours
+
         String officeHours = etOfficeHours.getText().toString().trim();
         if (TextUtils.isEmpty(officeHours)) {
             tilOfficeHours.setError("Office hours cannot be empty");
             isValid = false;
         }
 
-        // Validate office location
+
         String officeLocation = etOfficeLocation.getText().toString().trim();
         if (TextUtils.isEmpty(officeLocation)) {
             tilOfficeLocation.setError("Office location cannot be empty");
             isValid = false;
         }
 
-        // Validate department
+
         if (TextUtils.isEmpty(dropdownDepartment.getText())) {
             dropdownDepartment.setError("Department is required");
             isValid = false;
         }
 
-        // Validate position
+
         if (TextUtils.isEmpty(dropdownPosition.getText())) {
             dropdownPosition.setError("Position is required");
             isValid = false;
         }
 
-        // Validate years of service (must be a number)
+
         String yearsText = etYearsService.getText().toString().trim();
         if (!TextUtils.isEmpty(yearsText)) {
             try {
@@ -546,7 +542,7 @@ public class StaffEditProfile extends Fragment {
             }
         }
 
-        // Validate publications (must be a number)
+
         String publicationsText = etPublications.getText().toString().trim();
         if (!TextUtils.isEmpty(publicationsText)) {
             try {
@@ -562,7 +558,7 @@ public class StaffEditProfile extends Fragment {
 
     private void handleBackPress() {
         if (dataChanged) {
-            // Show dialog to confirm discarding changes
+
             if (getContext() != null) {
                 new AlertDialog.Builder(requireContext())
                         .setTitle("Discard Changes")
@@ -592,12 +588,12 @@ public class StaffEditProfile extends Fragment {
         }
     }
 
-    // Method to set the listener from parent Activity/Fragment
+
     public void setOnProfileEditListener(OnProfileEditListener listener) {
         this.listener = listener;
     }
 
-    // Method to pass data to the fragment if needed
+
     public static StaffEditProfile newInstance(String staffId) {
         StaffEditProfile fragment = new StaffEditProfile();
         Bundle args = new Bundle();
@@ -606,7 +602,7 @@ public class StaffEditProfile extends Fragment {
         return fragment;
     }
 
-    // Method to get staff ID from arguments
+
     private String getStaffIdFromArguments() {
         if (getArguments() != null) {
             return getArguments().getString("STAFF_ID");
