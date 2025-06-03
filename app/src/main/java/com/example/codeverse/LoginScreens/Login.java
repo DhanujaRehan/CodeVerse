@@ -38,7 +38,7 @@ public class Login extends AppCompatActivity {
                 } else if (inputEmail.equals(AdminEmail) && inputPassword.equals(AdminPassword)) {
                     Toast.makeText(Login.this, "Login successful!", Toast.LENGTH_SHORT).show();
 
-                    Intent intent = new Intent(Login.this, MainActivity.class); // replace with your actual class
+                    Intent intent = new Intent(Login.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
