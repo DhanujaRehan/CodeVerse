@@ -1,6 +1,7 @@
 package com.example.codeverse.Students.StudentFragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -16,10 +17,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.example.codeverse.Logout;
 import com.example.codeverse.R;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.Students.Models.Student;
 import com.example.codeverse.Utils.StudentSessionManager;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -28,13 +31,11 @@ public class StudentProfile extends Fragment {
 
     private static final String TAG = "StudentProfile";
 
-    // Lottie Animation Views
     private LottieAnimationView ivBack, ivSettings, gpaProgress, creditsProgress, coursesCounter;
     private LottieAnimationView userInfoAnimation, emailAnimation, phoneAnimation, calendarAnimation;
     private LottieAnimationView mapPinAnimation, academicCapAnimation, computerAnimation;
     private LottieAnimationView levelUpAnimation, advisorAnimation, academicCapAnimation2;
 
-    // UI Components
     private ImageView ivProfilePic;
     private TextView tvProfileName, tvProfileStudentId, tvProfileEmail, tvProfilePhone;
     private TextView tvProfileDob, tvProfileAddress, tvProfileProgram, tvProfileYear;
@@ -42,8 +43,8 @@ public class StudentProfile extends Fragment {
     private Chip chipFaculty;
     private FloatingActionButton fabEditProfile, fabHelp;
     private MaterialCardView cvSettings;
+    private MaterialButton btnLogout;
 
-    // Database and Session Management
     private StudentDatabaseHelper databaseHelper;
     private StudentSessionManager sessionManager;
     private Student currentStudent;
@@ -61,14 +62,12 @@ public class StudentProfile extends Fragment {
     }
 
     private void initViews(View view) {
-        // Initialize Lottie animations
         ivBack = view.findViewById(R.id.iv_back);
         ivSettings = view.findViewById(R.id.iv_settings);
         gpaProgress = view.findViewById(R.id.gpa_progress);
         creditsProgress = view.findViewById(R.id.credits_progress);
         coursesCounter = view.findViewById(R.id.courses_counter);
 
-        // Initialize UI components
         ivProfilePic = view.findViewById(R.id.iv_profile_pic);
 
         tvProfileName = view.findViewById(R.id.tv_profile_name);
@@ -90,6 +89,7 @@ public class StudentProfile extends Fragment {
         fabEditProfile = view.findViewById(R.id.fab_edit_profile);
         fabHelp = view.findViewById(R.id.fab_help);
         cvSettings = view.findViewById(R.id.cv_settings);
+        btnLogout = view.findViewById(R.id.btn_logout);
     }
 
     private void initDatabase() {
@@ -99,14 +99,12 @@ public class StudentProfile extends Fragment {
 
     private void loadStudentData() {
         try {
-            // Check if student is logged in using session manager
             if (!sessionManager.isLoggedIn()) {
                 Log.e(TAG, "No student session found");
                 Toast.makeText(getContext(), "Please login again", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            // Get student ID from session and load from database
             long studentId = sessionManager.getStudentId();
 
             if (studentId != -1) {
@@ -121,7 +119,6 @@ public class StudentProfile extends Fragment {
                     showErrorMessage("Student data not found");
                 }
             } else {
-                // Fallback: try to get from SharedPreferences
                 SharedPreferences sharedPreferences = getActivity().getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE);
                 long fallbackStudentId = sharedPreferences.getLong("current_student_id", -1);
 
@@ -148,7 +145,6 @@ public class StudentProfile extends Fragment {
 
     private void populateStudentData() {
         try {
-            // Basic Information
             if (currentStudent.getFullName() != null && !currentStudent.getFullName().trim().isEmpty()) {
                 tvProfileName.setText(currentStudent.getFullName());
             } else {
@@ -161,7 +157,6 @@ public class StudentProfile extends Fragment {
                 tvProfileStudentId.setText("Student ID: N/A");
             }
 
-            // Contact Information
             if (currentStudent.getEmail() != null && !currentStudent.getEmail().trim().isEmpty()) {
                 tvProfileEmail.setText(currentStudent.getEmail());
             } else {
@@ -174,14 +169,12 @@ public class StudentProfile extends Fragment {
                 tvProfilePhone.setText("No phone provided");
             }
 
-            // Personal Information
             if (currentStudent.getDateOfBirth() != null && !currentStudent.getDateOfBirth().trim().isEmpty()) {
                 tvProfileDob.setText(currentStudent.getDateOfBirth());
             } else {
                 tvProfileDob.setText("Not provided");
             }
 
-            // Address
             String fullAddress = buildAddress();
             if (!fullAddress.isEmpty()) {
                 tvProfileAddress.setText(fullAddress);
@@ -189,7 +182,6 @@ public class StudentProfile extends Fragment {
                 tvProfileAddress.setText("No address provided");
             }
 
-            // Academic Information
             if (currentStudent.getFaculty() != null && !currentStudent.getFaculty().trim().isEmpty()) {
                 tvProfileProgram.setText(currentStudent.getFaculty());
                 chipFaculty.setText(currentStudent.getFaculty());
@@ -210,17 +202,13 @@ public class StudentProfile extends Fragment {
                 tvSemesterValue.setText("N/A");
             }
 
-            // Enrollment/Graduation Date
             if (currentStudent.getEnrollmentDate() != null && !currentStudent.getEnrollmentDate().trim().isEmpty()) {
                 tvProfileGraduation.setText("Enrolled: " + currentStudent.getEnrollmentDate());
             } else {
                 tvProfileGraduation.setText("Enrollment date not available");
             }
 
-            // Load profile photo
             loadProfilePhoto();
-
-            // Set default academic advisor and stats
             setDefaultAdvisor();
             setDefaultStats();
 
@@ -274,20 +262,16 @@ public class StudentProfile extends Fragment {
                     Log.d(TAG, "Profile photo loaded successfully");
                 } else {
                     Log.d(TAG, "Could not load profile photo from path: " + currentStudent.getPhotoUri());
-                    // Keep default image
                 }
             } else {
                 Log.d(TAG, "No profile photo path available");
-                // Keep default image
             }
         } catch (Exception e) {
             Log.e(TAG, "Error loading profile photo: " + e.getMessage());
-            // Keep default image
         }
     }
 
     private void setDefaultStats() {
-        // Set default GPA and credits - you can modify these based on your requirements
         tvGpaValue.setText("3.8");
         tvCreditsValue.setText("68");
     }
@@ -313,28 +297,36 @@ public class StudentProfile extends Fragment {
                 showHelp();
             }
         });
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logout();
+            }
+        });
     }
 
     private void openSettings() {
-        // TODO: Implement settings functionality
         Toast.makeText(getContext(), "Settings clicked", Toast.LENGTH_SHORT).show();
     }
 
     private void editProfile() {
-
         FragmentTransaction transaction = requireActivity()
                 .getSupportFragmentManager()
                 .beginTransaction();
         transaction.replace(R.id.framelayout, new StudentProfileEdit());
         transaction.addToBackStack(null);
         transaction.commit();
-
-
     }
 
     private void showHelp() {
-        // TODO: Implement help functionality
         Toast.makeText(getContext(), "Help clicked", Toast.LENGTH_SHORT).show();
+    }
+
+    private void logout() {
+        Intent intent = new Intent(getActivity(), Logout.class);
+        startActivity(intent);
+        getActivity().finish();
     }
 
     private void showErrorMessage(String message) {
@@ -347,14 +339,12 @@ public class StudentProfile extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Reload data when fragment becomes visible
         loadStudentData();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        // Close database connection
         if (databaseHelper != null) {
             databaseHelper.close();
         }
