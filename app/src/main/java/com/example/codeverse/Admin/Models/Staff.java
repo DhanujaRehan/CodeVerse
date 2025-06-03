@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Staff implements Serializable {
     private long id;
 
-    // Personal Information
+
     private String fullName;
     private String email;
     private String contactNumber;
@@ -14,24 +14,24 @@ public class Staff implements Serializable {
     private String dateOfBirth;
     private String photoUri;
 
-    // Professional Information
+
     private String position;
     private String department;
     private String teachingSubject;
     private String programCoordinating;
 
-    // Educational Qualifications
+
     private String highestQualification;
     private String fieldOfStudy;
     private String university;
     private String graduationYear;
     private String experienceYears;
 
-    // Timestamps
+
     private String createdAt;
     private String updatedAt;
 
-    // Constructors
+
     public Staff() {}
 
     public Staff(String fullName, String email, String contactNumber, String nicNumber,
@@ -45,7 +45,7 @@ public class Staff implements Serializable {
         this.position = position;
     }
 
-    // Getters and Setters
+
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
 
