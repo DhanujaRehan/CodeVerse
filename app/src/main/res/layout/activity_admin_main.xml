@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="MainActivity"
+    android:name=".Admin.Activities.AdminMainActivity"
+    android:exported="false"
     android:background="@color/white"
     android:backgroundTint="@color/white"
     app:background="@color/white">
