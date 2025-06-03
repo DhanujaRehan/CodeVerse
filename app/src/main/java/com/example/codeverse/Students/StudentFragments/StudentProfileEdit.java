@@ -17,7 +17,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.codeverse.R;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.Students.Models.Student;
-import com.example.codeverse.Utils.StudentSessionManager;
+import com.example.codeverse.Students.Utils.StudentSessionManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;

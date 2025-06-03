@@ -1,4 +1,4 @@
-package com.example.codeverse.Utils;
+package com.example.codeverse.Students.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

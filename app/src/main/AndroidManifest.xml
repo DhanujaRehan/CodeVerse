@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".LogoutStaff"
+            android:name=".LoginScreens.LogoutStaff"
             android:exported="false" />
         <activity
             android:name=".LoginScreens.Logout"

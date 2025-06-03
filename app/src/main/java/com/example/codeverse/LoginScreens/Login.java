@@ -8,15 +8,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.codeverse.Admin.Activities.AdminMainActivity;
-import com.example.codeverse.MainActivity;
 import com.example.codeverse.Students.Activities.StudentMainActivity;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
 import com.example.codeverse.Students.Models.Student;
 import com.example.codeverse.Admin.Models.Staff;
-import com.example.codeverse.Utils.StudentSessionManager;
-import com.example.codeverse.StaffSessionManager;
-import com.example.codeverse.LoginScreens.LoadingScreen;
+import com.example.codeverse.Students.Utils.StudentSessionManager;
+import com.example.codeverse.Staff.Utils.StaffSessionManager;
 import com.example.codeverse.databinding.ActivityLoginBinding;
 
 public class Login extends AppCompatActivity {

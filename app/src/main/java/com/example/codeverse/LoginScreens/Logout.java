@@ -8,7 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.codeverse.R;
-import com.example.codeverse.Utils.StudentSessionManager;
+import com.example.codeverse.Students.Utils.StudentSessionManager;
 
 public class Logout extends AppCompatActivity {
 
