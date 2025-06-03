@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="6dp"
+    android:clickable="true"
+    android:focusable="true"
+    app:cardBackgroundColor="#FAFAFA"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:rippleColor="#336A11CB">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:cardBackgroundColor="#E8F5E9"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="28dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_calender"
+                app:tint="#4CAF50" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/tv_week_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Week 1 - January 2025"
+            android:textColor="#333333"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toStartOf="@id/btn_download"
+            app:layout_constraintStart_toEndOf="@id/cv_icon"
+            app:layout_constraintTop_toTopOf="@id/cv_icon" />
+
+        <TextView
+            android:id="@+id/tv_date_range"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Jan 6 - Jan 12, 2025"
+            android:textColor="#666666"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toStartOf="@id/btn_download"
+            app:layout_constraintStart_toEndOf="@id/cv_icon"
+            app:layout_constraintTop_toBottomOf="@id/tv_week_title" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_download"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:backgroundTint="#6A11CB"
+            app:icon="@drawable/ic_download"
+            app:iconGravity="textStart"
+            app:iconTint="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="@id/cv_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/cv_icon" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@id/btn_download"
+            app:layout_constraintStart_toEndOf="@id/cv_icon"
+            app:layout_constraintTop_toBottomOf="@id/tv_date_range">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="Available"
+                android:textColor="#4CAF50"
+                android:textSize="12sp"
+                app:chipBackgroundColor="#E8F5E9"
+                app:chipCornerRadius="12dp"
+                app:chipMinHeight="24dp"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.1 MB"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                app:chipBackgroundColor="#F5F5F5"
+                app:chipCornerRadius="12dp"
+                app:chipMinHeight="24dp"
+                app:chipStrokeWidth="0dp" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

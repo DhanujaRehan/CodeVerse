@@ -9,13 +9,13 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Admin.Fragments.AdminSendNotification;
-import com.example.codeverse.StudentListFragment;
 import com.example.codeverse.Students.StudentFragments.AdmissionDownload;
 import com.example.codeverse.Students.StudentFragments.RecieptUpload;
 import com.example.codeverse.Students.StudentFragments.StudentClass;
 import com.example.codeverse.Admin.Fragments.CreateStudent;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.StudentFragments.StudentProfile;
+import com.example.codeverse.TimetableDownloadFragment;
 import com.example.codeverse.databinding.ActivityAdminMainBinding;
 
 public class AdminMainActivity extends AppCompatActivity {
@@ -32,7 +32,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.framelayout, new StudentListFragment())
+                    .replace(R.id.framelayout, new TimetableDownloadFragment())
                     .commit();
         }
 
@@ -40,7 +40,7 @@ public class AdminMainActivity extends AppCompatActivity {
             int itemid = item.getItemId();
             if (itemid == R.id.navhome) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new StudentListFragment())
+                        .replace(R.id.framelayout, new TimetableDownloadFragment())
                         .commit();
             }
             else if (itemid == R.id.navassignments){
