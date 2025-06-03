@@ -21,14 +21,14 @@ import java.util.Locale;
 
 public class StudentDatabaseHelper extends SQLiteOpenHelper {
 
-    // Database Info
+
     private static final String DATABASE_NAME = "StudentDetails.db";
     private static final int DATABASE_VERSION = 1;
 
-    // Table Names
+
     private static final String TABLE_STUDENTS = "StudentDetails";
 
-    // Student Table Columns
+
     private static final String KEY_ID = "id";
     private static final String KEY_FULL_NAME = "full_name";
     private static final String KEY_UNIVERSITY_ID = "university_id";
@@ -37,13 +37,13 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_GENDER = "gender";
     private static final String KEY_PHOTO_URI = "photo_uri";
 
-    // Academic Information Columns
+
     private static final String KEY_FACULTY = "faculty";
     private static final String KEY_BATCH = "batch";
     private static final String KEY_SEMESTER = "semester";
     private static final String KEY_ENROLLMENT_DATE = "enrollment_date";
 
-    // Contact Information Columns
+
     private static final String KEY_MOBILE_NUMBER = "mobile_number";
     private static final String KEY_ALTERNATE_NUMBER = "alternate_number";
     private static final String KEY_PERMANENT_ADDRESS = "permanent_address";
@@ -51,12 +51,12 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_PROVINCE = "province";
     private static final String KEY_POSTAL_CODE = "postal_code";
 
-    // Emergency Contact Information Columns
+
     private static final String KEY_EMERGENCY_NAME = "emergency_name";
     private static final String KEY_EMERGENCY_RELATIONSHIP = "emergency_relationship";
     private static final String KEY_EMERGENCY_NUMBER = "emergency_number";
 
-    // Account Information Columns
+
     private static final String KEY_EMAIL = "email";
     private static final String KEY_USERNAME = "username";
     private static final String KEY_PASSWORD = "password";
@@ -71,7 +71,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    // Called when the database is created for the FIRST time.
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_STUDENTS_TABLE = "CREATE TABLE " + TABLE_STUDENTS +
@@ -111,13 +111,13 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion != newVersion) {
-            // Simplest implementation is to drop all old tables and recreate them
+
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_STUDENTS);
             onCreate(db);
         }
     }
 
-    // Insert a student into the database
+
     public long insertStudent(Student student) {
         SQLiteDatabase db = getWritableDatabase();
         long studentId = -1;
@@ -132,13 +132,13 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_GENDER, student.getGender());
             values.put(KEY_PHOTO_URI, student.getPhotoUri());
 
-            // Academic Information
+
             values.put(KEY_FACULTY, student.getFaculty());
             values.put(KEY_BATCH, student.getBatch());
             values.put(KEY_SEMESTER, student.getSemester());
             values.put(KEY_ENROLLMENT_DATE, student.getEnrollmentDate());
 
-            // Contact Information
+
             values.put(KEY_MOBILE_NUMBER, student.getMobileNumber());
             values.put(KEY_ALTERNATE_NUMBER, student.getAlternateNumber());
             values.put(KEY_PERMANENT_ADDRESS, student.getPermanentAddress());
@@ -146,18 +146,18 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_PROVINCE, student.getProvince());
             values.put(KEY_POSTAL_CODE, student.getPostalCode());
 
-            // Emergency Contact Information
+
             values.put(KEY_EMERGENCY_NAME, student.getEmergencyName());
             values.put(KEY_EMERGENCY_RELATIONSHIP, student.getEmergencyRelationship());
             values.put(KEY_EMERGENCY_NUMBER, student.getEmergencyNumber());
 
-            // Account Information
+
             values.put(KEY_EMAIL, student.getEmail());
             values.put(KEY_USERNAME, student.getUsername());
             values.put(KEY_PASSWORD, student.getPassword());
             values.put(KEY_TERMS_ACCEPTED, student.isTermsAccepted() ? 1 : 0);
 
-            // Get current timestamp
+
             String currentTimestamp = getCurrentTimestamp();
             values.put(KEY_CREATED_AT, currentTimestamp);
             values.put(KEY_UPDATED_AT, currentTimestamp);
@@ -175,7 +175,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return studentId;
     }
 
-    // Get a student by ID
+
     public Student getStudentById(long studentId) {
         SQLiteDatabase db = getReadableDatabase();
         Student student = null;
@@ -200,7 +200,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return student;
     }
 
-    // Get all students
+
     public List<Student> getAllStudent() {
         List<Student> students = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -228,7 +228,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return students;
     }
 
-    // Update a student
+
     public int updateStudent(Student student) {
         SQLiteDatabase db = getWritableDatabase();
         int rowsAffected = 0;
@@ -243,13 +243,13 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_GENDER, student.getGender());
             values.put(KEY_PHOTO_URI, student.getPhotoUri());
 
-            // Academic Information
+
             values.put(KEY_FACULTY, student.getFaculty());
             values.put(KEY_BATCH, student.getBatch());
             values.put(KEY_SEMESTER, student.getSemester());
             values.put(KEY_ENROLLMENT_DATE, student.getEnrollmentDate());
 
-            // Contact Information
+
             values.put(KEY_MOBILE_NUMBER, student.getMobileNumber());
             values.put(KEY_ALTERNATE_NUMBER, student.getAlternateNumber());
             values.put(KEY_PERMANENT_ADDRESS, student.getPermanentAddress());
@@ -257,12 +257,12 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_PROVINCE, student.getProvince());
             values.put(KEY_POSTAL_CODE, student.getPostalCode());
 
-            // Emergency Contact Information
+
             values.put(KEY_EMERGENCY_NAME, student.getEmergencyName());
             values.put(KEY_EMERGENCY_RELATIONSHIP, student.getEmergencyRelationship());
             values.put(KEY_EMERGENCY_NUMBER, student.getEmergencyNumber());
 
-            // Account Information
+
             values.put(KEY_EMAIL, student.getEmail());
             values.put(KEY_USERNAME, student.getUsername());
             values.put(KEY_PASSWORD, student.getPassword());
@@ -284,7 +284,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected;
     }
 
-    // Update only account details for a student
+
     public int updateStudentAccountDetails(long studentId, String email, String username,
                                            String password, boolean termsAccepted) {
         SQLiteDatabase db = getWritableDatabase();
@@ -313,7 +313,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected;
     }
 
-    // Update only contact details for a student
+
     public int updateStudentContactDetails(long studentId, String mobileNumber, String alternateNumber,
                                            String permanentAddress, String city, String province, String postalCode,
                                            String emergencyName, String emergencyRelationship, String emergencyNumber) {
@@ -348,8 +348,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected;
     }
 
-    // Update only academic details for a student
-    // Enhanced version of updateStudentAcademicDetails method for debugging
+
     public int updateStudentAcademicDetails(long studentId, String faculty,
                                             String batch, String semester, String enrollmentDate) {
         SQLiteDatabase db = getWritableDatabase();
@@ -371,7 +370,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_ENROLLMENT_DATE, enrollmentDate);
             values.put(KEY_UPDATED_AT, getCurrentTimestamp());
 
-            // Add debugging to check what we're updating
+
             Log.d(TAG, "Executing update query for student ID: " + studentId);
 
             rowsAffected = db.update(TABLE_STUDENTS, values, KEY_ID + " = ?",
@@ -381,7 +380,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
                 db.setTransactionSuccessful();
                 Log.d(TAG, "Student academic details updated successfully. Rows affected: " + rowsAffected);
 
-                // Verify the update by querying the record
+
                 verifyAcademicUpdate(db, studentId, faculty, batch, semester, enrollmentDate);
             } else {
                 Log.e(TAG, "No rows affected during update. Student ID might not exist: " + studentId);
@@ -396,7 +395,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected;
     }
 
-    // Helper method to verify the academic details were actually saved
+
     private void verifyAcademicUpdate(SQLiteDatabase db, long studentId, String expectedFaculty,
                                       String expectedBatch, String expectedSemester, String expectedEnrollmentDate) {
         String verifyQuery = "SELECT " + KEY_FACULTY + ", " + KEY_BATCH + ", " +
@@ -426,7 +425,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Delete a student by ID
+
     public void deleteStudent(long studentId) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -442,13 +441,13 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Delete a student object (with photo cleanup)
+
     public void deleteStudentWithPhotoCleanup(StudentModel student) {
         SQLiteDatabase db = getWritableDatabase();
 
         db.beginTransaction();
         try {
-            // Delete the photo file first
+
             if (student.getPhotoUri() != null && !student.getPhotoUri().isEmpty()) {
                 File photoFile = new File(student.getPhotoUri());
                 if (photoFile.exists()) {
@@ -457,7 +456,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
                 }
             }
 
-            // Delete from database
+
             int rowsDeleted = db.delete(TABLE_STUDENTS, KEY_ID + " = ?", new String[]{String.valueOf(student.getId())});
             db.setTransactionSuccessful();
             Log.d(TAG, "Student deleted from database. Rows affected: " + rowsDeleted);
@@ -468,7 +467,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Check if University ID already exists
+
     public boolean isUniversityIdExists(String universityId) {
         SQLiteDatabase db = getReadableDatabase();
         boolean exists = false;
@@ -490,7 +489,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Check if Email already exists
+
     public boolean isEmailExists(String email) {
         SQLiteDatabase db = getReadableDatabase();
         boolean exists = false;
@@ -512,7 +511,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Check if Username already exists
+
     public boolean isUsernameExists(String username) {
         SQLiteDatabase db = getReadableDatabase();
         boolean exists = false;
@@ -534,7 +533,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Check if NIC number already exists
+
     public boolean isNicExists(String nicNumber) {
         SQLiteDatabase db = getReadableDatabase();
         boolean exists = false;
@@ -556,7 +555,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Search students by name or university ID
+
     public List<Student> searchStudent(String searchQuery) {
         List<Student> students = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -587,7 +586,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return students;
     }
 
-    // Get student count
+
     public int getStudentCount() {
         SQLiteDatabase db = getReadableDatabase();
         int count = 0;
@@ -610,7 +609,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    // Delete all students
+
     public void deleteAllStudent() {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -626,9 +625,9 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Method to clean up orphaned image files
+
     public void cleanupOrphanedImages(Context context) {
-        // Get all photo paths from database
+
         List<String> dbPhotoPaths = new ArrayList<>();
         String query = "SELECT " + KEY_PHOTO_URI + " FROM " + TABLE_STUDENTS + " WHERE " + KEY_PHOTO_URI + " IS NOT NULL";
         SQLiteDatabase db = getReadableDatabase();
@@ -649,7 +648,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
             }
         }
 
-        // Check files in student_photos directory
+
         File photosDir = new File(context.getFilesDir(), "student_photos");
         if (photosDir.exists() && photosDir.isDirectory()) {
             File[] files = photosDir.listFiles();
@@ -657,7 +656,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
                 for (File file : files) {
                     String filePath = file.getAbsolutePath();
                     if (!dbPhotoPaths.contains(filePath)) {
-                        // This file is not referenced in database, delete it
+
                         boolean deleted = file.delete();
                         Log.d(TAG, "Orphaned image deleted: " + deleted + " - " + filePath);
                     }
@@ -666,7 +665,7 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Helper method to get Student object from cursor
+
     private Student getStudentFromCursor(Cursor cursor) {
         Student student = new Student();
 
@@ -678,13 +677,13 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         student.setGender(cursor.getString(cursor.getColumnIndexOrThrow(KEY_GENDER)));
         student.setPhotoUri(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PHOTO_URI)));
 
-        // Academic Information
+
         student.setFaculty(cursor.getString(cursor.getColumnIndexOrThrow(KEY_FACULTY)));
         student.setBatch(cursor.getString(cursor.getColumnIndexOrThrow(KEY_BATCH)));
         student.setSemester(cursor.getString(cursor.getColumnIndexOrThrow(KEY_SEMESTER)));
         student.setEnrollmentDate(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ENROLLMENT_DATE)));
 
-        // Contact Information
+
         student.setMobileNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_MOBILE_NUMBER)));
         student.setAlternateNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_ALTERNATE_NUMBER)));
         student.setPermanentAddress(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PERMANENT_ADDRESS)));
@@ -692,12 +691,12 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         student.setProvince(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PROVINCE)));
         student.setPostalCode(cursor.getString(cursor.getColumnIndexOrThrow(KEY_POSTAL_CODE)));
 
-        // Emergency Contact Information
+
         student.setEmergencyName(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_NAME)));
         student.setEmergencyRelationship(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_RELATIONSHIP)));
         student.setEmergencyNumber(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMERGENCY_NUMBER)));
 
-        // Account Information
+
         student.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(KEY_EMAIL)));
         student.setUsername(cursor.getString(cursor.getColumnIndexOrThrow(KEY_USERNAME)));
         student.setPassword(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PASSWORD)));
@@ -709,13 +708,13 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         return student;
     }
 
-    // Helper method to get current timestamp
+
     private String getCurrentTimestamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());
     }
 
-    // Method to get student photo as Bitmap
+
     public static Bitmap getStudentPhoto(String photoPath) {
         if (photoPath == null || photoPath.isEmpty()) {
             return null;
