@@ -143,7 +143,7 @@ public class NotificationHistoryActivity extends AppCompatActivity implements
         history1.setCategory("Examination");
         history1.setRecipients("All Students");
         history1.setStatus("sent");
-        history1.setSentAt(System.currentTimeMillis() - 86400000); // 1 day ago
+        history1.setSentAt(System.currentTimeMillis() - 86400000);
         history1.setDeliveredCount(245);
         history1.setReadCount(180);
         history1.setPushSent(true);
@@ -159,7 +159,7 @@ public class NotificationHistoryActivity extends AppCompatActivity implements
         history2.setCategory("Library");
         history2.setRecipients("All Users");
         history2.setStatus("sent");
-        history2.setSentAt(System.currentTimeMillis() - 172800000); // 2 days ago
+        history2.setSentAt(System.currentTimeMillis() - 172800000);
         history2.setDeliveredCount(320);
         history2.setReadCount(280);
         history2.setPushSent(true);
@@ -175,7 +175,7 @@ public class NotificationHistoryActivity extends AppCompatActivity implements
         history3.setCategory("Emergency");
         history3.setRecipients("All Users");
         history3.setStatus("pending");
-        history3.setSentAt(System.currentTimeMillis() - 3600000); // 1 hour ago
+        history3.setSentAt(System.currentTimeMillis() - 3600000);
         history3.setDeliveredCount(0);
         history3.setReadCount(0);
         history3.setPushSent(true);
