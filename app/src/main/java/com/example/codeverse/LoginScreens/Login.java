@@ -16,7 +16,6 @@ import com.example.codeverse.Students.Models.Student;
 import com.example.codeverse.Admin.Models.Staff;
 import com.example.codeverse.Utils.StudentSessionManager;
 import com.example.codeverse.StaffSessionManager;
-import com.example.codeverse.LoginScreens.LoadingScreen;
 import com.example.codeverse.databinding.ActivityLoginBinding;
 
 public class Login extends AppCompatActivity {
@@ -107,6 +106,7 @@ public class Login extends AppCompatActivity {
 
                 Intent intent = new Intent(Login.this, LoadingScreen.class);
                 intent.putExtra("nextActivity", "AdminMainActivity");
+                intent.putExtra("username", staff.getFullName());
                 startActivity(intent);
                 finish();
             } else {

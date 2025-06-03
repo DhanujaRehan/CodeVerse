@@ -146,17 +146,23 @@ public class LoadingScreen extends AppCompatActivity {
         progressIndicator.setProgress(100);
 
         new Handler().postDelayed(() -> {
-            Intent intent;
+            try {
+                Intent intent;
 
-            if ("AdminMainActivity".equals(nextActivity)) {
-                intent = new Intent(LoadingScreen.this, AdminMainActivity.class);
-            } else {
-                intent = new Intent(LoadingScreen.this, MainActivity.class);
+                if ("AdminMainActivity".equals(nextActivity)) {
+                    intent = new Intent(LoadingScreen.this, AdminMainActivity.class);
+                } else {
+                    intent = new Intent(LoadingScreen.this, MainActivity.class);
+                }
+
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            } catch (Exception e) {
+                Intent fallback = new Intent(LoadingScreen.this, MainActivity.class);
+                startActivity(fallback);
+                finish();
             }
-
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-            finish();
         }, 1500);
     }
 }
