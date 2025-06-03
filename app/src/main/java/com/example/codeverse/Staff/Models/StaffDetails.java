@@ -23,14 +23,14 @@ public class StaffDetails {
     private String createdDate;
     private String updatedDate;
 
-    // Default constructor
+
     public StaffDetails() {
-        // Initialize with default values
+
         this.yearsService = 0;
         this.publications = 0;
     }
 
-    // Constructor with required fields
+
     public StaffDetails(String staffId, String name, String department, String position) {
         this();
         this.staffId = staffId;
@@ -39,7 +39,7 @@ public class StaffDetails {
         this.position = position;
     }
 
-    // Full constructor
+
     public StaffDetails(String staffId, String name, String department, String position,
                         String email, String phone, String officeHours, String officeLocation,
                         String specialization, int yearsService, String education) {
@@ -53,7 +53,7 @@ public class StaffDetails {
         this.education = education;
     }
 
-    // Getters and Setters
+
     public int getId() {
         return id;
     }
@@ -222,7 +222,7 @@ public class StaffDetails {
         this.updatedDate = updatedDate;
     }
 
-    // Helper methods
+
     public String getDisplayName() {
         return name != null ? name : "Unknown";
     }
@@ -235,7 +235,7 @@ public class StaffDetails {
         return publications + " publications";
     }
 
-    // Validation methods
+
     public boolean isValidEmail() {
         return email != null && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }

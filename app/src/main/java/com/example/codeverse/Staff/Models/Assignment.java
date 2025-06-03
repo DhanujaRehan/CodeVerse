@@ -1,23 +1,23 @@
 package com.example.codeverse.Staff.Models;
 
-// Assignment.java
+
 public class Assignment {
     private int id;
     private String module;
     private String title;
-    private String type; // Coursework, Exam, Project, Quiz
+    private String type;
     private String description;
     private String releaseDate;
     private String dueDate;
     private int weighting;
-    private String filePath; // Path to uploaded file
+    private String filePath;
     private String targetGroups;
     private boolean notifyStudents;
     private boolean enableReminders;
-    private String status; // Draft, Published
+    private String status;
     private long createdAt;
 
-    // Default constructor
+
     public Assignment() {
         this.createdAt = System.currentTimeMillis();
         this.status = "Draft";
@@ -25,7 +25,7 @@ public class Assignment {
         this.enableReminders = true;
     }
 
-    // Constructor with all fields
+
     public Assignment(int id, String module, String title, String type, String description,
                       String releaseDate, String dueDate, int weighting, String filePath,
                       String targetGroups, boolean notifyStudents, boolean enableReminders,
@@ -46,7 +46,7 @@ public class Assignment {
         this.createdAt = createdAt;
     }
 
-    // Getters
+
     public int getId() { return id; }
     public String getModule() { return module; }
     public String getTitle() { return title; }
@@ -62,7 +62,7 @@ public class Assignment {
     public String getStatus() { return status; }
     public long getCreatedAt() { return createdAt; }
 
-    // Setters
+
     public void setId(int id) { this.id = id; }
     public void setModule(String module) { this.module = module; }
     public void setTitle(String title) { this.title = title; }
