@@ -16,6 +16,7 @@ import com.example.codeverse.Students.StudentFragments.RecieptUpload;
 import com.example.codeverse.Students.StudentFragments.StudentClass;
 import com.example.codeverse.Admin.Fragments.CreateStudent;
 import com.example.codeverse.R;
+import com.example.codeverse.Students.StudentFragments.StudentProfile;
 import com.example.codeverse.databinding.ActivityAdminMainBinding;
 import com.example.codeverse.databinding.ActivityStudentMainBinding;
 
@@ -33,7 +34,7 @@ public class StudentMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.framelayout, new RecieptUpload())
+                    .replace(R.id.framelayout, new StudentProfile())
                     .commit();
         }
 
@@ -41,7 +42,7 @@ public class StudentMainActivity extends AppCompatActivity {
             int itemid = item.getItemId();
             if (itemid == R.id.navhome) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new AssignmentUpload())
+                        .replace(R.id.framelayout, new StudentProfile())
                         .commit();
             }
             else if (itemid == R.id.navassignments){

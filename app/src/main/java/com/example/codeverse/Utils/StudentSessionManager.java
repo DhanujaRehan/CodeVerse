@@ -15,6 +15,24 @@ public class StudentSessionManager {
     private static final String KEY_FACULTY = "faculty";
     private static final String KEY_IS_LOGGED_IN = "is_logged_in";
 
+    // Additional keys for complete student data
+    private static final String KEY_NIC_NUMBER = "nic_number";
+    private static final String KEY_DATE_OF_BIRTH = "date_of_birth";
+    private static final String KEY_GENDER = "gender";
+    private static final String KEY_PHOTO_URI = "photo_uri";
+    private static final String KEY_SEMESTER = "semester";
+    private static final String KEY_ENROLLMENT_DATE = "enrollment_date";
+    private static final String KEY_MOBILE_NUMBER = "mobile_number";
+    private static final String KEY_ALTERNATE_NUMBER = "alternate_number";
+    private static final String KEY_PERMANENT_ADDRESS = "permanent_address";
+    private static final String KEY_CITY = "city";
+    private static final String KEY_PROVINCE = "province";
+    private static final String KEY_POSTAL_CODE = "postal_code";
+    private static final String KEY_EMERGENCY_NAME = "emergency_name";
+    private static final String KEY_EMERGENCY_RELATIONSHIP = "emergency_relationship";
+    private static final String KEY_EMERGENCY_NUMBER = "emergency_number";
+    private static final String KEY_USERNAME = "username";
+
     private SharedPreferences prefs;
     private SharedPreferences.Editor editor;
     private Context context;
@@ -33,6 +51,25 @@ public class StudentSessionManager {
         editor.putString(KEY_EMAIL, student.getEmail());
         editor.putString(KEY_BATCH, student.getBatch());
         editor.putString(KEY_FACULTY, student.getFaculty());
+
+        // Store additional student data
+        editor.putString(KEY_NIC_NUMBER, student.getNicNumber());
+        editor.putString(KEY_DATE_OF_BIRTH, student.getDateOfBirth());
+        editor.putString(KEY_GENDER, student.getGender());
+        editor.putString(KEY_PHOTO_URI, student.getPhotoUri());
+        editor.putString(KEY_SEMESTER, student.getSemester());
+        editor.putString(KEY_ENROLLMENT_DATE, student.getEnrollmentDate());
+        editor.putString(KEY_MOBILE_NUMBER, student.getMobileNumber());
+        editor.putString(KEY_ALTERNATE_NUMBER, student.getAlternateNumber());
+        editor.putString(KEY_PERMANENT_ADDRESS, student.getPermanentAddress());
+        editor.putString(KEY_CITY, student.getCity());
+        editor.putString(KEY_PROVINCE, student.getProvince());
+        editor.putString(KEY_POSTAL_CODE, student.getPostalCode());
+        editor.putString(KEY_EMERGENCY_NAME, student.getEmergencyName());
+        editor.putString(KEY_EMERGENCY_RELATIONSHIP, student.getEmergencyRelationship());
+        editor.putString(KEY_EMERGENCY_NUMBER, student.getEmergencyNumber());
+        editor.putString(KEY_USERNAME, student.getUsername());
+
         editor.apply();
     }
 
@@ -62,6 +99,71 @@ public class StudentSessionManager {
 
     public String getFaculty() {
         return prefs.getString(KEY_FACULTY, "");
+    }
+
+    /**
+     * Get complete student details from session
+     * @return Student object with all stored data or null if not logged in
+     */
+    public Student getStudentDetails() {
+        if (!isLoggedIn()) {
+            return null;
+        }
+
+        Student student = new Student();
+
+        // Basic info
+        student.setId(prefs.getLong(KEY_STUDENT_ID, -1));
+        student.setFullName(prefs.getString(KEY_STUDENT_NAME, ""));
+        student.setUniversityId(prefs.getString(KEY_UNIVERSITY_ID, ""));
+        student.setNicNumber(prefs.getString(KEY_NIC_NUMBER, ""));
+        student.setDateOfBirth(prefs.getString(KEY_DATE_OF_BIRTH, ""));
+        student.setGender(prefs.getString(KEY_GENDER, ""));
+        student.setPhotoUri(prefs.getString(KEY_PHOTO_URI, ""));
+
+        // Academic info
+        student.setFaculty(prefs.getString(KEY_FACULTY, ""));
+        student.setBatch(prefs.getString(KEY_BATCH, ""));
+        student.setSemester(prefs.getString(KEY_SEMESTER, ""));
+        student.setEnrollmentDate(prefs.getString(KEY_ENROLLMENT_DATE, ""));
+
+        // Contact info
+        student.setMobileNumber(prefs.getString(KEY_MOBILE_NUMBER, ""));
+        student.setAlternateNumber(prefs.getString(KEY_ALTERNATE_NUMBER, ""));
+        student.setPermanentAddress(prefs.getString(KEY_PERMANENT_ADDRESS, ""));
+        student.setCity(prefs.getString(KEY_CITY, ""));
+        student.setProvince(prefs.getString(KEY_PROVINCE, ""));
+        student.setPostalCode(prefs.getString(KEY_POSTAL_CODE, ""));
+
+        // Emergency contact
+        student.setEmergencyName(prefs.getString(KEY_EMERGENCY_NAME, ""));
+        student.setEmergencyRelationship(prefs.getString(KEY_EMERGENCY_RELATIONSHIP, ""));
+        student.setEmergencyNumber(prefs.getString(KEY_EMERGENCY_NUMBER, ""));
+
+        // Account info
+        student.setEmail(prefs.getString(KEY_EMAIL, ""));
+        student.setUsername(prefs.getString(KEY_USERNAME, ""));
+
+        return student;
+    }
+
+    /**
+     * Update session data with new student information
+     * @param student Updated student object
+     */
+    public void updateStudentSession(Student student) {
+        if (student != null) {
+            createLoginSession(student);
+        }
+    }
+
+    /**
+     * Check if a specific student is currently logged in
+     * @param studentId Student ID to check
+     * @return true if the specified student is logged in
+     */
+    public boolean isStudentLoggedIn(long studentId) {
+        return isLoggedIn() && getStudentId() == studentId;
     }
 
     public void logoutUser() {

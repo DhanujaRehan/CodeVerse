@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -16,27 +18,33 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.codeverse.R;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.Students.Models.Student;
+import com.example.codeverse.Utils.StudentSessionManager;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class StudentProfile extends Fragment {
 
+    private static final String TAG = "StudentProfile";
+
+    // Lottie Animation Views
     private LottieAnimationView ivBack, ivSettings, gpaProgress, creditsProgress, coursesCounter;
     private LottieAnimationView userInfoAnimation, emailAnimation, phoneAnimation, calendarAnimation;
     private LottieAnimationView mapPinAnimation, academicCapAnimation, computerAnimation;
     private LottieAnimationView levelUpAnimation, advisorAnimation, academicCapAnimation2;
 
+    // UI Components
     private ImageView ivProfilePic;
     private TextView tvProfileName, tvProfileStudentId, tvProfileEmail, tvProfilePhone;
     private TextView tvProfileDob, tvProfileAddress, tvProfileProgram, tvProfileYear;
     private TextView tvProfileAdvisor, tvProfileGraduation, tvGpaValue, tvCreditsValue, tvSemesterValue;
     private Chip chipFaculty;
     private FloatingActionButton fabEditProfile, fabHelp;
-    private MaterialCardView  cvSettings;
+    private MaterialCardView cvSettings;
 
+    // Database and Session Management
     private StudentDatabaseHelper databaseHelper;
-    private SharedPreferences sharedPreferences;
+    private StudentSessionManager sessionManager;
     private Student currentStudent;
 
     @Override
@@ -52,13 +60,15 @@ public class StudentProfile extends Fragment {
     }
 
     private void initViews(View view) {
+        // Initialize Lottie animations
         ivBack = view.findViewById(R.id.iv_back);
         ivSettings = view.findViewById(R.id.iv_settings);
-        ivProfilePic = view.findViewById(R.id.iv_profile_pic);
-
         gpaProgress = view.findViewById(R.id.gpa_progress);
         creditsProgress = view.findViewById(R.id.credits_progress);
         coursesCounter = view.findViewById(R.id.courses_counter);
+
+        // Initialize UI components
+        ivProfilePic = view.findViewById(R.id.iv_profile_pic);
 
         tvProfileName = view.findViewById(R.id.tv_profile_name);
         tvProfileStudentId = view.findViewById(R.id.tv_profile_student_id);
@@ -83,88 +93,168 @@ public class StudentProfile extends Fragment {
 
     private void initDatabase() {
         databaseHelper = new StudentDatabaseHelper(getContext());
-        sharedPreferences = getActivity().getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE);
+        sessionManager = new StudentSessionManager(getContext());
     }
 
     private void loadStudentData() {
-        long studentId = sharedPreferences.getLong("current_student_id", -1);
-
-        if (studentId != -1) {
-            currentStudent = databaseHelper.getStudentById(studentId);
-            if (currentStudent != null) {
-                populateStudentData();
+        try {
+            // Check if student is logged in using session manager
+            if (!sessionManager.isLoggedIn()) {
+                Log.e(TAG, "No student session found");
+                Toast.makeText(getContext(), "Please login again", Toast.LENGTH_SHORT).show();
+                return;
             }
+
+            // Get student ID from session and load from database
+            long studentId = sessionManager.getStudentId();
+
+            if (studentId != -1) {
+                Log.d(TAG, "Loading student from database with ID: " + studentId);
+                currentStudent = databaseHelper.getStudentById(studentId);
+
+                if (currentStudent != null) {
+                    Log.d(TAG, "Student loaded successfully: " + currentStudent.getFullName());
+                    populateStudentData();
+                } else {
+                    Log.e(TAG, "Student not found in database");
+                    showErrorMessage("Student data not found");
+                }
+            } else {
+                // Fallback: try to get from SharedPreferences
+                SharedPreferences sharedPreferences = getActivity().getSharedPreferences("StudentPrefs", Context.MODE_PRIVATE);
+                long fallbackStudentId = sharedPreferences.getLong("current_student_id", -1);
+
+                if (fallbackStudentId != -1) {
+                    Log.d(TAG, "Using fallback student ID: " + fallbackStudentId);
+                    currentStudent = databaseHelper.getStudentById(fallbackStudentId);
+
+                    if (currentStudent != null) {
+                        populateStudentData();
+                    } else {
+                        Log.e(TAG, "Student not found in database using fallback ID");
+                        showErrorMessage("Student data not found");
+                    }
+                } else {
+                    Log.e(TAG, "No student ID found in session or preferences");
+                    showErrorMessage("No student session found");
+                }
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading student data: " + e.getMessage(), e);
+            showErrorMessage("Error loading profile data");
         }
     }
 
     private void populateStudentData() {
-        if (currentStudent.getFullName() != null) {
-            tvProfileName.setText(currentStudent.getFullName());
-        }
+        try {
+            // Basic Information
+            if (currentStudent.getFullName() != null && !currentStudent.getFullName().trim().isEmpty()) {
+                tvProfileName.setText(currentStudent.getFullName());
+            } else {
+                tvProfileName.setText("N/A");
+            }
 
-        if (currentStudent.getUniversityId() != null) {
-            tvProfileStudentId.setText("Student ID: " + currentStudent.getUniversityId());
-        }
+            if (currentStudent.getUniversityId() != null && !currentStudent.getUniversityId().trim().isEmpty()) {
+                tvProfileStudentId.setText("Student ID: " + currentStudent.getUniversityId());
+            } else {
+                tvProfileStudentId.setText("Student ID: N/A");
+            }
 
-        if (currentStudent.getEmail() != null) {
-            tvProfileEmail.setText(currentStudent.getEmail());
-        }
+            // Contact Information
+            if (currentStudent.getEmail() != null && !currentStudent.getEmail().trim().isEmpty()) {
+                tvProfileEmail.setText(currentStudent.getEmail());
+            } else {
+                tvProfileEmail.setText("No email provided");
+            }
 
-        if (currentStudent.getMobileNumber() != null) {
-            tvProfilePhone.setText(currentStudent.getMobileNumber());
-        }
+            if (currentStudent.getMobileNumber() != null && !currentStudent.getMobileNumber().trim().isEmpty()) {
+                tvProfilePhone.setText(currentStudent.getMobileNumber());
+            } else {
+                tvProfilePhone.setText("No phone provided");
+            }
 
-        if (currentStudent.getDateOfBirth() != null) {
-            tvProfileDob.setText(currentStudent.getDateOfBirth());
-        }
+            // Personal Information
+            if (currentStudent.getDateOfBirth() != null && !currentStudent.getDateOfBirth().trim().isEmpty()) {
+                tvProfileDob.setText(currentStudent.getDateOfBirth());
+            } else {
+                tvProfileDob.setText("Not provided");
+            }
 
-        String fullAddress = buildAddress();
-        if (!fullAddress.isEmpty()) {
-            tvProfileAddress.setText(fullAddress);
-        }
+            // Address
+            String fullAddress = buildAddress();
+            if (!fullAddress.isEmpty()) {
+                tvProfileAddress.setText(fullAddress);
+            } else {
+                tvProfileAddress.setText("No address provided");
+            }
 
-        if (currentStudent.getFaculty() != null) {
-            tvProfileProgram.setText(currentStudent.getFaculty());
-            chipFaculty.setText(currentStudent.getFaculty());
-        }
+            // Academic Information
+            if (currentStudent.getFaculty() != null && !currentStudent.getFaculty().trim().isEmpty()) {
+                tvProfileProgram.setText(currentStudent.getFaculty());
+                chipFaculty.setText(currentStudent.getFaculty());
+            } else {
+                tvProfileProgram.setText("Faculty not assigned");
+                chipFaculty.setText("N/A");
+            }
 
-        if (currentStudent.getBatch() != null) {
-            tvProfileYear.setText("Batch " + currentStudent.getBatch());
-        }
+            if (currentStudent.getBatch() != null && !currentStudent.getBatch().trim().isEmpty()) {
+                tvProfileYear.setText("Batch " + currentStudent.getBatch());
+            } else {
+                tvProfileYear.setText("Batch not assigned");
+            }
 
-        if (currentStudent.getSemester() != null) {
-            tvSemesterValue.setText(currentStudent.getSemester());
-        }
+            if (currentStudent.getSemester() != null && !currentStudent.getSemester().trim().isEmpty()) {
+                tvSemesterValue.setText(currentStudent.getSemester());
+            } else {
+                tvSemesterValue.setText("N/A");
+            }
 
-        if (currentStudent.getEnrollmentDate() != null) {
-            tvProfileGraduation.setText(currentStudent.getEnrollmentDate());
-        }
+            // Enrollment/Graduation Date
+            if (currentStudent.getEnrollmentDate() != null && !currentStudent.getEnrollmentDate().trim().isEmpty()) {
+                tvProfileGraduation.setText("Enrolled: " + currentStudent.getEnrollmentDate());
+            } else {
+                tvProfileGraduation.setText("Enrollment date not available");
+            }
 
-        setDefaultAdvisor();
-        loadProfilePhoto();
-        setDefaultStats();
+            // Load profile photo
+            loadProfilePhoto();
+
+            // Set default academic advisor and stats
+            setDefaultAdvisor();
+            setDefaultStats();
+
+            Log.d(TAG, "Student profile populated successfully");
+
+        } catch (Exception e) {
+            Log.e(TAG, "Error populating student data: " + e.getMessage(), e);
+            showErrorMessage("Error displaying profile data");
+        }
     }
 
     private String buildAddress() {
         StringBuilder address = new StringBuilder();
 
-        if (currentStudent.getPermanentAddress() != null && !currentStudent.getPermanentAddress().isEmpty()) {
-            address.append(currentStudent.getPermanentAddress());
-        }
+        try {
+            if (currentStudent.getPermanentAddress() != null && !currentStudent.getPermanentAddress().trim().isEmpty()) {
+                address.append(currentStudent.getPermanentAddress().trim());
+            }
 
-        if (currentStudent.getCity() != null && !currentStudent.getCity().isEmpty()) {
-            if (address.length() > 0) address.append(", ");
-            address.append(currentStudent.getCity());
-        }
+            if (currentStudent.getCity() != null && !currentStudent.getCity().trim().isEmpty()) {
+                if (address.length() > 0) address.append(", ");
+                address.append(currentStudent.getCity().trim());
+            }
 
-        if (currentStudent.getProvince() != null && !currentStudent.getProvince().isEmpty()) {
-            if (address.length() > 0) address.append(", ");
-            address.append(currentStudent.getProvince());
-        }
+            if (currentStudent.getProvince() != null && !currentStudent.getProvince().trim().isEmpty()) {
+                if (address.length() > 0) address.append(", ");
+                address.append(currentStudent.getProvince().trim());
+            }
 
-        if (currentStudent.getPostalCode() != null && !currentStudent.getPostalCode().isEmpty()) {
-            if (address.length() > 0) address.append(" ");
-            address.append(currentStudent.getPostalCode());
+            if (currentStudent.getPostalCode() != null && !currentStudent.getPostalCode().trim().isEmpty()) {
+                if (address.length() > 0) address.append(" ");
+                address.append(currentStudent.getPostalCode().trim());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error building address: " + e.getMessage());
         }
 
         return address.toString();
@@ -175,22 +265,33 @@ public class StudentProfile extends Fragment {
     }
 
     private void loadProfilePhoto() {
-        if (currentStudent.getPhotoUri() != null && !currentStudent.getPhotoUri().isEmpty()) {
-            Bitmap photo = StudentDatabaseHelper.getStudentPhoto(currentStudent.getPhotoUri());
-            if (photo != null) {
-                ivProfilePic.setImageBitmap(photo);
+        try {
+            if (currentStudent.getPhotoUri() != null && !currentStudent.getPhotoUri().trim().isEmpty()) {
+                Bitmap photo = StudentDatabaseHelper.getStudentPhoto(currentStudent.getPhotoUri());
+                if (photo != null) {
+                    ivProfilePic.setImageBitmap(photo);
+                    Log.d(TAG, "Profile photo loaded successfully");
+                } else {
+                    Log.d(TAG, "Could not load profile photo from path: " + currentStudent.getPhotoUri());
+                    // Keep default image
+                }
+            } else {
+                Log.d(TAG, "No profile photo path available");
+                // Keep default image
             }
+        } catch (Exception e) {
+            Log.e(TAG, "Error loading profile photo: " + e.getMessage());
+            // Keep default image
         }
     }
 
     private void setDefaultStats() {
+        // Set default GPA and credits - you can modify these based on your requirements
         tvGpaValue.setText("3.8");
         tvCreditsValue.setText("68");
     }
 
     private void setupClickListeners() {
-
-
         cvSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -214,20 +315,40 @@ public class StudentProfile extends Fragment {
     }
 
     private void openSettings() {
-
+        // TODO: Implement settings functionality
+        Toast.makeText(getContext(), "Settings clicked", Toast.LENGTH_SHORT).show();
     }
 
     private void editProfile() {
-
+        // TODO: Implement edit profile functionality
+        Toast.makeText(getContext(), "Edit Profile clicked", Toast.LENGTH_SHORT).show();
     }
 
     private void showHelp() {
+        // TODO: Implement help functionality
+        Toast.makeText(getContext(), "Help clicked", Toast.LENGTH_SHORT).show();
+    }
 
+    private void showErrorMessage(String message) {
+        if (getContext() != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+        }
+        Log.e(TAG, message);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        // Reload data when fragment becomes visible
         loadStudentData();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        // Close database connection
+        if (databaseHelper != null) {
+            databaseHelper.close();
+        }
     }
 }
