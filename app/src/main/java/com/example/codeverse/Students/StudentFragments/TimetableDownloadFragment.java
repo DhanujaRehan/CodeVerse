@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.Manifest;
 import android.app.DownloadManager;
@@ -24,6 +24,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.codeverse.R;
+import com.example.codeverse.Students.Adapters.TimetableAdapter;
+import com.example.codeverse.Students.Helpers.DatabaseHelper;
+import com.example.codeverse.Students.Models.TimetableItem;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.progressindicator.CircularProgressIndicator;
 

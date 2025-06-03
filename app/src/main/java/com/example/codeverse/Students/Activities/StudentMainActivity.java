@@ -8,16 +8,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.codeverse.Admin.Fragments.AdminSendNotification;
-import com.example.codeverse.Admin.Fragments.StaffPersonalInfo;
 import com.example.codeverse.Lecturer.Fragments.GradeSubmission;
 import com.example.codeverse.Students.StudentFragments.AssignmentUpload;
-import com.example.codeverse.Students.StudentFragments.RecieptUpload;
-import com.example.codeverse.Students.StudentFragments.StudentClass;
-import com.example.codeverse.Admin.Fragments.CreateStudent;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.StudentFragments.StudentProfile;
-import com.example.codeverse.databinding.ActivityAdminMainBinding;
+import com.example.codeverse.Students.StudentFragments.TimetableDownloadFragment;
 import com.example.codeverse.databinding.ActivityStudentMainBinding;
 
 public class StudentMainActivity extends AppCompatActivity {
@@ -46,7 +41,7 @@ public class StudentMainActivity extends AppCompatActivity {
                         .commit();
             }
             else if (itemid == R.id.navassignments){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new AssignmentUpload()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new TimetableDownloadFragment()).commit();
             }
             else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();

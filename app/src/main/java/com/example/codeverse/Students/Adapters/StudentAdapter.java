@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.Adapters;
 
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
+import com.example.codeverse.R;
+import com.example.codeverse.Students.Models.StudentModel;
 
 import java.util.List;
 

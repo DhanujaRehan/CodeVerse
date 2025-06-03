@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 
-import com.example.codeverse.StudentModel;
+import com.example.codeverse.Students.Models.StudentModel;
 import com.example.codeverse.Students.Models.Student;
 
 import java.io.File;
