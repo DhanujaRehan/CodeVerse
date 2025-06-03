@@ -20,14 +20,14 @@ import java.util.Locale;
 
 public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
-    // Database Info
+
     private static final String DATABASE_NAME = "StaffDetails.db";
     private static final int DATABASE_VERSION = 1;
 
-    // Table Names
+
     private static final String TABLE_STAFF = "StaffDetails";
 
-    // Staff Table Columns
+
     private static final String KEY_ID = "id";
     private static final String KEY_FULL_NAME = "full_name";
     private static final String KEY_EMAIL = "email";
@@ -37,13 +37,13 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_DATE_OF_BIRTH = "date_of_birth";
     private static final String KEY_PHOTO_URI = "photo_uri";
 
-    // Professional Information Columns
+
     private static final String KEY_POSITION = "position";
     private static final String KEY_DEPARTMENT = "department";
     private static final String KEY_TEACHING_SUBJECT = "teaching_subject";
     private static final String KEY_PROGRAM_COORDINATING = "program_coordinating";
 
-    // Educational Qualifications Columns
+
     private static final String KEY_HIGHEST_QUALIFICATION = "highest_qualification";
     private static final String KEY_FIELD_OF_STUDY = "field_of_study";
     private static final String KEY_UNIVERSITY = "university";
@@ -96,7 +96,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Insert a staff member into the database
+
     public long insertStaff(Staff staff) {
         SQLiteDatabase db = getWritableDatabase();
         long staffId = -1;
@@ -112,20 +112,20 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_DATE_OF_BIRTH, staff.getDateOfBirth());
             values.put(KEY_PHOTO_URI, staff.getPhotoUri());
 
-            // Professional Information
+
             values.put(KEY_POSITION, staff.getPosition());
             values.put(KEY_DEPARTMENT, staff.getDepartment());
             values.put(KEY_TEACHING_SUBJECT, staff.getTeachingSubject());
             values.put(KEY_PROGRAM_COORDINATING, staff.getProgramCoordinating());
 
-            // Educational Qualifications
+
             values.put(KEY_HIGHEST_QUALIFICATION, staff.getHighestQualification());
             values.put(KEY_FIELD_OF_STUDY, staff.getFieldOfStudy());
             values.put(KEY_UNIVERSITY, staff.getUniversity());
             values.put(KEY_GRADUATION_YEAR, staff.getGraduationYear());
             values.put(KEY_EXPERIENCE_YEARS, staff.getExperienceYears());
 
-            // Get current timestamp
+
             String currentTimestamp = getCurrentTimestamp();
             values.put(KEY_CREATED_AT, currentTimestamp);
             values.put(KEY_UPDATED_AT, currentTimestamp);
@@ -143,7 +143,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return staffId;
     }
 
-    // Get a staff member by ID
+
     public Staff getStaffById(long staffId) {
         SQLiteDatabase db = getReadableDatabase();
         Staff staff = null;
@@ -168,7 +168,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return staff;
     }
 
-    // Get all staff members
+
     public List<Staff> getAllStaff() {
         List<Staff> staffList = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -196,7 +196,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return staffList;
     }
 
-    // Update a staff member
+
     public int updateStaff(Staff staff) {
         SQLiteDatabase db = getWritableDatabase();
         int rowsAffected = 0;
@@ -212,13 +212,13 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
             values.put(KEY_DATE_OF_BIRTH, staff.getDateOfBirth());
             values.put(KEY_PHOTO_URI, staff.getPhotoUri());
 
-            // Professional Information
+
             values.put(KEY_POSITION, staff.getPosition());
             values.put(KEY_DEPARTMENT, staff.getDepartment());
             values.put(KEY_TEACHING_SUBJECT, staff.getTeachingSubject());
             values.put(KEY_PROGRAM_COORDINATING, staff.getProgramCoordinating());
 
-            // Educational Qualifications
+
             values.put(KEY_HIGHEST_QUALIFICATION, staff.getHighestQualification());
             values.put(KEY_FIELD_OF_STUDY, staff.getFieldOfStudy());
             values.put(KEY_UNIVERSITY, staff.getUniversity());
@@ -241,7 +241,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected;
     }
 
-    // Update only personal details for a staff member
+
     public int updateStaffPersonalDetails(long staffId, String fullName, String email,
                                           String contactNumber, String nicNumber, String gender,
                                           String dateOfBirth, String photoUri) {
@@ -274,7 +274,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected;
     }
 
-    // Update only professional details for a staff member
+
     public int updateStaffProfessionalDetails(long staffId, String position, String department,
                                               String teachingSubject, String programCoordinating,
                                               String highestQualification, String fieldOfStudy,
@@ -320,7 +320,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return rowsAffected;
     }
 
-    // Delete a staff member by ID
+
     public void deleteStaff(long staffId) {
         SQLiteDatabase db = getWritableDatabase();
 
@@ -336,13 +336,13 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Delete a staff member with photo cleanup
+
     public void deleteStaffWithPhotoCleanup(Staff staff) {
         SQLiteDatabase db = getWritableDatabase();
 
         db.beginTransaction();
         try {
-            // Delete the photo file first
+
             if (staff.getPhotoUri() != null && !staff.getPhotoUri().isEmpty()) {
                 File photoFile = new File(staff.getPhotoUri());
                 if (photoFile.exists()) {
@@ -351,7 +351,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
                 }
             }
 
-            // Delete from database
+
             int rowsDeleted = db.delete(TABLE_STAFF, KEY_ID + " = ?",
                     new String[]{String.valueOf(staff.getId())});
             db.setTransactionSuccessful();
@@ -363,7 +363,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    // Check if Email already exists
+
     public boolean isEmailExists(String email) {
         SQLiteDatabase db = getReadableDatabase();
         boolean exists = false;
@@ -385,7 +385,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Check if NIC number already exists
+
     public boolean isNicExists(String nicNumber) {
         SQLiteDatabase db = getReadableDatabase();
         boolean exists = false;
@@ -407,7 +407,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Search staff by name
+
     public List<Staff> searchStaff(String searchQuery) {
         List<Staff> staffList = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
@@ -438,7 +438,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return staffList;
     }
 
-    // Get staff count
+
     public int getStaffCount() {
         SQLiteDatabase db = getReadableDatabase();
         int count = 0;
@@ -461,7 +461,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return count;
     }
 
-    // Helper method to get Staff object from cursor
+
     private Staff getStaffFromCursor(Cursor cursor) {
         Staff staff = new Staff();
 
@@ -474,13 +474,13 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         staff.setDateOfBirth(cursor.getString(cursor.getColumnIndexOrThrow(KEY_DATE_OF_BIRTH)));
         staff.setPhotoUri(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PHOTO_URI)));
 
-        // Professional Information
+
         staff.setPosition(cursor.getString(cursor.getColumnIndexOrThrow(KEY_POSITION)));
         staff.setDepartment(cursor.getString(cursor.getColumnIndexOrThrow(KEY_DEPARTMENT)));
         staff.setTeachingSubject(cursor.getString(cursor.getColumnIndexOrThrow(KEY_TEACHING_SUBJECT)));
         staff.setProgramCoordinating(cursor.getString(cursor.getColumnIndexOrThrow(KEY_PROGRAM_COORDINATING)));
 
-        // Educational Qualifications
+
         staff.setHighestQualification(cursor.getString(cursor.getColumnIndexOrThrow(KEY_HIGHEST_QUALIFICATION)));
         staff.setFieldOfStudy(cursor.getString(cursor.getColumnIndexOrThrow(KEY_FIELD_OF_STUDY)));
         staff.setUniversity(cursor.getString(cursor.getColumnIndexOrThrow(KEY_UNIVERSITY)));
@@ -493,13 +493,13 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return staff;
     }
 
-    // Helper method to get current timestamp
+
     private String getCurrentTimestamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());
     }
 
-    // Method to get staff photo as Bitmap
+
     public static Bitmap getStaffPhoto(String photoPath) {
         if (photoPath == null || photoPath.isEmpty()) {
             return null;
