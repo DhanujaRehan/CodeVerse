@@ -37,12 +37,11 @@ public class StaffProfessionalInfo extends Fragment {
     private Staff currentStaff;
     private long staffId = -1;
 
-
     private MaterialCardView cvBack, cvHelp;
-    private TextInputLayout tilPosition, tilDepartment, tilProgramCoordinating, tilTeachingSubjectSoftware, tilTeachingSubjectDatascience;
+    private TextInputLayout tilPosition, tilDepartment, tilProgramCoordinating, tilTeachingSubjectSoftware, tilTeachingSubjectDatascience, tilPassword;
     private TextInputLayout tilHighestQualification, tilFieldOfStudy, tilUniversity, tilGraduationYear, tilExperienceYears;
     private AutoCompleteTextView dropdownPosition, dropdownDepartment, dropdownQualification, dropdownProgram, dropdownTeachingSubjectSoftware, dropdownTeachingSubjectDatascience;
-    private TextInputEditText etTeachingSubject, etFieldOfStudy, etUniversity, etGraduationYear, etExperienceYears;
+    private TextInputEditText etFieldOfStudy, etUniversity, etGraduationYear, etExperienceYears, etPassword;
     private MaterialButton btnComplete, btnBack;
     private FrameLayout loadingOverlay, successOverlay;
 
@@ -58,21 +57,17 @@ public class StaffProfessionalInfo extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         dbHelper = new StaffDatabaseHelper(getContext());
-
 
         if (getArguments() != null) {
             staffId = getArguments().getLong(ARG_STAFF_ID, -1);
         }
-
 
         Bundle args = getArguments();
         if (args != null && args.containsKey("staff")) {
             currentStaff = (Staff) args.getSerializable("staff");
             Log.d(TAG, "Editing existing staff: " + currentStaff.getFullName());
         } else if (staffId != -1) {
-
             currentStaff = dbHelper.getStaffById(staffId);
             if (currentStaff != null) {
                 Log.d(TAG, "Loaded existing staff: " + currentStaff.getFullName());
@@ -99,7 +94,6 @@ public class StaffProfessionalInfo extends Fragment {
 
     private void initializeViews(View view) {
         try {
-
             cvBack = view.findViewById(R.id.cv_back);
             cvHelp = view.findViewById(R.id.cv_help);
 
@@ -108,6 +102,7 @@ public class StaffProfessionalInfo extends Fragment {
             tilTeachingSubjectSoftware = view.findViewById(R.id.til_teaching_subject_software);
             tilTeachingSubjectDatascience = view.findViewById(R.id.til_teaching_subject_datascience);
             tilProgramCoordinating = view.findViewById(R.id.til_program_coordinating);
+            tilPassword = view.findViewById(R.id.til_password);
             tilHighestQualification = view.findViewById(R.id.til_highest_qualification);
             tilFieldOfStudy = view.findViewById(R.id.til_field_of_study);
             tilUniversity = view.findViewById(R.id.til_university);
@@ -125,6 +120,7 @@ public class StaffProfessionalInfo extends Fragment {
             etUniversity = view.findViewById(R.id.et_university);
             etGraduationYear = view.findViewById(R.id.et_graduation_year);
             etExperienceYears = view.findViewById(R.id.et_experience_years);
+            etPassword = view.findViewById(R.id.et_password);
 
             btnComplete = view.findViewById(R.id.btn_complete);
             btnBack = view.findViewById(R.id.btn_back);
@@ -138,23 +134,19 @@ public class StaffProfessionalInfo extends Fragment {
     }
 
     private void setupClickListeners() {
-
         cvBack.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
         });
 
-
         cvHelp.setOnClickListener(v -> showHelpDialog());
-
 
         btnComplete.setOnClickListener(v -> {
             if (validateProfessionalInformation()) {
                 completeRegistration();
             }
         });
-
 
         btnBack.setOnClickListener(v -> goBackToPersonalInfo());
     }
@@ -185,6 +177,7 @@ public class StaffProfessionalInfo extends Fragment {
         etUniversity.addTextChangedListener(textWatcher);
         etGraduationYear.addTextChangedListener(textWatcher);
         etExperienceYears.addTextChangedListener(textWatcher);
+        etPassword.addTextChangedListener(textWatcher);
     }
 
     private void clearErrors() {
@@ -193,6 +186,7 @@ public class StaffProfessionalInfo extends Fragment {
         if (tilTeachingSubjectSoftware != null) tilTeachingSubjectSoftware.setError(null);
         if (tilTeachingSubjectDatascience != null) tilTeachingSubjectDatascience.setError(null);
         if (tilProgramCoordinating != null) tilProgramCoordinating.setError(null);
+        if (tilPassword != null) tilPassword.setError(null);
         if (tilHighestQualification != null) tilHighestQualification.setError(null);
         if (tilFieldOfStudy != null) tilFieldOfStudy.setError(null);
         if (tilUniversity != null) tilUniversity.setError(null);
@@ -201,7 +195,6 @@ public class StaffProfessionalInfo extends Fragment {
     }
 
     private void setupDropdowns() {
-
         String[] positions = {"Lecturer", "Program Coordinator"};
         ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_dropdown_item_1line, positions);
@@ -232,7 +225,6 @@ public class StaffProfessionalInfo extends Fragment {
         ArrayAdapter<String> datascienceAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_dropdown_item_1line, datascience);
         dropdownTeachingSubjectDatascience.setAdapter(datascienceAdapter);
-
     }
 
     private void setupPositionDependentFields() {
@@ -241,7 +233,6 @@ public class StaffProfessionalInfo extends Fragment {
             updateFieldVisibility(selectedPosition);
         });
 
-
         dropdownDepartment.setOnItemClickListener((parent, view, position, id) -> {
             String selectedDepartment = dropdownDepartment.getText().toString();
             updateTeachingSubjectVisibility(selectedDepartment);
@@ -249,7 +240,6 @@ public class StaffProfessionalInfo extends Fragment {
     }
 
     private void updateFieldVisibility(String position) {
-
         tilDepartment.setVisibility(View.GONE);
         tilProgramCoordinating.setVisibility(View.GONE);
         tilTeachingSubjectSoftware.setVisibility(View.GONE);
@@ -257,17 +247,14 @@ public class StaffProfessionalInfo extends Fragment {
 
         if (position.toLowerCase().contains("lecturer") || position.toLowerCase().contains("professor")) {
             tilDepartment.setVisibility(View.VISIBLE);
-
         } else if (position.toLowerCase().contains("coordinator")) {
             tilProgramCoordinating.setVisibility(View.VISIBLE);
         }
     }
 
     private void updateTeachingSubjectVisibility(String department) {
-
         tilTeachingSubjectSoftware.setVisibility(View.GONE);
         tilTeachingSubjectDatascience.setVisibility(View.GONE);
-
 
         dropdownTeachingSubjectSoftware.setText("", false);
         dropdownTeachingSubjectDatascience.setText("", false);
@@ -288,12 +275,8 @@ public class StaffProfessionalInfo extends Fragment {
     }
 
     private void completeRegistration() {
-
         showLoading(true);
-
-
         saveProfessionalInformation();
-
 
         new Handler().postDelayed(() -> {
             try {
@@ -303,6 +286,7 @@ public class StaffProfessionalInfo extends Fragment {
                         currentStaff.getDepartment(),
                         currentStaff.getTeachingSubject(),
                         currentStaff.getProgramCoordinating(),
+                        currentStaff.getPassword(),
                         currentStaff.getHighestQualification(),
                         currentStaff.getFieldOfStudy(),
                         currentStaff.getUniversity(),
@@ -310,21 +294,17 @@ public class StaffProfessionalInfo extends Fragment {
                         currentStaff.getExperienceYears()
                 );
 
-
                 showLoading(false);
 
                 if (rowsAffected > 0) {
                     Log.d(TAG, "Staff professional details updated successfully");
                     showToast("Staff registered successfully!");
-
-
                     navigateToCompletion();
                 } else {
                     Log.e(TAG, "Failed to update staff professional details");
                     showToast("Failed to complete staff registration");
                 }
             } catch (Exception e) {
-
                 showLoading(false);
                 Log.e(TAG, "Error completing registration: " + e.getMessage(), e);
                 showToast("Error completing registration: " + e.getMessage());
@@ -335,7 +315,6 @@ public class StaffProfessionalInfo extends Fragment {
     private boolean validateProfessionalInformation() {
         boolean isValid = true;
 
-
         if (dropdownPosition.getText().toString().trim().isEmpty()) {
             if (tilPosition != null) {
                 tilPosition.setError("Please select a position");
@@ -345,7 +324,6 @@ public class StaffProfessionalInfo extends Fragment {
             dropdownPosition.requestFocus();
             isValid = false;
         }
-
 
         if (tilDepartment.getVisibility() == View.VISIBLE) {
             if (dropdownDepartment.getText().toString().trim().isEmpty()) {
@@ -359,7 +337,7 @@ public class StaffProfessionalInfo extends Fragment {
             }
         }
 
-        if (tilTeachingSubjectSoftware.getVisibility()==View.VISIBLE){
+        if (tilTeachingSubjectSoftware.getVisibility() == View.VISIBLE) {
             if (dropdownTeachingSubjectSoftware.getText().toString().trim().isEmpty()) {
                 if (tilTeachingSubjectSoftware != null) {
                     tilTeachingSubjectSoftware.setError("Please select a teaching subject");
@@ -371,7 +349,7 @@ public class StaffProfessionalInfo extends Fragment {
             }
         }
 
-        if (tilTeachingSubjectDatascience.getVisibility()==View.VISIBLE){
+        if (tilTeachingSubjectDatascience.getVisibility() == View.VISIBLE) {
             if (dropdownTeachingSubjectDatascience.getText().toString().trim().isEmpty()) {
                 if (tilTeachingSubjectDatascience != null) {
                     tilTeachingSubjectDatascience.setError("Please select a teaching subject");
@@ -382,7 +360,6 @@ public class StaffProfessionalInfo extends Fragment {
                 isValid = false;
             }
         }
-
 
         if (tilProgramCoordinating.getVisibility() == View.VISIBLE) {
             if (dropdownProgram.getText().toString().trim().isEmpty()) {
@@ -396,6 +373,23 @@ public class StaffProfessionalInfo extends Fragment {
             }
         }
 
+        if (etPassword.getText().toString().trim().isEmpty()) {
+            if (tilPassword != null) {
+                tilPassword.setError("Password is required");
+            } else {
+                etPassword.setError("Password is required");
+            }
+            etPassword.requestFocus();
+            isValid = false;
+        } else if (etPassword.getText().toString().trim().length() < 6) {
+            if (tilPassword != null) {
+                tilPassword.setError("Password must be at least 6 characters");
+            } else {
+                etPassword.setError("Password must be at least 6 characters");
+            }
+            etPassword.requestFocus();
+            isValid = false;
+        }
 
         if (dropdownQualification.getText().toString().trim().isEmpty()) {
             if (tilHighestQualification != null) {
@@ -407,7 +401,6 @@ public class StaffProfessionalInfo extends Fragment {
             isValid = false;
         }
 
-
         if (etFieldOfStudy.getText().toString().trim().isEmpty()) {
             if (tilFieldOfStudy != null) {
                 tilFieldOfStudy.setError("Field of study is required");
@@ -418,7 +411,6 @@ public class StaffProfessionalInfo extends Fragment {
             isValid = false;
         }
 
-
         if (etUniversity.getText().toString().trim().isEmpty()) {
             if (tilUniversity != null) {
                 tilUniversity.setError("University/Institution is required");
@@ -428,7 +420,6 @@ public class StaffProfessionalInfo extends Fragment {
             etUniversity.requestFocus();
             isValid = false;
         }
-
 
         String graduationYear = etGraduationYear.getText().toString().trim();
         if (graduationYear.isEmpty()) {
@@ -462,7 +453,6 @@ public class StaffProfessionalInfo extends Fragment {
                 isValid = false;
             }
         }
-
 
         String experienceYears = etExperienceYears.getText().toString().trim();
         if (experienceYears.isEmpty()) {
@@ -506,11 +496,9 @@ public class StaffProfessionalInfo extends Fragment {
 
         currentStaff.setPosition(dropdownPosition.getText().toString().trim());
 
-
         if (tilDepartment.getVisibility() == View.VISIBLE) {
             currentStaff.setDepartment(dropdownDepartment.getText().toString().trim());
         }
-
 
         if (tilTeachingSubjectSoftware.getVisibility() == View.VISIBLE) {
             currentStaff.setTeachingSubject(dropdownTeachingSubjectSoftware.getText().toString().trim());
@@ -522,7 +510,7 @@ public class StaffProfessionalInfo extends Fragment {
             currentStaff.setProgramCoordinating(dropdownProgram.getText().toString().trim());
         }
 
-
+        currentStaff.setPassword(etPassword.getText().toString().trim());
         currentStaff.setHighestQualification(dropdownQualification.getText().toString().trim());
         currentStaff.setFieldOfStudy(etFieldOfStudy.getText().toString().trim());
         currentStaff.setUniversity(etUniversity.getText().toString().trim());
@@ -538,7 +526,6 @@ public class StaffProfessionalInfo extends Fragment {
         try {
             loadingOverlay.setVisibility(View.GONE);
             successOverlay.setVisibility(View.VISIBLE);
-
         } catch (Exception e) {
             Log.e(TAG, "Error navigating to completion: " + e.getMessage(), e);
             showToast("Registration completed but error in navigation");
@@ -562,7 +549,6 @@ public class StaffProfessionalInfo extends Fragment {
         }
     }
 
-
     public Staff getCurrentStaff() {
         return currentStaff;
     }
@@ -583,7 +569,6 @@ public class StaffProfessionalInfo extends Fragment {
                 updateTeachingSubjectVisibility(currentStaff.getDepartment());
             }
             if (currentStaff.getTeachingSubject() != null) {
-
                 String department = currentStaff.getDepartment();
                 if ("Software Engineering".equals(department)) {
                     dropdownTeachingSubjectSoftware.setText(currentStaff.getTeachingSubject());
@@ -593,6 +578,9 @@ public class StaffProfessionalInfo extends Fragment {
             }
             if (currentStaff.getProgramCoordinating() != null) {
                 dropdownProgram.setText(currentStaff.getProgramCoordinating());
+            }
+            if (currentStaff.getPassword() != null) {
+                etPassword.setText(currentStaff.getPassword());
             }
             if (currentStaff.getHighestQualification() != null) {
                 dropdownQualification.setText(currentStaff.getHighestQualification());
