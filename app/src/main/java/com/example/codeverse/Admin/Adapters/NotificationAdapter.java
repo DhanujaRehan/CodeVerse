@@ -60,17 +60,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.tvPriority.setText(notification.getPriority());
         holder.tvStatus.setText(notification.getStatusDisplayText());
 
-        // Set priority indicator color
+
         try {
             holder.viewPriorityIndicator.setBackgroundColor(Color.parseColor(notification.getPriorityColor()));
         } catch (IllegalArgumentException e) {
             holder.viewPriorityIndicator.setBackgroundColor(Color.GRAY);
         }
 
-        // Set status color
+
         setStatusColor(holder.tvStatus, notification.getStatus());
 
-        // Format and set date
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy, HH:mm", Locale.getDefault());
         String dateText;
 
@@ -81,7 +81,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
         holder.tvDate.setText(dateText);
 
-        // Set delivery methods
+
         StringBuilder methods = new StringBuilder();
         if (notification.isPushEnabled()) methods.append("Push ");
         if (notification.isEmailEnabled()) methods.append("Email ");
@@ -89,7 +89,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.tvDeliveryMethods.setText(methods.toString().trim());
 
-        // Set click listeners
+
         holder.itemView.setOnClickListener(v -> {
             if (clickListener != null) {
                 clickListener.onNotificationClick(notification);
@@ -114,7 +114,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             }
         });
 
-        // Show/hide action buttons based on status
+
         if ("draft".equals(notification.getStatus())) {
             holder.ivEdit.setVisibility(View.VISIBLE);
             holder.ivResend.setVisibility(View.GONE);
@@ -128,19 +128,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         int color;
         switch (status.toLowerCase()) {
             case "sent":
-                color = Color.parseColor("#4CAF50"); // Green
+                color = Color.parseColor("#4CAF50");
                 break;
             case "scheduled":
-                color = Color.parseColor("#2196F3"); // Blue
+                color = Color.parseColor("#2196F3");
                 break;
             case "draft":
-                color = Color.parseColor("#FF9800"); // Orange
+                color = Color.parseColor("#FF9800");
                 break;
             case "failed":
-                color = Color.parseColor("#F44336"); // Red
+                color = Color.parseColor("#F44336");
                 break;
             default:
-                color = Color.parseColor("#757575"); // Grey
+                color = Color.parseColor("#757575");
                 break;
         }
         statusTextView.setTextColor(color);

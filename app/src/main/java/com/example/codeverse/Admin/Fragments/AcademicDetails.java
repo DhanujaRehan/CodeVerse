@@ -89,7 +89,7 @@ public class AcademicDetails extends Fragment {
     private long getStudentIdFromSources() {
         long resolvedStudentId = -1;
 
-        // Source 1: Fragment arguments
+
         if (getArguments() != null) {
             resolvedStudentId = getArguments().getLong(ARG_STUDENT_ID, -1);
             Log.d(TAG, "StudentId from arguments: " + resolvedStudentId);
@@ -98,7 +98,7 @@ public class AcademicDetails extends Fragment {
             }
         }
 
-        // Source 2: Activity intent extras (if fragment is hosted in an activity with intent data)
+
         if (getActivity() != null && getActivity().getIntent() != null) {
             resolvedStudentId = getActivity().getIntent().getLongExtra(ARG_STUDENT_ID, -1);
             Log.d(TAG, "StudentId from activity intent: " + resolvedStudentId);
@@ -107,7 +107,7 @@ public class AcademicDetails extends Fragment {
             }
         }
 
-        // Source 3: Try to get the most recently created student (as a fallback)
+
         try {
             Student mostRecentStudent = getMostRecentlyCreatedStudent();
             if (mostRecentStudent != null) {
@@ -121,7 +121,7 @@ public class AcademicDetails extends Fragment {
             Log.e(TAG, "Error getting most recent student: " + e.getMessage());
         }
 
-        // Source 4: Check if there's a student with incomplete academic details
+
         try {
             Student incompleteStudent = getStudentWithIncompleteAcademicDetails();
             if (incompleteStudent != null) {
@@ -158,7 +158,7 @@ public class AcademicDetails extends Fragment {
         try {
             List<Student> allStudents = dbHelper.getAllStudent();
             if (allStudents != null && !allStudents.isEmpty()) {
-                // Return the last student (assuming they're ordered by creation time or ID)
+
                 return allStudents.get(allStudents.size() - 1);
             }
         } catch (Exception e) {
@@ -172,7 +172,7 @@ public class AcademicDetails extends Fragment {
             List<Student> allStudents = dbHelper.getAllStudent();
             if (allStudents != null) {
                 for (Student student : allStudents) {
-                    // Check if academic details are missing or incomplete
+
                     if (student.getFaculty() == null || student.getFaculty().isEmpty() ||
                             student.getBatch() == null || student.getBatch().isEmpty()) {
                         return student;
@@ -247,7 +247,7 @@ public class AcademicDetails extends Fragment {
 
                         dialog.dismiss();
 
-                        // Reinitialize the fragment with correct student ID
+
                         if (getActivity() != null) {
                             AcademicDetails newFragment = AcademicDetails.newInstance(studentId);
                             getActivity().getSupportFragmentManager()

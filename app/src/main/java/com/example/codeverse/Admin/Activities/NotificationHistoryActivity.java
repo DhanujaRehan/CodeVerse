@@ -88,7 +88,7 @@ public class NotificationHistoryActivity extends AppCompatActivity implements
             swipeRefreshLayout.setRefreshing(false);
         });
 
-        // Filter chips
+
         chipAll.setOnClickListener(v -> {
             currentFilter = "all";
             updateChipSelection();
@@ -133,7 +133,7 @@ public class NotificationHistoryActivity extends AppCompatActivity implements
     }
 
     private void createSampleHistory() {
-        // Sample data for demonstration
+
         NotificationHistory history1 = new NotificationHistory();
         history1.setId(1);
         history1.setNotificationId(1);
@@ -217,7 +217,7 @@ public class NotificationHistoryActivity extends AppCompatActivity implements
 
     @Override
     public void onHistoryClick(NotificationHistory history) {
-        // Handle history item click - could navigate to detailed view
+
         Toast.makeText(this, "Clicked: " + history.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
@@ -230,7 +230,7 @@ public class NotificationHistoryActivity extends AppCompatActivity implements
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_notification_details, null);
 
-        // Initialize dialog views
+
         TextView tvDialogTitle = dialogView.findViewById(R.id.tvDialogTitle);
         TextView tvDialogMessage = dialogView.findViewById(R.id.tvDialogMessage);
         TextView tvDialogCategory = dialogView.findViewById(R.id.tvDialogCategory);
@@ -242,7 +242,7 @@ public class NotificationHistoryActivity extends AppCompatActivity implements
         TextView tvDialogReadCount = dialogView.findViewById(R.id.tvDialogReadCount);
         TextView tvDialogReadPercentage = dialogView.findViewById(R.id.tvDialogReadPercentage);
 
-        // Set values
+
         tvDialogTitle.setText(history.getTitle());
         tvDialogMessage.setText(history.getMessage());
         tvDialogCategory.setText(history.getCategory());

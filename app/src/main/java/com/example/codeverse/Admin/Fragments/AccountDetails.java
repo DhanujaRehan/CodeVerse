@@ -143,7 +143,7 @@ public class AccountDetails extends Fragment {
                     .setTitle("Cancel Student Creation")
                     .setMessage("Are you sure you want to cancel? All entered information will be lost.")
                     .setPositiveButton("Yes", (dialog, which) -> {
-                        // Delete the student record if it exists
+
                         if (studentId != -1) {
                             dbHelper.deleteStudent(studentId);
                         }
@@ -296,7 +296,7 @@ public class AccountDetails extends Fragment {
     }
 
     private void saveAccountDetails() {
-        // Show loading
+
         loadingOverlay.setVisibility(View.VISIBLE);
 
         try {

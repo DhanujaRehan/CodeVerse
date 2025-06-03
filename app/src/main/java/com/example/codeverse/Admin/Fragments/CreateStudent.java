@@ -106,7 +106,7 @@ public class CreateStudent extends Fragment {
             currentStudent = (Student) args.getSerializable("student");
             Log.d(TAG, "Editing existing student: " + currentStudent.getUniversityId());
         } else if (studentId != -1) {
-            // Load existing student by ID
+
             currentStudent = dbHelper.getStudentById(studentId);
             if (currentStudent != null) {
                 Log.d(TAG, "Loaded existing student: " + currentStudent.getUniversityId());
@@ -273,11 +273,11 @@ public class CreateStudent extends Fragment {
                 Log.e(TAG, "Error saving student: " + e.getMessage(), e);
                 showToast("Error saving student: " + e.getMessage());
             }
-        }, 1500); // 1.5 second delay for smooth loading experience
+        }, 1500);
     }
 
     private void saveForLater() {
-        // This method allows saving incomplete data as draft
+
         if (etFullName.getText().toString().trim().isEmpty()) {
             showToast("At least full name is required to save");
             return;
@@ -312,7 +312,7 @@ public class CreateStudent extends Fragment {
                 Log.e(TAG, "Error saving draft: " + e.getMessage(), e);
                 showToast("Error saving draft: " + e.getMessage());
             }
-        }, 1500); // 1.5 second delay for smooth loading experience
+        }, 1500);
     }
 
     private boolean validateBasicInformation() {
@@ -424,7 +424,7 @@ public class CreateStudent extends Fragment {
 
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.framelayout, academicFragment)
-                    .addToBackStack("CreateStudent") // Add to back stack so user can return
+                    .addToBackStack("CreateStudent")
                     .commit();
 
             Log.d(TAG, "Successfully navigated to Academic Details with student ID: " + currentStudent.getId());
@@ -440,7 +440,7 @@ public class CreateStudent extends Fragment {
                 .setTitle("Cancel Registration")
                 .setMessage("Are you sure you want to cancel? All entered data will be lost.")
                 .setPositiveButton("Yes, Cancel", (dialog, which) -> {
-                    // Delete the student record if it exists
+
                     if (currentStudent != null && currentStudent.getId() > 0) {
                         dbHelper.deleteStudent(currentStudent.getId());
                     }

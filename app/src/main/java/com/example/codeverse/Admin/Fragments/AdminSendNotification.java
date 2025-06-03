@@ -555,7 +555,7 @@ public class AdminSendNotification extends Fragment {
             if (notificationId > 0) {
                 notification.setId((int) notificationId);
 
-                 String action = notification.getStatus().toUpperCase(); // "DRAFT", "SENT", "SCHEDULED"
+                 String action = notification.getStatus().toUpperCase();
                 String details = createNotificationDetails(notification);
 
                 dbHelper.insertHistory((int) notificationId, action, details);

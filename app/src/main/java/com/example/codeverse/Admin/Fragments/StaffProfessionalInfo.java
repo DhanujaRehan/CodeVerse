@@ -37,7 +37,7 @@ public class StaffProfessionalInfo extends Fragment {
     private Staff currentStaff;
     private long staffId = -1;
 
-    // Views from XML layout
+
     private MaterialCardView cvBack, cvHelp;
     private TextInputLayout tilPosition, tilDepartment, tilProgramCoordinating, tilTeachingSubjectSoftware, tilTeachingSubjectDatascience;
     private TextInputLayout tilHighestQualification, tilFieldOfStudy, tilUniversity, tilGraduationYear, tilExperienceYears;
@@ -58,21 +58,21 @@ public class StaffProfessionalInfo extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize database helper
+
         dbHelper = new StaffDatabaseHelper(getContext());
 
-        // Get staff ID from arguments if provided
+
         if (getArguments() != null) {
             staffId = getArguments().getLong(ARG_STAFF_ID, -1);
         }
 
-        // Check if we're editing an existing staff or creating new
+
         Bundle args = getArguments();
         if (args != null && args.containsKey("staff")) {
             currentStaff = (Staff) args.getSerializable("staff");
             Log.d(TAG, "Editing existing staff: " + currentStaff.getFullName());
         } else if (staffId != -1) {
-            // Load existing staff by ID
+
             currentStaff = dbHelper.getStaffById(staffId);
             if (currentStaff != null) {
                 Log.d(TAG, "Loaded existing staff: " + currentStaff.getFullName());
@@ -99,7 +99,7 @@ public class StaffProfessionalInfo extends Fragment {
 
     private void initializeViews(View view) {
         try {
-            // Initialize views with exact IDs from XML
+
             cvBack = view.findViewById(R.id.cv_back);
             cvHelp = view.findViewById(R.id.cv_help);
 
@@ -138,24 +138,24 @@ public class StaffProfessionalInfo extends Fragment {
     }
 
     private void setupClickListeners() {
-        // Back button
+
         cvBack.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
         });
 
-        // Help button
+
         cvHelp.setOnClickListener(v -> showHelpDialog());
 
-        // Complete button
+
         btnComplete.setOnClickListener(v -> {
             if (validateProfessionalInformation()) {
                 completeRegistration();
             }
         });
 
-        // Back to personal info button
+
         btnBack.setOnClickListener(v -> goBackToPersonalInfo());
     }
 
@@ -201,7 +201,7 @@ public class StaffProfessionalInfo extends Fragment {
     }
 
     private void setupDropdowns() {
-        // Position dropdown
+
         String[] positions = {"Lecturer", "Program Coordinator"};
         ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(
                 getContext(), android.R.layout.simple_dropdown_item_1line, positions);
@@ -241,7 +241,7 @@ public class StaffProfessionalInfo extends Fragment {
             updateFieldVisibility(selectedPosition);
         });
 
-        // Add department listener to show appropriate teaching subject dropdown
+
         dropdownDepartment.setOnItemClickListener((parent, view, position, id) -> {
             String selectedDepartment = dropdownDepartment.getText().toString();
             updateTeachingSubjectVisibility(selectedDepartment);
@@ -249,7 +249,7 @@ public class StaffProfessionalInfo extends Fragment {
     }
 
     private void updateFieldVisibility(String position) {
-        // Hide all conditional fields first
+
         tilDepartment.setVisibility(View.GONE);
         tilProgramCoordinating.setVisibility(View.GONE);
         tilTeachingSubjectSoftware.setVisibility(View.GONE);
@@ -257,18 +257,18 @@ public class StaffProfessionalInfo extends Fragment {
 
         if (position.toLowerCase().contains("lecturer") || position.toLowerCase().contains("professor")) {
             tilDepartment.setVisibility(View.VISIBLE);
-            // Don't show teaching subjects yet - wait for department selection
+
         } else if (position.toLowerCase().contains("coordinator")) {
             tilProgramCoordinating.setVisibility(View.VISIBLE);
         }
     }
 
     private void updateTeachingSubjectVisibility(String department) {
-        // Hide both teaching subject dropdowns first
+
         tilTeachingSubjectSoftware.setVisibility(View.GONE);
         tilTeachingSubjectDatascience.setVisibility(View.GONE);
 
-        // Clear previous selections
+
         dropdownTeachingSubjectSoftware.setText("", false);
         dropdownTeachingSubjectDatascience.setText("", false);
 
@@ -288,13 +288,13 @@ public class StaffProfessionalInfo extends Fragment {
     }
 
     private void completeRegistration() {
-        // Show loading
+
         showLoading(true);
 
-        // Save professional information to current staff object
+
         saveProfessionalInformation();
 
-        // Update staff in database using Handler for smooth UI
+
         new Handler().postDelayed(() -> {
             try {
                 int rowsAffected = dbHelper.updateStaffProfessionalDetails(
@@ -310,21 +310,21 @@ public class StaffProfessionalInfo extends Fragment {
                         currentStaff.getExperienceYears()
                 );
 
-                // Hide loading
+
                 showLoading(false);
 
                 if (rowsAffected > 0) {
                     Log.d(TAG, "Staff professional details updated successfully");
                     showToast("Staff registered successfully!");
 
-                    // Navigate back to previous screen or show completion
+
                     navigateToCompletion();
                 } else {
                     Log.e(TAG, "Failed to update staff professional details");
                     showToast("Failed to complete staff registration");
                 }
             } catch (Exception e) {
-                // Hide loading
+
                 showLoading(false);
                 Log.e(TAG, "Error completing registration: " + e.getMessage(), e);
                 showToast("Error completing registration: " + e.getMessage());
