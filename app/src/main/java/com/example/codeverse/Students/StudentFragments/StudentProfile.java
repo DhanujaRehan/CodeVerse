@@ -17,7 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.example.codeverse.Logout;
+import com.example.codeverse.LoginScreens.Logout;
 import com.example.codeverse.R;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.Students.Models.Student;

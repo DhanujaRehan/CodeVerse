@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Logout"
+            android:name=".LoginScreens.Logout"
             android:exported="false" />
         <activity
             android:name=".Students.Activities.StudentMainActivity"

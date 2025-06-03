@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.LoginScreens;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.codeverse.LoginScreens.Login;
 import com.example.codeverse.R;
 import com.example.codeverse.Utils.StudentSessionManager;
 
