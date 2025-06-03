@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.codeverse.MainActivity;
+import com.example.codeverse.Admin.Activities.AdminMainActivity;
 import com.example.codeverse.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -27,11 +28,9 @@ public class LoadingScreen extends AppCompatActivity {
     private ChipGroup chipGroupStatus;
     private Chip chipCourses, chipSchedule, chipAssignments;
 
-
     private final String[] quotes = {
             "The best way to predict your future is to create it. — Abraham Lincoln",
             "Success is not final, failure is not fatal: It is the courage to continue that counts. — Winston Churchill",
-
     };
 
     @Override
@@ -40,22 +39,20 @@ public class LoadingScreen extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_loading_screen);
 
-
         String username = getIntent().getStringExtra("username");
+        String nextActivity = getIntent().getStringExtra("nextActivity");
+
         if (username == null || username.isEmpty()) {
-            username = "Student";
+            username = "User";
         }
 
-
         initViews();
-
 
         tvWelcomeUser.setText("Welcome, " + username + "!");
         tvFunFact.setText(getRandomQuote());
 
-
         setupLoadingSequence();
-        simulateLoading();
+        simulateLoading(nextActivity);
     }
 
     private void initViews() {
@@ -69,14 +66,12 @@ public class LoadingScreen extends AppCompatActivity {
         chipSchedule = findViewById(R.id.chip_schedule);
         chipAssignments = findViewById(R.id.chip_assignments);
 
-
         chipCourses.setChecked(false);
         chipSchedule.setChecked(false);
         chipAssignments.setChecked(false);
     }
 
     private String getRandomQuote() {
-
         int randomIndex = new Random().nextInt(quotes.length);
         return quotes[randomIndex];
     }
@@ -103,21 +98,17 @@ public class LoadingScreen extends AppCompatActivity {
         tvFunFact.startAnimation(fadeInOut);
     }
 
-    private void simulateLoading() {
-
+    private void simulateLoading(String nextActivity) {
         new Handler().postDelayed(() -> {
             updateStatus("Loading your courses...", chipCourses);
-
 
             new Handler().postDelayed(() -> {
                 updateStatus("Preparing your schedule...", chipSchedule);
 
-
                 new Handler().postDelayed(() -> {
                     updateStatus("Fetching assignments...", chipAssignments);
 
-
-                    new Handler().postDelayed(this::finishLoading, 1500);
+                    new Handler().postDelayed(() -> finishLoading(nextActivity), 1500);
 
                 }, 1500);
 
@@ -127,7 +118,6 @@ public class LoadingScreen extends AppCompatActivity {
     }
 
     private void updateStatus(String message, Chip chipToCheck) {
-
         tvLoadingMessage.setText(message);
 
         chipToCheck.setChecked(true);
@@ -146,28 +136,26 @@ public class LoadingScreen extends AppCompatActivity {
                 .start();
     }
 
-    private void finishLoading() {
-
+    private void finishLoading(String nextActivity) {
         tvLoadingMessage.setText("Ready to go!");
-
 
         loadingAnimation.setAnimation(R.raw.successfull);
         loadingAnimation.playAnimation();
 
-
         progressIndicator.setIndeterminate(false);
         progressIndicator.setProgress(100);
 
-
         new Handler().postDelayed(() -> {
+            Intent intent;
 
-            Intent intent = new Intent(LoadingScreen.this, MainActivity.class);
+            if ("AdminMainActivity".equals(nextActivity)) {
+                intent = new Intent(LoadingScreen.this, AdminMainActivity.class);
+            } else {
+                intent = new Intent(LoadingScreen.this, MainActivity.class);
+            }
+
             startActivity(intent);
-
-
             overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-
-
             finish();
         }, 1500);
     }
