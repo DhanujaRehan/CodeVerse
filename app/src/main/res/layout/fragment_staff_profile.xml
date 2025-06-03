@@ -107,7 +107,7 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                     />
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -203,8 +203,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
                         android:orientation="horizontal">
-
-
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="0dp"
@@ -383,7 +381,6 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -417,104 +414,6 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
-                                android:text="Email"
-                                android:textColor="#80FFFFFF"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tv_staff_email"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
-                                android:text="sarah.wilson@university.edu"
-                                android:textColor="#FFFFFF"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            app:cardBackgroundColor="#E1E8F9"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="4dp">
-
-                            <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
-                                android:layout_gravity="center"
-                                app:lottie_autoPlay="true"
-                                app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/phone" />
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginStart="16dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_regular"
-                                android:text="Phone"
-                                android:textColor="#80FFFFFF"
-                                android:textSize="14sp" />
-
-                            <TextView
-                                android:id="@+id/tv_staff_phone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_medium"
-                                android:text="(555) 987-6543"
-                                android:textColor="#FFFFFF"
-                                android:textSize="16sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            app:cardBackgroundColor="#E1E8F9"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="4dp">
-
-                            <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
-                                android:layout_gravity="center"
-                                app:lottie_autoPlay="true"
-                                app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/calendar" />
-                        </com.google.android.material.card.MaterialCardView>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:layout_marginStart="16dp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:fontFamily="@font/poppins_regular"
                                 android:text="Office Hours"
                                 android:textColor="#80FFFFFF"
                                 android:textSize="14sp" />
@@ -529,7 +428,6 @@
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
-
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -580,7 +478,6 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -604,7 +501,6 @@
                     android:textColor="@color/white"
                     android:textSize="20sp" />
             </LinearLayout>
-
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -818,11 +714,7 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-
-
-
             </com.google.android.material.card.MaterialCardView>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -849,7 +741,6 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -865,8 +756,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="20dp">
-
-
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chip_group_research"
@@ -931,7 +820,6 @@
                         android:textColor="#FFFFFF"
                         android:textSize="14sp" />
 
-
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_view_research"
                         android:layout_width="match_parent"
@@ -944,7 +832,6 @@
                         style="@style/Widget.MaterialComponents.Button" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -970,7 +857,6 @@
                     android:textColor="#FFFFFF"
                     android:textSize="20sp" />
 
-
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
@@ -987,7 +873,6 @@
                     android:padding="8dp" />
             </LinearLayout>
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_teaching_courses"
                 android:layout_width="match_parent"
@@ -997,6 +882,22 @@
                 android:orientation="horizontal"
                 android:paddingEnd="20dp"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_staff_logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="Logout"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:fontFamily="@font/poppins_semibold"
+                app:backgroundTint="#D32F2F"
+                app:cornerRadius="16dp"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="#FFFFFF"
+                style="@style/Widget.MaterialComponents.Button" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
@@ -1012,5 +913,4 @@
         app:backgroundTint="#1A5276"
         app:rippleColor="#FFFFFF"
         app:fabSize="normal" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
