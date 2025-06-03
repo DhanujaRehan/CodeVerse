@@ -263,7 +263,6 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Department field - shown only for lecturers -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:clipToPadding="true"
                         android:clipToOutline="true"
@@ -299,7 +298,6 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Teaching Subject field - shown only for lecturers -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:clipToPadding="true"
                         android:clipToOutline="true"
@@ -368,8 +366,6 @@
                             android:textColor="#333333" />
                     </com.google.android.material.textfield.TextInputLayout>
 
-
-                    <!-- Program Coordinating field - shown only for coordinators -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:clipToPadding="true"
                         android:clipToOutline="true"
@@ -405,7 +401,41 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Educational Qualifications -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
+                        android:id="@+id/til_password"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Password"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="true"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        android:layout_marginBottom="16dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        app:passwordToggleEnabled="true">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:clipToOutline="true"
+                            android:id="@+id/et_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:inputType="textPassword"
+                            android:textColor="#222222"
+                            android:padding="12dp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

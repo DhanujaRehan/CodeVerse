@@ -22,7 +22,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
 
     // Database Info
     private static final String DATABASE_NAME = "StaffDetails.db";
-    private static final int DATABASE_VERSION = 2; // Incremented to trigger schema update
+    private static final int DATABASE_VERSION = 2;
 
     // Table Names
     private static final String TABLE_STAFF = "StaffDetails";
