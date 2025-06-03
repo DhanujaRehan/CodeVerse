@@ -19,9 +19,9 @@ import java.util.Locale;
 public class NotificationDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "notifications.db";
-    private static final int DATABASE_VERSION = 4; // Incremented for schema update
+    private static final int DATABASE_VERSION = 4;
 
-    // Notifications table
+
     public static final String TABLE_NOTIFICATIONS = "notifications";
     public static final String COLUMN_ID = "id";
     public static final String COLUMN_TITLE = "title";
@@ -37,14 +37,14 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
     public static final String COLUMN_CREATED_AT = "created_at";
     public static final String COLUMN_ATTACHMENT_PATH = "attachment_path";
 
-    // Notification history table - using notification_action instead of action
+
     public static final String TABLE_NOTIFICATION_HISTORY = "notification_history";
     public static final String COLUMN_NOTIFICATION_ID = "notification_id";
-    public static final String COLUMN_NOTIFICATION_ACTION = "notification_action"; // Changed from "action"
+    public static final String COLUMN_NOTIFICATION_ACTION = "notification_action";
     public static final String COLUMN_TIMESTAMP = "timestamp";
     public static final String COLUMN_DETAILS = "details";
 
-    // Create notifications table SQL
+
     private static final String CREATE_NOTIFICATIONS_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATIONS + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -62,7 +62,7 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
                     COLUMN_ATTACHMENT_PATH + " TEXT" +
                     ")";
 
-    // Create notification history table SQL with notification_action
+
     private static final String CREATE_NOTIFICATION_HISTORY_TABLE =
             "CREATE TABLE IF NOT EXISTS " + TABLE_NOTIFICATION_HISTORY + " (" +
                     COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -87,32 +87,32 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 4) {
-            // Create notifications table if it doesn't exist
+
             db.execSQL(CREATE_NOTIFICATIONS_TABLE);
 
-            // Check if notification_history table exists and has the right columns
+
             if (tableExists(db, TABLE_NOTIFICATION_HISTORY)) {
-                // If table exists but doesn't have notification_action column, add it
+
                 if (!columnExists(db, TABLE_NOTIFICATION_HISTORY, COLUMN_NOTIFICATION_ACTION)) {
                     try {
-                        // Try to add the notification_action column
+
                         db.execSQL("ALTER TABLE " + TABLE_NOTIFICATION_HISTORY +
                                 " ADD COLUMN " + COLUMN_NOTIFICATION_ACTION + " TEXT DEFAULT 'UNKNOWN'");
                         Log.d("DatabaseUpgrade", "Added notification_action column to existing table");
                     } catch (Exception e) {
                         Log.e("DatabaseUpgrade", "Failed to add column, recreating table: " + e.getMessage());
-                        // If adding column fails, backup data and recreate table
+
                         recreateNotificationHistoryTable(db);
                     }
                 }
             } else {
-                // Table doesn't exist, create it
+
                 db.execSQL(CREATE_NOTIFICATION_HISTORY_TABLE);
             }
         }
     }
 
-    // Helper method to check if table exists
+
     private boolean tableExists(SQLiteDatabase db, String tableName) {
         Cursor cursor = db.rawQuery(
                 "SELECT name FROM sqlite_master WHERE type='table' AND name=?",
@@ -123,7 +123,7 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Helper method to check if column exists
+
     private boolean columnExists(SQLiteDatabase db, String tableName, String columnName) {
         Cursor cursor = db.rawQuery("PRAGMA table_info(" + tableName + ")", null);
         boolean exists = false;
@@ -141,10 +141,10 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
         return exists;
     }
 
-    // Recreate notification history table with proper schema
+
     private void recreateNotificationHistoryTable(SQLiteDatabase db) {
         try {
-            // Backup existing data
+
             List<String> backupData = new ArrayList<>();
             Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_NOTIFICATION_HISTORY, null);
 
@@ -159,17 +159,17 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
             }
             cursor.close();
 
-            // Drop and recreate table
+
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION_HISTORY);
             db.execSQL(CREATE_NOTIFICATION_HISTORY_TABLE);
 
-            // Restore data with default action
+
             for (String data : backupData) {
                 String[] parts = data.split("\\|", 3);
                 if (parts.length == 3) {
                     ContentValues values = new ContentValues();
                     values.put(COLUMN_NOTIFICATION_ID, Integer.parseInt(parts[0]));
-                    values.put(COLUMN_NOTIFICATION_ACTION, "SENT"); // Default action
+                    values.put(COLUMN_NOTIFICATION_ACTION, "SENT");
                     values.put(COLUMN_TIMESTAMP, parts[1]);
                     values.put(COLUMN_DETAILS, parts[2]);
 
@@ -181,13 +181,13 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
 
         } catch (Exception e) {
             Log.e("DatabaseUpgrade", "Error recreating table: " + e.getMessage());
-            // If all else fails, just create the new table
+
             db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION_HISTORY);
             db.execSQL(CREATE_NOTIFICATION_HISTORY_TABLE);
         }
     }
 
-    // Notification CRUD operations
+
     public long insertNotification(Notification notification) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -210,13 +210,13 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    // History operations using notification_action instead of action
+
     public long insertHistory(int notificationId, String notification_action, String details) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
         values.put(COLUMN_NOTIFICATION_ID, notificationId);
-        values.put(COLUMN_NOTIFICATION_ACTION, notification_action); // Using notification_action column
+        values.put(COLUMN_NOTIFICATION_ACTION, notification_action);
         values.put(COLUMN_TIMESTAMP, getCurrentTimestamp());
         values.put(COLUMN_DETAILS, details);
 
@@ -279,7 +279,7 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
                 history.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)));
                 history.setNotificationId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_NOTIFICATION_ID)));
 
-                // From notification table (if exists)
+
                 int titleIndex = cursor.getColumnIndex(COLUMN_TITLE);
                 if (titleIndex != -1 && !cursor.isNull(titleIndex)) {
                     history.setTitle(cursor.getString(titleIndex));
@@ -305,7 +305,7 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
                     history.setRecipients(cursor.getString(recipientsIndex));
                 }
 
-                // From history table - using notification_action
+
                 history.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_NOTIFICATION_ACTION)));
 
                 String timestamp = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIMESTAMP));
@@ -323,7 +323,7 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
         return historyList;
     }
 
-    // Helper methods
+
     private String getCurrentTimestamp() {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return sdf.format(new Date());
@@ -361,7 +361,7 @@ public class NotificationDatabaseHelper extends SQLiteOpenHelper {
                     }
                 }
             } catch (NumberFormatException e) {
-                // Use default values if parsing fails
+
             }
         }
     }
