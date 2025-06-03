@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -302,7 +303,16 @@ public class AssignmentUpload extends Fragment {
 
     private String saveFileToInternalStorage() throws Exception {
         InputStream inputStream = getContext().getContentResolver().openInputStream(selectedFileUri);
-        File file = new File(getContext().getFilesDir(), selectedFileName);
+
+        // Create assignments directory if it doesn't exist
+        File assignmentsDir = new File(getContext().getFilesDir(), "assignments");
+        if (!assignmentsDir.exists()) {
+            assignmentsDir.mkdirs();
+        }
+
+        // Create unique filename to avoid conflicts
+        String uniqueFileName = System.currentTimeMillis() + "_" + selectedFileName;
+        File file = new File(assignmentsDir, uniqueFileName);
 
         FileOutputStream outputStream = new FileOutputStream(file);
         byte[] buffer = new byte[1024];
@@ -316,6 +326,11 @@ public class AssignmentUpload extends Fragment {
 
         outputStream.close();
         inputStream.close();
+
+        Log.d("AssignmentUpload", "File saved to: " + file.getAbsolutePath());
+        Log.d("AssignmentUpload", "File size: " + totalSize + " bytes");
+        Log.d("AssignmentUpload", "File exists: " + file.exists());
+        Log.d("AssignmentUpload", "File can read: " + file.canRead());
 
         return file.getAbsolutePath();
     }
