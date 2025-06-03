@@ -140,7 +140,6 @@ public class GradeSubmission extends Fragment {
                 android.R.layout.simple_dropdown_item_1line, programmes);
         dropdownProgramme.setAdapter(programmeAdapter);
 
-        // Batch dropdown
         List<String> batches = dbHelper.getAllBatches();
         if (batches.isEmpty()) {
             batches.add("2021");
