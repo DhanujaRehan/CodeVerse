@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Header -->
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         android:gravity="center"
         android:layout_marginBottom="20dp" />
 
-    <!-- Gallery Option -->
+
     <LinearLayout
         android:id="@+id/layoutGallery"
         android:layout_width="match_parent"
@@ -67,7 +67,7 @@
             app:tint="@color/text_secondary" />
     </LinearLayout>
 
-    <!-- Documents Option -->
+
     <LinearLayout
         android:id="@+id/layoutDocuments"
         android:layout_width="match_parent"
@@ -116,7 +116,7 @@
             app:tint="@color/text_secondary" />
     </LinearLayout>
 
-    <!-- All Files Option -->
+
     <LinearLayout
         android:id="@+id/layoutAllFiles"
         android:layout_width="match_parent"
