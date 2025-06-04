@@ -13,7 +13,7 @@
     app:strokeColor="#33FFFFFF"
     app:strokeWidth="1dp">
 
-    <!-- Glass Morphism Effect Background -->
+
     <View
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Course Image with Animation -->
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="120dp">
@@ -44,7 +44,7 @@
                     tools:src="@drawable/ccc" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Student Count Chip -->
+
             <com.google.android.material.chip.Chip
                 android:id="@+id/chip_student_count"
                 android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                 app:chipBackgroundColor="#1A5276" />
         </FrameLayout>
 
-        <!-- Course Title -->
+
         <TextView
             android:id="@+id/tv_course_name"
             android:layout_width="match_parent"
@@ -68,7 +68,7 @@
             android:textSize="18sp"
             tools:text="Advanced Machine Learning" />
 
-        <!-- Course ID & Semester -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                 tools:text="Spring 2024" />
         </LinearLayout>
 
-        <!-- Course Description -->
+
         <TextView
             android:id="@+id/tv_course_description"
             android:layout_width="match_parent"
@@ -116,7 +116,7 @@
             android:textSize="14sp"
             tools:text="This course covers advanced topics in machine learning including deep learning, reinforcement learning, and generative models." />
 
-        <!-- Course Details Button -->
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_course_details"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
