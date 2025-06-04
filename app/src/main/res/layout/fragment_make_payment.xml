@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/payment_background_gradient">
 
-    <!-- Top App Bar with curved bottom -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -57,7 +57,7 @@
                 app:layout_constraintTop_toTopOf="@id/cv_back" />
 
 
-            <!-- Outstanding Amount Pill -->
+
             <TextView
                 android:id="@+id/tv_total_amount"
                 android:layout_width="wrap_content"
@@ -75,14 +75,14 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Curved bottom shape for AppBar -->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:background="@drawable/curved_bottom_shape" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -100,7 +100,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="80dp">
 
-            <!-- Payment Animation Card -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
@@ -132,7 +132,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Payment Methods Card -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -156,7 +156,7 @@
                         android:textSize="18sp"
                         android:layout_marginBottom="16dp" />
 
-                    <!-- Payment Methods Tab Layout -->
+
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tab_payment_methods"
                         android:layout_width="match_parent"
@@ -186,7 +186,7 @@
                             android:text="Digital Wallet" />
                     </com.google.android.material.tabs.TabLayout>
 
-                    <!-- Card Payment Section (initially visible) -->
+
                     <LinearLayout
                         android:id="@+id/layout_card_payment"
                         android:layout_width="match_parent"
@@ -194,13 +194,12 @@
                         android:orientation="vertical"
                         android:layout_marginTop="20dp">
 
-                        <!-- Card Holder Animation with Cards -->
                         <FrameLayout
                             android:layout_width="match_parent"
                             android:layout_height="200dp"
                             android:layout_marginBottom="20dp">
 
-                            <!-- Card Carousel -->
+
                             <androidx.recyclerview.widget.RecyclerView
                                 android:id="@+id/recycler_cards"
                                 android:layout_width="match_parent"
@@ -221,7 +220,7 @@
                             android:src="@drawable/ic_add"
                             app:backgroundTint="#6A11CB"
                             app:tint="#FFFFFF" />
-                        <!-- Sample Credit Card Preview -->
+
                         <androidx.cardview.widget.CardView
                             android:id="@+id/card_preview"
                             android:layout_width="match_parent"
@@ -233,13 +232,13 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent">
 
-                                <!-- Card Background Gradient -->
+
                                 <View
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:background="@drawable/credit_card_gradient" />
 
-                                <!-- Card Chip Image -->
+
                                 <ImageView
                                     android:layout_width="50dp"
                                     android:layout_height="50dp"
@@ -248,7 +247,7 @@
                                     android:src="@drawable/ic_card_chip"
                                     android:contentDescription="Card Chip" />
 
-                                <!-- Card Network Logo -->
+
                                 <ImageView
                                     android:layout_width="60dp"
                                     android:layout_height="40dp"
@@ -258,7 +257,7 @@
                                     android:src="@drawable/ic_visa_logo"
                                     android:contentDescription="Card Network" />
 
-                                <!-- Card Number -->
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -269,7 +268,7 @@
                                     android:textColor="#FFFFFF"
                                     android:textSize="18sp" />
 
-                                <!-- Card Holder Name -->
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -292,7 +291,7 @@
                                     android:textColor="#FFFFFF"
                                     android:textSize="14sp" />
 
-                                <!-- Expiry Date -->
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
@@ -317,7 +316,7 @@
                             </FrameLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <!-- CVV Input -->
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -342,7 +341,7 @@
                                 android:textColor="#333333" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <!-- Save Card Checkbox -->
+
                         <CheckBox
                             android:id="@+id/cb_save_card"
                             android:layout_width="wrap_content"
@@ -356,7 +355,7 @@
                             app:buttonTint="#6A11CB" />
                     </LinearLayout>
 
-                    <!-- Bank Transfer Section (initially gone) -->
+
                     <LinearLayout
                         android:id="@+id/layout_bank_transfer"
                         android:layout_width="match_parent"
@@ -365,7 +364,7 @@
                         android:layout_marginTop="20dp"
                         android:visibility="gone">
 
-                        <!-- Bank Transfer Animation -->
+
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/animation_bank_transfer"
                             android:layout_width="200dp"
@@ -375,7 +374,7 @@
                             app:lottie_loop="true"
                             app:lottie_rawRes="@raw/bank_transfer" />
 
-                        <!-- Bank Account Details -->
+
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -534,7 +533,7 @@
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <!-- Bank Transfer Instructions -->
+
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -570,7 +569,7 @@
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
 
-                    <!-- Digital Wallet Section (initially gone) -->
+
                     <LinearLayout
                         android:id="@+id/layout_digital_wallet"
                         android:layout_width="match_parent"
@@ -579,7 +578,7 @@
                         android:layout_marginTop="20dp"
                         android:visibility="gone">
 
-                        <!-- Digital Wallet Animation -->
+
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/animation_digital_wallet"
                             android:layout_width="200dp"
@@ -589,14 +588,14 @@
                             app:lottie_loop="true"
                             app:lottie_rawRes="@raw/digital_wallet" />
 
-                        <!-- Digital Wallet Options -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:layout_marginTop="16dp">
 
-                            <!-- Wallet Option 1 -->
+
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/card_wallet_1"
                                 android:layout_width="match_parent"
@@ -641,7 +640,7 @@
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
 
-                            <!-- Wallet Option 2 -->
+
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/card_wallet_2"
                                 android:layout_width="match_parent"
@@ -686,7 +685,7 @@
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
 
-                            <!-- Wallet Option 3 -->
+
                             <androidx.cardview.widget.CardView
                                 android:id="@+id/card_wallet_3"
                                 android:layout_width="match_parent"
@@ -731,7 +730,7 @@
                             </androidx.cardview.widget.CardView>
                         </LinearLayout>
 
-                        <!-- Digital Wallet Instructions -->
+
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -769,7 +768,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Payment Summary Card -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -793,7 +792,7 @@
                         android:textSize="18sp"
                         android:layout_marginBottom="12dp" />
 
-                    <!-- Invoice Details -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -869,14 +868,14 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <!-- Divider -->
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#E0E0E0"
                         android:layout_marginVertical="8dp" />
 
-                    <!-- Amount Details -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -927,14 +926,14 @@
                             android:textSize="14sp" />
                     </LinearLayout>
 
-                    <!-- Divider -->
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:background="#E0E0E0"
                         android:layout_marginVertical="8dp" />
 
-                    <!-- Total Amount -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -963,7 +962,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Payment Button -->
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
