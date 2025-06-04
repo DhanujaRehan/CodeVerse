@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/examination_background_gradient">
 
-    <!-- Top App Bar with curved bottom -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:paddingTop="52dp"
             android:paddingBottom="32dp">
 
-            <!-- Back Button with Animation -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_back"
                 android:layout_width="36dp"
@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toEndOf="@id/cv_back"
                 app:layout_constraintTop_toTopOf="@id/cv_back" />
 
-            <!-- Action Icons -->
+
             <ImageView
                 android:id="@+id/iv_notification"
                 android:layout_width="28dp"
@@ -79,7 +79,7 @@
                 app:layout_constraintTop_toTopOf="@id/cv_back"
                 app:tint="#FFFFFF" />
 
-            <!-- Subtitle Section -->
+
             <TextView
                 android:id="@+id/tv_subtitle"
                 android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cv_back" />
 
-            <!-- Semester Selector -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_semester_selector"
                 android:layout_width="match_parent"
@@ -146,14 +146,14 @@
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Curved bottom shape for AppBar -->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:background="@drawable/curved_bottom_shape" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -171,14 +171,14 @@
             android:paddingTop="16dp"
             android:paddingBottom="80dp">
 
-            <!-- Quick Action Buttons -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
-                <!-- Exam Admission Button -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_admission"
                     android:layout_width="0dp"
@@ -227,7 +227,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Exam Submissions Button -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_submissions"
                     android:layout_width="0dp"
@@ -277,7 +277,7 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
-            <!-- Performance Overview Card -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -300,7 +300,7 @@
                         android:textColor="#333333"
                         android:textSize="18sp" />
 
-                    <!-- Performance Metrics -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -308,7 +308,7 @@
                         android:orientation="horizontal"
                         android:weightSum="3">
 
-                        <!-- Average Score Metric -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -360,7 +360,7 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- Exams Passed Metric -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -412,7 +412,7 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- Rank Metric -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -454,7 +454,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Performance Graph -->
+
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="180dp"
@@ -463,7 +463,7 @@
                         app:cardCornerRadius="16dp"
                         app:cardElevation="0dp">
 
-                        <!-- Replace with your actual graph implementation -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -483,7 +483,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Exam Results Section -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
