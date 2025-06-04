@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- Left Time Section with Gradient -->
+
         <LinearLayout
             android:id="@+id/layout_time_section"
             android:layout_width="85dp"
@@ -58,7 +58,7 @@
                 android:textSize="14sp"
                 android:layout_marginTop="4dp" />
 
-            <!-- Pulse Animation -->
+
             <com.airbnb.lottie.LottieAnimationView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
@@ -69,7 +69,7 @@
                 app:lottie_rawRes="@raw/calendar" />
         </LinearLayout>
 
-        <!-- Right Content Section -->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             android:padding="16dp"
             android:background="#FFFFFF">
 
-            <!-- Header with Subject and Actions -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,7 +142,7 @@
                 android:background="#F0F0F0"
                 android:layout_marginVertical="12dp" />
 
-            <!-- Lecturer Details -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -166,7 +166,7 @@
                     android:layout_marginStart="8dp" />
             </LinearLayout>
 
-            <!-- Classroom Details -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -191,7 +191,7 @@
                     android:layout_marginStart="8dp" />
             </LinearLayout>
 
-            <!-- Schedule Type Badge -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,7 +218,7 @@
                         android:paddingVertical="6dp" />
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Status Badge -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/badge_status"
                     android:layout_width="wrap_content"
@@ -241,7 +241,7 @@
                 </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
-            <!-- Actions -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
