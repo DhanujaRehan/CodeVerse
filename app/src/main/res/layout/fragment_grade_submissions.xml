@@ -119,7 +119,7 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <!-- Selection Form -->
+
             <LinearLayout
                 android:id="@+id/card_selection_form"
                 android:layout_width="match_parent"
@@ -141,7 +141,7 @@
                     android:textColor="#1A5276"
                     android:textSize="18sp" />
 
-                <!-- Programme Dropdown -->
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_programme"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -168,7 +168,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Batch Number Dropdown -->
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_batch"
@@ -196,7 +196,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Module Name Dropdown -->
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_module"
@@ -224,7 +224,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Assessment Dropdown -->
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_assessment"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -251,7 +251,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- View Submissions Button -->
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnViewSubmissions"
                     android:layout_width="match_parent"
@@ -267,7 +267,7 @@
                     app:iconTint="#FFFFFF" />
             </LinearLayout>
 
-            <!-- Submissions List Section -->
+
             <LinearLayout
                 android:id="@+id/card_submissions_list"
                 android:layout_width="match_parent"
@@ -315,7 +315,7 @@
                     tools:visibility="visible" />
             </LinearLayout>
 
-            <!-- Grade Details Section -->
+
             <LinearLayout
                 android:id="@+id/layoutGradeDetails"
                 android:layout_width="match_parent"
@@ -352,7 +352,7 @@
                         android:textSize="18sp" />
                 </LinearLayout>
 
-                <!-- Student Information Card -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -445,7 +445,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Submission Files -->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -462,7 +462,7 @@
                     android:layout_marginBottom="16dp"
                     android:nestedScrollingEnabled="false" />
 
-                <!-- Marks Input -->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -496,7 +496,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Grade Dropdown -->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -530,7 +530,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Feedback Input -->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -566,7 +566,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Action Buttons -->
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
