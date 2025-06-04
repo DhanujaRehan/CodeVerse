@@ -150,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <!-- Schedule Action -->
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_schedule"
                         android:layout_width="120dp"
@@ -186,7 +186,7 @@
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Attendance Action -->
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_attendance"
                         android:layout_width="120dp"
@@ -258,7 +258,7 @@
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
-                    <!-- Messages Action -->
+
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_messages"
                         android:layout_width="120dp"
@@ -295,7 +295,7 @@
                 </LinearLayout>
             </HorizontalScrollView>
 
-            <!-- Filters Section -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -351,7 +351,7 @@
                         android:background="#1A000000"
                         android:layout_marginVertical="8dp" />
 
-                    <!-- Year Filter -->
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/til_year"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -380,7 +380,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="12dp">
 
-                        <!-- Department Filter -->
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/til_department"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -404,7 +404,7 @@
                                 android:inputType="none" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <!-- Badge Filter -->
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/til_badge"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -431,7 +431,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Students Section -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -458,7 +458,7 @@
                     android:fontFamily="@font/poppins_medium" />
             </LinearLayout>
 
-            <!-- Animation for Empty State -->
+
             <FrameLayout
                 android:id="@+id/layout_empty_state"
                 android:layout_width="match_parent"
@@ -499,7 +499,7 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <!-- Students RecyclerView -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_students"
                 android:layout_width="match_parent"
@@ -515,7 +515,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Navigation Bar with Glassmorphism Effect -->
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
