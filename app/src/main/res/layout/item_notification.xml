@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- Priority Indicator -->
+
         <View
             android:id="@+id/viewPriorityIndicator"
             android:layout_width="6dp"
@@ -29,7 +29,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Header Row -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
                     android:paddingVertical="4dp" />
             </LinearLayout>
 
-            <!-- Message -->
+
             <TextView
                 android:id="@+id/tvNotificationMessage"
                 android:layout_width="match_parent"
@@ -76,7 +76,7 @@
                 android:maxLines="3"
                 android:ellipsize="end" />
 
-            <!-- Category and Recipients Row -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -159,7 +159,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Date and Delivery Methods Row -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -217,7 +217,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Action Buttons -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
