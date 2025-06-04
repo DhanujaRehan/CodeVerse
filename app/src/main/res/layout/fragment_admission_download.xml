@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/admission_background_gradient">
 
-    <!-- Top App Bar with curved bottom -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:paddingTop="52dp"
             android:paddingBottom="32dp">
 
-            <!-- Back Button with Animation -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_back"
                 android:layout_width="36dp"
@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toEndOf="@id/cv_back"
                 app:layout_constraintTop_toTopOf="@id/cv_back" />
 
-            <!-- Help Icon -->
+
             <ImageView
                 android:id="@+id/iv_help"
                 android:layout_width="36dp"
@@ -68,7 +68,7 @@
                 app:layout_constraintTop_toTopOf="@id/cv_back"
                 app:tint="#FFFFFF" />
 
-            <!-- Subtitle Section -->
+
             <TextView
                 android:id="@+id/tv_subtitle"
                 android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cv_back" />
 
-            <!-- Semester Selector -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_semester_selector"
                 android:layout_width="match_parent"
@@ -93,7 +93,7 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_subtitle">
 
 
-                <!-- Semester Card with Gradient Background -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
-                    <!-- Gradient Background -->
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -114,7 +114,7 @@
                         android:layout_height="wrap_content"
                         android:padding="16dp">
 
-                        <!-- Calendar Icon -->
+
                         <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/animation_calendar"
                             android:layout_width="48dp"
@@ -126,7 +126,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"/>
 
-                        <!-- Semester Info -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent">
 
-                            <!-- Label -->
+
                             <TextView
                                 android:id="@+id/tv_semester_label"
                                 android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                                 android:textColor="#CCFFFFFF"
                                 android:textSize="15sp"/>
 
-                            <!-- Value with Verified Icon -->
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -173,7 +173,7 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Switch Button -->
+
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/semester_switch"
                             android:layout_width="wrap_content"
@@ -191,7 +191,7 @@
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintBottom_toBottomOf="parent"/>
 
-                        <!-- Hidden dropdown for backward compatibility -->
+
                         <ImageView
                             android:id="@+id/iv_dropdown"
                             android:layout_width="0dp"
@@ -204,14 +204,14 @@
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Curved bottom shape for AppBar -->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:background="@drawable/curved_bottom_shape" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -229,7 +229,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="80dp">
 
-            <!-- Status Banner -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -264,7 +264,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Download Instructions -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -284,7 +284,7 @@
                 android:textSize="14sp" />
 
 
-            <!-- Admission Cards Section -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_admission_cards"
                 android:layout_width="match_parent"
@@ -297,7 +297,7 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 />
 
-            <!-- Important Notes Section -->
+
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -320,14 +320,14 @@
                         android:textColor="#333333"
                         android:textSize="18sp" />
 
-                    <!-- Notes Content -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:orientation="vertical">
 
-                        <!-- Note 1 -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -360,7 +360,7 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- Note 2 -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -393,7 +393,7 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- Note 3 -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -426,7 +426,7 @@
                                 android:textSize="14sp" />
                         </LinearLayout>
 
-                        <!-- Note 4 -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -462,7 +462,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Support Section -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_support"
                 android:layout_width="match_parent"
