@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/payment_background_gradient">
 
-    <!-- Top App Bar with curved bottom -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                 app:tint="#FFFFFF"
                 android:contentDescription="More options" />
 
-            <!-- Payment Amount Pill -->
+
             <TextView
                 android:id="@+id/tv_total_amount"
                 android:layout_width="wrap_content"
@@ -82,7 +82,7 @@
             android:background="@drawable/curved_bottom_shape" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -100,7 +100,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="80dp">
 
-            <!-- Quick Actions Card -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                         android:orientation="horizontal"
                         android:weightSum="3">
 
-                        <!-- Upload Payment Slip Button -->
+
                         <androidx.cardview.widget.CardView
                             android:id="@+id/btn_upload_payment_slip"
                             android:layout_width="0dp"
@@ -170,7 +170,7 @@
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <!-- Make Payment Button -->
+
                         <androidx.cardview.widget.CardView
                             android:id="@+id/btn_make_payment"
                             android:layout_width="0dp"
@@ -211,7 +211,7 @@
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
 
-                        <!-- Download Receipt Button -->
+
                         <androidx.cardview.widget.CardView
                             android:id="@+id/btn_download_receipts"
                             android:layout_width="0dp"
@@ -255,7 +255,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Payment Status Card with dynamic status display -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -270,12 +270,12 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Payment Status Section - Dynamically changeable based on payment status -->
+
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
-                        <!-- Fully Paid Status (Initially Visible) -->
+
                         <LinearLayout
                             android:id="@+id/layout_status_paid"
                             android:layout_width="match_parent"
@@ -319,7 +319,7 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Partially Paid Status -->
+
                         <LinearLayout
                             android:id="@+id/layout_status_partial"
                             android:layout_width="match_parent"
@@ -363,7 +363,7 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Unpaid Status -->
+
                         <LinearLayout
                             android:id="@+id/layout_status_unpaid"
                             android:layout_width="match_parent"
@@ -407,7 +407,7 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Overdue Status -->
+
                         <LinearLayout
                             android:id="@+id/layout_status_overdue"
                             android:layout_width="match_parent"
@@ -452,7 +452,7 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Processing Status -->
+
                         <LinearLayout
                             android:id="@+id/layout_status_processing"
                             android:layout_width="match_parent"
@@ -497,7 +497,7 @@
                         </LinearLayout>
                     </FrameLayout>
 
-                    <!-- Payment Summary -->
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -508,7 +508,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="16dp" />
 
-                    <!-- Payment Details Card -->
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -522,7 +522,7 @@
                             android:orientation="vertical"
                             android:padding="16dp">
 
-                            <!-- Course Fee Row -->
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -553,7 +553,7 @@
                                 android:layout_height="1dp"
                                 android:background="#EEEEEE" />
 
-                            <!-- Amount Paid Row -->
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -584,7 +584,7 @@
                                 android:layout_height="1dp"
                                 android:background="#EEEEEE" />
 
-                            <!-- Outstanding Row -->
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -615,7 +615,7 @@
                                 android:layout_height="1dp"
                                 android:background="#EEEEEE" />
 
-                            <!-- Due Date Row -->
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -643,7 +643,7 @@
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
 
-                    <!-- University Fees Title -->
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -654,7 +654,7 @@
                         android:layout_marginTop="20dp"
                         android:layout_marginBottom="16dp" />
 
-                    <!-- University Fees Card -->
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -668,7 +668,7 @@
                             android:orientation="vertical"
                             android:padding="16dp">
 
-                            <!-- University Fee Row -->
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -699,7 +699,7 @@
                                 android:layout_height="1dp"
                                 android:background="#EEEEEE" />
 
-                            <!-- Paid University Fee Row -->
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -730,7 +730,7 @@
                                 android:layout_height="1dp"
                                 android:background="#EEEEEE" />
 
-                            <!-- University Fee Outstanding Row -->
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -760,7 +760,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Payment History Section with Timeline -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -784,7 +784,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Payment Timeline Header -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -813,19 +813,19 @@
                             android:padding="8dp" />
                     </LinearLayout>
 
-                    <!-- Timeline View -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <!-- Payment 1 with Timeline -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <!-- Timeline Left Side -->
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
@@ -833,7 +833,7 @@
                                 android:gravity="center_horizontal"
                                 android:paddingEnd="12dp">
 
-                                <!-- Timeline Circle -->
+
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="48dp"
                                     android:layout_height="48dp"
@@ -849,7 +849,7 @@
                                         app:tint="#4CAF50" />
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- Timeline Connector -->
+
                                 <View
                                     android:layout_width="2dp"
                                     android:layout_height="50dp"
@@ -858,7 +858,7 @@
                                     android:layout_marginBottom="4dp" />
                             </LinearLayout>
 
-                            <!-- Payment Details -->
+
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -910,13 +910,13 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Payment 2 with Timeline -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <!-- Timeline Left Side -->
+
                             <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
@@ -924,7 +924,7 @@
                                 android:gravity="center_horizontal"
                                 android:paddingEnd="12dp">
 
-                                <!-- Timeline Circle -->
+
                                 <androidx.cardview.widget.CardView
                                     android:layout_width="48dp"
                                     android:layout_height="48dp"
@@ -940,10 +940,10 @@
                                         app:tint="#2196F3" />
                                 </androidx.cardview.widget.CardView>
 
-                                <!-- No Timeline Connector for last item -->
+
                             </LinearLayout>
 
-                            <!-- Payment Details -->
+
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -997,7 +997,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Payment Schedule -->
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -1021,7 +1021,7 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <!-- Upcoming Payment Item -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1061,7 +1061,7 @@
                             android:textSize="15sp" />
                     </LinearLayout>
 
-                    <!-- Reminder Message -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -1087,7 +1087,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Need Help Section -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -1153,7 +1153,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Float Action Button for Quick Pay -->
+
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fab_quick_pay"
         android:layout_width="wrap_content"
