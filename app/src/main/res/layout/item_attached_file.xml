@@ -18,7 +18,7 @@
         android:gravity="center_vertical"
         android:padding="12dp">
 
-        <!-- File Icon -->
+
         <ImageView
             android:id="@+id/ivFileIcon"
             android:layout_width="40dp"
@@ -28,7 +28,7 @@
             android:layout_marginEnd="12dp"
             app:tint="@color/purple_primary" />
 
-        <!-- File Info -->
+
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 android:layout_marginTop="2dp" />
         </LinearLayout>
 
-        <!-- Remove Button -->
+
         <ImageView
             android:id="@+id/ivRemoveFile"
             android:layout_width="32dp"
