@@ -93,7 +93,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="100dp">
 
-            <!-- Search and Filter Section -->
+
             <LinearLayout
                 android:id="@+id/card_search_filter"
                 android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <!-- Search Bar -->
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_search"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -158,7 +158,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Filter Chips -->
+
                 <com.google.android.material.chip.ChipGroup
                     android:id="@+id/chipGroupFilters"
                     android:layout_width="match_parent"
@@ -213,7 +213,7 @@
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
 
-            <!-- Assignment Statistics -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -357,7 +357,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Assignments List Header -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -395,7 +395,7 @@
                     app:iconTint="#FFFFFF" />
             </LinearLayout>
 
-            <!-- Assignment Cards Container -->
+
             <LinearLayout
                 android:id="@+id/assignments_container"
                 android:layout_width="match_parent"
@@ -403,7 +403,7 @@
                 android:layout_marginTop="12dp"
                 android:orientation="vertical">
 
-                <!-- Sample Assignment Card 1 -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_assignment_1"
                     android:layout_width="match_parent"
@@ -421,7 +421,7 @@
                         android:orientation="vertical"
                         android:padding="20dp">
 
-                        <!-- Assignment Header -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -463,7 +463,7 @@
                                 app:chipIconVisible="false" />
                         </LinearLayout>
 
-                        <!-- Assignment Details -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -540,7 +540,7 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Action Buttons -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -588,7 +588,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Sample Assignment Card 2 -->
+
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_assignment_2"
                     android:layout_width="match_parent"
@@ -606,7 +606,7 @@
                         android:orientation="vertical"
                         android:padding="20dp">
 
-                        <!-- Assignment Header -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -648,7 +648,7 @@
                                 app:chipIconVisible="false" />
                         </LinearLayout>
 
-                        <!-- Assignment Details -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -725,7 +725,7 @@
                             </LinearLayout>
                         </LinearLayout>
 
-                        <!-- Action Buttons -->
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -775,7 +775,7 @@
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Add More Button -->
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_load_more"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -794,7 +794,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Floating Action Button -->
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_assignment"
         android:layout_width="wrap_content"
