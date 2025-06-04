@@ -58,7 +58,7 @@
                 app:layout_constraintStart_toEndOf="@id/cv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <!-- Help Button with Animation -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_help"
                 android:layout_width="48dp"
@@ -98,7 +98,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="100dp">
 
-            <!-- Progress Steps Card -->
+
             <LinearLayout
                 android:orientation="vertical"
                 android:id="@+id/card_progress_steps"
