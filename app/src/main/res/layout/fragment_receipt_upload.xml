@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
-    <!-- Top App Bar with curved bottom edge -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -69,14 +69,14 @@
                 android:contentDescription="Help" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Curved bottom shape for AppBar -->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="24dp"
             android:background="@drawable/curved_bottom_shape" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -94,7 +94,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="80dp">
 
-            <!-- Instructions Card with animated icon -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -129,7 +129,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Student Information Section with Icon -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <!-- Student ID Field with floating style -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_student_id"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -179,7 +179,7 @@
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- University Number Field -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_university_number"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -206,7 +206,7 @@
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Payment Details Section with Icon -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -230,7 +230,7 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <!-- Payment Fields in a Row -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -238,7 +238,7 @@
                 android:layout_marginTop="16dp"
                 android:baselineAligned="false">
 
-                <!-- Payment Date Field -->
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_payment_date"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -268,7 +268,7 @@
                         android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Payment Amount Field -->
+
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_payment_amount"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -299,7 +299,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
-            <!-- Receipt Upload Section with Icon -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -323,7 +323,7 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <!-- Enhanced Receipt Upload Card with elegant design -->
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/card_upload"
                 android:layout_width="match_parent"
@@ -339,7 +339,7 @@
                     android:layout_height="180dp"
                     android:padding="16dp">
 
-                    <!-- Upload animation -->
+
                     <com.airbnb.lottie.LottieAnimationView
                         android:id="@+id/animation_upload"
                         android:layout_width="70dp"
@@ -381,7 +381,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tv_upload_instruction" />
 
-                    <!-- This ImageView will be shown after image selection with proper rounded corners -->
+
                     <ImageView
                         android:id="@+id/iv_receipt_preview"
                         android:layout_width="match_parent"
@@ -394,7 +394,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- Enhanced remove button that appears after upload -->
+
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
                         android:id="@+id/fab_remove_receipt"
                         android:layout_width="wrap_content"
@@ -411,7 +411,7 @@
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Additional Information Section with Icon -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -435,7 +435,7 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <!-- Enhanced Remarks Field -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_remarks"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -468,7 +468,7 @@
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Enhanced Payment Status Card with better design -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -532,7 +532,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Enhanced Bottom Submit Button with gradient and shadow -->
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
