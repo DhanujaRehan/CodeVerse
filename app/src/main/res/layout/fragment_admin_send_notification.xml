@@ -131,7 +131,7 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <!-- Form Header Card -->
+
             <LinearLayout
                 android:id="@+id/card_form_header"
                 android:layout_width="match_parent"
@@ -162,7 +162,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Notification Form -->
+
             <LinearLayout
                 android:id="@+id/card_notification_form"
                 android:layout_width="match_parent"
@@ -175,7 +175,7 @@
                 android:orientation="vertical"
                 android:padding="20dp">
 
-                <!-- Priority Level -->
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_priority"
@@ -229,7 +229,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Category Selection -->
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_category"
@@ -257,7 +257,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Notification Title -->
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_notification_title"
@@ -286,7 +286,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Notification Message -->
+
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_message"
@@ -316,7 +316,7 @@
                         android:textColor="#222222" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Schedule Section -->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -339,7 +339,7 @@
                     app:thumbTint="@color/white"
                     app:trackTint="#D1C4E9" />
 
-                <!-- Date and Time Selection -->
+
                 <LinearLayout
                     android:id="@+id/layoutScheduleOptions"
                     android:layout_width="match_parent"
@@ -353,7 +353,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <!-- Date Selection -->
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/til_schedule_date"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -381,7 +381,7 @@
                                 android:textColor="#222222" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <!-- Time Selection -->
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/til_schedule_time"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -411,7 +411,7 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Attachment Section -->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -431,7 +431,7 @@
                     android:clipToOutline="true"
                     android:orientation="vertical">
 
-                    <!-- Upload Area -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -478,7 +478,7 @@
                             app:strokeColor="@color/white" />
                     </LinearLayout>
 
-                    <!-- Attached Files Container -->
+
                     <LinearLayout
                         android:id="@+id/layoutAttachedFiles"
                         android:layout_width="match_parent"
@@ -487,11 +487,11 @@
                         android:padding="16dp"
                         android:paddingTop="0dp"
                         android:visibility="gone">
-                        <!-- Files will be added here dynamically -->
+
                     </LinearLayout>
                 </LinearLayout>
 
-                <!-- Notification Options -->
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -541,7 +541,7 @@
                     app:trackTint="#D1C4E9" />
             </LinearLayout>
 
-            <!-- Preview Card -->
+
             <LinearLayout
                 android:id="@+id/card_preview"
                 android:layout_width="match_parent"
@@ -598,7 +598,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Action Buttons -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
