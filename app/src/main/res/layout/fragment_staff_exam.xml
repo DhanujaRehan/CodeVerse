@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/login_gradient_background">
 
-    <!-- Top App Bar with Glass Effect -->
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
@@ -22,7 +22,7 @@
             android:paddingHorizontal="20dp"
             android:paddingBottom="24dp">
 
-            <!-- Back Button with Glass Effect -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
@@ -43,7 +43,7 @@
                     app:tint="#FFFFFF" />
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Page Title -->
+
             <TextView
                 android:id="@+id/tv_page_title"
                 android:layout_width="wrap_content"
@@ -57,7 +57,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@id/cv_back" />
 
-            <!-- Add Exam Button with Glass Effect -->
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_add_exam"
                 android:layout_width="48dp"
@@ -71,7 +71,7 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Exam Animation -->
+
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/animation_exam"
@@ -88,14 +88,14 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Curved bottom shape for AppBar -->
+
         <View
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:background="@android:color/white" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Main Content -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -111,7 +111,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="80dp">
 
-            <!-- Search and Filter Section -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -165,7 +165,7 @@
                         android:background="#1A000000"
                         android:layout_marginVertical="8dp" />
 
-                    <!-- Search Input -->
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/til_search"
                         android:layout_width="match_parent"
@@ -192,7 +192,7 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="12dp">
 
-                        <!-- Exam Type Filter -->
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/til_exam_type"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -214,7 +214,7 @@
                                 android:inputType="none" />
                         </com.google.android.material.textfield.TextInputLayout>
 
-                        <!-- Semester Filter -->
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/til_semester"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -239,7 +239,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Exam Statistics Card -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -282,14 +282,14 @@
                         android:background="#1A000000"
                         android:layout_marginVertical="12dp" />
 
-                    <!-- Statistics Grid -->
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="8dp">
 
-                        <!-- Total Exams -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -317,7 +317,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
 
-                        <!-- Scheduled -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -346,7 +346,7 @@
                                 android:textStyle="bold" />
                         </LinearLayout>
 
-                        <!-- Pending -->
+
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -375,7 +375,7 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Progress Bar -->
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -407,7 +407,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Exams Section Header -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -434,7 +434,7 @@
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- Empty State -->
+
             <FrameLayout
                 android:id="@+id/layout_empty_state"
                 android:layout_width="match_parent"
@@ -473,7 +473,7 @@
                 </LinearLayout>
             </FrameLayout>
 
-            <!-- Exams RecyclerView -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_exams"
                 android:layout_width="match_parent"
@@ -489,7 +489,7 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Floating Action Button -->
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add_exam"
         android:layout_width="wrap_content"
