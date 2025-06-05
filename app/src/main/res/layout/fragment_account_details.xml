@@ -51,7 +51,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Account Setup"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
@@ -126,7 +126,7 @@
                             android:layout_width="36dp"
                             android:layout_height="36dp"
                             android:layout_gravity="center"
-                            app:cardBackgroundColor="#1A5276"
+                            app:cardBackgroundColor="@color/DarkBlue"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="2dp">
 
@@ -137,7 +137,7 @@
                                 android:gravity="center"
                                 android:layout_gravity="center"
                                 android:text="1"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/white"
                                 android:textSize="16sp" />
                         </com.google.android.material.card.MaterialCardView>
 
@@ -147,7 +147,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/poppins_medium"
                             android:text="Basic Info"
-                            android:textColor="#1A5276"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -168,7 +168,7 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            app:cardBackgroundColor="#1A5276"
+                            app:cardBackgroundColor="@color/DarkBlue"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="2dp">
 
@@ -178,7 +178,7 @@
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
                                 android:text="2"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/white"
                                 android:textSize="16sp" />
                         </com.google.android.material.card.MaterialCardView>
 
@@ -188,7 +188,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/poppins_medium"
                             android:text="Academic"
-                            android:textColor="#1A5276"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -209,7 +209,7 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            android:backgroundTint="#1A5276"
+                            android:backgroundTint="@color/DarkBlue"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="2dp">
 
@@ -229,7 +229,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/poppins_medium"
                             android:text="Account"
-                            android:textColor="#1A5276"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -250,7 +250,7 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            app:cardBackgroundColor="#80FFFFFF"
+                            app:cardBackgroundColor="@color/white"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="2dp">
 
@@ -260,7 +260,7 @@
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
                                 android:text="4"
-                                android:textColor="#1A5276"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </com.google.android.material.card.MaterialCardView>
 
@@ -270,7 +270,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/poppins_medium"
                             android:text="Contact"
-                            android:textColor="#80FFFFFF"
+                            android:textColor="@color/white"
                             android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -296,7 +296,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Account Information"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -576,12 +576,12 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Continue to Contact Details"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="16sp"
-                app:backgroundTint="#1A5276"
+                app:backgroundTint="@color/DarkBlue"
                 app:cornerRadius="16dp"
                 app:iconGravity="end"
-                app:iconTint="#FFFFFF" />
+                app:iconTint="@color/white" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_cancel"
@@ -591,10 +591,11 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Cancel"
-                android:textColor="#FF5252"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 app:cornerRadius="16dp"
-                app:strokeColor="#FF5252"
+                android:backgroundTint="@color/red"
+                app:strokeColor="@color/red"
                 app:strokeWidth="1dp" />
 
         </LinearLayout>
