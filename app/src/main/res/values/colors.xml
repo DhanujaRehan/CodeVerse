@@ -13,6 +13,14 @@
     <color name="calendar_selected_gray">#9E9E9E</color>
     <color name="primary_color">#2196F3</color>
 
+    <!-- Base Chip Colors -->
+    <color name="DarkBlue">#03045e</color>
+    <color name="DarkBlue2">#0077b6</color>
+    <color name="MiddleBlue">#00b4d8</color>
+    <color name="MiddleBlue2">#90e0ef</color>
+    <color name="LightBlue">#caf0f8</color>
+
+
 
     <color name="green_light">#E8F5E9</color>
     <color name="green_primary">#4CAF50</color>
