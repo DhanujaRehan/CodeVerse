@@ -10,7 +10,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/header_gradient_background"
+        android:background="@drawable/login_gradient_background"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
                 android:src="@drawable/ic_arrow_right"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="#FFFFFF"
+                app:tint="@color/DarkBlue"
                 android:contentDescription="Back" />
 
             <TextView
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Assignment Upload"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_back"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,7 +102,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
                             android:text="Upload Assignment"
-                            android:textColor="#6A11CB"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="18sp" />
 
                         <TextView
@@ -143,7 +143,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="0%"
-                        android:textColor="#6A11CB"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -181,7 +181,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@drawable/ic_assignment"
-                            app:tint="#6A11CB" />
+                            app:tint="@color/MiddleBlue" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -241,8 +241,8 @@
                         app:boxCornerRadiusBottomStart="12dp"
                         app:boxCornerRadiusTopEnd="12dp"
                         app:boxCornerRadiusTopStart="12dp"
-                        app:boxStrokeColor="#6A11CB"
-                        app:hintTextColor="#6A11CB">
+                        app:boxStrokeColor="@color/DarkBlue"
+                        app:hintTextColor="@color/DarkBlue">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_description"
@@ -282,7 +282,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@drawable/file"
-                            app:tint="#6A11CB" />
+                            app:tint="@color/MiddleBlue" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -304,11 +304,11 @@
                         android:textAllCaps="false"
                         android:textSize="16sp"
                         app:cornerRadius="16dp"
-                        app:backgroundTint="#F3F1FE"
-                        app:strokeColor="#6A11CB"
+                        app:backgroundTint="@color/white"
+                        app:strokeColor="@color/DarkBlue"
                         app:strokeWidth="2dp"
-                        app:iconTint="#6A11CB"
-                        android:textColor="#6A11CB" />
+                        app:iconTint="@color/DarkBlue"
+                        android:textColor="@color/DarkBlue" />
 
                     <TextView
                         android:id="@+id/tv_selected_file"
@@ -412,7 +412,7 @@
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 app:cornerRadius="16dp"
-                app:backgroundTint="#6A11CB"
+                app:backgroundTint="@color/DarkBlue"
                 app:iconGravity="textStart"
                 app:iconPadding="12dp" />
 

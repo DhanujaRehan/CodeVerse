@@ -11,7 +11,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/admission_header_gradient"
+        android:background="@drawable/login_gradient_background"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +49,7 @@
                 android:layout_marginStart="12dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Exam Admissions"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@id/cv_back"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
@@ -66,7 +66,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/cv_back"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/cv_back"
-                app:tint="#FFFFFF" />
+                app:tint="@color/DarkBlue" />
 
 
             <TextView
@@ -76,7 +76,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Download your exam admission cards"
-                android:textColor="#E6FFFFFF"
+                android:textColor="@color/DarkBlue2"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cv_back" />
