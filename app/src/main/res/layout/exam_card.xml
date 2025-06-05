@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Advanced Algorithms"
-                    android:textColor="#333333"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="16sp" />
 
                 <TextView
@@ -61,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Final Exam • May 2, 2025"
-                    android:textColor="#666666"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
 
                 <TextView
@@ -70,7 +70,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
                     android:text="CS401"
-                    android:textColor="#888888"
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
             </LinearLayout>
 
@@ -109,7 +109,7 @@
                     android:layout_height="wrap_content"
                     android:text="Date and Time"
                     android:textSize="12sp"
-                    android:textColor="#888888" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_exam_datetime"
@@ -118,7 +118,7 @@
                     android:text="May 2, 2025 • 10:00 AM"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="#333333" />
+                    android:textColor="@color/DarkBlue" />
             </LinearLayout>
 
             <LinearLayout
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:text="Room"
                     android:textSize="12sp"
-                    android:textColor="#888888" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_exam_room"
@@ -141,7 +141,7 @@
                     android:text="Hall A-103"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="#333333" />
+                    android:textColor="@color/DarkBlue" />
             </LinearLayout>
 
             <LinearLayout
@@ -155,7 +155,7 @@
                     android:layout_height="wrap_content"
                     android:text="Instructor"
                     android:textSize="12sp"
-                    android:textColor="#888888" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_exam_instructor"
@@ -164,7 +164,8 @@
                     android:text="Dr. Smith"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    android:textColor="#333333" />
+                    android:textColor="@color/DarkBlue"
+                     />
             </LinearLayout>
         </LinearLayout>
 
@@ -175,7 +176,8 @@
             android:layout_marginTop="12dp"
             android:text="Download Admit Card"
             android:textAllCaps="false"
-            app:backgroundTint="#263A5B"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/DarkBlue"
             app:cornerRadius="8dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>
