@@ -55,14 +55,14 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:src="@drawable/ic_person"
-            android:background="@color/light_purple_bg"
+            android:background="@color/LightBlue"
             android:padding="12dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Mandatory to have to go to examination hall"
-            android:textColor="#666666"
+            android:textColor="@color/DarkBlue2"
             android:fontFamily="@font/poppins_medium"
             android:layout_marginTop="8dp"/>
     </LinearLayout>
@@ -260,9 +260,9 @@
             android:fontFamily="@font/poppins_medium"
             app:iconGravity="textStart"
             app:cornerRadius="12dp"
-            app:backgroundTint="#E8F0FE"
-            app:iconTint="#0D47A1"
-            android:textColor="#0D47A1"
+            app:backgroundTint="@color/DarkBlue"
+            app:iconTint="@color/LightBlue"
+            android:textColor="@color/white"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_marginEnd="8dp"/>
 
@@ -275,7 +275,7 @@
             android:layout_height="48dp"
             android:layout_marginEnd="12dp"
             app:lottie_autoPlay="true"
-            app:lottie_colorFilter="@color/purple"
+            app:lottie_colorFilter="@color/DarkBlue"
             app:lottie_loop="true"
             app:lottie_rawRes="@raw/download" />
 
