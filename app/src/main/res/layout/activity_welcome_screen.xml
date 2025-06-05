@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:name=".WelcomeScreen"
-    android:background="@drawable/onboarding_gradient_background">
+    android:background="@drawable/loading_gradient_background">
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/app_logo"
@@ -27,7 +27,7 @@
         android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins_bold"
         android:text="UniConnect"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/DarkBlue"
         android:textSize="40sp"
         android:shadowColor="#50000000"
         android:shadowDx="0"
@@ -45,7 +45,7 @@
         android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_medium"
         android:text="Your campus life, connected"
-        android:textColor="#E6FFFFFF"
+        android:textColor="@color/DarkBlue2"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +94,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Keep track of your classes and assignments"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -128,7 +128,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Connect with classmates and professors"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -161,7 +161,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Track your academic progress and goals"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
@@ -179,7 +179,7 @@
         android:textAllCaps="false"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
-        app:backgroundTint="#6A11CB"
+        app:backgroundTint="@color/DarkBlue"
         app:cornerRadius="20dp"
         app:rippleColor="#33FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/tv_existing_user"
