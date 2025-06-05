@@ -35,7 +35,7 @@
         app:itemTextColor="@color/white"
         android:foregroundGravity="center"
         app:itemBackground="@color/white"
-        app:itemIconTint="@color/DarkBlue"
+        app:itemIconTint="@color/DarkBlue2"
         app:itemRippleColor="@color/white"
         />
 
