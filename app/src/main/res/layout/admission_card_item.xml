@@ -19,7 +19,7 @@
             android:id="@+id/header_background"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="#F5F0FF"
+            android:background="@color/LightBlue"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="@id/layout_exam_info"/>
 
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Advanced Algorithms"
-                android:textColor="#333333"
+                android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <TextView
@@ -49,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Final Exam"
-                android:textColor="#666666"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -107,7 +107,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_calender"
-                    app:tint="#673AB7" />
+                    app:tint="@color/MiddleBlue" />
 
                 <TextView
                     android:id="@+id/tv_exam_date"
@@ -116,7 +116,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="May 20, 2025"
-                    android:textColor="#333333"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -132,7 +132,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_clock"
-                    app:tint="#673AB7" />
+                    app:tint="@color/MiddleBlue" />
 
                 <TextView
                     android:id="@+id/tv_exam_time"
@@ -141,7 +141,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="10:00 AM"
-                    android:textColor="#333333"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -157,7 +157,7 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/ic_examroom"
-                    app:tint="#673AB7" />
+                    app:tint="@color/MiddleBlue" />
 
                 <TextView
                     android:id="@+id/tv_exam_venue"
@@ -166,7 +166,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Hall A-103"
-                    android:textColor="#333333"
+                    android:textColor="@color/black"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
@@ -195,7 +195,7 @@
                 android:layout_height="48dp"
                 android:layout_marginEnd="12dp"
                 app:lottie_autoPlay="true"
-                app:lottie_colorFilter="@color/purple"
+                app:lottie_colorFilter="@color/DarkBlue"
                 app:lottie_loop="true"
                 app:lottie_rawRes="@raw/download" />
 
@@ -208,10 +208,10 @@
                 android:text="Download Admission Card"
                 android:textAllCaps="false"
                 android:textSize="14sp"
-                app:backgroundTint="#673AB7"
+                app:backgroundTint="@color/DarkBlue"
                 app:cornerRadius="12dp"
                 app:iconGravity="textStart"
-                app:iconTint="#FFFFFF" />
+                app:iconTint="@color/white" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </com.google.android.material.card.MaterialCardView>
