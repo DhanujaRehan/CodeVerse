@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Choose Semester"
         android:textSize="20sp"
-        android:textColor="#333333"
+        android:textColor="@color/black"
         android:fontFamily="@font/poppins_bold"
         android:padding="20dp"/>
 
@@ -42,9 +42,10 @@
             android:layout_height="56dp"
             android:layout_weight="1"
             android:text="Current"
+            android:textColor="@color/white"
             android:textAllCaps="false"
             android:fontFamily="@font/poppins_medium"
-            app:backgroundTint="#673AB7"
+            app:backgroundTint="@color/DarkBlue"
             app:cornerRadius="12dp"
             android:layout_marginEnd="8dp"/>
 
@@ -54,11 +55,12 @@
             android:layout_height="56dp"
             android:layout_weight="1"
             android:text="All Semesters"
+            android:textColor="@color/DarkBlue"
             android:textAllCaps="false"
             android:fontFamily="@font/poppins_medium"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:cornerRadius="12dp"
-            app:strokeColor="#673AB7"
+            app:strokeColor="@color/DarkBlue"
             android:layout_marginStart="8dp"/>
     </LinearLayout>
 </LinearLayout>
