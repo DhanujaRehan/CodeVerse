@@ -60,7 +60,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="All"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/DarkBlue"
                 android:checked="true"
+                app:checkedIconTint="@color/white"
                 android:fontFamily="@font/poppins_regular" />
 
             <com.google.android.material.chip.Chip
@@ -69,6 +72,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Delivered"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/DarkBlue"
                 android:fontFamily="@font/poppins_regular" />
 
             <com.google.android.material.chip.Chip
@@ -77,6 +82,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Pending"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/DarkBlue"
                 android:fontFamily="@font/poppins_regular" />
 
             <com.google.android.material.chip.Chip
@@ -85,6 +92,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Failed"
+                android:textColor="@color/white"
+                app:chipBackgroundColor="@color/DarkBlue"
                 android:fontFamily="@font/poppins_regular" />
 
         </com.google.android.material.chip.ChipGroup>
