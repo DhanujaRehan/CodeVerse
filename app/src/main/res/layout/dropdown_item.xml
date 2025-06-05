@@ -8,5 +8,5 @@
     android:maxLines="1"
     android:textAppearance="?attr/textAppearanceSubtitle1"
     android:fontFamily="@font/poppins_regular"
-    android:textColor="#333333"
+    android:textColor="@color/DarkBlue"
     android:textSize="14sp" />
