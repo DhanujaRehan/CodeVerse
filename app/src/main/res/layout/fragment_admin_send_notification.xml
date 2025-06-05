@@ -63,7 +63,7 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Send Notification"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/cv_notification_history"
@@ -88,7 +88,7 @@
                     android:layout_gravity="center"
                     android:contentDescription="Notification History"
                     android:src="@drawable/notification"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/DarkBlue" />
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -127,7 +127,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Send University Notification"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -158,7 +158,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Broadcast urgent notices and important updates to students and staff"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue2"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -323,7 +323,7 @@
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Schedule Options"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -334,9 +334,9 @@
                     android:checked="false"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Schedule for later"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp"
-                    app:thumbTint="@color/white"
+                    app:thumbTint="@color/DarkBlue"
                     app:trackTint="#D1C4E9" />
 
 
@@ -418,7 +418,7 @@
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Attachments"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -473,9 +473,9 @@
                             android:fontFamily="@font/poppins_medium"
                             android:text="Browse Files"
                             android:textAllCaps="false"
-                            android:textColor="@color/white"
+                            android:textColor="@color/DarkBlue"
                             app:cornerRadius="20dp"
-                            app:strokeColor="@color/white" />
+                            app:strokeColor="@color/DarkBlue" />
                     </LinearLayout>
 
 
@@ -498,7 +498,7 @@
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Notification Options"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -509,9 +509,9 @@
                     android:checked="true"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Send push notification"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp"
-                    app:thumbTint="@color/white"
+                    app:thumbTint="@color/DarkBlue"
                     app:trackTint="#D1C4E9" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -522,9 +522,9 @@
                     android:checked="false"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Send email notification"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp"
-                    app:thumbTint="@color/white"
+                    app:thumbTint="@color/DarkBlue"
                     app:trackTint="#D1C4E9" />
 
                 <com.google.android.material.switchmaterial.SwitchMaterial
@@ -535,9 +535,9 @@
                     android:checked="false"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Send SMS for urgent notifications"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp"
-                    app:thumbTint="@color/white"
+                    app:thumbTint="@color/DarkBlue"
                     app:trackTint="#D1C4E9" />
             </LinearLayout>
 
@@ -573,7 +573,7 @@
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/poppins_bold"
                         android:text="Preview"
-                        android:textColor="@color/white"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -584,7 +584,7 @@
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Notification title will appear here"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="16sp" />
 
                 <TextView
@@ -594,7 +594,7 @@
                     android:layout_marginTop="8dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Message content will appear here"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -632,11 +632,10 @@
                     android:textAllCaps="false"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
-                    app:backgroundTint="@color/white"
+                    app:backgroundTint="@color/DarkBlue"
                     app:cornerRadius="24dp"
-                    app:icon="@drawable/ivforward"
                     app:iconGravity="end"
-                    app:iconTint="#FFFFFF" />
+                   />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

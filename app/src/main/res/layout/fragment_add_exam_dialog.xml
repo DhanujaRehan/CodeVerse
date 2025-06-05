@@ -44,7 +44,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Create New Exam"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Schedule a new examination session"
-                            android:textColor="#B3FFFFFF"
+                            android:textColor="@color/DarkBlue2"
                             android:textSize="14sp"
                             android:layout_marginTop="4dp" />
                     </LinearLayout>
@@ -61,7 +61,7 @@
                         android:id="@+id/cv_close"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        app:cardBackgroundColor="#33FFFFFF"
+                        app:cardBackgroundColor="@color/white"
                         app:cardCornerRadius="24dp"
                         app:cardElevation="0dp">
 
@@ -70,7 +70,7 @@
                             android:layout_height="24dp"
                             android:layout_gravity="center"
                             android:src="@android:drawable/ic_menu_close_clear_cancel"
-                            app:tint="#FFFFFF" />
+                            app:tint="@color/DarkBlue" />
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
@@ -121,13 +121,13 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@android:drawable/ic_menu_info_details"
-                                app:tint="#263A5B" />
+                                app:tint="@color/DarkBlue" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Basic Information"
-                                android:textColor="#263A5B"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:layout_marginStart="8dp" />
@@ -265,13 +265,13 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@android:drawable/ic_menu_today"
-                                app:tint="#263A5B" />
+                                app:tint="@color/DarkBlue" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Schedule Details"
-                                android:textColor="#263A5B"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:layout_marginStart="8dp" />
@@ -423,13 +423,13 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@android:drawable/ic_menu_edit"
-                                app:tint="#263A5B" />
+                                app:tint="@color/DarkBlue" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Additional Notes"
-                                android:textColor="#263A5B"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:layout_marginStart="8dp" />
@@ -473,8 +473,9 @@
                             android:text="Cancel"
                             android:textSize="14sp"
                             android:textAllCaps="false"
+                            android:backgroundTint="@color/red"
                             style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:textColor="#263A5B"
+                            android:textColor="@color/white"
                             android:layout_marginEnd="12dp"
                             app:cornerRadius="20dp" />
 
@@ -486,8 +487,9 @@
                             android:textSize="14sp"
                             android:textAllCaps="false"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:textColor="#263A5B"
-                            app:strokeColor="#263A5B"
+                            android:textColor="@color/DarkBlue"
+                            app:strokeColor="@color/DarkBlue"
+                            android:backgroundTint="@color/white"
                             android:layout_marginEnd="12dp"
                             app:cornerRadius="20dp" />
 
@@ -498,8 +500,8 @@
                             android:text="Create Exam"
                             android:textSize="14sp"
                             android:textAllCaps="false"
-                            app:backgroundTint="#263A5B"
-                            android:textColor="#FFFFFF"
+                            app:backgroundTint="@color/DarkBlue"
+                            android:textColor="@color/white"
                             app:cornerRadius="20dp" />
                     </LinearLayout>
 
