@@ -2,9 +2,9 @@
 <!-- loading_gradient_background.xml -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
-        android:startColor="#6A11CB"
-        android:centerColor="#8C3FE8"
-        android:endColor="#2575FC"
+        android:startColor="@color/MiddleBlue"
+        android:centerColor="@color/MiddleBlue2"
+        android:endColor="@color/LightBlue"
         android:angle="135"
         android:type="linear" />
 </shape>
