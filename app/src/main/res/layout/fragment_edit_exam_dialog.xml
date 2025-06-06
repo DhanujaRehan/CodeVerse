@@ -44,7 +44,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Edit Exam Schedule"
-                            android:textColor="#FFFFFF"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -53,7 +53,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Modify examination details"
-                            android:textColor="#B3FFFFFF"
+                            android:textColor="@color/DarkBlue2"
                             android:textSize="14sp"
                             android:layout_marginTop="4dp" />
                     </LinearLayout>
@@ -88,7 +88,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Current Status: "
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="14sp" />
 
                     <TextView
@@ -96,7 +96,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Scheduled"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/DarkBlue2"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -133,13 +133,13 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@android:drawable/ic_menu_info_details"
-                                app:tint="#263A5B" />
+                                app:tint="@color/DarkBlue" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Exam Information"
-                                android:textColor="#263A5B"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:layout_marginStart="8dp" />
@@ -506,13 +506,13 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:src="@android:drawable/ic_menu_preferences"
-                                app:tint="#263A5B" />
+                                app:tint="@color/DarkBlue" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Quick Actions"
-                                android:textColor="#263A5B"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 android:layout_marginStart="8dp" />
@@ -532,7 +532,7 @@
                                 android:textSize="12sp"
                                 android:textAllCaps="false"
                                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                android:textColor="#27AE60"
+                                android:textColor="@color/green"
                                 app:strokeColor="#27AE60"
                                 android:layout_marginEnd="8dp"
                                 app:cornerRadius="16dp" />
@@ -547,8 +547,8 @@
                                 android:textSize="12sp"
                                 android:textAllCaps="false"
                                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                                android:textColor="#E74C3C"
-                                app:strokeColor="#E74C3C"
+                                android:textColor="@color/red"
+                                app:strokeColor="@color/red"
                                 android:layout_marginStart="8dp"
                                 app:cornerRadius="16dp" />
                         </LinearLayout>
@@ -566,10 +566,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Cancel"
+                            android:backgroundTint="@color/white"
                             android:textSize="14sp"
                             android:textAllCaps="false"
+                            app:strokeWidth="1dp"
+                            app:strokeColor="@color/DarkBlue"
                             style="@style/Widget.MaterialComponents.Button.TextButton"
-                            android:textColor="#263A5B"
+                            android:textColor="@color/DarkBlue"
                             android:layout_marginEnd="12dp"
                             app:cornerRadius="20dp" />
 
@@ -580,9 +583,10 @@
                             android:text="Delete"
                             android:textSize="14sp"
                             android:textAllCaps="false"
+                            android:backgroundTint="@color/red"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:textColor="#E74C3C"
-                            app:strokeColor="#E74C3C"
+                            android:textColor="@color/white"
+                            app:strokeColor="@color/red"
                             android:layout_marginEnd="12dp"
                             app:cornerRadius="20dp" />
 
@@ -593,8 +597,8 @@
                             android:text="Save Changes"
                             android:textSize="14sp"
                             android:textAllCaps="false"
-                            app:backgroundTint="#263A5B"
-                            android:textColor="#FFFFFF"
+                            app:backgroundTint="@color/DarkBlue"
+                            android:textColor="@color/white"
                             app:cornerRadius="20dp" />
                     </LinearLayout>
 
