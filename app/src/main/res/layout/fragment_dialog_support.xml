@@ -7,7 +7,7 @@
     android:background="@drawable/dialog_background">
 
     <LinearLayout
-        android:background="@drawable/gradient_background"
+        android:background="@drawable/login_gradient_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -28,7 +28,7 @@
             android:layout_weight="1"
             android:text="Examination Support"
             android:textSize="20sp"
-            android:textColor="@color/white"
+            android:textColor="@color/DarkBlue"
             android:fontFamily="@font/poppins_bold"
             android:layout_marginStart="12dp"/>
 
@@ -57,14 +57,14 @@
             android:layout_height="wrap_content"
             android:text="How can we help you?"
             android:textSize="16sp"
-            android:textColor="#666666"
+            android:textColor="@color/DarkBlue"
             android:fontFamily="@font/poppins_medium"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Get in touch with our examination support team for any assistance with your exam admissions."
-            android:textColor="#666666"
+            android:textColor="@color/DarkBlue2"
             android:fontFamily="@font/poppins_regular"
             android:layout_marginBottom="24dp"/>
 
@@ -91,14 +91,14 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_phone"
-                    app:tint="#0D47A1"/>
+                    app:tint="@color/DarkBlue2"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Call Support"
-                    android:textColor="#333333"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:fontFamily="@font/poppins_medium"
                     android:layout_marginStart="16dp"/>
@@ -107,7 +107,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="+1 (123) 456-7890"
-                    android:textColor="#0D47A1"
+                    android:textColor="@color/DarkBlue"
                     android:fontFamily="@font/poppins_medium"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -135,14 +135,14 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_email"
-                    app:tint="#0D47A1"/>
+                    app:tint="@color/DarkBlue2"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Email Support"
-                    android:textColor="#333333"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:fontFamily="@font/poppins_medium"
                     android:layout_marginStart="16dp"/>
@@ -151,7 +151,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="codeverse@university.edu"
-                    android:textColor="#0D47A1"
+                    android:textColor="@color/DarkBlue"
                     android:fontFamily="@font/poppins_medium"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -178,14 +178,14 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_chat"
-                    app:tint="#0D47A1"/>
+                    app:tint="@color/DarkBlue2"/>
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Live Chat"
-                    android:textColor="#333333"
+                    android:textColor="@color/black"
                     android:textSize="16sp"
                     android:fontFamily="@font/poppins_medium"
                     android:layout_marginStart="16dp"/>
@@ -194,7 +194,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Available now"
-                    android:textColor="#4CAF50"
+                    android:textColor="@color/green"
                     android:fontFamily="@font/poppins_medium"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -203,7 +203,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Support hours: Monday to Friday, 8:00 AM - 5:00 PM"
-            android:textColor="#9E9E9E"
+            android:textColor="@color/red"
             android:fontFamily="@font/poppins_regular"
             android:textSize="12sp"
             android:gravity="center"
