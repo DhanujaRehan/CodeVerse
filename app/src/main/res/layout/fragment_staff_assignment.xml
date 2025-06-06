@@ -50,7 +50,7 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Staff Assignment Portal"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/cv_notification"
@@ -74,7 +74,7 @@
                     android:layout_gravity="center"
                     android:contentDescription="Notifications"
                     android:src="@drawable/notification"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/DarkBlue" />
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -113,7 +113,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Assignment Management"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="18sp" />
             </LinearLayout>
 

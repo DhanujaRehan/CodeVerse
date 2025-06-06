@@ -51,7 +51,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Edit Profile"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
@@ -160,8 +160,8 @@
                             android:layout_gravity="bottom|end"
                             android:src="@drawable/ic_camera"
                             app:fabSize="mini"
-                            app:tint="#FFFFFF"
-                            app:backgroundTint="#1A5276" />
+                            app:tint="@color/white"
+                            app:backgroundTint="@color/DarkBlue" />
                     </FrameLayout>
 
 
@@ -296,7 +296,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Contact Information"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -446,7 +446,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Professional Information"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -569,7 +569,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Research Information"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -692,7 +692,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Social Media"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -809,8 +809,8 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
                     android:text="Cancel"
-                    android:textColor="#FFFFFF"
-                    app:backgroundTint="#FF0000"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/red"
                     app:cornerRadius="16dp"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="16sp"
@@ -826,13 +826,13 @@
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:text="Save Changes"
-                    android:textColor="#FFFFFF"
-                    app:backgroundTint="#1A5276"
+                    android:textColor="@color/white"
+                    app:backgroundTint="@color/DarkBlue"
                     app:cornerRadius="16dp"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="16sp"
                     android:paddingVertical="12dp"
-                    app:rippleColor="#33FFFFFF"
+                    app:rippleColor="@color/DarkBlue"
                     app:iconGravity="textStart"
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
             </LinearLayout>
