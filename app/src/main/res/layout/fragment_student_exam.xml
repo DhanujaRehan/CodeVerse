@@ -11,7 +11,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/exam_header_gradient"
+        android:background="@drawable/login_gradient_background"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,7 +49,7 @@
                 android:layout_marginStart="12dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Examinations"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@id/cv_back"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
@@ -67,7 +67,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/cv_back"
                 app:layout_constraintEnd_toStartOf="@id/iv_filter"
                 app:layout_constraintTop_toTopOf="@id/cv_back"
-                app:tint="#FFFFFF" />
+                app:tint="@color/DarkBlue" />
 
             <ImageView
                 android:id="@+id/iv_filter"
@@ -87,7 +87,7 @@
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="View your exam results"
-                android:textColor="#E6FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cv_back" />
@@ -114,7 +114,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
                         android:text="Current Semester"
-                        android:textColor="#CCFFFFFF"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -126,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
                         android:text="Spring 2025"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/iv_dropdown"
@@ -187,7 +187,7 @@
                     android:layout_weight="1"
                     android:clickable="true"
                     android:focusable="true"
-                    app:cardBackgroundColor="#F5F0FF"
+                    app:cardBackgroundColor="@color/LightBlue"
                     app:cardCornerRadius="20dp"
                     app:cardElevation="4dp"
                     app:rippleColor="#33FF00FF">
@@ -202,7 +202,7 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="56dp"
                             android:layout_height="56dp"
-                            app:cardBackgroundColor="#E8E1F9"
+                            app:cardBackgroundColor="@color/MiddleBlue2"
                             app:cardCornerRadius="28dp"
                             app:cardElevation="0dp">
 
@@ -222,7 +222,7 @@
                             android:fontFamily="@font/poppins_bold"
                             android:text="Exam Admissions"
                             android:textAlignment="center"
-                            android:textColor="#7B1FA2"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
