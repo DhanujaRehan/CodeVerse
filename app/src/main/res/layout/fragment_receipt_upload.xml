@@ -11,7 +11,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/appbar_gradient_background"
+        android:background="@drawable/login_gradient_background"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Upload Receipt"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="22sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
                 android:src="@drawable/ic_help"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="#FFFFFF"
+                app:tint="@color/DarkBlue"
                 android:contentDescription="Help" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -99,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                app:cardBackgroundColor="#E9E1FB"
+                app:cardBackgroundColor="@color/LightBlue"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
 
@@ -124,7 +124,7 @@
                         android:layout_marginStart="14dp"
                         android:fontFamily="@font/poppins_medium"
                         android:text="Upload a clear image of your payment receipt to verify your transaction"
-                        android:textColor="#6A11CB"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="15sp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -140,7 +140,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:src="@drawable/ic_person"
-                    app:tint="#6A11CB" />
+                    app:tint="@color/DarkBlue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -148,7 +148,7 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Student Information"
-                    android:textColor="#333333"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -166,8 +166,8 @@
                 app:boxCornerRadiusTopStart="16dp"
                 app:boxStrokeWidth="1.5dp"
                 app:boxStrokeColor="@color/text_input_stroke_color"
-                app:hintTextColor="#6A11CB"
-                app:startIconTint="#6A11CB">
+                app:hintTextColor="@color/DarkBlue"
+                app:startIconTint="@color/DarkBlue">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_student_id"
@@ -218,7 +218,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:src="@drawable/ic_payment"
-                    app:tint="#6A11CB" />
+                    app:tint="@color/DarkBlue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -226,7 +226,7 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Payment Details"
-                    android:textColor="#333333"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -254,8 +254,8 @@
                     app:boxStrokeWidth="1.5dp"
                     app:boxStrokeColor="@color/text_input_stroke_color"
                     app:endIconMode="custom"
-                    app:endIconTint="#6A11CB"
-                    app:hintTextColor="#6A11CB">
+                    app:endIconTint="@color/DarkBlue"
+                    app:hintTextColor="@color/DarkBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_payment_date"
@@ -283,10 +283,10 @@
                     app:boxCornerRadiusTopStart="16dp"
                     app:boxStrokeWidth="1.5dp"
                     app:boxStrokeColor="@color/text_input_stroke_color"
-                    app:hintTextColor="#6A11CB"
+                    app:hintTextColor="@color/DarkBlue"
                     app:prefixText="$"
-                    app:prefixTextColor="#6A11CB"
-                    app:startIconTint="#6A11CB">
+                    app:prefixTextColor="@color/DarkBlue"
+                    app:startIconTint="@color/DarkBlue">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/et_payment_amount"
@@ -311,7 +311,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:src="@drawable/ic_bill"
-                    app:tint="#6A11CB" />
+                    app:tint="@color/DarkBlue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -319,7 +319,7 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Receipt Upload"
-                    android:textColor="#333333"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -329,7 +329,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="3dp">
 
@@ -360,7 +360,7 @@
                         android:layout_marginTop="12dp"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="Tap to upload receipt"
-                        android:textColor="#6A11CB"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="16sp"
                         app:layout_constraintBottom_toTopOf="@+id/tv_upload_hint"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -374,7 +374,7 @@
                         android:layout_marginTop="6dp"
                         android:fontFamily="@font/poppins_regular"
                         android:text="Accepted formats: JPG, PNG, PDF"
-                        android:textColor="#666666"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="13sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -423,7 +423,7 @@
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:src="@drawable/ic_more"
-                    app:tint="#6A11CB" />
+                    app:tint="@color/DarkBlue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -431,7 +431,7 @@
                     android:layout_marginStart="10dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Additional Information"
-                    android:textColor="#333333"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -473,7 +473,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
-                app:cardBackgroundColor="#FFFFFF"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="3dp">
 
@@ -488,7 +488,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
                         android:text="Receipt Verification Status"
-                        android:textColor="#333333"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="16sp" />
 
                     <LinearLayout
@@ -558,6 +558,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="#B388FF" />
+            app:rippleColor="@color/DarkBlue2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
