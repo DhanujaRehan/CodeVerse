@@ -51,7 +51,7 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Add Timetable PDF"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/cv_notification"
@@ -76,7 +76,7 @@
                     android:layout_gravity="center"
                     android:contentDescription="Notifications"
                     android:src="@drawable/notification"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/DarkBlue" />
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -115,7 +115,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Upload Weekly Timetable"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
                     android:text="Timetable Information"
-                    android:textColor="#1A5276"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="18sp" />
 
                 <TextView
@@ -145,7 +145,7 @@
                     android:layout_marginTop="4dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Upload student timetables for current and next week"
-                    android:textColor="#5A7A9A"
+                    android:textColor="@color/DarkBlue2"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -272,7 +272,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Week Title"
-                    android:textColor="#1A5276"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp" />
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -319,7 +319,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_medium"
                             android:text="Start Date"
-                            android:textColor="#1A5276"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="14sp" />
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -360,7 +360,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_medium"
                             android:text="End Date"
-                            android:textColor="#1A5276"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="14sp" />
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -396,7 +396,7 @@
                     android:layout_marginBottom="8dp"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Timetable PDF"
-                    android:textColor="#1A5276"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -424,7 +424,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="Upload Timetable PDF"
-                        android:textColor="#1A5276"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="16sp" />
 
                     <TextView
@@ -434,7 +434,7 @@
                         android:layout_marginTop="4dp"
                         android:fontFamily="@font/poppins_regular"
                         android:text="PDF only (Max 10MB)"
-                        android:textColor="#5A7A9A"
+                        android:textColor="@color/DarkBlue2"
                         android:textSize="12sp" />
 
                     <com.google.android.material.button.MaterialButton
@@ -518,12 +518,12 @@
                     android:fontFamily="@font/poppins_medium"
                     android:text="Upload"
                     android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
-                    app:backgroundTint="#1A5276"
+                    app:backgroundTint="@color/DarkBlue"
                     app:cornerRadius="24dp"
                     app:iconGravity="end"
-                    app:iconTint="#FFFFFF" />
+                    app:iconTint="@color/white" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
