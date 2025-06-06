@@ -9,7 +9,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/header_gradient_background"
+        android:background="@drawable/login_gradient_background"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,14 +28,14 @@
                 android:src="@drawable/ic_arrow_right"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="#FFFFFF" />
+                app:tint="@color/DarkBlue" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Create Event"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_back"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +88,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@drawable/ic_calender"
-                            app:tint="#6A11CB" />
+                            app:tint="@color/DarkBlue" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -96,7 +96,7 @@
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/poppins_bold"
                             android:text="Event Details"
-                            android:textColor="#333333"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -278,7 +278,8 @@
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 app:cornerRadius="16dp"
-                app:backgroundTint="#6A11CB" />
+                android:textColor="@color/white"
+                app:backgroundTint="@color/DarkBlue" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
