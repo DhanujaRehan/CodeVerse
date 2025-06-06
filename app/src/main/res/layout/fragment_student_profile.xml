@@ -48,7 +48,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Student Profile"
-                android:textColor="@color/white"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
@@ -179,9 +179,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Computer Science"
-                                android:textColor="#FFFFFF"
-                                app:chipBackgroundColor="#0D47A1"
-                                app:chipStrokeColor="#33FFFFFF"
+                                android:textColor="@color/white"
+                                app:chipBackgroundColor="@color/DarkBlue"
+                                app:chipStrokeColor="@color/DarkBlue2"
                                 app:chipStrokeWidth="1dp"
                                 android:layout_marginTop="4dp" />
                         </LinearLayout>
@@ -192,7 +192,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="top"
                             android:src="@drawable/ic_edit"
-                            app:tint="#FFFFFF"
+                            app:tint="@color/white"
                             app:fabSize="mini"
                             app:backgroundTint="#1A5276" />
 
@@ -356,7 +356,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Contact Information"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -415,7 +415,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Email"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -424,7 +424,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="student@university.edu"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -463,7 +463,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Phone"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -472,7 +472,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="(555) 123-4567"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -511,7 +511,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Date of Birth"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -520,7 +520,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="01/01/2000"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -558,7 +558,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Address"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -567,7 +567,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="123 Student Street, City"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -594,7 +594,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Academic Information"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -653,7 +653,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Program"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -662,7 +662,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Computer Science"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -701,7 +701,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Year"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -710,7 +710,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="3rd Year"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -749,7 +749,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Advisor"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -758,7 +758,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Dr. Emily Thompson"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -796,7 +796,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Enrollment"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -805,7 +805,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="September 2022"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -818,14 +818,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="Logout"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:fontFamily="@font/poppins_semibold"
-                app:backgroundTint="#D32F2F"
+                app:backgroundTint="@color/red"
                 app:cornerRadius="16dp"
-                app:iconGravity="textStart"
-                app:iconPadding="8dp"
-                app:iconTint="#FFFFFF"
                 style="@style/Widget.MaterialComponents.Button" />
 
         </LinearLayout>
@@ -838,9 +835,9 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_help"
-        app:tint="#FFFFFF"
-        app:backgroundTint="#1A5276"
-        app:rippleColor="#FFFFFF"
+        app:tint="@color/white"
+        app:backgroundTint="@color/DarkBlue"
+        app:rippleColor="@color/white"
         app:fabSize="normal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
