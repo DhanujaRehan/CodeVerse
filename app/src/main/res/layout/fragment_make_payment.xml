@@ -11,7 +11,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/header_gradient_background"
+        android:background="@drawable/login_gradient_background"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -163,9 +163,9 @@
                         android:layout_height="wrap_content"
                         app:tabMode="fixed"
                         app:tabGravity="fill"
-                        app:tabSelectedTextColor="#6A11CB"
-                        app:tabTextColor="#757575"
-                        app:tabIndicatorColor="#6A11CB"
+                        app:tabSelectedTextColor="@color/DarkBlue"
+                        app:tabTextColor="@color/DarkBlue2"
+                        app:tabIndicatorColor="@color/DarkBlue"
                         app:tabIndicatorHeight="3dp"
                         app:tabBackground="@android:color/transparent"
                         app:tabTextAppearance="@style/TabTextAppearance">
@@ -218,8 +218,8 @@
                             android:layout_marginBottom="8dp"
                             android:contentDescription="Add Card"
                             android:src="@drawable/ic_add"
-                            app:backgroundTint="#6A11CB"
-                            app:tint="#FFFFFF" />
+                            app:backgroundTint="@color/DarkBlue"
+                            app:tint="@color/white" />
 
                         <androidx.cardview.widget.CardView
                             android:id="@+id/card_preview"
@@ -326,10 +326,10 @@
                             app:boxCornerRadiusBottomStart="12dp"
                             app:boxCornerRadiusTopEnd="12dp"
                             app:boxCornerRadiusTopStart="12dp"
-                            app:boxStrokeColor="#6A11CB"
+                            app:boxStrokeColor="@color/DarkBlue"
                             app:endIconMode="password_toggle"
-                            app:endIconTint="#6A11CB"
-                            app:hintTextColor="#6A11CB">
+                            app:endIconTint="@color/DarkBlue2"
+                            app:hintTextColor="@color/DarkBlue">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/et_cvv"
@@ -338,7 +338,7 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:inputType="numberPassword"
                                 android:maxLength="4"
-                                android:textColor="#333333" />
+                                android:textColor="@color/black" />
                         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -352,7 +352,7 @@
                             android:text="Save card for future payments"
                             android:textColor="#333333"
                             android:textSize="14sp"
-                            app:buttonTint="#6A11CB" />
+                            app:buttonTint="@color/DarkBlue" />
                     </LinearLayout>
 
 
@@ -945,7 +945,7 @@
                             android:layout_weight="1"
                             android:fontFamily="@font/poppins_bold"
                             android:text="Total Amount"
-                            android:textColor="#333333"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="16sp" />
 
                         <TextView
@@ -954,7 +954,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
                             android:text="Rs 126,000.00"
-                            android:textColor="#6A11CB"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="18sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -979,7 +979,8 @@
             android:text="Pay Rs 126,000.00"
             android:textAllCaps="false"
             android:textSize="16sp"
-            app:backgroundTint="#6A11CB"
+            app:backgroundTint="@color/DarkBlue"
+            android:textColor="@color/white"
             app:cornerRadius="16dp" />
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
