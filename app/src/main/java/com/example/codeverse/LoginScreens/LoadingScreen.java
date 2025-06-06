@@ -14,6 +14,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.example.codeverse.Admin.Activities.AdminMainActivity;
 import com.example.codeverse.MainActivity;
 import com.example.codeverse.R;
+import com.example.codeverse.Students.Activities.StudentMainActivity;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
@@ -164,5 +165,26 @@ public class LoadingScreen extends AppCompatActivity {
                 finish();
             }
         }, 1500);
+
+        new Handler().postDelayed(() -> {
+            try {
+                Intent intent;
+
+                if ("StudentMainActivity".equals(nextActivity)) {
+                    intent = new Intent(LoadingScreen.this, StudentMainActivity.class);
+                } else {
+                    intent = new Intent(LoadingScreen.this, MainActivity.class);
+                }
+
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
+                finish();
+            } catch (Exception e) {
+                Intent fallback = new Intent(LoadingScreen.this, MainActivity.class);
+                startActivity(fallback);
+                finish();
+            }
+        }, 1500);
+
     }
 }

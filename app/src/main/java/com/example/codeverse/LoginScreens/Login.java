@@ -137,7 +137,9 @@ public class Login extends AppCompatActivity {
 
                 sessionManager.createLoginSession(student);
 
-                Intent intent = new Intent(Login.this, StudentMainActivity.class);
+                Intent intent = new Intent(Login.this, LoadingScreen.class);
+                intent.putExtra("nextActivity", "StudentMainActivity");
+                intent.putExtra("username", student.getFullName());
                 startActivity(intent);
                 finish();
             } else {
