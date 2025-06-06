@@ -50,7 +50,7 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Manage Assignments"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/cv_search"
@@ -60,7 +60,7 @@
                 android:id="@+id/cv_search"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
+                app:cardBackgroundColor="@color/DarkBlue"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -125,7 +125,7 @@
                         android:layout_marginStart="8dp"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="Search and Filter"
-                        android:textColor="#1A5276"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -171,9 +171,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
+                        app:checkedIconTint="@color/DarkBlue"
                         android:text="All"
-                        android:textColor="#1A5276"
-                        app:chipBackgroundColor="#80FFFFFF" />
+                        android:textColor="@color/DarkBlue"
+                        app:chipBackgroundColor="@color/white" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipActive"
@@ -181,8 +182,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Active"
-                        android:textColor="#1A5276"
-                        app:chipBackgroundColor="#80FFFFFF" />
+                        android:textColor="@color/DarkBlue"
+                        app:chipBackgroundColor="@color/white" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipDraft"
@@ -190,8 +191,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Draft"
-                        android:textColor="#1A5276"
-                        app:chipBackgroundColor="#80FFFFFF" />
+                        android:textColor="@color/DarkBlue"
+                        app:chipBackgroundColor="@color/white" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipCompleted"
@@ -199,8 +200,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Completed"
-                        android:textColor="#1A5276"
-                        app:chipBackgroundColor="#80FFFFFF" />
+                        android:textColor="@color/DarkBlue"
+                        app:chipBackgroundColor="@color/white" />
 
                     <com.google.android.material.chip.Chip
                         android:id="@+id/chipOverdue"
@@ -208,8 +209,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Overdue"
-                        android:textColor="#1A5276"
-                        app:chipBackgroundColor="#80FFFFFF" />
+                        android:textColor="@color/DarkBlue"
+                        app:chipBackgroundColor="@color/white" />
                 </com.google.android.material.chip.ChipGroup>
             </LinearLayout>
 
@@ -234,7 +235,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Assignment Overview"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="16sp" />
             </LinearLayout>
 
@@ -379,7 +380,7 @@
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Recent Assignments"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="16sp" />
 
                 <com.google.android.material.button.MaterialButton
@@ -390,9 +391,9 @@
                     android:fontFamily="@font/poppins_medium"
                     android:text="Sort"
                     android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="12sp"
-                    app:iconTint="#FFFFFF" />
+                     />
             </LinearLayout>
 
 
@@ -785,10 +786,11 @@
                     android:fontFamily="@font/poppins_medium"
                     android:text="Load More Assignments"
                     android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
+                    android:backgroundTint="@color/DarkBlue"
                     app:cornerRadius="24dp"
-                    app:strokeColor="#FFFFFF"
+                    app:strokeColor="@color/white"
                     app:strokeWidth="1dp" />
             </LinearLayout>
         </LinearLayout>
@@ -803,8 +805,8 @@
         android:layout_margin="24dp"
         android:contentDescription="Add Assignment"
         android:src="@drawable/add"
-        app:backgroundTint="#1A5276"
-        app:tint="#FFFFFF"
+        app:backgroundTint="@color/DarkBlue"
+        app:tint="@color/white"
         app:borderWidth="0dp"
         app:elevation="8dp" />
 

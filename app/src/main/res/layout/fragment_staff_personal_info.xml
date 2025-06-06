@@ -50,7 +50,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Add New Staff"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
@@ -125,7 +125,7 @@
                             android:layout_width="36dp"
                             android:layout_height="36dp"
                             android:layout_gravity="center"
-                            app:cardBackgroundColor="#1A5276"
+                            app:cardBackgroundColor="@color/DarkBlue"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="2dp">
 
@@ -136,7 +136,7 @@
                                 android:gravity="center"
                                 android:layout_gravity="center"
                                 android:text="1"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/white"
                                 android:textSize="16sp" />
                         </com.google.android.material.card.MaterialCardView>
 
@@ -146,7 +146,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/poppins_medium"
                             android:text="Personal"
-                            android:textColor="#1A5276"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="10sp" />
                     </LinearLayout>
 
@@ -154,7 +154,7 @@
                         android:layout_marginBottom="10dp"
                         android:layout_width="48dp"
                         android:layout_height="2dp"
-                        android:background="#80FFFFFF" />
+                        android:background="@color/white" />
 
                     <LinearLayout
                         android:id="@+id/card_professional_indicator"
@@ -167,7 +167,7 @@
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="36dp"
                             android:layout_height="36dp"
-                            app:cardBackgroundColor="#80FFFFFF"
+                            app:cardBackgroundColor="@color/white"
                             app:cardCornerRadius="18dp"
                             app:cardElevation="2dp">
 
@@ -177,7 +177,7 @@
                                 android:fontFamily="@font/poppins_bold"
                                 android:gravity="center"
                                 android:text="2"
-                                android:textColor="#1A5276"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </com.google.android.material.card.MaterialCardView>
 
@@ -187,7 +187,7 @@
                             android:layout_marginTop="4dp"
                             android:fontFamily="@font/poppins_medium"
                             android:text="Professional"
-                            android:textColor="#80FFFFFF"
+                            android:textColor="@color/white"
                             android:textSize="10sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -229,9 +229,9 @@
                             android:layout_marginLeft="60dp"
                             android:layout_marginTop="60dp"
                             android:src="@drawable/camera"
-                            app:backgroundTint="#1A5276"
+                            app:backgroundTint="@color/DarkBlue"
                             app:fabSize="mini"
-                            app:tint="#FFFFFF" />
+                            app:tint="@color/white" />
 
                         <LinearLayout
                             android:orientation="vertical"
@@ -255,7 +255,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
                         android:text="Add staff photo (optional)"
-                        android:textColor="#1A5276"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -281,7 +281,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Personal Information"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -525,14 +525,14 @@
                 android:text="Continue"
                 android:layout_gravity="center"
                 android:textAllCaps="false"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="16sp"
-                app:backgroundTint="#1A5276"
+                app:backgroundTint="@color/DarkBlue"
                 app:cornerRadius="24dp"
                 app:iconGravity="end"
                 android:paddingHorizontal="24dp"
                 android:padding="12dp"
-                app:iconTint="#FFFFFF"
+                app:iconTint="@color/white"
                 android:drawableEnd="@drawable/ivforward"
                 android:drawableTint="@color/white"/>
 
@@ -546,10 +546,11 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Cancel"
-                android:textColor="#FF5252"
+                android:backgroundTint="@color/red"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 app:cornerRadius="24dp"
-                app:strokeColor="#FF5252"
+                app:strokeColor="@color/red"
                 app:strokeWidth="1dp" />
 
         </LinearLayout>
