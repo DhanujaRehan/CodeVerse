@@ -50,7 +50,7 @@
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Grade Submissions"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/cv_notification"
@@ -75,7 +75,7 @@
                     android:layout_gravity="center"
                     android:contentDescription="Notifications"
                     android:src="@drawable/notification"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/DarkBlue" />
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
@@ -115,7 +115,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Select Submissions"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -138,7 +138,7 @@
                     android:layout_marginBottom="16dp"
                     android:fontFamily="@font/poppins_bold"
                     android:text="Assignment Selection"
-                    android:textColor="#1A5276"
+                    android:textColor="@color/DarkBlue2"
                     android:textSize="18sp" />
 
 
@@ -259,12 +259,12 @@
                     android:fontFamily="@font/poppins_medium"
                     android:text="View Submissions"
                     android:textAllCaps="false"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="16sp"
-                    app:backgroundTint="#1A5276"
+                    app:backgroundTint="@color/DarkBlue"
                     app:cornerRadius="24dp"
                     app:iconGravity="end"
-                    app:iconTint="#FFFFFF" />
+                    app:iconTint="@color/white" />
             </LinearLayout>
 
 

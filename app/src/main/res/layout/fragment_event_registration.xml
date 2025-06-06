@@ -10,7 +10,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/header_gradient_background"
+        android:background="@drawable/login_gradient_background"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,7 +29,7 @@
                 android:src="@drawable/ic_arrow_right"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="#FFFFFF"
+                app:tint="@color/DarkBlue"
                 android:contentDescription="Back" />
 
             <TextView
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Event Registration"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="22sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_back"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -102,7 +102,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
                             android:text="Annual Tech Symposium 2025"
-                            android:textColor="#333333"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="22sp" />
 
                         <TextView
@@ -112,7 +112,7 @@
                             android:layout_marginTop="8dp"
                             android:fontFamily="@font/poppins_regular"
                             android:text="Join us for the biggest tech event of the year featuring keynote speakers, workshops, and networking opportunities with industry leaders."
-                            android:textColor="#666666"
+                            android:textColor="@color/DarkBlue2"
                             android:textSize="14sp" />
 
                         <LinearLayout
@@ -140,7 +140,7 @@
                                         android:layout_height="20dp"
                                         android:layout_gravity="center"
                                         android:src="@drawable/ic_calender"
-                                        app:tint="#6A11CB" />
+                                        app:tint="@color/DarkBlue2" />
                                 </com.google.android.material.card.MaterialCardView>
 
                                 <TextView
@@ -150,7 +150,7 @@
                                     android:layout_marginStart="8dp"
                                     android:fontFamily="@font/poppins_medium"
                                     android:text="May 15-17, 2025"
-                                    android:textColor="#333333"
+                                    android:textColor="@color/black"
                                     android:textSize="14sp" />
                             </LinearLayout>
 
@@ -173,7 +173,7 @@
                                         android:layout_height="20dp"
                                         android:layout_gravity="center"
                                         android:src="@drawable/ic_location"
-                                        app:tint="#6A11CB" />
+                                        app:tint="@color/DarkBlue2" />
                                 </com.google.android.material.card.MaterialCardView>
 
                                 <TextView
@@ -183,7 +183,7 @@
                                     android:layout_marginStart="8dp"
                                     android:fontFamily="@font/poppins_medium"
                                     android:text="Main Auditorium"
-                                    android:textColor="#333333"
+                                    android:textColor="@color/black"
                                     android:textSize="14sp" />
                             </LinearLayout>
                         </LinearLayout>
@@ -224,7 +224,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_bold"
                             android:text="Register Now!"
-                            android:textColor="#6A11CB"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="18sp" />
 
                         <TextView
@@ -232,7 +232,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_regular"
                             android:text="Limited spots available. Complete the form below to secure your spot."
-                            android:textColor="#333333"
+                            android:textColor="@color/black"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -256,7 +256,7 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/poppins_medium"
                         android:text="Registration Progress"
-                        android:textColor="#333333"
+                        android:textColor="@color/black"
                         android:textSize="16sp" />
 
                     <TextView
@@ -265,7 +265,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_semibold"
                         android:text="25%"
-                        android:textColor="#6A11CB"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -275,8 +275,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:progress="25"
-                    app:indicatorColor="#6A11CB"
-                    app:trackColor="#E0E0E0"
+                    app:indicatorColor="@color/DarkBlue"
+                    app:trackColor="@color/LightBlue"
                     app:trackThickness="8dp" />
             </LinearLayout>
 
@@ -303,7 +303,7 @@
                             android:layout_width="28dp"
                             android:layout_height="28dp"
                             android:src="@drawable/ic_person"
-                            app:tint="#6A11CB" />
+                            app:tint="@color/DarkBlue" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -311,7 +311,7 @@
                             android:layout_marginStart="10dp"
                             android:fontFamily="@font/poppins_bold"
                             android:text="Student Information"
-                            android:textColor="#333333"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="18sp" />
                     </LinearLayout>
 
@@ -325,7 +325,6 @@
                         app:boxCornerRadiusTopEnd="12dp"
                         app:boxCornerRadiusTopStart="12dp"
                         app:boxStrokeColor="#6A11CB"
-                        app:startIconTint="#6A11CB"
                         app:hintTextColor="#6A11CB">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -460,7 +459,7 @@
                     android:id="@+id/cb_terms"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:buttonTint="#6A11CB" />
+                    app:buttonTint="@color/DarkBlue" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -513,7 +512,8 @@
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 app:cornerRadius="16dp"
-                app:backgroundTint="#6A11CB"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/DarkBlue"
                 app:iconGravity="textStart"
                 app:iconPadding="12dp" />
 
