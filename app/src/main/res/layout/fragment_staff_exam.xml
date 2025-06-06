@@ -40,7 +40,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:src="@android:drawable/ic_menu_revert"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/DarkBlue" />
             </com.google.android.material.card.MaterialCardView>
 
 
@@ -49,7 +49,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Exam Scheduling"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@id/cv_back"
@@ -142,7 +142,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Find Exam"
-                            android:textColor="#263A5B"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:layout_marginStart="8dp" />
@@ -155,7 +155,7 @@
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="20dp"
-                            app:backgroundTint="#263A5B"
+                            app:backgroundTint="@color/DarkBlue"
                             android:textStyle="bold" />
                     </LinearLayout>
 
@@ -264,13 +264,13 @@
                             android:layout_width="32dp"
                             android:layout_height="32dp"
                             android:src="@android:drawable/ic_menu_info_details"
-                            app:tint="#263A5B" />
+                            app:tint="@color/DarkBlue" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Exam Statistics"
-                            android:textColor="#263A5B"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="18sp"
                             android:textStyle="bold"
                             android:layout_marginStart="8dp" />

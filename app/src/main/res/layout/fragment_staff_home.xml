@@ -6,7 +6,7 @@
     android:id="@+id/staff_home_screen"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/exam_header_gradient">
+    android:background="@drawable/login_gradient_background">
 
     <View
         android:id="@+id/status_bar"
@@ -73,7 +73,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Welcome back,"
-                    android:textColor="#E6FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp"
                     android:fontFamily="@font/poppins_medium" />
 
@@ -82,7 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Dr. Sarah Wilson"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="18sp"
                     android:fontFamily="@font/poppins_bold"
                     android:ellipsize="end"
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quick Actions"
-                android:textColor="@color/white"
+                android:textColor="@color/DarkBlue"
                 android:textSize="18sp"
                 android:fontFamily="@font/poppins_semibold" />
 
@@ -328,7 +328,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Student Filters"
-                            android:textColor="#1A5276"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="18sp"
                             android:fontFamily="@font/poppins_semibold"
                             android:layout_marginStart="8dp" />
@@ -341,14 +341,14 @@
                             android:textAllCaps="false"
                             android:textSize="14sp"
                             app:cornerRadius="20dp"
-                            app:backgroundTint="#1A5276"
+                            app:backgroundTint="@color/DarkBlue"
                             android:fontFamily="@font/poppins_medium" />
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
-                        android:background="#1A000000"
+                        android:background="@color/DarkBlue"
                         android:layout_marginVertical="8dp" />
 
 
