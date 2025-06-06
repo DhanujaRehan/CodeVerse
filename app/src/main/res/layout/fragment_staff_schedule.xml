@@ -42,7 +42,7 @@
                     android:contentDescription="Back"
                     android:padding="12dp"
                     android:src="@drawable/ic_arrow_right"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/DarkBlue" />
             </com.google.android.material.card.MaterialCardView>
 
 
@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Schedule Management"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="@id/cv_back"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -79,7 +79,7 @@
                     android:contentDescription="Menu"
                     android:padding="12dp"
                     android:src="@drawable/ic_more_vert"
-                    app:tint="#FFFFFF" />
+                    app:tint="@color/DarkBlue" />
             </com.google.android.material.card.MaterialCardView>
 
 
@@ -157,7 +157,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="May 2025"
-                            android:textColor="@color/white"
+                            android:textColor="@color/DarkBlue"
                             android:textSize="20sp"
                             android:fontFamily="@font/poppins_semibold" />
 
@@ -286,9 +286,9 @@
                         android:fontFamily="@font/poppins_medium"
                         android:text="Student Schedule"
                         android:textAllCaps="false"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/white"
                         android:textSize="14sp"
-                        app:backgroundTint="#1A5276"
+                        app:backgroundTint="@color/DarkBlue"
                         app:cornerRadius="20dp" />
 
                     <com.google.android.material.button.MaterialButton
@@ -299,9 +299,9 @@
                         android:fontFamily="@font/poppins_medium"
                         android:text="Lecturer Schedule"
                         android:textAllCaps="false"
-                        android:textColor="#666666"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="14sp"
-                        app:backgroundTint="#F5F7FE"
+                        app:backgroundTint="@color/white"
                         app:cornerRadius="20dp"
                         style="@style/Widget.MaterialComponents.Button.TextButton" />
                 </LinearLayout>
@@ -327,7 +327,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
                         android:text="Student Schedule"
-                        android:textColor="@color/white"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="20sp" />
 
                     <TextView
@@ -336,7 +336,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
                         android:text="May 17, 2025"
-                        android:textColor="@color/white"
+                        android:textColor="@color/DarkBlue2"
                         android:textSize="16sp" />
                 </LinearLayout>
 
@@ -345,7 +345,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:fabSize="normal"
+                    android:src="@drawable/ic_calender"
                     android:backgroundTint="@color/white"
+                    android:tint="@color/DarkBlue"
                     app:borderWidth="0dp"
                     app:elevation="6dp"
                     android:contentDescription="Add Schedule" />

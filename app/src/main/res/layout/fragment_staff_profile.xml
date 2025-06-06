@@ -48,7 +48,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Staff Profile"
-                android:textColor="@color/white"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
@@ -179,9 +179,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Computer Science Department"
-                                android:textColor="#FFFFFF"
-                                app:chipBackgroundColor="#0D47A1"
-                                app:chipStrokeColor="#33FFFFFF"
+                                android:textColor="@color/white"
+                                app:chipBackgroundColor="@color/DarkBlue"
+                                app:chipStrokeColor="@color/DarkBlue2"
                                 app:chipStrokeWidth="1dp"
                                 android:layout_marginTop="4dp" />
                         </LinearLayout>
@@ -192,9 +192,9 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="top"
                             android:src="@drawable/ic_edit"
-                            app:tint="#FFFFFF"
+                            app:tint="@color/white"
                             app:fabSize="mini"
-                            app:backgroundTint="#1A5276" />
+                            app:backgroundTint="@color/DarkBlue" />
 
                     </LinearLayout>
 
@@ -356,7 +356,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Contact Information"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -498,7 +498,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Professional Information"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -737,7 +737,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Research Interests"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
             </LinearLayout>
 
@@ -768,45 +768,45 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Artificial Intelligence"
-                            android:textColor="#FFFFFF"
-                            app:chipBackgroundColor="#1A5276"
-                            app:chipStrokeColor="#33FFFFFF"
+                            android:textColor="@color/white"
+                            app:chipBackgroundColor="@color/DarkBlue"
+                            app:chipStrokeColor="@color/DarkBlue2"
                             app:chipStrokeWidth="1dp" />
 
                         <com.google.android.material.chip.Chip
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Machine Learning"
-                            android:textColor="#FFFFFF"
-                            app:chipBackgroundColor="#1A5276"
-                            app:chipStrokeColor="#33FFFFFF"
+                            android:textColor="@color/white"
+                            app:chipBackgroundColor="@color/DarkBlue"
+                            app:chipStrokeColor="@color/DarkBlue2"
                             app:chipStrokeWidth="1dp" />
 
                         <com.google.android.material.chip.Chip
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Computer Vision"
-                            android:textColor="#FFFFFF"
-                            app:chipBackgroundColor="#1A5276"
-                            app:chipStrokeColor="#33FFFFFF"
+                            android:textColor="@color/white"
+                            app:chipBackgroundColor="@color/DarkBlue"
+                            app:chipStrokeColor="@color/DarkBlue2"
                             app:chipStrokeWidth="1dp" />
 
                         <com.google.android.material.chip.Chip
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Natural Language Processing"
-                            android:textColor="#FFFFFF"
-                            app:chipBackgroundColor="#1A5276"
-                            app:chipStrokeColor="#33FFFFFF"
+                            android:textColor="@color/white"
+                            app:chipBackgroundColor="@color/DarkBlue"
+                            app:chipStrokeColor="@color/DarkBlue2"
                             app:chipStrokeWidth="1dp" />
 
                         <com.google.android.material.chip.Chip
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Data Science"
-                            android:textColor="#FFFFFF"
-                            app:chipBackgroundColor="#1A5276"
-                            app:chipStrokeColor="#33FFFFFF"
+                            android:textColor="@color/white"
+                            app:chipBackgroundColor="@color/DarkBlue"
+                            app:chipStrokeColor="@color/DarkBlue2"
                             app:chipStrokeWidth="1dp" />
                     </com.google.android.material.chip.ChipGroup>
 
@@ -817,7 +817,7 @@
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/poppins_regular"
                         android:text="Dr. Wilson's research focuses on developing novel machine learning algorithms for computer vision and natural language processing applications. Her recent work involves creating efficient deep learning models for resource-constrained environments."
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="14sp" />
 
                     <com.google.android.material.button.MaterialButton
@@ -826,8 +826,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:text="View Research Projects"
-                        android:textColor="#FFFFFF"
-                        app:backgroundTint="#1A5276"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/DarkBlue"
                         app:cornerRadius="16dp"
                         style="@style/Widget.MaterialComponents.Button" />
                 </LinearLayout>
@@ -854,7 +854,7 @@
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_semibold"
                     android:text="Courses Teaching"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="20sp" />
 
                 <View
@@ -868,7 +868,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
                     android:text="View All"
-                    android:textColor="#E6FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp"
                     android:padding="8dp" />
             </LinearLayout>
@@ -889,14 +889,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="Logout"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 android:fontFamily="@font/poppins_semibold"
-                app:backgroundTint="#D32F2F"
+                app:backgroundTint="@color/red"
                 app:cornerRadius="16dp"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-                app:iconTint="#FFFFFF"
+                app:iconTint="@color/white"
                 style="@style/Widget.MaterialComponents.Button" />
 
         </LinearLayout>
@@ -909,8 +909,8 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
         android:src="@drawable/ic_calender"
-        app:tint="#FFFFFF"
-        app:backgroundTint="#1A5276"
-        app:rippleColor="#FFFFFF"
+        app:tint="@color/white"
+        app:backgroundTint="@color/DarkBlue"
+        app:rippleColor="@color/DarkBlue2"
         app:fabSize="normal" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
