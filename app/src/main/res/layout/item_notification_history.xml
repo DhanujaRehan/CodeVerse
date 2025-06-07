@@ -20,7 +20,7 @@
             android:id="@+id/viewPriorityIndicator"
             android:layout_width="6dp"
             android:layout_height="match_parent"
-            android:background="@color/@color/DarkBlue2" />
+            android:background="@color/DarkBlue2" />
 
         <LinearLayout
             android:layout_width="0dp"
