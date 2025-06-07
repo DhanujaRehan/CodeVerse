@@ -24,7 +24,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/file"
-            app:tint="#1A5276" />
+            app:tint="@color/DarkBlue" />
 
         <TextView
             android:id="@+id/tv_file_name"
@@ -36,7 +36,7 @@
             android:fontFamily="@font/poppins_medium"
             android:singleLine="true"
             android:text="assignment_document.pdf"
-            android:textColor="#1A5276"
+            android:textColor="@color/DarkBlue2"
             android:textSize="14sp" />
 
         <ImageView
@@ -48,7 +48,7 @@
             android:focusable="true"
             android:padding="6dp"
             android:src="@drawable/ic_download"
-            app:tint="#1A5276" />
+            app:tint="@color/DarkBlue2" />
 
     </LinearLayout>
 
