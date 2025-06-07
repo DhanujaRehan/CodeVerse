@@ -52,7 +52,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_calender"
-                        app:tint="#6A11CB" />
+                        app:tint="@color/DarkBlue2" />
 
                     <TextView
                         android:id="@+id/tv_event_date"
@@ -76,7 +76,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:src="@drawable/ic_location"
-                        app:tint="#6A11CB" />
+                        app:tint="@color/DarkBlue" />
 
                     <TextView
                         android:id="@+id/tv_event_venue"
