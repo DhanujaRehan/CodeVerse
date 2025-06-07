@@ -35,7 +35,7 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_folder"
-                    app:tint="#6A11CB" />
+                    app:tint="@color/DarkBlue" />
             </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
@@ -63,7 +63,7 @@
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Subject"
-                    android:textColor="#6A11CB"
+                    android:textColor="@color/MiddleBlue"
                     android:textSize="14sp" />
 
                 <LinearLayout
@@ -131,14 +131,14 @@
                 android:fontFamily="@font/poppins_medium"
                 android:text="Download"
                 android:textAllCaps="false"
-                android:textColor="#6A11CB"
+                android:textColor="@color/DarkBlue"
                 android:textSize="14sp"
                 app:cornerRadius="12dp"
                 app:icon="@drawable/ic_download"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
                 app:iconSize="18dp"
-                app:iconTint="#6A11CB" />
+                app:iconTint="@color/DarkBlue" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_edit"
