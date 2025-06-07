@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
                     android:text="John Doe"
-                    android:textColor="#1A5276"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="16sp" />
 
                 <TextView
@@ -44,7 +44,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_regular"
                     android:text="ST12345"
-                    android:textColor="#5A7A9A"
+                    android:textColor="@color/DarkBlue2"
                     android:textSize="14sp" />
 
             </LinearLayout>
@@ -71,7 +71,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_medium"
             android:text="Assignment 1 - Data Structures"
-            android:textColor="#1A5276"
+            android:textColor="@color/DarkBlue"
             android:textSize="14sp" />
 
         <LinearLayout
@@ -85,7 +85,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_calender"
-                app:tint="#5A7A9A" />
+                app:tint="@color/MiddleBlue" />
 
             <TextView
                 android:id="@+id/tv_submission_date"
@@ -94,7 +94,7 @@
                 android:layout_marginStart="8dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="May 15, 2025"
-                android:textColor="#5A7A9A"
+                android:textColor="@color/DarkBlue2"
                 android:textSize="12sp" />
 
             <View
@@ -106,7 +106,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_arrow_right"
-                app:tint="#1A5276" />
+                app:tint="@color/DarkBlue" />
 
         </LinearLayout>
 
