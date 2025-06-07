@@ -18,7 +18,7 @@
             android:id="@+id/card_time_section"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:cardBackgroundColor="#6A11CB"
+            app:cardBackgroundColor="@color/DarkBlue"
             app:cardCornerRadius="16dp"
             app:cardElevation="0dp">
 
@@ -35,7 +35,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_bold"
                     android:text="10:00"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="16sp" />
 
                 <View
@@ -100,7 +100,7 @@
                         android:layout_marginTop="2dp"
                         android:fontFamily="@font/poppins_medium"
                         android:text="CS3021"
-                        android:textColor="#6A11CB"
+                        android:textColor="@color/DarkBlue2"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -128,7 +128,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_person"
-                    app:tint="#6A11CB" />
+                    app:tint="@color/DarkBlue2" />
 
                 <TextView
                     android:id="@+id/tv_lecturer_name"
@@ -154,7 +154,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_location"
-                    app:tint="#6A11CB" />
+                    app:tint="@color/DarkBlue2" />
 
                 <TextView
                     android:id="@+id/tv_classroom"
@@ -176,7 +176,7 @@
                     android:src="@drawable/ic_more_vert"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:padding="4dp"
-                    app:tint="#6A11CB"
+                    app:tint="@color/DarkBlue2"
                     android:contentDescription="Options" />
             </LinearLayout>
 
@@ -198,7 +198,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
-                    android:backgroundTint="#6A11CB"
+                    android:backgroundTint="@color/DarkBlue"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Join Class"
                     android:textAllCaps="false"
@@ -220,9 +220,9 @@
                     android:textAllCaps="false"
                     android:textSize="14sp"
                     app:cornerRadius="8dp"
-                    app:strokeColor="#6A11CB"
+                    app:strokeColor="@color/DarkBlue"
                     app:strokeWidth="1dp"
-                    android:textColor="#6A11CB"
+                    android:textColor="@color/DarkBlue"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton" />
             </LinearLayout>
         </LinearLayout>
