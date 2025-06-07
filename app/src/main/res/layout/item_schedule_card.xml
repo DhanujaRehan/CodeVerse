@@ -19,7 +19,7 @@
             android:id="@+id/layout_time_section"
             android:layout_width="85dp"
             android:layout_height="match_parent"
-            android:background="@drawable/schedule_time_background"
+            android:background="@drawable/student_image_gradient"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="16dp">
@@ -96,7 +96,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
                         android:text="Data Structures and Algorithms"
-                        android:textColor="#1A5276"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="18sp" />
 
                     <TextView
@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
                         android:text="CS3021"
-                        android:textColor="#1A5276"
+                        android:textColor="@color/DarkBlue2"
                         android:textSize="14sp" />
                 </LinearLayout>
 
@@ -121,7 +121,7 @@
                         android:src="@drawable/ic_edit"
                         android:padding="6dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        app:tint="#1A5276"
+                        app:tint="@color/DarkBlue"
                         android:contentDescription="Edit" />
 
                     <ImageView
@@ -131,7 +131,7 @@
                         android:src="@drawable/ic_delete"
                         android:padding="6dp"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        app:tint="#E53935"
+                        app:tint="@color/red"
                         android:contentDescription="Delete" />
                 </LinearLayout>
             </LinearLayout>
@@ -153,7 +153,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_person"
-                    app:tint="#1A5276" />
+                    app:tint="@color/DarkBlue2" />
 
                 <TextView
                     android:id="@+id/tv_lecturer_name"
@@ -161,7 +161,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Dr. Sarah Wilson"
-                    android:textColor="#333333"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="15sp"
                     android:layout_marginStart="8dp" />
             </LinearLayout>
@@ -178,7 +178,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/ic_location"
-                    app:tint="#1A5276" />
+                    app:tint="@color/DarkBlue2" />
 
                 <TextView
                     android:id="@+id/tv_classroom"
@@ -186,7 +186,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Computer Science Building, Room 301"
-                    android:textColor="#333333"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="15sp"
                     android:layout_marginStart="8dp" />
             </LinearLayout>
