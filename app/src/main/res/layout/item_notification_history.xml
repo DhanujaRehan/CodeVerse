@@ -20,7 +20,7 @@
             android:id="@+id/viewPriorityIndicator"
             android:layout_width="6dp"
             android:layout_height="match_parent"
-            android:background="@color/purple_primary" />
+            android:background="@color/@color/DarkBlue2" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -333,13 +333,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:text="View Details"
-                android:textColor="@color/purple_primary"
+                android:textColor="@color/DarkBlue"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:fontFamily="@font/poppins_regular"
                 android:padding="8dp"
                 android:background="?attr/selectableItemBackground" android:drawablePadding="4dp"
-                app:drawableTint="@color/purple_primary" />
+                app:drawableTint="@color/DarkBlue" />
         </LinearLayout>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
