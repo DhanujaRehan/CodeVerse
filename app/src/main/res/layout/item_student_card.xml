@@ -70,7 +70,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_bold"
                         android:text="John Doe"
-                        android:textColor="#1A5276"
+                        android:textColor="@color/DarkBlue"
                         android:textSize="18sp" />
 
                     <TextView
@@ -110,7 +110,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_domain"
-                        app:tint="#1A5276" />
+                        app:tint="@color/DarkBlue2" />
 
                     <TextView
                         android:id="@+id/tv_department"
@@ -134,7 +134,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_calender"
-                        app:tint="#1A5276" />
+                        app:tint="@color/DarkBlue2" />
 
                     <TextView
                         android:id="@+id/tv_year"
@@ -157,7 +157,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_badge"
-                        app:tint="#1A5276" />
+                        app:tint="@color/DarkBlue2" />
 
                     <TextView
                         android:id="@+id/tv_badge"
@@ -187,7 +187,7 @@
                     android:textAllCaps="false"
                     android:textSize="12sp"
                     app:cornerRadius="20dp"
-                    app:backgroundTint="#1A5276"
+                    app:backgroundTint="@color/DarkBlue"
                     app:icon="@drawable/ic_person"
                     app:iconSize="16dp"
                     app:iconGravity="textStart"
@@ -206,13 +206,13 @@
                     android:textSize="12sp"
                     app:cornerRadius="20dp"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    app:strokeColor="#1A5276"
+                    app:strokeColor="@color/DarkBlue"
                     app:icon="@drawable/ic_grades"
                     app:iconSize="16dp"
                     app:iconGravity="textStart"
                     app:iconPadding="4dp"
-                    app:iconTint="#1A5276"
-                    android:textColor="#1A5276"
+                    app:iconTint="@color/DarkBlue"
+                    android:textColor="@color/DarkBlue"
                     android:fontFamily="@font/poppins_medium"
                     android:paddingHorizontal="8dp" />
 
@@ -227,13 +227,13 @@
                     android:textSize="12sp"
                     app:cornerRadius="20dp"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    app:strokeColor="#1A5276"
+                    app:strokeColor="@color/DarkBlue"
                     app:icon="@drawable/ic_email"
                     app:iconSize="16dp"
                     app:iconGravity="textStart"
                     app:iconPadding="4dp"
-                    app:iconTint="#1A5276"
-                    android:textColor="#1A5276"
+                    app:iconTint="@color/DarkBlue"
+                    android:textColor="@color/DarkBlue"
                     android:fontFamily="@font/poppins_medium"
                     android:paddingHorizontal="8dp" />
             </LinearLayout>
