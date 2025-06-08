@@ -88,20 +88,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/glass_background"
+            android:backgroundTint="#9DFFFFFF"
+            android:clipToOutline="true"
+            android:clipToPadding="true"
             android:orientation="vertical"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="16dp"
-            android:paddingBottom="100dp">
+            android:padding="20dp">
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:id="@+id/card_profile_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="28dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF"
-                app:cardElevation="10dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="#AFFFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
+                android:orientation="vertical"
+                android:elevation="50dp"
+                android:padding="20dp"
                 >
 
                 <View
@@ -113,7 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="24dp">
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -121,19 +127,21 @@
                         android:orientation="horizontal">
 
                         <com.google.android.material.card.MaterialCardView
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
+                            android:layout_width="75dp"
+                            android:layout_height="75dp"
                             app:cardCornerRadius="50dp"
                             app:cardElevation="8dp"
                             app:strokeWidth="2dp"
-                            app:strokeColor="#FFFFFF">
+                            app:strokeColor="#FFFFFF"
+                            android:layout_gravity="center_vertical">
 
                             <ImageView
                                 android:id="@+id/iv_staff_profile_pic"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:src="@drawable/ic_person"
-                                android:scaleType="centerCrop" />
+                                android:scaleType="centerCrop"
+                                android:layout_gravity="center_horizontal" />
 
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="match_parent"
@@ -183,7 +191,7 @@
                                 app:chipBackgroundColor="@color/DarkBlue"
                                 app:chipStrokeColor="@color/DarkBlue2"
                                 app:chipStrokeWidth="1dp"
-                                android:layout_marginTop="4dp" />
+                               />
                         </LinearLayout>
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -204,13 +212,16 @@
                         android:layout_marginTop="24dp"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.card.MaterialCardView
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/glass_background"
+                            android:backgroundTint="#FFFFFF"
+                            android:clipToOutline="true"
+                            android:clipToPadding="true"
+                            android:elevation="50dp"
                             android:layout_weight="1"
-                            app:cardCornerRadius="16dp"
                             app:cardElevation="4dp"
-                            app:cardBackgroundColor="#33FFFFFF"
                             android:layout_marginEnd="8dp">
 
                             <LinearLayout
@@ -234,10 +245,14 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_bold"
                                     android:text="12"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:textColor="@color/black"
                                     android:textSize="24sp" />
 
                                 <TextView
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_regular"
@@ -245,16 +260,19 @@
                                     android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
 
-                        <com.google.android.material.card.MaterialCardView
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/glass_background"
+                            android:backgroundTint="#FFFFFF"
+                            android:clipToOutline="true"
+                            android:clipToPadding="true"
+                            android:elevation="50dp"
                             android:layout_weight="1"
-                            app:cardCornerRadius="16dp"
                             app:cardElevation="4dp"
-                            app:cardBackgroundColor="#33FFFFFF"
-                            android:layout_marginHorizontal="4dp">
+                            android:layout_marginEnd="8dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -288,16 +306,18 @@
                                     android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
 
-                        <com.google.android.material.card.MaterialCardView
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:background="@drawable/glass_background"
+                            android:backgroundTint="#FFFFFF"
+                            android:clipToOutline="true"
+                            android:clipToPadding="true"
+                            android:elevation="50dp"
                             android:layout_weight="1"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="4dp"
-                            app:cardBackgroundColor="#33FFFFFF"
-                            android:layout_marginStart="8dp">
+                            app:cardElevation="4dp">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -328,13 +348,15 @@
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_regular"
                                     android:text="Courses Teaching"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
                                     android:textColor="@color/black"
                                     android:textSize="12sp" />
                             </LinearLayout>
-                        </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -360,15 +382,16 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="24dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF"
-                app:cardElevation="8dp">
+                android:background="@drawable/glass_background"
+                android:backgroundTint="#FFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <View
                     android:layout_width="match_parent"
@@ -379,7 +402,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    >
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -415,7 +438,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Office Hours"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue2"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -424,7 +447,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Mon, Wed: 10:00 AM - 12:00 PM\nThu: 2:00 PM - 4:00 PM"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -432,14 +455,18 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:clipToPadding="false"
+                        android:clipToOutline="false">
 
                         <com.google.android.material.card.MaterialCardView
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             app:cardBackgroundColor="#E1E8F9"
                             app:cardCornerRadius="16dp"
-                            app:cardElevation="4dp">
+                            app:cardElevation="4dp"
+                            android:clipToOutline="false"
+                            android:clipToPadding="false">
 
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="48dp"
@@ -447,7 +474,8 @@
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/map_pin_animation" />
+                                app:lottie_rawRes="@raw/map_pin_animation"
+                                android:clipToOutline="false"/>
                         </com.google.android.material.card.MaterialCardView>
 
                         <LinearLayout
@@ -462,7 +490,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Office Location"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue2"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -471,12 +499,12 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Computer Science Building, Room 301"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -502,26 +530,22 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="24dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF"
-                app:cardElevation="8dp">
+                android:background="@drawable/glass_background"
+                android:backgroundTint="#FFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -557,7 +581,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Position"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue2"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -566,7 +590,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Associate Professor"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -605,7 +629,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Department"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue2"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -614,7 +638,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Computer Science"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -653,7 +677,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Specialization"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue2"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -662,7 +686,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Artificial Intelligence, Machine Learning"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -700,7 +724,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Education"
-                                android:textColor="#80FFFFFF"
+                                android:textColor="@color/DarkBlue2"
                                 android:textSize="14sp" />
 
                             <TextView
@@ -709,12 +733,12 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Ph.D. in Computer Science, MIT\nM.S. in Computer Science, Stanford University"
-                                android:textColor="#FFFFFF"
+                                android:textColor="@color/DarkBlue"
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -741,21 +765,22 @@
                     android:textSize="20sp" />
             </LinearLayout>
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="24dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF"
-                app:cardElevation="8dp">
+                android:background="@drawable/glass_background"
+                android:backgroundTint="#FFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    >
 
                     <com.google.android.material.chip.ChipGroup
                         android:id="@+id/chip_group_research"
@@ -818,7 +843,8 @@
                         android:fontFamily="@font/poppins_regular"
                         android:text="Dr. Wilson's research focuses on developing novel machine learning algorithms for computer vision and natural language processing applications. Her recent work involves creating efficient deep learning models for resource-constrained environments."
                         android:textColor="@color/DarkBlue"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:paddingHorizontal="5dp"/>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_view_research"
@@ -831,7 +857,7 @@
                         app:cornerRadius="16dp"
                         style="@style/Widget.MaterialComponents.Button" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -889,11 +915,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="30dp"
                 android:text="Logout"
+                android:padding="12dp"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:fontFamily="@font/poppins_semibold"
                 app:backgroundTint="@color/red"
-                app:cornerRadius="16dp"
+                app:cornerRadius="50dp"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
                 app:iconTint="@color/white"

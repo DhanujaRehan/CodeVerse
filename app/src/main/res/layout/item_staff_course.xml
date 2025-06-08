@@ -1,40 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_course"
     android:layout_width="280dp"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    app:cardBackgroundColor="#80FFFFFF"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="8dp"
-    app:strokeColor="#33FFFFFF"
-    app:strokeWidth="1dp">
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/staff_glass_effect" />
+    android:layout_marginTop="12dp"
+    android:background="@drawable/glass_background"
+    android:backgroundTint="#FFFFFF"
+    android:clipToOutline="true"
+    android:clipToPadding="true"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/glass_background"
+        android:backgroundTint="#FFFFFF"
+        android:clipToOutline="true"
+        android:clipToPadding="true"
         android:orientation="vertical"
-        android:padding="16dp">
-
+        android:padding="20dp">
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="120dp">
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                android:layout_height="wrap_content"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="#FFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/iv_course_image"
@@ -42,7 +41,7 @@
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
                     tools:src="@drawable/ccc" />
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
 
             <com.google.android.material.chip.Chip
@@ -64,7 +63,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:fontFamily="@font/poppins_bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/DarkBlue"
             android:textSize="18sp"
             tools:text="Advanced Machine Learning" />
 
@@ -80,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
-                android:textColor="#E6FFFFFF"
+                android:textColor="@color/DarkBlue2"
                 android:textSize="12sp"
                 tools:text="CS401" />
 
@@ -90,7 +89,7 @@
                 android:layout_marginHorizontal="8dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="•"
-                android:textColor="#E6FFFFFF"
+                android:textColor="@color/DarkBlue2"
                 android:textSize="12sp" />
 
             <TextView
@@ -98,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_medium"
-                android:textColor="#E6FFFFFF"
+                android:textColor="@color/DarkBlue2"
                 android:textSize="12sp"
                 tools:text="Spring 2024" />
         </LinearLayout>
@@ -112,7 +111,7 @@
             android:ellipsize="end"
             android:fontFamily="@font/poppins_regular"
             android:maxLines="2"
-            android:textColor="#E6FFFFFF"
+            android:textColor="@color/DarkBlue"
             android:textSize="14sp"
             tools:text="This course covers advanced topics in machine learning including deep learning, reinforcement learning, and generative models." />
 
@@ -124,8 +123,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="View Course Details"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/MiddleBlue"
             app:cornerRadius="12dp"
-            app:strokeColor="#FFFFFF" />
+            app:strokeColor="@color/MiddleBlue" />
     </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>

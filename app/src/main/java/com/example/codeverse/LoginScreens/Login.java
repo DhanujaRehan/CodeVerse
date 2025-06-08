@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.codeverse.Admin.Activities.AdminMainActivity;
+import com.example.codeverse.Staff.Activities.StaffMainActivity;
 import com.example.codeverse.Students.Activities.StudentMainActivity;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
@@ -50,7 +51,7 @@ public class Login extends AppCompatActivity {
         }
 
         if (staffSessionManager.isLoggedIn()) {
-            Intent intent = new Intent(Login.this, AdminMainActivity.class);
+            Intent intent = new Intent(Login.this, StaffMainActivity.class);
             startActivity(intent);
             finish();
             return;
@@ -104,7 +105,7 @@ public class Login extends AppCompatActivity {
                 );
 
                 Intent intent = new Intent(Login.this, LoadingScreen.class);
-                intent.putExtra("nextActivity", "AdminMainActivity");
+                intent.putExtra("nextActivity", "StaffMainActivity");
                 intent.putExtra("username", staff.getFullName());
                 startActivity(intent);
                 finish();
