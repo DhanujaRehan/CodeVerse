@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Uni</string>
+    <string name="app_name">CodeVerse</string>
     <string name="fab_add_description">Add new item</string>
     <string name="schedule">Schedule</string>
     <string name="back">Back</string>
