@@ -99,11 +99,12 @@
             android:paddingBottom="100dp">
 
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:id="@+id/card_profile_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#80FFFFFF"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 app:cardCornerRadius="28dp"
                 app:strokeWidth="1dp"
                 app:strokeColor="#33FFFFFF"
@@ -124,45 +125,40 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="16dp">
-
-
-                        <com.google.android.material.card.MaterialCardView
-                            android:layout_width="120dp"
-                            android:layout_height="120dp"
-                            app:cardCornerRadius="60dp"
-                            app:cardElevation="8dp"
-                            app:strokeWidth="2dp"
-                            app:strokeColor="#FFFFFF">
-
-                            <ImageView
-                                android:id="@+id/iv_profile_pic"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:src="@drawable/ic_profile"
-                                android:scaleType="centerCrop" />
-
-
-                            <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:lottie_autoPlay="true"
-                                app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/pulse_animation"
-                                android:alpha="0.6" />
-                        </com.google.android.material.card.MaterialCardView>
-
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="24dp">
 
                         <com.google.android.material.floatingactionbutton.FloatingActionButton
                             android:id="@+id/fab_edit_picture"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="bottom|end"
-                            android:src="@drawable/ic_camera"
+                            android:layout_marginLeft="60dp"
+                            android:layout_marginTop="60dp"
+                            android:src="@drawable/camera"
+                            app:backgroundTint="@color/DarkBlue"
                             app:fabSize="mini"
-                            app:tint="@color/white"
-                            app:backgroundTint="@color/DarkBlue" />
+                            app:tint="#FFFFFF" />
+
+
+                        <LinearLayout
+                            android:orientation="vertical"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@drawable/propic_bg">
+
+                            <ImageView
+                                android:id="@+id/iv_profile_pic"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop"
+                                android:background="@drawable/propic_bg"
+                                android:src="@drawable/addpropic"
+                                android:clipToOutline="true"/>
+
+                        </LinearLayout>
                     </FrameLayout>
+
 
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -211,6 +207,7 @@
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_medium"
                             android:hint="Staff ID"
+                            android:backgroundTint="@color/white"
                             android:inputType="text"
                             android:text="FAC2023104"
                             android:enabled="false"
@@ -273,7 +270,7 @@
                             android:textColor="#333333" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
 
             <LinearLayout
@@ -301,15 +298,15 @@
             </LinearLayout>
 
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="24dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF"
-                app:cardElevation="8dp"
+                android:orientation="vertical"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="#FFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
                 >
 
                 <LinearLayout
@@ -423,7 +420,7 @@
                             android:textColor="#333333" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
 
             <LinearLayout
@@ -451,15 +448,16 @@
             </LinearLayout>
 
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="24dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF"
-                app:cardElevation="8dp">
+                android:orientation="vertical"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="#FFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -546,7 +544,7 @@
                             android:gravity="top|start" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
 
             <LinearLayout
@@ -574,15 +572,16 @@
             </LinearLayout>
 
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="24dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF"
-                app:cardElevation="8dp">
+                android:orientation="vertical"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="#FFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -669,7 +668,7 @@
                             android:textColor="#333333" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
 
             <LinearLayout
@@ -697,15 +696,16 @@
             </LinearLayout>
 
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="24dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF"
-                app:cardElevation="8dp">
+                android:orientation="vertical"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="#FFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -790,7 +790,7 @@
                             android:textColor="#333333" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
 
             <LinearLayout
@@ -803,6 +803,7 @@
 
 
                 <com.google.android.material.button.MaterialButton
+                    android:textAllCaps="false"
                     android:id="@+id/btn_cancel"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
@@ -811,7 +812,7 @@
                     android:text="Cancel"
                     android:textColor="@color/white"
                     app:backgroundTint="@color/red"
-                    app:cornerRadius="16dp"
+                    app:cornerRadius="50dp"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="16sp"
                     android:paddingVertical="12dp"
@@ -826,9 +827,10 @@
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
                     android:text="Save Changes"
+                    android:textAllCaps="false"
                     android:textColor="@color/white"
                     app:backgroundTint="@color/DarkBlue"
-                    app:cornerRadius="16dp"
+                    app:cornerRadius="50dp"
                     android:fontFamily="@font/poppins_medium"
                     android:textSize="16sp"
                     android:paddingVertical="12dp"
