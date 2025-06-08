@@ -165,7 +165,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_extrabold"
-                                android:text="Dr. Sarah Wilson"
+                                android:text="Dr. Rehan Wilson"
                                 android:textColor="@color/black"
                                 android:textSize="26sp"
                                 android:shadowColor="#50000000"
