@@ -175,7 +175,6 @@ public class LoadingScreen extends AppCompatActivity {
                 } else {
                     intent = new Intent(LoadingScreen.this, MainActivity.class);
                 }
-
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();

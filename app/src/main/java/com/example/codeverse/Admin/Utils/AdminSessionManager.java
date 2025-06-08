@@ -35,9 +35,6 @@ public class AdminSessionManager {
     /**
      * Check if admin is logged in
      */
-    public boolean isLoggedIn() {
-        return pref.getBoolean(KEY_IS_LOGGED_IN, false);
-    }
 
     /**
      * Get admin ID from session
@@ -63,9 +60,21 @@ public class AdminSessionManager {
     /**
      * Clear admin session data and logout
      */
-    public void logoutAdmin() {
+    public void logoutUser() {
+        // Clear all session data
         editor.clear();
-        editor.commit();
+        editor.apply(); // or editor.commit() for immediate write
+
+        // Alternative approach - remove specific keys
+        // editor.remove("admin_id");
+        // editor.remove("admin_name");
+        // editor.remove("admin_email");
+        // editor.remove("is_logged_in");
+        // editor.apply();
+    }
+
+    public boolean isLoggedIn() {
+        return pref.getBoolean("is_logged_in", false);
     }
 
 
