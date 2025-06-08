@@ -205,7 +205,7 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_schedule"
+                    android:src="@drawable/ic_calender"
                     app:tint="@color/DarkBlue2" />
 
                 <TextView
@@ -268,51 +268,10 @@
                 android:layout_marginTop="8dp"
                 android:max="100"
                 android:progress="75"
-                android:progressDrawable="@drawable/progress_bar_custom"
+                android:progressDrawable="@drawable/progress_bar_blue"
                 android:progressTint="@color/MiddleBlue" />
         </LinearLayout>
 
-        <!-- Action Buttons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_view_details"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginEnd="8dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Details"
-                android:textAllCaps="false"
-                android:textColor="@color/DarkBlue"
-                android:textSize="12sp"
-                app:cornerRadius="20dp"
-                app:strokeColor="@color/DarkBlue2"
-                app:strokeWidth="1dp" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_join_class"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"
-                android:fontFamily="@font/poppins_bold"
-                android:text="Join Class"
-                android:textAllCaps="false"
-                android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                app:backgroundTint="@color/DarkBlue"
-                app:cornerRadius="20dp"
-                app:icon="@drawable/ic_videocam"
-                app:iconGravity="textStart"
-                app:iconSize="16dp"
-                app:iconTint="#FFFFFF" />
-        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
