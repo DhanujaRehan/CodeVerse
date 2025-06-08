@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Uni</string>
-
+    <string name="fab_add_description">Add new item</string>
     <string name="schedule">Schedule</string>
     <string name="back">Back</string>
     <string name="options">Options</string>

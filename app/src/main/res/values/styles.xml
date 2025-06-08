@@ -4,9 +4,9 @@
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
-    <item name="colorPrimary">#6A11CB</item>
-    <item name="colorPrimaryDark">#5910A7</item>
-    <item name="colorAccent">#6A11CB</item>
+    <item name="colorPrimary">#03045e</item>
+    <item name="colorPrimaryDark">#0077b6</item>
+    <item name="colorAccent">#00b4d8</item>
     <item name="android:windowLightStatusBar">true</item>
     <item name="android:statusBarColor">@android:color/transparent</item>
 </style>
