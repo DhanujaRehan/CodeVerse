@@ -132,7 +132,7 @@
                             app:cardCornerRadius="50dp"
                             app:cardElevation="8dp"
                             app:strokeWidth="2dp"
-                            app:strokeColor="#FFFFFF"
+                            app:strokeColor="@color/white"
                             android:layout_gravity="center_vertical">
 
                             <ImageView
