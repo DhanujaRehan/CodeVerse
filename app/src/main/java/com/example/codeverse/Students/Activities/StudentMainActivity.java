@@ -11,6 +11,9 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.codeverse.Lecturer.Fragments.GradeSubmission;
 import com.example.codeverse.Staff.StaffFragments.StaffTimeTabePDF;
 import com.example.codeverse.R;
+import com.example.codeverse.StudentHomeFragment;
+import com.example.codeverse.Students.StudentFragments.PaymentScreenFragment;
+import com.example.codeverse.Students.StudentFragments.StudentClass;
 import com.example.codeverse.Students.StudentFragments.StudentProfile;
 import com.example.codeverse.Students.StudentFragments.TimetableDownloadFragment;
 import com.example.codeverse.databinding.ActivityStudentMainBinding;
@@ -29,7 +32,7 @@ public class StudentMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.framelayout, new StudentProfile())
+                    .replace(R.id.framelayout, new StudentHomeFragment())
                     .commit();
         }
 
@@ -37,17 +40,17 @@ public class StudentMainActivity extends AppCompatActivity {
             int itemid = item.getItemId();
             if (itemid == R.id.navhome) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new StudentProfile())
+                        .replace(R.id.framelayout, new StudentHomeFragment())
                         .commit();
             }
             else if (itemid == R.id.navassignments){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new TimetableDownloadFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StudentProfile()).commit();
             }
             else if (itemid == R.id.navschedule){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StudentClass()).commit();
             }
             else if (itemid == R.id.navprofile){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffTimeTabePDF()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new PaymentScreenFragment()).commit();
             }
             return true;
         });
