@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".LoginScreens.AdminLogout"
+            android:exported="false" />
+        <activity
             android:name=".Staff.Activities.StaffMainActivity"
             android:exported="false" />
         <activity
@@ -36,6 +39,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".Admin.Activities.AdminMainActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
@@ -43,9 +49,6 @@
             android:exported="false" />
         <activity
             android:name=".LoginScreens.WelcomeScreen"
-            android:exported="false" />
-        <activity
-            android:name=".Admin.Activities.AdminMainActivity"
             android:exported="false" />
         <activity
             android:name=".LoginScreens.LoadingScreen"

@@ -6,6 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="MainActivity"
+    android:name=".Admin.Activities.AdminMainActivity"
+    android:exported="false"
     android:background="@color/white"
     android:backgroundTint="@color/white"
     app:background="@color/white">
@@ -28,12 +30,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/staff_bottom_nav_menu"
+        app:menu="@menu/admin_bottom_nav_menu"
         app:labelVisibilityMode="unlabeled"
         app:itemTextColor="@color/white"
         android:foregroundGravity="center"
         app:itemBackground="@color/white"
-        app:itemIconTint="@color/DarkBlue"
+        app:itemIconTint="@color/DarkBlue2"
         app:itemRippleColor="@color/white"
         />
 
