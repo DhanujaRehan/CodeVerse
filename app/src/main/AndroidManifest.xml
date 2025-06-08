@@ -11,7 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <activity
+            android:name=".Staff.Activities.StaffMainActivity"
+            android:exported="false" />
         <activity
             android:name=".LoginScreens.LogoutStaff"
             android:exported="false" />
@@ -48,6 +50,7 @@
         <activity
             android:name=".LoginScreens.LoadingScreen"
             android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
