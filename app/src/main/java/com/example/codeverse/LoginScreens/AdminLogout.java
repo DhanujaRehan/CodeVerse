@@ -30,7 +30,7 @@ public class AdminLogout extends AppCompatActivity {
             tvGoodbyeUser.setText("Goodbye, Administrator!");
         }
 
-        adminSessionManager.logoutUser();
+        adminSessionManager.logoutAdmin();
 
         new Handler().postDelayed(new Runnable() {
             @Override

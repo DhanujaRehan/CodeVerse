@@ -27,7 +27,7 @@
         android:fontFamily="@font/poppins_extrabold"
         android:text="Goodbye, Dr. Wilson!"
         android:textColor="@color/DarkBlue"
-        android:textSize="36sp"
+        android:textSize="28dp"
         android:shadowColor="#40000000"
         android:shadowDx="0"
         android:shadowDy="3"
@@ -53,9 +53,8 @@
         android:id="@+id/progress_indicator_staff"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="50dp"
+       android:layout_marginHorizontal="50dp"
+        android:layout_marginVertical="10dp"
         android:indeterminate="true"
         app:indicatorColor="@color/DarkBlue"
         app:trackColor="#33FFFFFF"
@@ -69,11 +68,11 @@
         android:id="@+id/chip_group_staff_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        app:singleLine="true"
+        android:layout_marginVertical="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_indicator_staff">
+        app:layout_constraintTop_toBottomOf="@+id/progress_indicator_staff"
+        app:singleLine="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_profile"
@@ -82,9 +81,9 @@
             android:text="Profile"
             android:textColor="@color/white"
             app:chipBackgroundColor="@color/DarkBlue"
+            app:chipIconVisible="false"
             app:chipStrokeColor="#66FFFFFF"
             app:chipStrokeWidth="2dp"
-            app:chipIconVisible="false"
             app:closeIconVisible="false" />
 
         <com.google.android.material.chip.Chip
@@ -94,9 +93,9 @@
             android:text="Courses"
             android:textColor="@color/white"
             app:chipBackgroundColor="@color/DarkBlue"
+            app:chipIconVisible="false"
             app:chipStrokeColor="#66FFFFFF"
             app:chipStrokeWidth="2dp"
-            app:chipIconVisible="false"
             app:closeIconVisible="false" />
 
         <com.google.android.material.chip.Chip
@@ -106,27 +105,26 @@
             android:text="Research"
             android:textColor="@color/white"
             app:chipBackgroundColor="@color/DarkBlue"
+            app:chipIconVisible="false"
             app:chipStrokeColor="#66FFFFFF"
             app:chipStrokeWidth="2dp"
-            app:chipIconVisible="false"
             app:closeIconVisible="false" />
     </com.google.android.material.chip.ChipGroup>
 
     <TextView
         android:id="@+id/tv_staff_logout_quote"
         android:layout_width="0dp"
+        android:paddingHorizontal="20dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="50dp"
         android:fontFamily="@font/poppins_regular"
-        android:text="Thank you for your dedication to education and research. Have a wonderful day!"
-        android:textColor="@color/DarkBlue"
-        android:textSize="18sp"
-        android:textAlignment="center"
         android:lineSpacingExtra="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginVertical="10dp"
+        android:text="Thank you for your dedication to education and research. Have a wonderful day!"
+        android:textAlignment="center"
+        android:textColor="@color/DarkBlue"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chip_group_staff_status" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
