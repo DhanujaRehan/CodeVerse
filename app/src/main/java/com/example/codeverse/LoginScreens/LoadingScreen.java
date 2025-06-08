@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -150,8 +151,6 @@ public class LoadingScreen extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             try {
                 Intent intent;
-
-                // Check which activity to launch based on nextActivity parameter
                 if ("AdminMainActivity".equals(nextActivity)) {
                     intent = new Intent(LoadingScreen.this, AdminMainActivity.class);
                 } else if ("StudentMainActivity".equals(nextActivity)) {
@@ -167,8 +166,8 @@ public class LoadingScreen extends AppCompatActivity {
                 finish();
 
             } catch (Exception e) {
-                // Fallback in case of any errors
-                Intent fallback = new Intent(LoadingScreen.this, MainActivity.class);
+                Intent fallback = new Intent(LoadingScreen.this, Login.class);
+                Toast.makeText(this, "Error logging in", Toast.LENGTH_SHORT).show();
                 startActivity(fallback);
                 finish();
             }
