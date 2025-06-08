@@ -12,7 +12,7 @@
     <FrameLayout
         android:id="@+id/framelayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="940dp"
         android:layout_marginBottom="80dp"
         android:background="@color/white" />
 
