@@ -4,13 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 public class AdminSessionManager {
-
     private static final String PREF_NAME = "AdminSession";
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
     private static final String KEY_ADMIN_ID = "adminId";
     private static final String KEY_ADMIN_EMAIL = "adminEmail";
     private static final String KEY_ADMIN_NAME = "adminName";
-
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
     private Context context;
@@ -20,10 +18,6 @@ public class AdminSessionManager {
         pref = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
         editor = pref.edit();
     }
-
-    /**
-     * Create admin login session
-     */
     public void createLoginSession(String adminId, String adminName, String adminEmail) {
         editor.putBoolean(KEY_IS_LOGGED_IN, true);
         editor.putString(KEY_ADMIN_ID, adminId);
@@ -31,46 +25,21 @@ public class AdminSessionManager {
         editor.putString(KEY_ADMIN_EMAIL, adminEmail);
         editor.commit();
     }
-
-    /**
-     * Check if admin is logged in
-     */
-
-    /**
-     * Get admin ID from session
-     */
     public String getAdminId() {
         return pref.getString(KEY_ADMIN_ID, null);
     }
 
-    /**
-     * Get admin name from session
-     */
     public String getAdminName() {
         return pref.getString(KEY_ADMIN_NAME, null);
     }
 
-    /**
-     * Get admin email from session
-     */
     public String getAdminEmail() {
         return pref.getString(KEY_ADMIN_EMAIL, null);
     }
 
-    /**
-     * Clear admin session data and logout
-     */
     public void logoutUser() {
-        // Clear all session data
         editor.clear();
-        editor.apply(); // or editor.commit() for immediate write
-
-        // Alternative approach - remove specific keys
-        // editor.remove("admin_id");
-        // editor.remove("admin_name");
-        // editor.remove("admin_email");
-        // editor.remove("is_logged_in");
-        // editor.apply();
+        editor.apply();
     }
 
     public boolean isLoggedIn() {

@@ -28,7 +28,6 @@ public class AdminMainActivity extends AppCompatActivity {
 
         binding = ActivityAdminMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-//check
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
