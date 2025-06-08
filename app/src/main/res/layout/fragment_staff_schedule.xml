@@ -121,12 +121,13 @@
             android:paddingBottom="80dp">
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="4dp">
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
+                android:orientation="vertical"
+                >
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -260,7 +261,7 @@
                         tools:itemCount="35"
                         tools:listitem="@layout/item_calendar_day" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"

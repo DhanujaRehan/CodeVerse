@@ -71,20 +71,21 @@
             android:paddingTop="16dp"
             android:paddingBottom="100dp">
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="28dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF"
-                app:cardElevation="10dp">
+                android:layout_marginTop="12dp"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="#FFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
+                android:orientation="vertical"
+                android:padding="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="24dp">
+                    android:orientation="vertical">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
@@ -298,31 +299,35 @@
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_cancel"
                             android:layout_width="0dp"
-                            android:layout_height="60dp"
+                            android:layout_height="wrap_content"
+                            android:padding="12dp"
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp"
                             android:text="Cancel"
+                            android:textAllCaps="false"
                             android:textColor="@color/white"
                             app:backgroundTint="@color/red"
-                            app:cornerRadius="16dp"
+                            app:cornerRadius="50dp"
                             android:fontFamily="@font/poppins_medium"
                             android:textSize="16sp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_update_password"
                             android:layout_width="0dp"
-                            android:layout_height="60dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:padding="12dp"
                             android:layout_marginStart="8dp"
-                            android:text="Update Password"
+                            android:text="Update"
+                            android:textAllCaps="false"
                             android:textColor="@color/white"
                             app:backgroundTint="@color/DarkBlue"
-                            app:cornerRadius="16dp"
+                            app:cornerRadius="50dp"
                             android:fontFamily="@font/poppins_medium"
                             android:textSize="16sp" />
                     </LinearLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

@@ -143,13 +143,7 @@
                                 android:scaleType="centerCrop"
                                 android:layout_gravity="center_horizontal" />
 
-                            <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                app:lottie_autoPlay="true"
-                                app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/pulse_animation"
-                                android:alpha="0.6" />
+
                         </com.google.android.material.card.MaterialCardView>
 
                         <LinearLayout

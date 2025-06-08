@@ -85,6 +85,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
+        android:clipToPadding="false"
+        android:clipToOutline="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -93,7 +95,9 @@
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
             android:paddingTop="16dp"
-            android:paddingBottom="100dp">
+            android:paddingBottom="100dp"
+            android:clipToOutline="false"
+            android:clipToPadding="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -154,12 +158,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal"
-                android:weightSum="2">
+                android:weightSum="2"
+                android:clipToPadding="false"
+                android:clipToOutline="false">
 
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_current_week"
                     android:layout_width="0dp"
-                    android:layout_height="140dp"
+                    android:layout_height="160dp"
                     android:layout_marginEnd="8dp"
                     android:layout_weight="1"
                     android:clickable="true"
@@ -208,7 +214,7 @@
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/card_next_week"
                     android:layout_width="0dp"
-                    android:layout_height="140dp"
+                    android:layout_height="160dp"
                     android:layout_marginStart="8dp"
                     android:layout_weight="1"
                     android:clickable="true"
