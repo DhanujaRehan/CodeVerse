@@ -37,7 +37,7 @@ public class AdminSessionManager {
         return pref.getString(KEY_ADMIN_EMAIL, null);
     }
 
-    public void logoutUser() {
+    public void logoutAdmin() {
         editor.clear();
         editor.apply();
     }
