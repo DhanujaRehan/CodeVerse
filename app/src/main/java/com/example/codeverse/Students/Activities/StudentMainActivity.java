@@ -3,21 +3,22 @@ package com.example.codeverse.Students.Activities;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.codeverse.R;
 import com.example.codeverse.StudentHomeFragment;
 import com.example.codeverse.Students.StudentFragments.PaymentScreenFragment;
 import com.example.codeverse.Students.StudentFragments.StudentClass;
+import com.example.codeverse.R;
 import com.example.codeverse.Students.StudentFragments.StudentProfile;
 import com.example.codeverse.databinding.ActivityStudentMainBinding;
 
 public class StudentMainActivity extends AppCompatActivity {
 
-    ActivityStudentMainBinding binding;
+    private ActivityStudentMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +59,6 @@ public class StudentMainActivity extends AppCompatActivity {
         });
 
         EdgeToEdge.enable(this);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.student_main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
-            return insets;
-        });
+
     }
 }

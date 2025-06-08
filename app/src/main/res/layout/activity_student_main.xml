@@ -1,43 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/student_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity"
+android:exported="false"
+android:background="@color/white"
+android:backgroundTint="@color/white"
+app:background="@color/white"
+android:id="@+id/student_main"
+android:name=".Students.Activities.StudentMainActivity"
+>
+
+<FrameLayout
+    android:id="@+id/framelayout"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
     android:background="@color/white"
-    tools:context=".MainActivity">
+    app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Main Content FrameLayout -->
-    <FrameLayout
-        android:id="@+id/framelayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginBottom="80dp"
-        android:background="@color/white" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="bottom"
-        app:cardBackgroundColor="@color/DarkBlue"
-        app:cardCornerRadius="15dp"
-        app:cardElevation="8dp">
-
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottomNavigationView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            app:itemIconTint="@color/white"
-            app:itemTextColor="@color/white"
-            app:menu="@menu/student_bottom_nav_bar" />
-    </com.google.android.material.card.MaterialCardView>
+<com.google.android.material.bottomnavigation.BottomNavigationView
+    android:id="@+id/bottomNavigationView"
+    android:elevation="10dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:menu="@menu/admin_bottom_nav_menu"
+    app:labelVisibilityMode="auto"
+    app:itemTextColor="@color/white"
+    android:foregroundGravity="center"
+    app:itemBackground="@color/DarkBlue"
+    android:layout_marginStart="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginEnd="10dp"
+    app:itemIconTint="@color/white"
+    app:itemRippleColor="@color/white"
+    />
 
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
