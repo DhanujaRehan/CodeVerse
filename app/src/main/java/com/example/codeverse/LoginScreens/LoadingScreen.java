@@ -154,12 +154,11 @@ public class LoadingScreen extends AppCompatActivity {
                 // Check which activity to launch based on nextActivity parameter
                 if ("AdminMainActivity".equals(nextActivity)) {
                     intent = new Intent(LoadingScreen.this, AdminMainActivity.class);
-                } else if ("StudentMainActivit y".equals(nextActivity)) {
+                } else if ("StudentMainActivity".equals(nextActivity)) {
                     intent = new Intent(LoadingScreen.this, StudentMainActivity.class);
                 } else if ("StaffMainActivity".equals(nextActivity)) {
                     intent = new Intent(LoadingScreen.this, StaffMainActivity.class);
                 } else {
-                    // Default fallback
                     intent = new Intent(LoadingScreen.this, MainActivity.class);
                 }
 
