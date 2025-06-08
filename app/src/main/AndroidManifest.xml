@@ -41,7 +41,9 @@
         <activity
             android:name=".Admin.Activities.AdminMainActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".MainActivity"
+            android:exported="false" />
         <activity
             android:name=".Admin.Activities.NotificationHistoryActivity"
             android:exported="false" />
