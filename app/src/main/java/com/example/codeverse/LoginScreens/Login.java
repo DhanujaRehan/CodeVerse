@@ -16,6 +16,7 @@ import com.example.codeverse.Students.Models.Student;
 import com.example.codeverse.Admin.Models.Staff;
 import com.example.codeverse.Students.Utils.StudentSessionManager;
 import com.example.codeverse.Staff.Utils.StaffSessionManager;
+import com.example.codeverse.Admin.Utils.AdminSessionManager;
 import com.example.codeverse.databinding.ActivityLoginBinding;
 
 public class Login extends AppCompatActivity {
@@ -27,6 +28,7 @@ public class Login extends AppCompatActivity {
     private StaffDatabaseHelper staffDbHelper;
     private StudentSessionManager sessionManager;
     private StaffSessionManager staffSessionManager;
+    private AdminSessionManager adminSessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,17 @@ public class Login extends AppCompatActivity {
         staffDbHelper = new StaffDatabaseHelper(this);
         sessionManager = new StudentSessionManager(this);
         staffSessionManager = new StaffSessionManager(this);
+        adminSessionManager = new AdminSessionManager(this);
 
+        // Check if admin is already logged in
+        if (adminSessionManager.isLoggedIn()) {
+            Intent intent = new Intent(Login.this, AdminMainActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
+        // Check if student is already logged in
         if (sessionManager.isLoggedIn()) {
             Intent intent = new Intent(Login.this, StudentMainActivity.class);
             startActivity(intent);
@@ -50,6 +62,7 @@ public class Login extends AppCompatActivity {
             return;
         }
 
+        // Check if staff is already logged in
         if (staffSessionManager.isLoggedIn()) {
             Intent intent = new Intent(Login.this, StaffMainActivity.class);
             startActivity(intent);
@@ -78,16 +91,26 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        if (inputEmail.equals(AdminEmail) && inputPassword.equals(AdminPassword)) {
+        // If not admin, check staff credentials
+        authenticateAdmin(inputEmail, inputPassword);
+    }
+
+    private void authenticateAdmin(String email, String password) {
+        if (email.equals(AdminEmail) && password.equals(AdminPassword)) {
             Toast.makeText(Login.this, "Admin login successful!", Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(Login.this, AdminMainActivity.class);
+            // Create admin session
+            adminSessionManager.createLoginSession("admin_001", "Administrator", AdminEmail);
+
+            Intent intent = new Intent(Login.this, LoadingScreen.class);
+            intent.putExtra("nextActivity", "AdminMainActivity");
+            intent.putExtra("username", "Administrator");
             startActivity(intent);
             finish();
-            return;
+        } else {
+            // If not admin, check staff credentials
+            authenticateStaff(email, password);
         }
-
-        authenticateStaff(inputEmail, inputPassword);
     }
 
     private void authenticateStaff(String email, String password) {
