@@ -151,60 +151,28 @@ public class LoadingScreen extends AppCompatActivity {
             try {
                 Intent intent;
 
+                // Check which activity to launch based on nextActivity parameter
                 if ("AdminMainActivity".equals(nextActivity)) {
                     intent = new Intent(LoadingScreen.this, AdminMainActivity.class);
-                } else {
-                    intent = new Intent(LoadingScreen.this, MainActivity.class);
-                }
-
-                startActivity(intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                finish();
-            } catch (Exception e) {
-                Intent fallback = new Intent(LoadingScreen.this, MainActivity.class);
-                startActivity(fallback);
-                finish();
-            }
-        }, 1500);
-
-        new Handler().postDelayed(() -> {
-            try {
-                Intent intent;
-
-                if ("StudentMainActivity".equals(nextActivity)) {
+                } else if ("StudentMainActivity".equals(nextActivity)) {
                     intent = new Intent(LoadingScreen.this, StudentMainActivity.class);
-                } else {
-                    intent = new Intent(LoadingScreen.this, MainActivity.class);
-                }
-                startActivity(intent);
-                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-                finish();
-            } catch (Exception e) {
-                Intent fallback = new Intent(LoadingScreen.this, MainActivity.class);
-                startActivity(fallback);
-                finish();
-            }
-        }, 1500);
-
-        new Handler().postDelayed(() -> {
-            try {
-                Intent intent;
-
-                if ("StaffMainActivity".equals(nextActivity)) {
+                } else if ("StaffMainActivity".equals(nextActivity)) {
                     intent = new Intent(LoadingScreen.this, StaffMainActivity.class);
                 } else {
+                    // Default fallback
                     intent = new Intent(LoadingScreen.this, MainActivity.class);
                 }
 
                 startActivity(intent);
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
                 finish();
+
             } catch (Exception e) {
+                // Fallback in case of any errors
                 Intent fallback = new Intent(LoadingScreen.this, MainActivity.class);
                 startActivity(fallback);
                 finish();
             }
         }, 1500);
-
     }
 }
