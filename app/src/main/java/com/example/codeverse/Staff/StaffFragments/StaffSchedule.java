@@ -59,8 +59,7 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
     private View successOverlay;
     private View layoutEmptyState;
     private MaterialCardView bottomSheet;
-    private LottieAnimationView btnPrevMonth;
-    private ImageView btnNextMonth;
+    private ImageView btnNextMonth, btnPrevMonth;
     private MaterialButton btnCreateSchedule;
 
     private CalendarAdapter calendarAdapter;
