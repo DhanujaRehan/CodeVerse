@@ -35,8 +35,6 @@ public class StudentClass extends Fragment implements StudentClassAdapter.OnClas
     private TextView tvClassesTitle, tvDate;
     private View layoutEmptyState;
     private FloatingActionButton fabAddClass;
-    private ImageView ivBack, ivFilter;
-
     private List<StudentClassSchedule> allClasses = new ArrayList<>();
     private int selectedTabPosition = 0;
 
@@ -77,8 +75,6 @@ public class StudentClass extends Fragment implements StudentClassAdapter.OnClas
         tvDate = view.findViewById(R.id.tv_date);
         layoutEmptyState = view.findViewById(R.id.layout_empty_state);
         fabAddClass = view.findViewById(R.id.fab_add_class);
-        ivBack = view.findViewById(R.id.iv_back);
-        ivFilter = view.findViewById(R.id.iv_filter);
     }
 
     private void setupRecyclerView() {
@@ -108,16 +104,6 @@ public class StudentClass extends Fragment implements StudentClassAdapter.OnClas
     }
 
     private void setupClickListeners() {
-        ivBack.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
-
-        ivFilter.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Filter options coming soon", Toast.LENGTH_SHORT).show();
-        });
-
         fabAddClass.setOnClickListener(v -> {
             Toast.makeText(getContext(), "Add new class reminder", Toast.LENGTH_SHORT).show();
         });

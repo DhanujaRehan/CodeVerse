@@ -62,9 +62,6 @@ public class StudentProfile extends Fragment {
     }
 
     private void initViews(View view) {
-        ivBack = view.findViewById(R.id.iv_back);
-        gpaProgress = view.findViewById(R.id.gpa_progress);
-        creditsProgress = view.findViewById(R.id.credits_progress);
         coursesCounter = view.findViewById(R.id.courses_counter);
 
         ivProfilePic = view.findViewById(R.id.iv_profile_pic);
@@ -80,8 +77,6 @@ public class StudentProfile extends Fragment {
         tvProfileAdvisor = view.findViewById(R.id.tv_profile_advisor);
         tvProfileGraduation = view.findViewById(R.id.tv_profile_graduation);
 
-        tvGpaValue = view.findViewById(R.id.tv_gpa_value);
-        tvCreditsValue = view.findViewById(R.id.tv_credits_value);
         tvSemesterValue = view.findViewById(R.id.tv_semester_value);
 
         chipFaculty = view.findViewById(R.id.chip_faculty);
@@ -214,7 +209,6 @@ public class StudentProfile extends Fragment {
 
         } catch (Exception e) {
             Log.e(TAG, "Error populating student data: " + e.getMessage(), e);
-            showErrorMessage("Error displaying profile data");
         }
     }
 
