@@ -82,7 +82,7 @@
             android:paddingTop="16dp"
             android:paddingBottom="80dp">
 
-            <!-- Grade Summary Card -->
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
@@ -129,7 +129,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Overall Grade Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -210,7 +209,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Grade Statistics Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -330,7 +328,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Recent Grades Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -388,7 +385,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Subject Filter Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -445,7 +441,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Info Card -->
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -478,7 +473,6 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <!-- Refresh Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_refresh"
                 android:layout_width="match_parent"
@@ -498,7 +492,6 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Loading Overlay -->
     <FrameLayout
         android:id="@+id/loading_overlay"
         android:layout_width="match_parent"
