@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_background_gradient">
+    android:background="@drawable/login_gradient_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_gradient_background"
+        android:background="@color/transparent"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,7 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/iv_back"
+                    android:id="@id/iv_back"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
@@ -51,17 +51,13 @@
                 android:text="Create Event"
                 android:textColor="@color/DarkBlue"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@id/iv_back"
+                app:layout_constraintBottom_toBottomOf="@id/cv_back"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/iv_back" />
+                app:layout_constraintTop_toTopOf="@id/cv_back" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:background="@drawable/login_gradient_background" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
