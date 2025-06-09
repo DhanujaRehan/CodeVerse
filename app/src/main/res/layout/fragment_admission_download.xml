@@ -107,7 +107,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/semester_card_background"/>
+                        android:background="@drawable/login_gradient_background"/>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -208,7 +208,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:background="@drawable/curved_bottom_shape" />
+            android:background="@drawable/login_gradient_background" />
     </com.google.android.material.appbar.AppBarLayout>
 
 
