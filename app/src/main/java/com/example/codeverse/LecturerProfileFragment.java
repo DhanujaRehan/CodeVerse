@@ -20,11 +20,10 @@ import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class LecturerProfile extends Fragment {
+public class LecturerProfileFragment extends Fragment {
 
     private ImageView ivLecturerProfilePic;
     private TextView tvLecturerName;
@@ -40,8 +39,6 @@ public class LecturerProfile extends Fragment {
     private TextView tvLecturerExperience;
     private MaterialButton btnLogout;
     private MaterialCardView cvBack;
-
-    private FloatingActionButton fab_edit_profile;
 
     private StaffDatabaseHelper databaseHelper;
     private SharedPreferences sharedPreferences;
@@ -74,7 +71,6 @@ public class LecturerProfile extends Fragment {
         tvLecturerExperience = view.findViewById(R.id.tv_lecturer_experience);
         btnLogout = view.findViewById(R.id.btn_logout);
         cvBack = view.findViewById(R.id.cv_back);
-        fab_edit_profile = view.findViewById(R.id.fab_edit_profile);
     }
 
     private void initDatabase() {
@@ -129,14 +125,6 @@ public class LecturerProfile extends Fragment {
         cvBack.setOnClickListener(v -> {
             if (getActivity() != null) {
                 getActivity().onBackPressed();
-            }
-        });
-        fab_edit_profile.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new LecturerEditProfile())
-                        .addToBackStack(null)
-                        .commit();
             }
         });
     }

@@ -36,6 +36,7 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     app:lottie_autoPlay="true"
+                    android:padding="9dp"
                     app:lottie_loop="true"
                     android:scaleType="centerCrop"
                     app:lottie_rawRes="@raw/back_button_animation"
