@@ -428,7 +428,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/glass_background"
-                    android:backgroundTint="#80FFFFFF"
+                    android:backgroundTint="#FFFFFF"
                     android:clipToOutline="true"
                     android:orientation="vertical">
 
