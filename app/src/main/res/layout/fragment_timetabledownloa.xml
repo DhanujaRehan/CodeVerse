@@ -82,6 +82,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
@@ -257,16 +258,6 @@
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_timetables"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"
-                    android:overScrollMode="never"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    tools:itemCount="4"
-                    tools:listitem="@layout/item_timetable" />
-
             </androidx.cardview.widget.CardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -329,9 +320,9 @@
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Total Downloads"
+                                android:textAlignment="center"
                                 android:textColor="#333333"
-                                android:textSize="12sp"
-                                android:textAlignment="center" />
+                                android:textSize="12sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -365,9 +356,9 @@
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="This Week"
+                                android:textAlignment="center"
                                 android:textColor="#333333"
-                                android:textSize="12sp"
-                                android:textAlignment="center" />
+                                android:textSize="12sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -401,9 +392,9 @@
                                 android:layout_marginTop="10dp"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Last Download"
+                                android:textAlignment="center"
                                 android:textColor="#333333"
-                                android:textSize="12sp"
-                                android:textAlignment="center" />
+                                android:textSize="12sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -419,5 +410,17 @@
         android:visibility="gone"
         app:indicatorColor="#6A11CB"
         app:trackThickness="4dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_timetables"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"
+        android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_anchor="@+id/nestedScrollView"
+        app:layout_anchorGravity="bottom|center"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_timetable" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

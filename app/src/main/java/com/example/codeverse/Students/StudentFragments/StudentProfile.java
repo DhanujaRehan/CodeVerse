@@ -63,7 +63,6 @@ public class StudentProfile extends Fragment {
 
     private void initViews(View view) {
         ivBack = view.findViewById(R.id.iv_back);
-        ivSettings = view.findViewById(R.id.iv_settings);
         gpaProgress = view.findViewById(R.id.gpa_progress);
         creditsProgress = view.findViewById(R.id.credits_progress);
         coursesCounter = view.findViewById(R.id.courses_counter);
@@ -88,7 +87,6 @@ public class StudentProfile extends Fragment {
         chipFaculty = view.findViewById(R.id.chip_faculty);
         fabEditProfile = view.findViewById(R.id.fab_edit_profile);
         fabHelp = view.findViewById(R.id.fab_help);
-        cvSettings = view.findViewById(R.id.cv_settings);
         btnLogout = view.findViewById(R.id.btn_logout);
     }
 
@@ -277,12 +275,6 @@ public class StudentProfile extends Fragment {
     }
 
     private void setupClickListeners() {
-        cvSettings.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openSettings();
-            }
-        });
 
         fabEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
