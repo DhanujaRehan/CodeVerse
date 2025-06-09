@@ -106,10 +106,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="@drawable/staff_home_curved_bottom_shape" />
     </com.google.android.material.appbar.AppBarLayout>
 
 

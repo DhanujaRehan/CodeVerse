@@ -50,7 +50,7 @@
                 android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Add New Staff"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
