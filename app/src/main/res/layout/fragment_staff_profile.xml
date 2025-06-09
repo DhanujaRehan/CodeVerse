@@ -10,7 +10,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/MiddleBlue2"
+        android:background="@color/transparent"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -72,7 +72,6 @@
                     android:layout_height="48dp"
                     android:scaleType="centerCrop"
                     android:layout_gravity="center"
-                    android:padding="9dp"
                     android:contentDescription="Department"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"

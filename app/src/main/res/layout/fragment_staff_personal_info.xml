@@ -11,11 +11,11 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/MiddleBlue"
+        android:background="@color/transparent"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:background="@color/MiddleBlue2"
+            android:background="@color/transparent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
