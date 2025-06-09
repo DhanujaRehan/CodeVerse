@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/admission_background_gradient">
+    android:background="@drawable/login_gradient_background">
 
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_gradient_background"
+        android:background="@color/transparent"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -204,11 +204,6 @@
             </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:background="@drawable/login_gradient_background" />
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -280,7 +275,7 @@
                 android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins_regular"
                 android:text="Tap on a card to download or view your exam admission. You will need to present this at the examination venue."
-                android:textColor="#666666"
+                android:textColor="@color/black"
                 android:textSize="14sp" />
 
 
