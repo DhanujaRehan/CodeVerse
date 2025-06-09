@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.R;
+import com.example.codeverse.Staff.StaffFragments.StaffAddAssignment;
 import com.example.codeverse.Staff.StaffFragments.StaffProfile;
 import com.example.codeverse.databinding.ActivityAdminMainBinding;
 import com.example.codeverse.databinding.ActivityStaffMainBinding;
@@ -34,7 +35,7 @@ public class StaffMainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffProfile()).commit();
             }
             else if (itemid == R.id.navassignments){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffProfile()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffAddAssignment()).commit();
             }
             else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffProfile()).commit();
