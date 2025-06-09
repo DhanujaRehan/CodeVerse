@@ -20,17 +20,17 @@
             android:paddingTop="52dp"
             android:paddingBottom="32dp">
 
-            <ImageView
+            <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/iv_back"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:padding="9dp"
-                android:background="@drawable/circle_ripple_background"
-                android:src="@drawable/ic_arrow_right"
+                android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/DarkBlue"
-                android:contentDescription="Back" />
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/back_button_animation" />
 
             <TextView
                 android:id="@+id/tv_screen_title"
@@ -50,7 +50,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="24dp"
-            android:background="@drawable/curved_bottom_shape" />
+            android:background="@drawable/login_gradient_background" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
