@@ -53,7 +53,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 android:fontFamily="@font/poppins_bold"
-                android:text="Student Profile"
+                android:text="CodeVerse"
                 android:textColor="@color/DarkBlue"
                 android:layout_marginStart="16dp"
                 android:textSize="24sp"/>

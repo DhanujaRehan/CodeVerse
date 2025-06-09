@@ -379,7 +379,6 @@
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:orientation="vertical">
-
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -387,7 +386,6 @@
                                 android:text="Date of Birth"
                                 android:textColor="@color/DarkBlue"
                                 android:textSize="14sp" />
-
                             <TextView
                                 android:id="@+id/tv_profile_dob"
                                 android:layout_width="wrap_content"
@@ -398,12 +396,10 @@
                                 android:textSize="16sp" />
                         </LinearLayout>
                     </LinearLayout>
-
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
-
                         <LinearLayout
                             android:layout_width="48dp"
                             android:layout_height="48dp"
@@ -413,7 +409,6 @@
                             android:clipToOutline="true"
                             android:gravity="center"
                             >
-
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
@@ -423,7 +418,6 @@
                                 android:paddingBottom="8dp"
                                 app:lottie_rawRes="@raw/locationred" />
                         </LinearLayout>
-
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -438,7 +432,6 @@
                                 android:text="Address"
                                 android:textColor="@color/DarkBlue"
                                 android:textSize="14sp" />
-
                             <TextView
                                 android:id="@+id/tv_profile_address"
                                 android:layout_width="wrap_content"
