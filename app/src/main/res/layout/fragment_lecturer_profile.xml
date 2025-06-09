@@ -159,8 +159,19 @@
                                 app:chipBackgroundColor="@color/DarkBlue"
                                 app:chipStrokeColor="@color/DarkBlue2"
                                 app:chipStrokeWidth="1dp" />
-                        </LinearLayout>
 
+
+
+                        </LinearLayout>
+                        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                            android:id="@+id/fab_edit_profile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="top"
+                            android:src="@drawable/ic_edit"
+                            app:tint="@color/white"
+                            app:fabSize="mini"
+                            app:backgroundTint="@color/DarkBlue" />
                     </LinearLayout>
 
                 </LinearLayout>
