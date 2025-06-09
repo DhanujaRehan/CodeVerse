@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_background_gradient">
+    android:background="@drawable/login_gradient_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_gradient_background"
+        android:background="@color/transparent"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,16 +19,30 @@
             android:paddingTop="52dp"
             android:paddingBottom="32dp">
 
-            <ImageView
-                android:id="@+id/iv_back"
-                android:layout_width="42dp"
-                android:layout_height="42dp"
-                android:padding="9dp"
-                android:background="@drawable/circle_ripple_background"
-                android:src="@drawable/ic_arrow_right"
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:cardBackgroundColor="#33FFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/DarkBlue" />
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@id/iv_back"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Back"
+                    android:padding="9dp"
+                    android:scaleType="centerCrop"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/back_button_animation" />
+
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -37,17 +51,13 @@
                 android:text="Create Event"
                 android:textColor="@color/DarkBlue"
                 android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@id/iv_back"
+                app:layout_constraintBottom_toBottomOf="@id/cv_back"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/iv_back" />
+                app:layout_constraintTop_toTopOf="@id/cv_back" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:background="@drawable/curved_bottom_shape" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView

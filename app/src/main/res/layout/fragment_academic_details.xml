@@ -39,6 +39,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
+                    android:padding="9dp"
                     android:contentDescription="Back"
                     android:scaleType="centerCrop"
                     app:lottie_autoPlay="true"
@@ -81,6 +82,7 @@
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/info" />
             </com.google.android.material.card.MaterialCardView>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

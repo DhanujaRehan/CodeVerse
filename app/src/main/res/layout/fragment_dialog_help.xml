@@ -11,13 +11,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="20dp">
+        android:padding="20dp"
+        android:background="@color/light_gray">
 
         <ImageView
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_help"
-            app:tint="@color/DarkBlue2"/>
+            app:tint="@color/DarkBlue"/>
 
         <TextView
             android:layout_width="0dp"
@@ -34,7 +35,7 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:src="@drawable/ic_close"
-            app:tint="@color/DarkBlue2"/>
+            app:tint="@color/DarkBlue"/>
     </LinearLayout>
 
     <View
