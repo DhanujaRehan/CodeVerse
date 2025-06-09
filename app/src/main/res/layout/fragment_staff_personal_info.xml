@@ -11,7 +11,7 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@android:color/transparent"
+        android:background="@color/MiddleBlue"
         app:elevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,6 +38,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
+                    android:padding="9dp"
                     android:contentDescription="Back"
                     android:scaleType="centerCrop"
                     app:lottie_autoPlay="true"
@@ -73,6 +74,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
+                    android:padding="9dp"
                     android:contentDescription="Help"
                     android:scaleType="centerCrop"
                     app:lottie_autoPlay="true"
