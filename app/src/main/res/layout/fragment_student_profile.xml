@@ -835,5 +835,4 @@
         app:backgroundTint="@color/DarkBlue"
         app:rippleColor="@color/white"
         app:fabSize="normal" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
