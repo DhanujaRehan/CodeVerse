@@ -63,8 +63,8 @@ public class LecturerProfile extends Fragment {
         tvLecturerEducation = view.findViewById(R.id.tv_lecturer_education);
 
         chipDepartment = view.findViewById(R.id.chip_department);
-        chipGroupSpecializations = view.findViewById(R.id.chip_group_specializations);
-        btnViewTimetable = view.findViewById(R.id.btn_view_timetable);
+        /*chipGroupSpecializations = view.findViewById(R.id.chip_group_specializations);
+        btnViewTimetable = view.findViewById(R.id.btn_view_timetable);*/
 
         dbHelper = new StaffDatabaseHelper(getContext());
 
@@ -91,12 +91,12 @@ public class LecturerProfile extends Fragment {
             }
         });
 
-        btnViewTimetable.setOnClickListener(new View.OnClickListener() {
+        /*btnViewTimetable.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openTimetable();
             }
-        });
+        });*/
     }
 
     private void loadLecturerData() {
@@ -217,7 +217,7 @@ public class LecturerProfile extends Fragment {
         }
     }
 
-    private void openTimetable() {
+    /*private void openTimetable() {
         if (currentLecturer != null) {
             Bundle args = new Bundle();
             args.putLong("lecturer_id", currentLecturer.getId());
@@ -233,7 +233,7 @@ public class LecturerProfile extends Fragment {
                         .commit();
             }
         }
-    }
+    }*/
 
     private void showNoLecturerFound() {
         tvLecturerName.setText("No Lecturer Found");
@@ -252,11 +252,11 @@ public class LecturerProfile extends Fragment {
         }
     }
 
-    public static LecturerProfileFragment newInstance(long lecturerId) {
+    /*public static LecturerProfileFragment newInstance(long lecturerId) {
         LecturerProfileFragment fragment = new LecturerProfileFragment();
         Bundle args = new Bundle();
         args.putLong("lecturer_id", lecturerId);
         fragment.setArguments(args);
         return fragment;
-    }
+    }*/
 }

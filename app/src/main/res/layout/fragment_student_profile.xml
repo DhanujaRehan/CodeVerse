@@ -528,6 +528,7 @@
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
+                                android:paddingBottom="8dp"
                                 app:lottie_rawRes="@raw/locationred" />
                         </LinearLayout>
 
@@ -615,13 +616,15 @@
                             android:layout_height="48dp"
                             android:elevation="4dp"
                             android:backgroundTint="@color/white"
-                            android:background="@drawable/glass_background">
+                            android:background="@drawable/glass_background"
+                            android:clipToOutline="true">
 
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
+                                android:padding="9dp"
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/app_logo_animation" />
                         </LinearLayout>
@@ -658,12 +661,13 @@
                         android:layout_marginBottom="16dp"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.card.MaterialCardView
+                        <LinearLayout
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E1E8F9"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="4dp">
+                            android:elevation="4dp"
+                            android:backgroundTint="@color/white"
+                            android:background="@drawable/glass_background"
+                            android:clipToOutline="true">
 
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="48dp"
@@ -672,7 +676,7 @@
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/info" />
-                        </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -706,21 +710,23 @@
                         android:layout_marginBottom="16dp"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.card.MaterialCardView
+                        <LinearLayout
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E1E8F9"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="4dp">
+                            android:elevation="4dp"
+                            android:backgroundTint="@color/white"
+                            android:background="@drawable/glass_background"
+                            android:clipToOutline="true">
 
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
+                                android:padding="8dp"
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/exam" />
-                        </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -753,22 +759,25 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.card.MaterialCardView
+                        <LinearLayout
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E1E8F9"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="4dp">
+                            android:elevation="4dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:background="@drawable/glass_background"
+                            android:clipToOutline="true">
 
                             <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:paddingLeft="3dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/calendar" />
-                        </com.google.android.material.card.MaterialCardView>
-
+                        </LinearLayout>
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
