@@ -490,7 +490,6 @@
                 android:textSize="16sp"
                 app:cornerRadius="16dp"
                 app:backgroundTint="@color/DarkBlue"
-                app:icon="@drawable/ic_refresh"
                 app:iconGravity="textStart"
                 app:iconPadding="12dp" />
 
