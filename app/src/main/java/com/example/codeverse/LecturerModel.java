@@ -1,6 +1,7 @@
 package com.example.codeverse;
 
 public class LecturerModel {
+
     private long id;
     private String fullName;
     private String email;
@@ -22,8 +23,7 @@ public class LecturerModel {
     private String createdAt;
     private String updatedAt;
 
-    public LecturerModel() {
-    }
+    public LecturerModel() {}
 
     public LecturerModel(long id, String fullName, String email, String contactNumber,
                          String nicNumber, String gender, String dateOfBirth, String photoUri,
