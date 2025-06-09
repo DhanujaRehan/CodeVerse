@@ -20,33 +20,15 @@
             android:paddingTop="48dp"
             android:orientation="horizontal"
             android:paddingBottom="16dp"
-            android:layout_gravity="center_horizontal"
-            android:gravity="center_vertical">
+            android:layout_gravity="center"
+            android:gravity="center">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_back"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="50dp"
-                app:cardElevation="0dp"
-                >
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/iv_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="Back"
-                    android:padding="9dp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/back_button_animation" />
-            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Student Profile"
                 android:textColor="@color/DarkBlue"
@@ -175,97 +157,6 @@
                         android:layout_marginTop="24dp"
                         android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/glass_background"
-                            android:backgroundTint="#FFFFFF"
-                            android:clipToOutline="true"
-                            android:clipToPadding="true"
-                            android:elevation="50dp"
-                            android:layout_weight="1"
-                            app:cardElevation="4dp"
-                            android:layout_marginEnd="8dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:gravity="center"
-                                android:padding="12dp">
-
-                                <com.airbnb.lottie.LottieAnimationView
-                                    android:id="@+id/gpa_progress"
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    app:lottie_autoPlay="true"
-                                    app:lottie_loop="true"
-                                    app:lottie_rawRes="@raw/circular_progress" />
-
-                                <TextView
-                                    android:id="@+id/tv_gpa_value"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_bold"
-                                    android:text="3.8"
-                                    android:textColor="@color/black"
-                                    android:textSize="24sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="GPA"
-                                    android:textColor="@color/black"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/glass_background"
-                            android:backgroundTint="#FFFFFF"
-                            android:clipToOutline="true"
-                            android:clipToPadding="true"
-                            android:elevation="50dp"
-                            android:layout_weight="1"
-                            app:cardElevation="4dp"
-                            android:layout_marginEnd="8dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:gravity="center"
-                                android:padding="12dp">
-
-                                <com.airbnb.lottie.LottieAnimationView
-                                    android:id="@+id/credits_progress"
-                                    android:layout_width="60dp"
-                                    android:layout_height="60dp"
-                                    app:lottie_autoPlay="true"
-                                    app:lottie_loop="true"
-                                    app:lottie_rawRes="@raw/bar_chart_progress" />
-
-                                <TextView
-                                    android:id="@+id/tv_credits_value"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_bold"
-                                    android:text="68"
-                                    android:textColor="@color/black"
-                                    android:textSize="24sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="Credits"
-                                    android:textColor="@color/black"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
-                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -284,7 +175,8 @@
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical"
                                 android:gravity="center"
-                                android:padding="12dp">
+                                android:paddingTop="12dp"
+                                android:paddingBottom="20dp">
 
                                 <com.airbnb.lottie.LottieAnimationView
                                     android:id="@+id/courses_counter"
@@ -426,7 +318,7 @@
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/phone" />
+                                app:lottie_rawRes="@raw/phone_ring" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -528,6 +420,7 @@
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
+                                android:paddingBottom="8dp"
                                 app:lottie_rawRes="@raw/locationred" />
                         </LinearLayout>
 
@@ -615,13 +508,15 @@
                             android:layout_height="48dp"
                             android:elevation="4dp"
                             android:backgroundTint="@color/white"
-                            android:background="@drawable/glass_background">
+                            android:background="@drawable/glass_background"
+                            android:clipToOutline="true">
 
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
+                                android:padding="9dp"
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/app_logo_animation" />
                         </LinearLayout>
@@ -658,21 +553,23 @@
                         android:layout_marginBottom="16dp"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.card.MaterialCardView
+                        <LinearLayout
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E1E8F9"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="4dp">
+                            android:elevation="4dp"
+                            android:backgroundTint="@color/white"
+                            android:background="@drawable/glass_background"
+                            android:clipToOutline="true">
 
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
+                                android:padding="10dp"
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/info" />
-                        </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -706,21 +603,23 @@
                         android:layout_marginBottom="16dp"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.card.MaterialCardView
+                        <LinearLayout
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E1E8F9"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="4dp">
+                            android:elevation="4dp"
+                            android:backgroundTint="@color/white"
+                            android:background="@drawable/glass_background"
+                            android:clipToOutline="true">
 
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
+                                android:padding="8dp"
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/exam" />
-                        </com.google.android.material.card.MaterialCardView>
+                        </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -753,22 +652,25 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <com.google.android.material.card.MaterialCardView
+                        <LinearLayout
                             android:layout_width="48dp"
                             android:layout_height="48dp"
-                            app:cardBackgroundColor="#E1E8F9"
-                            app:cardCornerRadius="16dp"
-                            app:cardElevation="4dp">
+                            android:elevation="4dp"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:backgroundTint="@color/white"
+                            android:background="@drawable/glass_background"
+                            android:clipToOutline="true">
 
                             <com.airbnb.lottie.LottieAnimationView
-                                android:layout_width="48dp"
-                                android:layout_height="48dp"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"
+                                android:paddingLeft="3dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/calendar" />
-                        </com.google.android.material.card.MaterialCardView>
-
+                        </LinearLayout>
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
@@ -826,5 +728,4 @@
         app:backgroundTint="@color/DarkBlue"
         app:rippleColor="@color/white"
         app:fabSize="normal" />
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
