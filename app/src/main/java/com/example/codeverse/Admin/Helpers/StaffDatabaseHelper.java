@@ -177,6 +177,38 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
         return staff;
     }
 
+    public Staff getStaffByEmail(String email) {
+        if (email == null || email.trim().isEmpty()) {
+            Log.w(TAG, "Email is null or empty");
+            return null;
+        }
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Staff staff = null;
+
+        String STAFF_SELECT_QUERY =
+                "SELECT * FROM " + TABLE_STAFF +
+                        " WHERE " + KEY_EMAIL + " = ? AND " + KEY_EMAIL + " IS NOT NULL AND " + KEY_EMAIL + " != ''";
+
+        Cursor cursor = db.rawQuery(STAFF_SELECT_QUERY, new String[]{email.trim()});
+        try {
+            if (cursor.moveToFirst()) {
+                staff = getStaffFromCursor(cursor);
+                Log.d(TAG, "Staff retrieved by email: " + email);
+            } else {
+                Log.w(TAG, "No staff found with email: " + email);
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error while trying to get staff by email from database: " + e.getMessage(), e);
+        } finally {
+            if (cursor != null && !cursor.isClosed()) {
+                cursor.close();
+            }
+        }
+
+        return staff;
+    }
+
     public List<Staff> getAllStaff() {
         List<Staff> staffList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();

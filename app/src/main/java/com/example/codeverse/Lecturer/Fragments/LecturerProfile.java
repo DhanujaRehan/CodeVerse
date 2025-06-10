@@ -17,6 +17,7 @@ import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
 import com.example.codeverse.Admin.Models.Staff;
 import com.example.codeverse.LoginScreens.Login;
 import com.example.codeverse.R;
+import com.example.codeverse.Staff.Utils.StaffSessionManager;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.chip.Chip;
@@ -45,7 +46,7 @@ public class LecturerProfile extends Fragment {
 
     private StaffDatabaseHelper databaseHelper;
     private SharedPreferences sharedPreferences;
-    private long currentStaffId;
+    private String currentStaffEmail;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,12 +81,12 @@ public class LecturerProfile extends Fragment {
     private void initDatabase() {
         databaseHelper = new StaffDatabaseHelper(getContext());
         sharedPreferences = getActivity().getSharedPreferences("LecturerPrefs", MODE_PRIVATE);
-        currentStaffId = sharedPreferences.getLong("staff_id", -1);
+        currentStaffEmail = sharedPreferences.getString("staff_email", null);
     }
 
     private void loadLecturerData() {
-        if (currentStaffId != -1) {
-            Staff lecturer = databaseHelper.getStaffById(currentStaffId);
+        if (currentStaffEmail != null && !currentStaffEmail.isEmpty()) {
+            Staff lecturer = databaseHelper.getStaffByEmail(currentStaffEmail);
             if (lecturer != null) {
                 displayLecturerInfo(lecturer);
             } else {
@@ -98,7 +99,6 @@ public class LecturerProfile extends Fragment {
 
     private void displayLecturerInfo(Staff lecturer) {
         tvLecturerName.setText(lecturer.getFullName());
-        tvLecturerId.setText("Staff ID: " + lecturer.getId());
         chipDepartment.setText(lecturer.getDepartment() + " Department");
 
         tvLecturerEmail.setText(lecturer.getEmail());
@@ -142,14 +142,32 @@ public class LecturerProfile extends Fragment {
     }
 
     private void logout() {
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
+        // Clear LecturerPrefs SharedPreferences
+        SharedPreferences.Editor lecturerEditor = sharedPreferences.edit();
+        lecturerEditor.clear();
+        lecturerEditor.apply();
 
+        // Also clear StaffPrefs SharedPreferences for complete logout
+        SharedPreferences staffPrefs = getActivity().getSharedPreferences("StaffPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor staffEditor = staffPrefs.edit();
+        staffEditor.clear();
+        staffEditor.apply();
+
+        // Clear StaffSessionManager session
+        if (getContext() != null) {
+            StaffSessionManager staffSessionManager = new StaffSessionManager(getContext());
+            staffSessionManager.logoutStaff();
+        }
+
+        // Show logout confirmation
+        Toast.makeText(getContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
+
+        // Navigate to Login activity
         Intent intent = new Intent(getActivity(), Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
+        // Finish current activity
         if (getActivity() != null) {
             getActivity().finish();
         }
