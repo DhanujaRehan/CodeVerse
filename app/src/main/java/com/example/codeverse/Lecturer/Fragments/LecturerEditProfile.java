@@ -2,11 +2,11 @@ package com.example.codeverse.Lecturer.Fragments;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,49 +15,61 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
+import com.example.codeverse.Admin.Models.Staff;
 import com.example.codeverse.R;
-import com.example.codeverse.Staff.Helper.StaffDatabaseHelper;
-import com.example.codeverse.Staff.Models.StaffDetails;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 public class LecturerEditProfile extends Fragment {
 
-    private ImageView ivProfilePicture, cv;
-    private TextInputEditText etCurrentPassword;
-    private TextInputEditText etNewPassword;
-    private TextInputEditText etConfirmPassword;
-    private MaterialButton btnSelectImage;
-    private MaterialButton btnRemoveImage;
-    private MaterialButton btnCancel,cvBack;
-    private MaterialButton btnSaveChanges;
+    private static final int PICK_IMAGE_REQUEST = 1;
+
+    private ImageView ivProfilePicture, ivBack;
+    private MaterialCardView cvBack;
+    private TextInputEditText etCurrentPassword, etNewPassword, etConfirmPassword;
+    private MaterialButton btnSelectImage, btnRemoveImage, btnCancel, btnSaveChanges;
     private FrameLayout loadingOverlay;
 
-    private StaffDatabaseHelper dbHelper;
-    private StaffDetails currentStaff;
-    private String selectedImagePath = "";
-    private String staffId = "FAC2023104";
+    private StaffDatabaseHelper databaseHelper;
+    private SharedPreferences sharedPreferences;
+    private String staffEmail;
+    private Staff currentStaff;
+    private String selectedImagePath;
+    private boolean isImageRemoved = false;
 
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_lecturer_edit_profile, container, false);
-
-        initViews(view);
-        setupDatabase();
-        loadStaffData();
-        setupClickListeners();
-
-        return view;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_lecturer_edit_profile, container, false);
     }
 
-    private void initViews(View view) {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        initializeViews(view);
+        initializeDatabase();
+        getStaffEmailFromPreferences();
+        loadStaffData();
+        setupClickListeners();
+    }
+
+    private void initializeViews(View view) {
         ivProfilePicture = view.findViewById(R.id.iv_profile_picture);
+        ivBack = view.findViewById(R.id.iv_back);
+        cvBack = view.findViewById(R.id.cv_back);
         etCurrentPassword = view.findViewById(R.id.et_current_password);
         etNewPassword = view.findViewById(R.id.et_new_password);
         etConfirmPassword = view.findViewById(R.id.et_confirm_password);
@@ -66,127 +78,247 @@ public class LecturerEditProfile extends Fragment {
         btnCancel = view.findViewById(R.id.btn_cancel);
         btnSaveChanges = view.findViewById(R.id.btn_save_changes);
         loadingOverlay = view.findViewById(R.id.loading_overlay);
-        cvBack = view.findViewById(R.id.cv_back);
-
     }
 
-    private void setupDatabase() {
-        dbHelper = StaffDatabaseHelper.getInstance(getContext());
+    private void initializeDatabase() {
+        databaseHelper = new StaffDatabaseHelper(getContext());
+    }
+
+    private void getStaffEmailFromPreferences() {
+        sharedPreferences = getActivity().getSharedPreferences("LecturerPrefs", getContext().MODE_PRIVATE);
+        staffEmail = sharedPreferences.getString("staff_email", "");
+
+        if (staffEmail == null || staffEmail.isEmpty()) {
+            staffEmail = sharedPreferences.getString("email", "");
+        }
+
+        if (staffEmail == null || staffEmail.isEmpty()) {
+            staffEmail = sharedPreferences.getString("user_email", "");
+        }
+
+        if (staffEmail == null || staffEmail.isEmpty()) {
+            showToast("Email not found. Please login again.");
+            navigateBack();
+            return;
+        }
     }
 
     private void loadStaffData() {
-        currentStaff = dbHelper.getStaffByStaffId(staffId);
+        try {
+            currentStaff = getStaffByEmail(staffEmail);
 
-        if (currentStaff != null && currentStaff.getProfileImagePath() != null) {
-            loadProfileImage(currentStaff.getProfileImagePath());
+            if (currentStaff != null) {
+                loadCurrentProfilePicture();
+            } else {
+                showToast("Staff data not found");
+                navigateBack();
+            }
+        } catch (Exception e) {
+            showToast("Error loading staff data");
+            navigateBack();
+        }
+    }
+
+    private Staff getStaffByEmail(String email) {
+        List<Staff> allStaff = databaseHelper.getAllStaff();
+        for (Staff staff : allStaff) {
+            if (staff.getEmail() != null && staff.getEmail().equals(email)) {
+                return staff;
+            }
+        }
+        return null;
+    }
+
+    private void loadCurrentProfilePicture() {
+        if (currentStaff.getPhotoUri() != null && !currentStaff.getPhotoUri().isEmpty()) {
+            try {
+                Bitmap bitmap = StaffDatabaseHelper.getStaffPhoto(currentStaff.getPhotoUri());
+                if (bitmap != null) {
+                    ivProfilePicture.setImageBitmap(bitmap);
+                } else {
+                    ivProfilePicture.setImageResource(R.drawable.ic_person);
+                }
+            } catch (Exception e) {
+                ivProfilePicture.setImageResource(R.drawable.ic_person);
+            }
+        } else {
+            ivProfilePicture.setImageResource(R.drawable.ic_person);
         }
     }
 
     private void setupClickListeners() {
-        findViewById(R.id.iv_back).setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+        cvBack.setOnClickListener(v -> navigateBack());
+        if (ivBack != null) {
+            ivBack.setOnClickListener(v -> navigateBack());
+        }
 
-        cvBack.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+        btnSelectImage.setOnClickListener(v -> openImagePicker());
 
-        btnSelectImage.setOnClickListener(v -> selectImage());
-        btnRemoveImage.setOnClickListener(v -> removeImage());
-        btnCancel.setOnClickListener(v -> clearFields());
+        btnRemoveImage.setOnClickListener(v -> removeProfilePicture());
+
+        btnCancel.setOnClickListener(v -> navigateBack());
+
         btnSaveChanges.setOnClickListener(v -> saveChanges());
     }
 
-    private View findViewById(int id) {
-        return getView().findViewById(id);
-    }
-
-    private void selectImage() {
+    private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 100);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    private void removeImage() {
+    private void removeProfilePicture() {
         ivProfilePicture.setImageResource(R.drawable.ic_person);
-        selectedImagePath = "";
+        selectedImagePath = null;
+        isImageRemoved = true;
+        showToast("Profile picture will be removed when you save changes");
     }
 
-    private void clearFields() {
-        etCurrentPassword.setText("");
-        etNewPassword.setText("");
-        etConfirmPassword.setText("");
-        loadStaffData();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            if (imageUri != null) {
+                try {
+                    selectedImagePath = saveImageToInternalStorage(imageUri);
+                    Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
+                    ivProfilePicture.setImageBitmap(bitmap);
+                    isImageRemoved = false;
+                    showToast("Image selected successfully");
+                } catch (Exception e) {
+                    showToast("Error selecting image");
+                }
+            }
+        }
+    }
+
+    private String saveImageToInternalStorage(Uri imageUri) throws IOException {
+        InputStream inputStream = getContext().getContentResolver().openInputStream(imageUri);
+
+        File directory = new File(getContext().getFilesDir(), "staff_photos");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+
+        String fileName = "staff_" + currentStaff.getId() + "_" + System.currentTimeMillis() + ".jpg";
+        File file = new File(directory, fileName);
+
+        FileOutputStream outputStream = new FileOutputStream(file);
+
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
+        }
+
+        outputStream.close();
+        inputStream.close();
+
+        return file.getAbsolutePath();
     }
 
     private void saveChanges() {
-        if (!validateInput()) {
+        if (!validateInputs()) {
             return;
         }
 
-        showLoading();
+        showLoading(true);
 
-        new Handler().postDelayed(() -> {
-            try {
-                boolean updated = false;
+        try {
+            boolean isUpdated = false;
 
-                if (!selectedImagePath.isEmpty()) {
-                    currentStaff.setProfileImagePath(selectedImagePath);
-                    updated = true;
-                }
+            if (isImageRemoved || selectedImagePath != null) {
+                String newPhotoUri = isImageRemoved ? "" : selectedImagePath;
+                int result = databaseHelper.updateStaffPersonalDetails(
+                        currentStaff.getId(),
+                        currentStaff.getFullName(),
+                        currentStaff.getEmail(),
+                        currentStaff.getContactNumber(),
+                        currentStaff.getNicNumber(),
+                        currentStaff.getGender(),
+                        currentStaff.getDateOfBirth(),
+                        newPhotoUri
+                );
 
-                String newPassword = etNewPassword.getText().toString().trim();
-                if (!newPassword.isEmpty()) {
-                    updated = true;
-                }
+                if (result > 0) {
+                    isUpdated = true;
+                    currentStaff.setPhotoUri(newPhotoUri);
 
-                if (updated) {
-                    int result = dbHelper.updateStaff(currentStaff);
-
-                    hideLoading();
-
-                    if (result > 0) {
-                        Toast.makeText(getContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
-                        clearFields();
-                    } else {
-                        Toast.makeText(getContext(), "Failed to update profile", Toast.LENGTH_SHORT).show();
+                    if (isImageRemoved && currentStaff.getPhotoUri() != null && !currentStaff.getPhotoUri().isEmpty()) {
+                        deleteOldProfilePicture(currentStaff.getPhotoUri());
                     }
-                } else {
-                    hideLoading();
-                    Toast.makeText(getContext(), "No changes to save", Toast.LENGTH_SHORT).show();
                 }
-
-            } catch (Exception e) {
-                hideLoading();
-                Toast.makeText(getContext(), "Error updating profile", Toast.LENGTH_SHORT).show();
             }
-        }, 2000);
+
+            String newPassword = etNewPassword.getText().toString().trim();
+            if (!newPassword.isEmpty()) {
+                int result = databaseHelper.updateStaffProfessionalDetails(
+                        currentStaff.getId(),
+                        currentStaff.getPosition(),
+                        currentStaff.getDepartment(),
+                        currentStaff.getTeachingSubject(),
+                        currentStaff.getProgramCoordinating(),
+                        newPassword,
+                        currentStaff.getHighestQualification(),
+                        currentStaff.getFieldOfStudy(),
+                        currentStaff.getUniversity(),
+                        currentStaff.getGraduationYear(),
+                        currentStaff.getExperienceYears()
+                );
+
+                if (result > 0) {
+                    isUpdated = true;
+                    currentStaff.setPassword(newPassword);
+                }
+            }
+
+            showLoading(false);
+
+            if (isUpdated) {
+                showToast("Profile updated successfully");
+                clearPasswordFields();
+                selectedImagePath = null;
+                isImageRemoved = false;
+            } else {
+                showToast("No changes were made");
+            }
+
+        } catch (Exception e) {
+            showLoading(false);
+            showToast("Error updating profile");
+        }
     }
 
-    private boolean validateInput() {
+    private boolean validateInputs() {
         String currentPassword = etCurrentPassword.getText().toString().trim();
         String newPassword = etNewPassword.getText().toString().trim();
         String confirmPassword = etConfirmPassword.getText().toString().trim();
 
-        if (!newPassword.isEmpty()) {
+        if (!newPassword.isEmpty() || !confirmPassword.isEmpty()) {
             if (currentPassword.isEmpty()) {
-                etCurrentPassword.setError("Current password required");
-                etCurrentPassword.requestFocus();
+                showToast("Please enter current password");
+                return false;
+            }
+
+            if (!currentPassword.equals(currentStaff.getPassword())) {
+                showToast("Current password is incorrect");
+                return false;
+            }
+
+            if (newPassword.isEmpty()) {
+                showToast("Please enter new password");
                 return false;
             }
 
             if (newPassword.length() < 6) {
-                etNewPassword.setError("Password must be at least 6 characters");
-                etNewPassword.requestFocus();
+                showToast("New password must be at least 6 characters");
                 return false;
             }
 
             if (!newPassword.equals(confirmPassword)) {
-                etConfirmPassword.setError("Passwords do not match");
-                etConfirmPassword.requestFocus();
+                showToast("New passwords do not match");
                 return false;
             }
         }
@@ -194,78 +326,60 @@ public class LecturerEditProfile extends Fragment {
         return true;
     }
 
+    private void clearPasswordFields() {
+        etCurrentPassword.setText("");
+        etNewPassword.setText("");
+        etConfirmPassword.setText("");
+    }
+
+    private void deleteOldProfilePicture(String photoPath) {
+        try {
+            File file = new File(photoPath);
+            if (file.exists()) {
+                file.delete();
+            }
+        } catch (Exception e) {
+            // Ignore deletion errors
+        }
+    }
+
+    private void showLoading(boolean show) {
+        if (loadingOverlay != null) {
+            loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
+        }
+    }
+
+    private void navigateBack() {
+        if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+            getParentFragmentManager().popBackStack();
+        } else if (getActivity() != null) {
+            getActivity().onBackPressed();
+        }
+    }
+
+    private void showToast(String message) {
+        if (getContext() != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null) {
-            Uri selectedImageUri = data.getData();
-
-            try {
-                String imagePath = saveImageToInternalStorage(selectedImageUri);
-                if (imagePath != null) {
-                    selectedImagePath = imagePath;
-                    loadProfileImage(imagePath);
-                }
-            } catch (Exception e) {
-                Toast.makeText(getContext(), "Error selecting image", Toast.LENGTH_SHORT).show();
-            }
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (databaseHelper != null) {
+            databaseHelper.close();
         }
     }
 
-    private String saveImageToInternalStorage(Uri imageUri) {
-        try {
-            InputStream inputStream = getContext().getContentResolver().openInputStream(imageUri);
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-
-            Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
-
-            File directory = new File(getContext().getFilesDir(), "profile_images");
-            if (!directory.exists()) {
-                directory.mkdirs();
-            }
-
-            String fileName = "profile_" + staffId + "_" + System.currentTimeMillis() + ".jpg";
-            File file = new File(directory, fileName);
-
-            FileOutputStream fos = new FileOutputStream(file);
-            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
-            fos.close();
-
-            return file.getAbsolutePath();
-
-        } catch (Exception e) {
-            return null;
-        }
+    public static LecturerEditProfile newInstance() {
+        return new LecturerEditProfile();
     }
 
-    private void loadProfileImage(String imagePath) {
-        try {
-            if (imagePath != null && !imagePath.isEmpty()) {
-                File file = new File(imagePath);
-                if (file.exists()) {
-                    Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-                    ivProfilePicture.setImageBitmap(bitmap);
-                } else {
-                    ivProfilePicture.setImageResource(R.drawable.ic_person);
-                }
-            } else {
-                ivProfilePicture.setImageResource(R.drawable.ic_person);
-            }
-        } catch (Exception e) {
-            ivProfilePicture.setImageResource(R.drawable.ic_person);
-        }
-    }
-
-    private void showLoading() {
-        if (loadingOverlay != null) {
-            loadingOverlay.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void hideLoading() {
-        if (loadingOverlay != null) {
-            loadingOverlay.setVisibility(View.GONE);
-        }
+    public static LecturerEditProfile newInstance(String staffEmail) {
+        LecturerEditProfile fragment = new LecturerEditProfile();
+        Bundle args = new Bundle();
+        args.putString("staff_email", staffEmail);
+        fragment.setArguments(args);
+        return fragment;
     }
 }

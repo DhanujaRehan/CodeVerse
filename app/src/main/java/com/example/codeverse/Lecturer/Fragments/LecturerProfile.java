@@ -134,11 +134,14 @@ public class LecturerProfile extends Fragment {
         });
         fab_edit_profile.setOnClickListener(v -> {
 
-            LecturerEditProfile lecturerEditProfile = new LecturerEditProfile();
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.framelayout, lecturerEditProfile);
-            transaction.addToBackStack(null);
-            transaction.commit();
+            if (getActivity() != null) {
+                LecturerEditProfile lecturerEditProfile = new LecturerEditProfile();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.framelayout, lecturerEditProfile);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+
         });
     }
 
