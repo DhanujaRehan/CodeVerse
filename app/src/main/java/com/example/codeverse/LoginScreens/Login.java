@@ -90,8 +90,6 @@ public class Login extends AppCompatActivity {
             Toast.makeText(Login.this, "Please enter both email and password.", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // If not admin, check staff credentials
         authenticateAdmin(inputEmail, inputPassword);
     }
 
@@ -99,12 +97,11 @@ public class Login extends AppCompatActivity {
         if (email.equals(AdminEmail) && password.equals(AdminPassword)) {
             Toast.makeText(Login.this, "Admin login successful!", Toast.LENGTH_SHORT).show();
 
-            // Create admin session
-            adminSessionManager.createLoginSession("admin_001", "Administrator", AdminEmail);
+            adminSessionManager.createLoginSession("admin_001", "Admin", AdminEmail);
 
             Intent intent = new Intent(Login.this, LoadingScreen.class);
             intent.putExtra("nextActivity", "AdminMainActivity");
-            intent.putExtra("username", "Administrator");
+            intent.putExtra("username", "Admin");
             startActivity(intent);
             finish();
         } else {
