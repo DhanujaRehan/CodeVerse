@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.Admin.Helpers.NotificationDatabaseHelper;
 import com.example.codeverse.R;
-import com.example.codeverse.StudentNotificationAdapter;
-import com.example.codeverse.StudentNotification;
+import com.example.codeverse.Students.Adapters.StudentNotificationAdapter;
+import com.example.codeverse.Students.Models.StudentNotification;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;

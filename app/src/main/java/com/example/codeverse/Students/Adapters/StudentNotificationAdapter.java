@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.R;
-import com.example.codeverse.StudentNotification;
+import com.example.codeverse.Students.Models.StudentNotification;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
