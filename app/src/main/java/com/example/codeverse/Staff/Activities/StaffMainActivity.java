@@ -24,7 +24,7 @@ public class StaffMainActivity extends AppCompatActivity {
 
 
         binding = ActivityStaffMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot()); // Only call setContentView once
+        setContentView(binding.getRoot());
 
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
