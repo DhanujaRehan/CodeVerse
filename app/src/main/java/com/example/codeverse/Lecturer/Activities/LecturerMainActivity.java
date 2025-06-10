@@ -25,7 +25,7 @@ public class LecturerMainActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
 
         binding = ActivityLecturerMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot()); // Only call this once!
+        setContentView(binding.getRoot());
 
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()

@@ -142,32 +142,32 @@ public class LecturerProfile extends Fragment {
     }
 
     private void logout() {
-        // Clear LecturerPrefs SharedPreferences
+
         SharedPreferences.Editor lecturerEditor = sharedPreferences.edit();
         lecturerEditor.clear();
         lecturerEditor.apply();
 
-        // Also clear StaffPrefs SharedPreferences for complete logout
+
         SharedPreferences staffPrefs = getActivity().getSharedPreferences("StaffPrefs", MODE_PRIVATE);
         SharedPreferences.Editor staffEditor = staffPrefs.edit();
         staffEditor.clear();
         staffEditor.apply();
 
-        // Clear StaffSessionManager session
+
         if (getContext() != null) {
             StaffSessionManager staffSessionManager = new StaffSessionManager(getContext());
             staffSessionManager.logoutStaff();
         }
 
-        // Show logout confirmation
+
         Toast.makeText(getContext(), "Logged out successfully", Toast.LENGTH_SHORT).show();
 
-        // Navigate to Login activity
+
         Intent intent = new Intent(getActivity(), Login.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
-        // Finish current activity
+
         if (getActivity() != null) {
             getActivity().finish();
         }
