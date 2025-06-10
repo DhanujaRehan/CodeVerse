@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Admin.Fragments.AdminSendNotification;
 import com.example.codeverse.Admin.Fragments.StaffPersonalInfo;
+import com.example.codeverse.AdminHomeFragment;
 import com.example.codeverse.Lecturer.Fragments.GradeSubmission;
 import com.example.codeverse.Staff.StaffFragments.StaffProfile;
 import com.example.codeverse.Students.StudentFragments.RecieptUpload;
@@ -32,7 +33,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.framelayout, new StaffProfile())
+                    .replace(R.id.framelayout, new AdminHomeFragment())
                     .commit();
         }
 
@@ -40,11 +41,11 @@ public class AdminMainActivity extends AppCompatActivity {
             int itemid = item.getItemId();
             if (itemid == R.id.navhome) {
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new StaffProfile())
+                        .replace(R.id.framelayout, new AdminHomeFragment())
                         .commit();
             }
             else if (itemid == R.id.navassignments){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new AdminHomeFragment()).commit();
             }
             else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new CreateStudent()).commit();
