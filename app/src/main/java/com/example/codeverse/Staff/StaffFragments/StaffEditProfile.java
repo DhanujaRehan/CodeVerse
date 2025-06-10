@@ -1,582 +1,349 @@
 package com.example.codeverse.Staff.StaffFragments;
 
-import android.app.DatePickerDialog;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.fragment.app.Fragment;
 
-import com.airbnb.lottie.LottieAnimationView;
+import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
+import com.example.codeverse.Admin.Models.Staff;
 import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.io.InputStream;
 import java.util.List;
 
 public class StaffEditProfile extends Fragment {
 
+    private static final int PICK_IMAGE_REQUEST = 1;
 
-    private ImageView ivProfilePic;
-    private FloatingActionButton fabEditPicture;
-    private TextInputEditText etName, etStaffId, etEmail, etPhone, etOfficeHours, etOfficeLocation;
-    private TextInputEditText etSpecialization, etYearsService, etEducation;
-    private TextInputEditText etResearchTags, etResearchDescription, etPublications;
-    private TextInputEditText etLinkedin, etResearchGate, etGithub;
-    private AutoCompleteTextView dropdownDepartment, dropdownPosition;
-    private MaterialButton btnCancel, btnSaveChanges;
-    private LottieAnimationView ivBack, ivSave;
-    private MaterialCardView cvBack, cvSave;
-    private FrameLayout savingOverlay, successOverlay;
+    private ImageView ivProfilePicture, ivBack;
+    private MaterialCardView cvBack;
+    private TextInputEditText etCurrentPassword, etNewPassword, etConfirmPassword;
+    private MaterialButton btnSelectImage, btnRemoveImage, btnCancel, btnSaveChanges;
+    private FrameLayout loadingOverlay;
 
-
-    private TextInputLayout tilName, tilEmail, tilPhone, tilOfficeHours, tilOfficeLocation;
-    private TextInputLayout tilSpecialization, tilYearsService, tilEducation;
-    private TextInputLayout tilResearchTags, tilResearchDescription, tilPublications;
-
-
-    private ActivityResultLauncher<Intent> imagePickerLauncher;
-
-
-    private boolean dataChanged = false;
-
-
-    private View rootView;
-
-
-    public interface OnProfileEditListener {
-        void onProfileSaved(String staffName, String department);
-        void onProfileEditCanceled();
-    }
-
-    private OnProfileEditListener listener;
+    private StaffDatabaseHelper databaseHelper;
+    private SharedPreferences sharedPreferences;
+    private String staffEmail;
+    private Staff currentStaff;
+    private String selectedImagePath;
+    private boolean isImageRemoved = false;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_staff_edit_profile, container, false);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_staff_edit_profile, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        initUI();
-
-
-        setupDropdowns();
-
-
-        setClickListeners();
-
-
-        setupImagePicker();
-
-
-        loadFacultyData();
+        initializeViews(view);
+        initializeDatabase();
+        getStaffEmailFromPreferences();
+        loadStaffData();
+        setupClickListeners();
     }
 
-    private void initUI() {
-
-        ivProfilePic = rootView.findViewById(R.id.iv_profile_pic);
-        fabEditPicture = rootView.findViewById(R.id.fab_edit_picture);
-
-
-        cvBack = rootView.findViewById(R.id.cv_back);
-        cvSave = rootView.findViewById(R.id.cv_save);
-        ivBack = rootView.findViewById(R.id.iv_back);
-        ivSave = rootView.findViewById(R.id.iv_save);
-
-
-        etName = rootView.findViewById(R.id.et_name);
-        etStaffId = rootView.findViewById(R.id.et_staff_id);
-        dropdownDepartment = rootView.findViewById(R.id.dropdown_department);
-        dropdownPosition = rootView.findViewById(R.id.dropdown_position);
-
-
-        etEmail = rootView.findViewById(R.id.et_email);
-        etPhone = rootView.findViewById(R.id.et_phone);
-        etOfficeHours = rootView.findViewById(R.id.et_office_hours);
-        etOfficeLocation = rootView.findViewById(R.id.et_office_location);
-
-
-        etSpecialization = rootView.findViewById(R.id.et_specialization);
-        etYearsService = rootView.findViewById(R.id.et_years_service);
-        etEducation = rootView.findViewById(R.id.et_education);
-
-
-        etResearchTags = rootView.findViewById(R.id.et_research_tags);
-        etResearchDescription = rootView.findViewById(R.id.et_research_description);
-        etPublications = rootView.findViewById(R.id.et_publications);
-
-
-        etLinkedin = rootView.findViewById(R.id.et_linkedin);
-        etResearchGate = rootView.findViewById(R.id.et_research_gate);
-        etGithub = rootView.findViewById(R.id.et_github);
-
-
-        btnCancel = rootView.findViewById(R.id.btn_cancel);
-        btnSaveChanges = rootView.findViewById(R.id.btn_save_changes);
-
-
-        savingOverlay = rootView.findViewById(R.id.saving_overlay);
-        successOverlay = rootView.findViewById(R.id.success_overlay);
-
-
-        tilName = (TextInputLayout) etName.getParent().getParent();
-        tilEmail = (TextInputLayout) etEmail.getParent().getParent();
-        tilPhone = (TextInputLayout) etPhone.getParent().getParent();
-        tilOfficeHours = (TextInputLayout) etOfficeHours.getParent().getParent();
-        tilOfficeLocation = (TextInputLayout) etOfficeLocation.getParent().getParent();
-        tilSpecialization = (TextInputLayout) etSpecialization.getParent().getParent();
-        tilYearsService = (TextInputLayout) etYearsService.getParent().getParent();
-        tilEducation = (TextInputLayout) etEducation.getParent().getParent();
-        tilResearchTags = (TextInputLayout) etResearchTags.getParent().getParent();
-        tilResearchDescription = (TextInputLayout) etResearchDescription.getParent().getParent();
-        tilPublications = (TextInputLayout) etPublications.getParent().getParent();
+    private void initializeViews(View view) {
+        ivProfilePicture = view.findViewById(R.id.iv_profile_picture);
+        ivBack = view.findViewById(R.id.iv_back);
+        cvBack = view.findViewById(R.id.cv_back);
+        etCurrentPassword = view.findViewById(R.id.et_current_password);
+        etNewPassword = view.findViewById(R.id.et_new_password);
+        etConfirmPassword = view.findViewById(R.id.et_confirm_password);
+        btnSelectImage = view.findViewById(R.id.btn_select_image);
+        btnRemoveImage = view.findViewById(R.id.btn_remove_image);
+        btnCancel = view.findViewById(R.id.btn_cancel);
+        btnSaveChanges = view.findViewById(R.id.btn_save_changes);
+        loadingOverlay = view.findViewById(R.id.loading_overlay);
     }
 
-    private void setupDropdowns() {
-
-        List<String> departments = new ArrayList<>(Arrays.asList(
-                "Computer Science Department",
-                "Electrical Engineering Department",
-                "Mechanical Engineering Department",
-                "Civil Engineering Department",
-                "Business Administration Department",
-                "Physics Department",
-                "Mathematics Department",
-                "Chemistry Department",
-                "Biology Department"));
-
-        ArrayAdapter<String> departmentAdapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_dropdown_item_1line,
-                departments);
-        dropdownDepartment.setAdapter(departmentAdapter);
-
-
-        List<String> positions = new ArrayList<>(Arrays.asList(
-                "Professor",
-                "Associate Professor",
-                "Assistant Professor",
-                "Lecturer",
-                "Senior Lecturer",
-                "Department Chair",
-                "Visiting Professor",
-                "Dean",
-                "Research Fellow"));
-
-        ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_dropdown_item_1line,
-                positions);
-        dropdownPosition.setAdapter(positionAdapter);
+    private void initializeDatabase() {
+        databaseHelper = new StaffDatabaseHelper(getContext());
     }
 
-    private void setClickListeners() {
+    private void getStaffEmailFromPreferences() {
+        sharedPreferences = getActivity().getSharedPreferences("StaffPrefs", getContext().MODE_PRIVATE);
+        staffEmail = sharedPreferences.getString("staff_email", "");
 
-        setupTextChangeListeners();
-
-
-        etOfficeHours.setOnClickListener(v -> showOfficeDatePicker());
-
-
-        cvBack.setOnClickListener(v -> handleBackPress());
-
-
-        cvSave.setOnClickListener(v -> saveProfile());
-
-
-        btnCancel.setOnClickListener(v -> handleBackPress());
-
-
-        btnSaveChanges.setOnClickListener(v -> saveProfile());
-
-
-        fabEditPicture.setOnClickListener(v -> openImagePicker());
-    }
-
-    private void showOfficeDatePicker() {
-        if (getContext() == null) return;
-
-
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                requireContext(),
-                (view, selectedYear, selectedMonth, selectedDay) -> {
-
-                    Calendar selected = Calendar.getInstance();
-                    selected.set(selectedYear, selectedMonth, selectedDay);
-                    int dayOfWeek = selected.get(Calendar.DAY_OF_WEEK);
-
-                    String dayName = "";
-                    switch (dayOfWeek) {
-                        case Calendar.MONDAY:
-                            dayName = "Mon";
-                            break;
-                        case Calendar.TUESDAY:
-                            dayName = "Tue";
-                            break;
-                        case Calendar.WEDNESDAY:
-                            dayName = "Wed";
-                            break;
-                        case Calendar.THURSDAY:
-                            dayName = "Thu";
-                            break;
-                        case Calendar.FRIDAY:
-                            dayName = "Fri";
-                            break;
-                    }
-
-                    String currentHours = etOfficeHours.getText().toString().trim();
-
-
-                    String updatedHours;
-                    if (TextUtils.isEmpty(currentHours)) {
-                        updatedHours = dayName + ": 10:00 AM - 12:00 PM";
-                    } else {
-                        updatedHours = currentHours + "\n" + dayName + ": 10:00 AM - 12:00 PM";
-                    }
-
-                    etOfficeHours.setText(updatedHours);
-                    dataChanged = true;
-                },
-                year, month, day);
-
-
-        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-        datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() + 7 * 24 * 60 * 60 * 1000);
-
-        datePickerDialog.show();
-    }
-
-    private void setupTextChangeListeners() {
-
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dataChanged = true;
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {}
-        };
-
-
-        TextInputEditText[] editableFields = {
-                etName, etEmail, etPhone, etOfficeHours, etOfficeLocation,
-                etSpecialization, etYearsService, etEducation,
-                etResearchTags, etResearchDescription, etPublications,
-                etLinkedin, etResearchGate, etGithub
-        };
-
-        for (TextInputEditText field : editableFields) {
-            field.addTextChangedListener(textWatcher);
+        if (staffEmail == null || staffEmail.isEmpty()) {
+            staffEmail = sharedPreferences.getString("email", "");
         }
 
+        if (staffEmail == null || staffEmail.isEmpty()) {
+            staffEmail = sharedPreferences.getString("user_email", "");
+        }
 
-        dropdownDepartment.setOnItemClickListener((parent, view, position, id) -> dataChanged = true);
-        dropdownPosition.setOnItemClickListener((parent, view, position, id) -> dataChanged = true);
+        if (staffEmail == null || staffEmail.isEmpty()) {
+            showToast("Email not found. Please login again.");
+            navigateBack();
+            return;
+        }
     }
 
-    private void setupImagePicker() {
-        imagePickerLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == getActivity().RESULT_OK && result.getData() != null) {
-                        Uri imageUri = result.getData().getData();
-                        try {
-                            if (getContext() != null) {
-                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), imageUri);
-                                ivProfilePic.setImageBitmap(bitmap);
-                                dataChanged = true;
-                            }
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                            Toast.makeText(getContext(), "Failed to load image", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+    private void loadStaffData() {
+        try {
+            currentStaff = getStaffByEmail(staffEmail);
+
+            if (currentStaff != null) {
+                loadCurrentProfilePicture();
+            } else {
+                showToast("Staff data not found");
+                navigateBack();
+            }
+        } catch (Exception e) {
+            showToast("Error loading staff data");
+            navigateBack();
+        }
+    }
+
+    private Staff getStaffByEmail(String email) {
+        List<Staff> allStaff = databaseHelper.getAllStaff();
+        for (Staff staff : allStaff) {
+            if (staff.getEmail() != null && staff.getEmail().equals(email)) {
+                return staff;
+            }
+        }
+        return null;
+    }
+
+    private void loadCurrentProfilePicture() {
+        if (currentStaff.getPhotoUri() != null && !currentStaff.getPhotoUri().isEmpty()) {
+            try {
+                Bitmap bitmap = StaffDatabaseHelper.getStaffPhoto(currentStaff.getPhotoUri());
+                if (bitmap != null) {
+                    ivProfilePicture.setImageBitmap(bitmap);
+                } else {
+                    ivProfilePicture.setImageResource(R.drawable.ic_person);
+                }
+            } catch (Exception e) {
+                ivProfilePicture.setImageResource(R.drawable.ic_person);
+            }
+        } else {
+            ivProfilePicture.setImageResource(R.drawable.ic_person);
+        }
+    }
+
+    private void setupClickListeners() {
+        cvBack.setOnClickListener(v -> navigateBack());
+        ivBack.setOnClickListener(v -> navigateBack());
+
+        btnSelectImage.setOnClickListener(v -> openImagePicker());
+
+        btnRemoveImage.setOnClickListener(v -> removeProfilePicture());
+
+        btnCancel.setOnClickListener(v -> navigateBack());
+
+        btnSaveChanges.setOnClickListener(v -> saveChanges());
     }
 
     private void openImagePicker() {
-        if (getContext() == null) return;
-
-
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
-
-
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Select Image Source")
-                .setItems(new String[]{"Gallery", "Camera"}, (dialog, which) -> {
-                    if (which == 0) {
-
-                        imagePickerLauncher.launch(intent);
-                    } else {
-                        Toast.makeText(getContext(), "Camera functionality would be implemented here", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .show();
+        startActivityForResult(intent, PICK_IMAGE_REQUEST);
     }
 
-    private void loadFacultyData() {
+    private void removeProfilePicture() {
+        ivProfilePicture.setImageResource(R.drawable.ic_person);
+        selectedImagePath = null;
+        isImageRemoved = true;
+        showToast("Profile picture will be removed when you save changes");
+    }
 
-        etName.setText("Dr. Sarah Wilson");
-        etStaffId.setText("FAC2023104");
-        dropdownDepartment.setText("Computer Science Department", false);
-        dropdownPosition.setText("Associate Professor", false);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        etEmail.setText("sarah.wilson@university.edu");
-        etPhone.setText("(555) 987-6543");
-        etOfficeHours.setText("Mon, Wed: 10:00 AM - 12:00 PM\nThu: 2:00 PM - 4:00 PM");
-        etOfficeLocation.setText("Computer Science Building, Room 301");
-
-        etSpecialization.setText("Artificial Intelligence, Machine Learning");
-        etYearsService.setText("12");
-        etEducation.setText("Ph.D. in Computer Science, MIT\nM.S. in Computer Science, Stanford University");
-
-        etResearchTags.setText("Artificial Intelligence, Machine Learning, Computer Vision, Natural Language Processing, Data Science");
-        etResearchDescription.setText("Dr. Wilson's research focuses on developing novel machine learning algorithms for computer vision and natural language processing applications. Her recent work involves creating efficient deep learning models for resource-constrained environments.");
-        etPublications.setText("42");
-
-        etLinkedin.setText("linkedin.com/in/sarahwilson");
-        etResearchGate.setText("researchgate.net/profile/Sarah_Wilson");
-        etGithub.setText("github.com/sarahwilson");
-
-
-        try {
-            if (getContext() != null) {
-
-                ivProfilePic.setImageResource(R.drawable.ic_profile);
-
-
-                ivProfilePic.setBackgroundResource(R.drawable.circle_background);
-                ivProfilePic.setClipToOutline(true);
-
-
-                Bitmap originalBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_profile);
-                RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(getResources(), originalBitmap);
-                roundedDrawable.setCircular(true);
-                ivProfilePic.setImageDrawable(roundedDrawable);
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            if (imageUri != null) {
+                try {
+                    selectedImagePath = saveImageToInternalStorage(imageUri);
+                    Bitmap bitmap = BitmapFactory.decodeFile(selectedImagePath);
+                    ivProfilePicture.setImageBitmap(bitmap);
+                    isImageRemoved = false;
+                    showToast("Image selected successfully");
+                } catch (Exception e) {
+                    showToast("Error selecting image");
+                }
             }
-        } catch (Exception e) {
+        }
+    }
 
-            ivProfilePic.setImageResource(R.drawable.ic_profile);
-            Log.e("StaffProfileEditFragment", "Failed to apply circular crop: " + e.getMessage());
+    private String saveImageToInternalStorage(Uri imageUri) throws IOException {
+        InputStream inputStream = getContext().getContentResolver().openInputStream(imageUri);
+
+        File directory = new File(getContext().getFilesDir(), "staff_photos");
+        if (!directory.exists()) {
+            directory.mkdirs();
         }
 
+        String fileName = "staff_" + currentStaff.getId() + "_" + System.currentTimeMillis() + ".jpg";
+        File file = new File(directory, fileName);
 
-        dataChanged = false;
+        FileOutputStream outputStream = new FileOutputStream(file);
+
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
+        }
+
+        outputStream.close();
+        inputStream.close();
+
+        return file.getAbsolutePath();
     }
 
-    private void saveProfile() {
-
+    private void saveChanges() {
         if (!validateInputs()) {
             return;
         }
 
+        showLoading(true);
 
-        savingOverlay.setVisibility(View.VISIBLE);
+        try {
+            boolean isUpdated = false;
 
+            if (isImageRemoved || selectedImagePath != null) {
+                String newPhotoUri = isImageRemoved ? "" : selectedImagePath;
+                int result = databaseHelper.updateStaffPersonalDetails(
+                        currentStaff.getId(),
+                        currentStaff.getFullName(),
+                        currentStaff.getEmail(),
+                        currentStaff.getContactNumber(),
+                        currentStaff.getNicNumber(),
+                        currentStaff.getGender(),
+                        currentStaff.getDateOfBirth(),
+                        newPhotoUri
+                );
 
-        createStaffProfile();
+                if (result > 0) {
+                    isUpdated = true;
+                    currentStaff.setPhotoUri(newPhotoUri);
 
-
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-
-            savingOverlay.setVisibility(View.GONE);
-
-
-            successOverlay.setVisibility(View.VISIBLE);
-
-
-            new Handler(Looper.getMainLooper()).postDelayed(() -> {
-                successOverlay.setVisibility(View.GONE);
-
-
-                if (listener != null) {
-                    listener.onProfileSaved(
-                            etName.getText().toString().trim(),
-                            dropdownDepartment.getText().toString().trim()
-                    );
+                    if (isImageRemoved && currentStaff.getPhotoUri() != null && !currentStaff.getPhotoUri().isEmpty()) {
+                        deleteOldProfilePicture(currentStaff.getPhotoUri());
+                    }
                 }
+            }
 
+            String newPassword = etNewPassword.getText().toString().trim();
+            if (!newPassword.isEmpty()) {
+                int result = databaseHelper.updateStaffProfessionalDetails(
+                        currentStaff.getId(),
+                        currentStaff.getPosition(),
+                        currentStaff.getDepartment(),
+                        currentStaff.getTeachingSubject(),
+                        currentStaff.getProgramCoordinating(),
+                        newPassword,
+                        currentStaff.getHighestQualification(),
+                        currentStaff.getFieldOfStudy(),
+                        currentStaff.getUniversity(),
+                        currentStaff.getGraduationYear(),
+                        currentStaff.getExperienceYears()
+                );
 
-                dataChanged = false;
+                if (result > 0) {
+                    isUpdated = true;
+                    currentStaff.setPassword(newPassword);
+                }
+            }
 
+            showLoading(false);
 
-                navigateBack();
-            }, 1500);
-        }, 2000);
-    }
+            if (isUpdated) {
+                showToast("Profile updated successfully");
+                clearPasswordFields();
+                selectedImagePath = null;
+                isImageRemoved = false;
+            } else {
+                showToast("No changes were made");
+            }
 
-    private void createStaffProfile() {
-        // Create a staff profile object with all the data
-        // In a real app, this would be sent to a database or API
-        // This is just a placeholder for demonstration purposes
-
-        // Example:
-        // StaffProfile profile = new StaffProfile();
-        // profile.setName(etName.getText().toString().trim());
-        // profile.setStaffId(etStaffId.getText().toString().trim());
-        // ... set all other fields
-
-        // Then save to database or API
+        } catch (Exception e) {
+            showLoading(false);
+            showToast("Error updating profile");
+        }
     }
 
     private boolean validateInputs() {
-        boolean isValid = true;
+        String currentPassword = etCurrentPassword.getText().toString().trim();
+        String newPassword = etNewPassword.getText().toString().trim();
+        String confirmPassword = etConfirmPassword.getText().toString().trim();
 
+        if (!newPassword.isEmpty() || !confirmPassword.isEmpty()) {
+            if (currentPassword.isEmpty()) {
+                showToast("Please enter current password");
+                return false;
+            }
 
-        tilName.setError(null);
-        tilEmail.setError(null);
-        tilPhone.setError(null);
-        tilOfficeHours.setError(null);
-        tilOfficeLocation.setError(null);
-        tilSpecialization.setError(null);
-        tilYearsService.setError(null);
-        tilPublications.setError(null);
+            if (!currentPassword.equals(currentStaff.getPassword())) {
+                showToast("Current password is incorrect");
+                return false;
+            }
 
+            if (newPassword.isEmpty()) {
+                showToast("Please enter new password");
+                return false;
+            }
 
-        String name = etName.getText().toString().trim();
-        if (TextUtils.isEmpty(name)) {
-            tilName.setError("Name cannot be empty");
-            isValid = false;
-        }
+            if (newPassword.length() < 6) {
+                showToast("New password must be at least 6 characters");
+                return false;
+            }
 
-
-        String email = etEmail.getText().toString().trim();
-        if (TextUtils.isEmpty(email)) {
-            tilEmail.setError("Email cannot be empty");
-            isValid = false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            tilEmail.setError("Enter a valid email address");
-            isValid = false;
-        }
-
-
-        String phone = etPhone.getText().toString().trim();
-        if (TextUtils.isEmpty(phone)) {
-            tilPhone.setError("Phone number cannot be empty");
-            isValid = false;
-        }
-
-
-        String officeHours = etOfficeHours.getText().toString().trim();
-        if (TextUtils.isEmpty(officeHours)) {
-            tilOfficeHours.setError("Office hours cannot be empty");
-            isValid = false;
-        }
-
-
-        String officeLocation = etOfficeLocation.getText().toString().trim();
-        if (TextUtils.isEmpty(officeLocation)) {
-            tilOfficeLocation.setError("Office location cannot be empty");
-            isValid = false;
-        }
-
-
-        if (TextUtils.isEmpty(dropdownDepartment.getText())) {
-            dropdownDepartment.setError("Department is required");
-            isValid = false;
-        }
-
-
-        if (TextUtils.isEmpty(dropdownPosition.getText())) {
-            dropdownPosition.setError("Position is required");
-            isValid = false;
-        }
-
-
-        String yearsText = etYearsService.getText().toString().trim();
-        if (!TextUtils.isEmpty(yearsText)) {
-            try {
-                Integer.parseInt(yearsText);
-            } catch (NumberFormatException e) {
-                tilYearsService.setError("Please enter a valid number");
-                isValid = false;
+            if (!newPassword.equals(confirmPassword)) {
+                showToast("New passwords do not match");
+                return false;
             }
         }
 
-
-        String publicationsText = etPublications.getText().toString().trim();
-        if (!TextUtils.isEmpty(publicationsText)) {
-            try {
-                Integer.parseInt(publicationsText);
-            } catch (NumberFormatException e) {
-                tilPublications.setError("Please enter a valid number");
-                isValid = false;
-            }
-        }
-
-        return isValid;
+        return true;
     }
 
-    private void handleBackPress() {
-        if (dataChanged) {
+    private void clearPasswordFields() {
+        etCurrentPassword.setText("");
+        etNewPassword.setText("");
+        etConfirmPassword.setText("");
+    }
 
-            if (getContext() != null) {
-                new AlertDialog.Builder(requireContext())
-                        .setTitle("Discard Changes")
-                        .setMessage("You have unsaved changes. Are you sure you want to discard them?")
-                        .setPositiveButton("Discard", (dialog, which) -> {
-                            if (listener != null) {
-                                listener.onProfileEditCanceled();
-                            }
-                            navigateBack();
-                        })
-                        .setNegativeButton("Cancel", null)
-                        .show();
+    private void deleteOldProfilePicture(String photoPath) {
+        try {
+            File file = new File(photoPath);
+            if (file.exists()) {
+                file.delete();
             }
-        } else {
-            if (listener != null) {
-                listener.onProfileEditCanceled();
-            }
-            navigateBack();
+        } catch (Exception e) {
+            // Ignore deletion errors
+        }
+    }
+
+    private void showLoading(boolean show) {
+        if (loadingOverlay != null) {
+            loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -588,32 +355,29 @@ public class StaffEditProfile extends Fragment {
         }
     }
 
-
-    public void setOnProfileEditListener(OnProfileEditListener listener) {
-        this.listener = listener;
-    }
-
-
-    public static StaffEditProfile newInstance(String staffId) {
-        StaffEditProfile fragment = new StaffEditProfile();
-        Bundle args = new Bundle();
-        args.putString("STAFF_ID", staffId);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-
-    private String getStaffIdFromArguments() {
-        if (getArguments() != null) {
-            return getArguments().getString("STAFF_ID");
+    private void showToast(String message) {
+        if (getContext() != null) {
+            Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         }
-        return null;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        rootView = null;
-        listener = null;
+        if (databaseHelper != null) {
+            databaseHelper.close();
+        }
+    }
+
+    public static StaffEditProfile newInstance() {
+        return new StaffEditProfile();
+    }
+
+    public static StaffEditProfile newInstance(String staffEmail) {
+        StaffEditProfile fragment = new StaffEditProfile();
+        Bundle args = new Bundle();
+        args.putString("staff_email", staffEmail);
+        fragment.setArguments(args);
+        return fragment;
     }
 }

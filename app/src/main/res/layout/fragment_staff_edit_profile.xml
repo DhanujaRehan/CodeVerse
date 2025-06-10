@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/loading_gradient_background">
+    android:background="@drawable/login_gradient_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -20,7 +19,6 @@
             android:paddingTop="48dp"
             android:paddingBottom="16dp">
 
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
@@ -32,18 +30,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <com.airbnb.lottie.LottieAnimationView
+                <ImageView
                     android:id="@+id/iv_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    android:scaleType="centerCrop"
-                    app:lottie_rawRes="@raw/back_button_animation"
-                    android:contentDescription="Back" />
+                    android:src="@drawable/back"
+                    app:tint="@color/DarkBlue" />
             </com.google.android.material.card.MaterialCardView>
-
 
             <TextView
                 android:layout_width="wrap_content"
@@ -57,32 +51,8 @@
                 app:layout_constraintStart_toEndOf="@id/cv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_save"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/iv_save"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    android:contentDescription="Save"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/download" />
-            </com.google.android.material.card.MaterialCardView>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -98,830 +68,233 @@
             android:paddingTop="16dp"
             android:paddingBottom="100dp">
 
-
             <LinearLayout
-                android:id="@+id/card_profile_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/glass_background"
-                android:backgroundTint="@color/white"
-                app:cardCornerRadius="28dp"
-                app:strokeWidth="1dp"
-                app:strokeColor="#33FFFFFF"
-                app:cardElevation="10dp">
+                android:backgroundTint="#FFFFFF"
+                android:clipToOutline="true"
+                android:clipToPadding="true"
+                android:orientation="vertical"
+                android:padding="20dp">
 
-
-
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Profile Picture"
+                    android:textColor="@color/DarkBlue"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:layout_marginBottom="16dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="24dp"
-                    android:gravity="center_horizontal">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="24dp">
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        app:cardCornerRadius="50dp"
+                        app:cardElevation="8dp"
+                        app:strokeWidth="2dp"
+                        app:strokeColor="@color/DarkBlue">
 
-                    <FrameLayout
-                        android:layout_width="wrap_content"
+                        <ImageView
+                            android:id="@+id/iv_profile_picture"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_person"
+                            android:scaleType="centerCrop" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginBottom="16dp"
-                        android:layout_marginTop="24dp">
+                        android:layout_weight="1"
+                        android:layout_marginStart="20dp"
+                        android:orientation="vertical">
 
-                        <com.google.android.material.floatingactionbutton.FloatingActionButton
-                            android:id="@+id/fab_edit_picture"
-                            android:layout_width="wrap_content"
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_select_image"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="bottom|end"
-                            android:layout_marginLeft="60dp"
-                            android:layout_marginTop="60dp"
-                            android:src="@drawable/camera"
+                            android:text="Select Photo"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
                             app:backgroundTint="@color/DarkBlue"
-                            app:fabSize="mini"
-                            app:tint="#FFFFFF" />
+                            app:cornerRadius="16dp"
+                            android:fontFamily="@font/poppins_medium"
+                            android:textSize="14sp" />
 
-
-                        <LinearLayout
-                            android:orientation="vertical"
-                            android:layout_width="100dp"
-                            android:layout_height="100dp"
-                            android:background="@drawable/propic_bg">
-
-                            <ImageView
-                                android:id="@+id/iv_profile_pic"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:scaleType="centerCrop"
-                                android:background="@drawable/propic_bg"
-                                android:src="@drawable/addpropic"
-                                android:clipToOutline="true"/>
-
-                        </LinearLayout>
-                    </FrameLayout>
-
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:boxBackgroundColor="#FFFFFF"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_name"
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_remove_image"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Full Name"
-                            android:inputType="textPersonName"
-                            android:text="Dr. Sarah Wilson"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:boxBackgroundColor="#E1E8F9"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_staff_id"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Staff ID"
+                            android:layout_marginTop="8dp"
+                            android:text="Remove Photo"
                             android:backgroundTint="@color/white"
-                            android:inputType="text"
-                            android:text="FAC2023104"
-                            android:enabled="false"
-                            android:textColor="#666666" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:boxBackgroundColor="#FFFFFF"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeColor="#1A5276"
-                        app:boxStrokeWidth="1dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/dropdown_department"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:textAllCaps="false"
+                            android:textColor="@color/red"
+                            app:cornerRadius="16dp"
+                            app:strokeColor="@color/red"
+                            app:strokeWidth="1dp"
                             android:fontFamily="@font/poppins_medium"
-                            android:hint="Department"
-                            android:inputType="none"
-                            android:text="Computer Science Department"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        app:boxBackgroundColor="#FFFFFF"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeColor="#1A5276"
-                        app:boxStrokeWidth="1dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <AutoCompleteTextView
-                            android:id="@+id/dropdown_position"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Position"
-                            android:inputType="none"
-                            android:text="Associate Professor"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                            android:textSize="14sp" />
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="30dp">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/user_info_animation" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Contact Information"
+                    android:text="Change Password"
                     android:textColor="@color/DarkBlue"
-                    android:textSize="20sp" />
-            </LinearLayout>
+                    android:textSize="18sp"
+                    android:fontFamily="@font/poppins_semibold"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp" />
 
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundColor="#E1E8F9"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxStrokeWidth="0dp"
+                    app:passwordToggleEnabled="true">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:background="@drawable/glass_background"
-                android:backgroundTint="#FFFFFF"
-                android:clipToOutline="true"
-                android:clipToPadding="true"
-                >
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_current_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="Current Password"
+                        android:inputType="textPassword"
+                        android:textColor="#333333" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundColor="#E1E8F9"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxStrokeWidth="0dp"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_new_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="New Password"
+                        android:inputType="textPassword"
+                        android:textColor="#333333" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    app:boxBackgroundColor="#E1E8F9"
+                    app:boxCornerRadiusBottomEnd="16dp"
+                    app:boxCornerRadiusBottomStart="16dp"
+                    app:boxCornerRadiusTopEnd="16dp"
+                    app:boxCornerRadiusTopStart="16dp"
+                    app:boxStrokeWidth="0dp"
+                    app:passwordToggleEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_confirm_password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins_medium"
+                        android:hint="Confirm New Password"
+                        android:inputType="textPassword"
+                        android:textColor="#333333" />
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="32dp"
+                    android:gravity="center">
 
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_cancel"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
+                        android:padding="12dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="8dp"
+                        android:text="Cancel"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/red"
+                        app:cornerRadius="50dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_email"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Email"
-                            android:inputType="textEmailAddress"
-                            android:text="sarah.wilson@university.edu"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_save_changes"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_phone"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Phone"
-                            android:inputType="phone"
-                            android:text="(555) 987-6543"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_office_hours"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Office Hours"
-                            android:inputType="text"
-                            android:text="Mon, Wed: 10:00 AM - 12:00 PM\nThu: 2:00 PM - 4:00 PM"
-                            android:textColor="#333333"
-                            android:minLines="2"
-                            android:gravity="top|start" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_office_location"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Office Location"
-                            android:inputType="text"
-                            android:text="Computer Science Building, Room 301"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
+                        android:layout_weight="1"
+                        android:padding="12dp"
+                        android:layout_marginStart="8dp"
+                        android:text="Save Changes"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        app:backgroundTint="@color/DarkBlue"
+                        app:cornerRadius="50dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:textSize="16sp" />
                 </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="30dp">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/academic_cap_animation" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Professional Information"
-                    android:textColor="@color/DarkBlue"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:background="@drawable/glass_background"
-                android:backgroundTint="#FFFFFF"
-                android:clipToOutline="true"
-                android:clipToPadding="true"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_specialization"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Specialization"
-                            android:inputType="text"
-                            android:text="Artificial Intelligence, Machine Learning"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_years_service"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Years of Service"
-                            android:inputType="number"
-                            android:text="12"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_education"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Education"
-                            android:inputType="textMultiLine"
-                            android:text="Ph.D. in Computer Science, MIT\nM.S. in Computer Science, Stanford University"
-                            android:textColor="#333333"
-                            android:minLines="2"
-                            android:gravity="top|start" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="30dp">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/research" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Research Information"
-                    android:textColor="@color/DarkBlue"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:background="@drawable/glass_background"
-                android:backgroundTint="#FFFFFF"
-                android:clipToOutline="true"
-                android:clipToPadding="true"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_research_tags"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Research Tags (comma separated)"
-                            android:inputType="text"
-                            android:text="Artificial Intelligence, Machine Learning, Computer Vision, Natural Language Processing, Data Science"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_research_description"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Research Description"
-                            android:inputType="textMultiLine"
-                            android:text="Dr. Wilson's research focuses on developing novel machine learning algorithms for computer vision and natural language processing applications. Her recent work involves creating efficient deep learning models for resource-constrained environments."
-                            android:textColor="#333333"
-                            android:minLines="4"
-                            android:gravity="top|start" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_publications"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="Number of Publications"
-                            android:inputType="number"
-                            android:text="42"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="30dp">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/social_media_animation" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:text="Social Media"
-                    android:textColor="@color/DarkBlue"
-                    android:textSize="20sp" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical"
-                android:background="@drawable/glass_background"
-                android:backgroundTint="#FFFFFF"
-                android:clipToOutline="true"
-                android:clipToPadding="true"
-                >
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_linkedin"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="LinkedIn Profile"
-                            android:inputType="textUri"
-                            android:text="linkedin.com/in/sarahwilson"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_research_gate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="ResearchGate Profile"
-                            android:inputType="textUri"
-                            android:text="researchgate.net/profile/Sarah_Wilson"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:boxBackgroundColor="#F3F1FE"
-                        app:boxCornerRadiusBottomEnd="16dp"
-                        app:boxCornerRadiusBottomStart="16dp"
-                        app:boxCornerRadiusTopEnd="16dp"
-                        app:boxCornerRadiusTopStart="16dp"
-                        app:boxStrokeWidth="0dp"
-                        app:hintTextColor="#1A5276"
-                        android:textColorHint="#80333333"
-                        app:startIconTint="#1A5276">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/et_github"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/poppins_medium"
-                            android:hint="GitHub Profile"
-                            android:inputType="textUri"
-                            android:text="github.com/sarahwilson"
-                            android:textColor="#333333" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="20dp"
-                android:gravity="center">
-
-
-                <com.google.android.material.button.MaterialButton
-                    android:textAllCaps="false"
-                    android:id="@+id/btn_cancel"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="8dp"
-                    android:text="Cancel"
-                    android:textColor="@color/white"
-                    app:backgroundTint="@color/red"
-                    app:cornerRadius="50dp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:paddingVertical="12dp"
-                    app:rippleColor="#33FFFFFF"
-                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
-
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_save_changes"
-                    android:layout_width="0dp"
-                    android:layout_height="60dp"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"
-                    android:text="Save Changes"
-                    android:textAllCaps="false"
-                    android:textColor="@color/white"
-                    app:backgroundTint="@color/DarkBlue"
-                    app:cornerRadius="50dp"
-                    android:fontFamily="@font/poppins_medium"
-                    android:textSize="16sp"
-                    android:paddingVertical="12dp"
-                    app:rippleColor="@color/DarkBlue"
-                    app:iconGravity="textStart"
-                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton" />
             </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-
     <FrameLayout
-        android:id="@+id/saving_overlay"
+        android:id="@+id/loading_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#80000000"
         android:visibility="gone">
 
-        <com.google.android.material.card.MaterialCardView
+        <LinearLayout
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:layout_gravity="center"
-            app:cardBackgroundColor="#CC1A5276"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="10dp">
+            android:background="@drawable/glass_background"
+            android:backgroundTint="@color/white"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="16dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="16dp">
+            <ProgressBar
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:indeterminateTint="@color/DarkBlue" />
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/saving_animation" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Saving Changes..."
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:layout_marginTop="16dp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-    </FrameLayout>
-
-
-    <FrameLayout
-        android:id="@+id/success_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#80000000"
-        android:visibility="gone">
-
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            app:cardBackgroundColor="#CC4CAF50"
-            app:cardCornerRadius="24dp"
-            app:cardElevation="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="16dp">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="false"
-                    app:lottie_rawRes="@raw/successfull" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Profile Updated!"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18sp"
-                    android:fontFamily="@font/poppins_semibold"
-                    android:layout_marginTop="16dp" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Updating..."
+                android:textColor="@color/DarkBlue"
+                android:textSize="16sp" />
+        </LinearLayout>
     </FrameLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
