@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.codeverse.Admin.Activities.AdminMainActivity;
+import com.example.codeverse.Lecturer.Activities.LecturerMainActivity;
 import com.example.codeverse.MainActivity;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Activities.StaffMainActivity;
@@ -157,7 +158,9 @@ public class LoadingScreen extends AppCompatActivity {
                     intent = new Intent(LoadingScreen.this, StudentMainActivity.class);
                 } else if ("StaffMainActivity".equals(nextActivity)) {
                     intent = new Intent(LoadingScreen.this, StaffMainActivity.class);
-                } else {
+                } else if ("LecturerMainActivity".equals(nextActivity)) {
+                    intent = new Intent(LoadingScreen.this, LecturerMainActivity.class);
+                }else {
                     intent = new Intent(LoadingScreen.this, MainActivity.class);
                 }
 

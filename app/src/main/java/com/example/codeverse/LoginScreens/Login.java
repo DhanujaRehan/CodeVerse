@@ -46,7 +46,6 @@ public class Login extends AppCompatActivity {
         staffSessionManager = new StaffSessionManager(this);
         adminSessionManager = new AdminSessionManager(this);
 
-        // Check if admin is already logged in
         if (adminSessionManager.isLoggedIn()) {
             Intent intent = new Intent(Login.this, AdminMainActivity.class);
             startActivity(intent);
@@ -54,7 +53,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        // Check if student is already logged in
         if (sessionManager.isLoggedIn()) {
             Intent intent = new Intent(Login.this, StudentMainActivity.class);
             startActivity(intent);
@@ -62,7 +60,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        // Check if staff is already logged in
         if (staffSessionManager.isLoggedIn()) {
             Intent intent = new Intent(Login.this, StaffMainActivity.class);
             startActivity(intent);
@@ -91,7 +88,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        // If not admin, check staff credentials
         authenticateAdmin(inputEmail, inputPassword);
     }
 
@@ -99,7 +95,6 @@ public class Login extends AppCompatActivity {
         if (email.equals(AdminEmail) && password.equals(AdminPassword)) {
             Toast.makeText(Login.this, "Admin login successful!", Toast.LENGTH_SHORT).show();
 
-            // Create admin session
             adminSessionManager.createLoginSession("admin_001", "Administrator", AdminEmail);
 
             Intent intent = new Intent(Login.this, LoadingScreen.class);
@@ -108,7 +103,6 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            // If not admin, check staff credentials
             authenticateStaff(email, password);
         }
     }
@@ -128,7 +122,16 @@ public class Login extends AppCompatActivity {
                 );
 
                 Intent intent = new Intent(Login.this, LoadingScreen.class);
-                intent.putExtra("nextActivity", "StaffMainActivity");
+
+                String position = staff.getPosition();
+                if ("Lecturer".equals(position)) {
+                    intent.putExtra("nextActivity", "LecturerMainActivity");
+                } else if ("Program Coordinator".equals(position)) {
+                    intent.putExtra("nextActivity", "StaffMainActivity");
+                } else {
+                    intent.putExtra("nextActivity", "StaffMainActivity");
+                }
+
                 intent.putExtra("username", staff.getFullName());
                 startActivity(intent);
                 finish();

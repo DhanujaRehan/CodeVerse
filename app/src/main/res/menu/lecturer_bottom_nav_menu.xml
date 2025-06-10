@@ -8,11 +8,11 @@
     <item
         android:id="@+id/navgradesubmissions"
         android:icon="@drawable/ic_profile"
-        android:title="Assignments" />
+        android:title="Profile" />
     <item
         android:id="@+id/navschedule"
         android:icon="@drawable/student"
-        android:title="Schedule" />
+        android:title="Grades" />
     <item
         android:id="@+id/navprofile"
         android:icon="@drawable/staff"

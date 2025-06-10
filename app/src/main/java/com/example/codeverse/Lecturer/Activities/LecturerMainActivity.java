@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Lecturer.Fragments.GradeSubmission;
+import com.example.codeverse.Lecturer.Fragments.LecturerProfile;
 import com.example.codeverse.R;
 import com.example.codeverse.databinding.ActivityLecturerMainBinding;
 
@@ -33,13 +34,13 @@ public class LecturerMainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();
             }
             else if (itemid == R.id.navgradesubmissions){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new LecturerProfile()).commit();
             }
             else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();
             }
             else if (itemid == R.id.navprofile){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new LecturerProfile()).commit();
             }
             return  true;
         });
