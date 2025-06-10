@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Lecturer.Fragments;
 
 import android.app.Activity;
 import android.content.Intent;
