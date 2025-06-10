@@ -63,7 +63,7 @@ public class Login extends AppCompatActivity {
         }
 
         if (staffSessionManager.isLoggedIn()) {
-            // Check staff position to determine which activity to launch
+
             String staffEmail = getStaffEmailFromPreferences();
             if (staffEmail != null) {
                 Staff staff = staffDbHelper.getStaffByEmail(staffEmail);

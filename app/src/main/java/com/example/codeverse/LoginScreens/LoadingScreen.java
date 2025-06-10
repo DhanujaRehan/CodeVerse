@@ -85,9 +85,9 @@ public class LoadingScreen extends AppCompatActivity {
         if (position != null) {
             switch (position.trim()) {
                 case "Lecturer":
-                    return "Welcome, " + username + " (Lecturer)!";
+                    return "Welcome, " + username + "!";
                 case "Program Coordinator":
-                    return "Welcome, " + username + " (Program Coordinator)!";
+                    return "Welcome, " + username + "!";
                 default:
                     return "Welcome, " + username + "!";
             }

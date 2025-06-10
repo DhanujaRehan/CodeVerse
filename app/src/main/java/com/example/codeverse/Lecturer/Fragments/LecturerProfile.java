@@ -11,12 +11,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
 import com.example.codeverse.Admin.Models.Staff;
 import com.example.codeverse.LoginScreens.Login;
+import com.example.codeverse.LoginScreens.LogoutStaff;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Utils.StaffSessionManager;
 import com.google.android.material.button.MaterialButton;
@@ -171,10 +173,13 @@ public class LecturerProfile extends Fragment {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
 
+        Toast.makeText(getContext(), "Logging out...", Toast.LENGTH_SHORT).show();
 
+        // Start the logout screen for lecturer
         if (getActivity() != null) {
-            getActivity().finish();
+            LogoutStaff.startLecturerLogout((AppCompatActivity) getActivity());
         }
+
     }
 
     @Override
