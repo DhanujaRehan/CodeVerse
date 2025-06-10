@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
 import com.example.codeverse.Admin.Models.Staff;
@@ -132,12 +133,12 @@ public class LecturerProfile extends Fragment {
             }
         });
         fab_edit_profile.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new LecturerEditProfile())
-                        .addToBackStack(null)
-                        .commit();
-            }
+
+            LecturerEditProfile lecturerEditProfile = new LecturerEditProfile();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.framelayout, lecturerEditProfile);
+            transaction.addToBackStack(null);
+            transaction.commit();
         });
     }
 
