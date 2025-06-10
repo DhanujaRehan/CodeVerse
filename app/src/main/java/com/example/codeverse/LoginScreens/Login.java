@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.codeverse.Admin.Activities.AdminMainActivity;
 import com.example.codeverse.Staff.Activities.StaffMainActivity;
+import com.example.codeverse.Lecturer.Activities.LecturerMainActivity;
 import com.example.codeverse.Students.Activities.StudentMainActivity;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
@@ -62,6 +63,27 @@ public class Login extends AppCompatActivity {
         }
 
         if (staffSessionManager.isLoggedIn()) {
+            // Check staff position to determine which activity to launch
+            String staffEmail = getStaffEmailFromPreferences();
+            if (staffEmail != null) {
+                Staff staff = staffDbHelper.getStaffByEmail(staffEmail);
+                if (staff != null) {
+                    String position = staff.getPosition();
+                    Intent intent;
+                    if ("Lecturer".equalsIgnoreCase(position)) {
+                        intent = new Intent(Login.this, LecturerMainActivity.class);
+                    } else if ("Program Coordinator".equalsIgnoreCase(position)) {
+                        intent = new Intent(Login.this, StaffMainActivity.class);
+                    } else {
+                        // Default to StaffMainActivity for other positions
+                        intent = new Intent(Login.this, StaffMainActivity.class);
+                    }
+                    startActivity(intent);
+                    finish();
+                    return;
+                }
+            }
+            // If unable to determine position, default to StaffMainActivity
             Intent intent = new Intent(Login.this, StaffMainActivity.class);
             startActivity(intent);
             finish();
@@ -123,9 +145,13 @@ public class Login extends AppCompatActivity {
 
                 saveStaffEmailToPreferences(staff.getEmail());
 
+                // Determine next activity based on staff position
+                String nextActivity = determineStaffActivityByPosition(staff.getPosition());
+
                 Intent intent = new Intent(Login.this, LoadingScreen.class);
-                intent.putExtra("nextActivity", "StaffMainActivity");
+                intent.putExtra("nextActivity", nextActivity);
                 intent.putExtra("username", staff.getFullName());
+                intent.putExtra("position", staff.getPosition());
                 startActivity(intent);
                 finish();
             } else {
@@ -136,6 +162,21 @@ public class Login extends AppCompatActivity {
         }
     }
 
+    private String determineStaffActivityByPosition(String position) {
+        if (position == null) {
+            return "StaffMainActivity"; // Default
+        }
+
+        switch (position.trim()) {
+            case "Lecturer":
+                return "LecturerMainActivity";
+            case "Program Coordinator":
+                return "StaffMainActivity";
+            default:
+                return "StaffMainActivity"; // Default for other positions
+        }
+    }
+
     private void saveStaffEmailToPreferences(String email) {
         SharedPreferences sharedPreferences = getSharedPreferences("StaffPrefs", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -143,18 +184,24 @@ public class Login extends AppCompatActivity {
         editor.putString("email", email);
         editor.putString("user_email", email);
         editor.apply();
+
+        // Also save to LecturerPrefs for compatibility
+        SharedPreferences lecturerPrefs = getSharedPreferences("LecturerPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor lecturerEditor = lecturerPrefs.edit();
+        lecturerEditor.putString("staff_email", email);
+        lecturerEditor.putString("email", email);
+        lecturerEditor.putString("user_email", email);
+        lecturerEditor.apply();
+    }
+
+    private String getStaffEmailFromPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("StaffPrefs", MODE_PRIVATE);
+        return sharedPreferences.getString("staff_email", null);
     }
 
     private Staff findStaffByEmail(String email) {
-        java.util.List<Staff> allStaff = staffDbHelper.getAllStaff();
-
-        for (Staff staff : allStaff) {
-            if (staff.getEmail() != null && staff.getEmail().equalsIgnoreCase(email)) {
-                return staff;
-            }
-        }
-
-        return null;
+        // Use the getStaffByEmail method from the database helper for better performance
+        return staffDbHelper.getStaffByEmail(email);
     }
 
     private void authenticateStudent(String emailOrUsername, String password) {

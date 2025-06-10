@@ -35,6 +35,9 @@ public class LoadingScreen extends AppCompatActivity {
     private final String[] quotes = {
             "The best way to predict your future is to create it. — Abraham Lincoln",
             "Success is not final, failure is not fatal: It is the courage to continue that counts. — Winston Churchill",
+            "Education is the most powerful weapon which you can use to change the world. — Nelson Mandela",
+            "The future belongs to those who believe in the beauty of their dreams. — Eleanor Roosevelt",
+            "Learning never exhausts the mind. — Leonardo da Vinci"
     };
 
     @Override
@@ -45,6 +48,7 @@ public class LoadingScreen extends AppCompatActivity {
 
         String username = getIntent().getStringExtra("username");
         String nextActivity = getIntent().getStringExtra("nextActivity");
+        String position = getIntent().getStringExtra("position");
 
         if (username == null || username.isEmpty()) {
             username = "User";
@@ -52,11 +56,13 @@ public class LoadingScreen extends AppCompatActivity {
 
         initViews();
 
-        tvWelcomeUser.setText("Welcome, " + username + "!");
+        // Customize welcome message based on position
+        String welcomeMessage = getWelcomeMessage(username, position);
+        tvWelcomeUser.setText(welcomeMessage);
         tvFunFact.setText(getRandomQuote());
 
         setupLoadingSequence();
-        simulateLoading(nextActivity);
+        simulateLoading(nextActivity, position);
     }
 
     private void initViews() {
@@ -73,6 +79,20 @@ public class LoadingScreen extends AppCompatActivity {
         chipCourses.setChecked(false);
         chipSchedule.setChecked(false);
         chipAssignments.setChecked(false);
+    }
+
+    private String getWelcomeMessage(String username, String position) {
+        if (position != null) {
+            switch (position.trim()) {
+                case "Lecturer":
+                    return "Welcome, " + username + " (Lecturer)!";
+                case "Program Coordinator":
+                    return "Welcome, " + username + " (Program Coordinator)!";
+                default:
+                    return "Welcome, " + username + "!";
+            }
+        }
+        return "Welcome, " + username + "!";
     }
 
     private String getRandomQuote() {
@@ -102,15 +122,18 @@ public class LoadingScreen extends AppCompatActivity {
         tvFunFact.startAnimation(fadeInOut);
     }
 
-    private void simulateLoading(String nextActivity) {
+    private void simulateLoading(String nextActivity, String position) {
+        // Customize loading messages based on user type
+        String[] loadingMessages = getLoadingMessages(nextActivity, position);
+
         new Handler().postDelayed(() -> {
-            updateStatus("Loading your courses...", chipCourses);
+            updateStatus(loadingMessages[0], chipCourses);
 
             new Handler().postDelayed(() -> {
-                updateStatus("Preparing your schedule...", chipSchedule);
+                updateStatus(loadingMessages[1], chipSchedule);
 
                 new Handler().postDelayed(() -> {
-                    updateStatus("Fetching assignments...", chipAssignments);
+                    updateStatus(loadingMessages[2], chipAssignments);
 
                     new Handler().postDelayed(() -> finishLoading(nextActivity), 1500);
 
@@ -119,6 +142,40 @@ public class LoadingScreen extends AppCompatActivity {
             }, 1500);
 
         }, 1000);
+    }
+
+    private String[] getLoadingMessages(String nextActivity, String position) {
+        if ("LecturerMainActivity".equals(nextActivity) || "Lecturer".equals(position)) {
+            return new String[]{
+                    "Loading your teaching schedule...",
+                    "Preparing student assignments...",
+                    "Setting up lecturer dashboard..."
+            };
+        } else if ("StaffMainActivity".equals(nextActivity) || "Program Coordinator".equals(position)) {
+            return new String[]{
+                    "Loading program data...",
+                    "Preparing coordination tools...",
+                    "Setting up staff dashboard..."
+            };
+        } else if ("AdminMainActivity".equals(nextActivity)) {
+            return new String[]{
+                    "Loading system data...",
+                    "Preparing admin controls...",
+                    "Setting up admin dashboard..."
+            };
+        } else if ("StudentMainActivity".equals(nextActivity)) {
+            return new String[]{
+                    "Loading your courses...",
+                    "Preparing your schedule...",
+                    "Fetching assignments..."
+            };
+        } else {
+            return new String[]{
+                    "Loading your profile...",
+                    "Preparing dashboard...",
+                    "Finalizing setup..."
+            };
+        }
     }
 
     private void updateStatus(String message, Chip chipToCheck) {
@@ -152,16 +209,22 @@ public class LoadingScreen extends AppCompatActivity {
         new Handler().postDelayed(() -> {
             try {
                 Intent intent;
-                if ("AdminMainActivity".equals(nextActivity)) {
-                    intent = new Intent(LoadingScreen.this, AdminMainActivity.class);
-                } else if ("StudentMainActivity".equals(nextActivity)) {
-                    intent = new Intent(LoadingScreen.this, StudentMainActivity.class);
-                } else if ("StaffMainActivity".equals(nextActivity)) {
-                    intent = new Intent(LoadingScreen.this, StaffMainActivity.class);
-                } else if ("LecturerMainActivity".equals(nextActivity)) {
-                    intent = new Intent(LoadingScreen.this, LecturerMainActivity.class);
-                }else {
-                    intent = new Intent(LoadingScreen.this, MainActivity.class);
+                switch (nextActivity) {
+                    case "AdminMainActivity":
+                        intent = new Intent(LoadingScreen.this, AdminMainActivity.class);
+                        break;
+                    case "StudentMainActivity":
+                        intent = new Intent(LoadingScreen.this, StudentMainActivity.class);
+                        break;
+                    case "StaffMainActivity":
+                        intent = new Intent(LoadingScreen.this, StaffMainActivity.class);
+                        break;
+                    case "LecturerMainActivity":
+                        intent = new Intent(LoadingScreen.this, LecturerMainActivity.class);
+                        break;
+                    default:
+                        intent = new Intent(LoadingScreen.this, MainActivity.class);
+                        break;
                 }
 
                 startActivity(intent);
@@ -170,7 +233,7 @@ public class LoadingScreen extends AppCompatActivity {
 
             } catch (Exception e) {
                 Intent fallback = new Intent(LoadingScreen.this, Login.class);
-                Toast.makeText(this, "Error logging in", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error logging in: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 startActivity(fallback);
                 finish();
             }
