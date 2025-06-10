@@ -1,6 +1,7 @@
 package com.example.codeverse.LoginScreens;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -46,7 +47,6 @@ public class Login extends AppCompatActivity {
         staffSessionManager = new StaffSessionManager(this);
         adminSessionManager = new AdminSessionManager(this);
 
-        // Check if admin is already logged in
         if (adminSessionManager.isLoggedIn()) {
             Intent intent = new Intent(Login.this, AdminMainActivity.class);
             startActivity(intent);
@@ -54,7 +54,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        // Check if student is already logged in
         if (sessionManager.isLoggedIn()) {
             Intent intent = new Intent(Login.this, StudentMainActivity.class);
             startActivity(intent);
@@ -62,7 +61,6 @@ public class Login extends AppCompatActivity {
             return;
         }
 
-        // Check if staff is already logged in
         if (staffSessionManager.isLoggedIn()) {
             Intent intent = new Intent(Login.this, StaffMainActivity.class);
             startActivity(intent);
@@ -105,7 +103,6 @@ public class Login extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            // If not admin, check staff credentials
             authenticateStaff(email, password);
         }
     }
@@ -124,6 +121,8 @@ public class Login extends AppCompatActivity {
                         staff.getDepartment()
                 );
 
+                saveStaffEmailToPreferences(staff.getEmail());
+
                 Intent intent = new Intent(Login.this, LoadingScreen.class);
                 intent.putExtra("nextActivity", "StaffMainActivity");
                 intent.putExtra("username", staff.getFullName());
@@ -135,6 +134,15 @@ public class Login extends AppCompatActivity {
         } else {
             authenticateStudent(email, password);
         }
+    }
+
+    private void saveStaffEmailToPreferences(String email) {
+        SharedPreferences sharedPreferences = getSharedPreferences("StaffPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("staff_email", email);
+        editor.putString("email", email);
+        editor.putString("user_email", email);
+        editor.apply();
     }
 
     private Staff findStaffByEmail(String email) {
