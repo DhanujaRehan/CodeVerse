@@ -8,7 +8,9 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.codeverse.Lecturer.Fragments.GradeSubmission;
 import com.example.codeverse.R;
+import com.example.codeverse.Staff.StaffFragments.GradeSubmissions;
 import com.example.codeverse.Staff.StaffFragments.StaffAddAssignment;
 import com.example.codeverse.Staff.StaffFragments.StaffProfile;
 import com.example.codeverse.databinding.ActivityAdminMainBinding;
@@ -38,7 +40,7 @@ public class StaffMainActivity extends AppCompatActivity {
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffAddAssignment()).commit();
             }
             else if (itemid == R.id.navschedule){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffProfile()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();
             }
             else if (itemid == R.id.navprofile){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffProfile()).commit();

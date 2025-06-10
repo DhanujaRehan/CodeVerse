@@ -81,8 +81,10 @@
             android:paddingBottom="80dp">
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 android:layout_height="120dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
@@ -125,11 +127,13 @@
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 android:layout_marginTop="24dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp">
@@ -205,11 +209,13 @@
                             app:indicatorSize="80dp" />
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 android:layout_marginTop="20dp"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp">
@@ -324,12 +330,14 @@
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/glass_background"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp">
 
@@ -381,14 +389,14 @@
                         android:nestedScrollingEnabled="false" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="4dp">
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
+                android:layout_marginTop="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -437,7 +445,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

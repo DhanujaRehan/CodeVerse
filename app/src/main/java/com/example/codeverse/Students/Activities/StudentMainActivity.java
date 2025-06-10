@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.codeverse.Students.StudentFragments.AssignmentUpload;
 import com.example.codeverse.Students.StudentFragments.StudentHomeFragment;
 import com.example.codeverse.Students.StudentFragments.PaymentScreenFragment;
 import com.example.codeverse.Students.StudentFragments.StudentClass;
@@ -43,7 +44,7 @@ public class StudentMainActivity extends AppCompatActivity {
             }
             else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new StudentClass())
+                        .replace(R.id.framelayout, new AssignmentUpload())
                         .commit();
             }
             else if (itemid == R.id.navprofile){
