@@ -10,6 +10,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.codeverse.Lecturer.Fragments.GradeSubmission;
 import com.example.codeverse.Lecturer.Fragments.LecturerProfile;
+import com.example.codeverse.LecturerHomeFragment;
 import com.example.codeverse.R;
 import com.example.codeverse.databinding.ActivityLecturerMainBinding;
 
@@ -25,13 +26,13 @@ public class LecturerMainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         if (savedInstanceState == null){
-            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new LecturerHomeFragment()).commit();
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener(menuItem -> {
             int itemid = menuItem.getItemId();
             if (itemid == R.id.navhome){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new GradeSubmission()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new LecturerHomeFragment()).commit();
             }
             else if (itemid == R.id.navgradesubmissions){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new LecturerProfile()).commit();
