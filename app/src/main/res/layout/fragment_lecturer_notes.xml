@@ -21,7 +21,6 @@
             android:paddingTop="52dp"
             android:paddingBottom="28dp">
 
-
             <TextView
                 android:layout_gravity="center"
                 android:id="@+id/tv_screen_title"
