@@ -232,6 +232,43 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="Event Time"
+                        app:hintTextColor="@color/white"
+                        app:hintAnimationEnabled="true"
+                        android:layout_marginBottom="16dp"
+                        android:layout_marginTop="16dp"
+                        app:hintEnabled="true"
+                        app:boxBackgroundMode="outline"
+                        app:boxBackgroundColor="#54FFFFFF"
+                        app:boxStrokeColor="@color/white"
+                        app:boxStrokeWidthFocused="2dp"
+                        app:boxCornerRadiusTopStart="20dp"
+                        app:boxCornerRadiusTopEnd="20dp"
+                        app:boxCornerRadiusBottomStart="20dp"
+                        app:boxCornerRadiusBottomEnd="20dp"
+                        app:startIconTint="#6200EE"
+                        app:endIconTint="#6200EE"
+                        android:backgroundTint="@android:color/transparent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:clipToOutline="true"
+                            android:id="@+id/et_event_time"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/poppins_regular"
+                            android:textColor="#222222"
+                            android:inputType="none"
+                            android:focusable="false"
+                            android:padding="12dp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:clipToPadding="true"
+                        android:clipToOutline="true"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:hint="Event Venue"
                         app:hintTextColor="@color/white"
                         app:hintAnimationEnabled="true"

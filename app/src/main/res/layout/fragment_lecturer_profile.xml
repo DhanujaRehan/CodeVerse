@@ -239,6 +239,7 @@
                                 android:layout_height="48dp"
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
+                                android:padding="9dp"
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/email" />
                         </LinearLayout>
@@ -281,7 +282,8 @@
                             android:layout_height="48dp"
                             android:elevation="4dp"
                             android:backgroundTint="@color/white"
-                            android:background="@drawable/glass_background">
+                            android:background="@drawable/glass_background"
+                            android:clipToOutline="true">
 
                             <com.airbnb.lottie.LottieAnimationView
                                 android:layout_width="48dp"
@@ -289,8 +291,7 @@
                                 android:layout_gravity="center"
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
-                                app:lottie_rawRes="@raw/phone"
-                                android:clipToOutline="false"/>
+                                app:lottie_rawRes="@raw/phone_ring" />
                         </LinearLayout>
 
                         <LinearLayout
