@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -33,8 +34,7 @@ public class LecturerNotesFragment extends Fragment {
 
     private TextInputEditText etLecturerName, etSubject, etLectureTitle, etLectureDate, etChapter, etDescription;
     private MaterialButton btnShareNotes;
-    private MaterialCardView cvBack;
-    private CardView cardUpload;
+    private LinearLayout cardUpload;
 
     private ImageView  ivNotesPreview;
     private FloatingActionButton fabRemoveNotes;
@@ -66,7 +66,6 @@ public class LecturerNotesFragment extends Fragment {
         etDescription = view.findViewById(R.id.et_description);
 
         btnShareNotes = view.findViewById(R.id.btn_share_notes);
-        cvBack = view.findViewById(R.id.cv_back);
         cardUpload = view.findViewById(R.id.card_upload);
 
         ivNotesPreview = view.findViewById(R.id.iv_notes_preview);
@@ -85,11 +84,6 @@ public class LecturerNotesFragment extends Fragment {
     }
 
     private void setupClickListeners() {
-        cvBack.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
 
         etLectureDate.setOnClickListener(v -> showDatePicker());
 

@@ -71,7 +71,7 @@ public class GradeSubmission extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_grade_submissions, container, false);
+        View view = inflater.inflate(R.layout.fragment_grade_submission, container, false);
 
         initViews(view);
         setupDatabase();
