@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
@@ -32,8 +33,10 @@ public class LecturerNotesFragment extends Fragment {
 
     private TextInputEditText etLecturerName, etSubject, etLectureTitle, etLectureDate, etChapter, etDescription;
     private MaterialButton btnShareNotes;
-    private MaterialCardView cvBack, cardUpload;
-    private ImageView ivBack, ivHelp, ivNotesPreview;
+    private MaterialCardView cvBack;
+    private CardView cardUpload;
+
+    private ImageView  ivNotesPreview;
     private FloatingActionButton fabRemoveNotes;
     private TextView tvUploadInstruction, tvUploadHint, tvSharingStatus;
 
@@ -66,8 +69,6 @@ public class LecturerNotesFragment extends Fragment {
         cvBack = view.findViewById(R.id.cv_back);
         cardUpload = view.findViewById(R.id.card_upload);
 
-        ivBack = view.findViewById(R.id.iv_back);
-        ivHelp = view.findViewById(R.id.iv_help);
         ivNotesPreview = view.findViewById(R.id.iv_notes_preview);
 
         fabRemoveNotes = view.findViewById(R.id.fab_remove_notes);
@@ -89,8 +90,6 @@ public class LecturerNotesFragment extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-
-        ivHelp.setOnClickListener(v -> showHelpDialog());
 
         etLectureDate.setOnClickListener(v -> showDatePicker());
 
