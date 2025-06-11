@@ -43,8 +43,6 @@ public class LecturerProfile extends Fragment {
     private TextView tvLecturerUniversity;
     private TextView tvLecturerExperience;
     private MaterialButton btnLogout;
-    private MaterialCardView cvBack;
-
     private FloatingActionButton fab_edit_profile;
 
     private StaffDatabaseHelper databaseHelper;
@@ -77,7 +75,6 @@ public class LecturerProfile extends Fragment {
         tvLecturerUniversity = view.findViewById(R.id.tv_lecturer_university);
         tvLecturerExperience = view.findViewById(R.id.tv_lecturer_experience);
         btnLogout = view.findViewById(R.id.btn_logout);
-        cvBack = view.findViewById(R.id.cv_back);
         fab_edit_profile = view.findViewById(R.id.fab_edit_profile);
     }
 
@@ -129,11 +126,7 @@ public class LecturerProfile extends Fragment {
 
     private void setupClickListeners() {
         btnLogout.setOnClickListener(v -> logout());
-        cvBack.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+
         fab_edit_profile.setOnClickListener(v -> {
 
             if (getActivity() != null) {

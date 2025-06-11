@@ -4,28 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/payment_background_gradient">
+    android:background="@drawable/loading_gradient_background">
 
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/login_gradient_background"
+        android:background="@android:color/transparent"
         app:elevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
-            android:paddingBottom="32dp">
+            android:paddingTop="48dp"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:layout_gravity="center"
+            android:gravity="center">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#7FFFFFFF"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,53 +37,49 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/iv_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:contentDescription="Back"
+                    android:padding="9dp"
+                    android:scaleType="centerCrop"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    android:scaleType="centerCrop"
-                    app:lottie_rawRes="@raw/back_button_animation"
-                    android:contentDescription="Back" />
+                    app:lottie_rawRes="@raw/back_button_animation" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:id="@+id/tv_screen_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Make Payment"
                 android:textColor="@color/DarkBlue"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="@id/cv_back"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cv_back" />
+                android:gravity="left"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cv_back"
+                app:layout_constraintTop_toTopOf="parent" />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_total_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/payment_amount_pill_background"
+            android:fontFamily="@font/poppins_semibold"
+            android:paddingHorizontal="16dp"
+            android:layout_marginStart="20dp"
+            android:paddingVertical="8dp"
+            android:text="Rs 252,000.00"
+            android:textColor="@color/DarkBlue"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_screen_title" />
 
-
-
-            <TextView
-                android:id="@+id/tv_total_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/payment_amount_pill_background"
-                android:fontFamily="@font/poppins_semibold"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:text="Rs 126,000.00"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:layout_marginTop="16dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_screen_title" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:background="@drawable/curved_bottom_shape" />
     </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -101,9 +101,11 @@
             android:paddingBottom="80dp">
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="4dp">
@@ -130,13 +132,15 @@
                         android:textColor="#333333"
                         android:textSize="16sp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/glass_background"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="4dp">
@@ -167,6 +171,7 @@
                         app:tabTextColor="@color/DarkBlue2"
                         app:tabIndicatorColor="@color/DarkBlue"
                         app:tabIndicatorHeight="3dp"
+                        android:background="@color/transparent"
                         app:tabBackground="@android:color/transparent"
                         app:tabTextAppearance="@style/TabTextAppearance">
 
@@ -766,13 +771,15 @@
                         </androidx.cardview.widget.CardView>
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:backgroundTint="@color/white"
+                android:background="@drawable/glass_background"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="4dp">
@@ -958,29 +965,19 @@
                             android:textSize="18sp" />
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_proceed"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/poppins_semibold"
+                android:text="Pay Rs 126,000.00"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                app:backgroundTint="@color/DarkBlue"
+                android:textColor="@color/white"
+                app:cornerRadius="16dp" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="bottom"
-        android:background="@drawable/bottom_sheet_background"
-        android:padding="20dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_proceed"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:fontFamily="@font/poppins_semibold"
-            android:text="Pay Rs 126,000.00"
-            android:textAllCaps="false"
-            android:textSize="16sp"
-            app:backgroundTint="@color/DarkBlue"
-            android:textColor="@color/white"
-            app:cornerRadius="16dp" />
-    </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
