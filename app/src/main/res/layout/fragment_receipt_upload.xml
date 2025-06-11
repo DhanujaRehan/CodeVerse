@@ -55,7 +55,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
-                android:text="Event Registration"
+                android:text="Upload Reciept"
                 android:textColor="@color/DarkBlue"
                 android:gravity="center"
                 android:textSize="24sp"
@@ -169,60 +169,72 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_student_id"
+                android:clipToPadding="true"
+                android:clipToOutline="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:hint="Student ID"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeWidth="1.5dp"
-                app:boxStrokeColor="@color/text_input_stroke_color"
-                app:hintTextColor="@color/DarkBlue"
-                app:startIconTint="@color/DarkBlue">
+                app:hintTextColor="@color/white"
+                app:hintAnimationEnabled="true"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="#54FFFFFF"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:startIconTint="#6200EE"
+                app:endIconTint="#6200EE">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:clipToOutline="true"
                     android:id="@+id/et_student_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textSize="15sp" />
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="textEmailAddress"
+                    android:textColor="#222222"
+                    android:padding="12dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <com.google.android.material.textfield.TextInputLayout
+                android:clipToPadding="true"
                 android:id="@+id/til_university_number"
+                android:clipToOutline="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:hint="University Number"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeWidth="1.5dp"
-                app:boxStrokeColor="@color/text_input_stroke_color"
-                app:hintTextColor="#6A11CB"
-                app:startIconTint="#6A11CB">
+                app:hintTextColor="@color/white"
+                app:hintAnimationEnabled="true"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="#54FFFFFF"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:startIconTint="#6200EE"
+                app:endIconTint="#6200EE">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:clipToOutline="true"
                     android:id="@+id/et_university_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textSize="15sp" />
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="textEmailAddress"
+                    android:textColor="#222222"
+                    android:padding="12dp"/>
             </com.google.android.material.textfield.TextInputLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -255,7 +267,6 @@
                 android:layout_marginTop="16dp"
                 android:baselineAligned="false">
 
-
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_payment_date"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -284,7 +295,6 @@
                         android:inputType="none"
                         android:textSize="15sp" />
                 </com.google.android.material.textfield.TextInputLayout>
-
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_payment_amount"
@@ -340,20 +350,20 @@
             </LinearLayout>
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:id="@+id/card_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="16dp"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="3dp">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/cl_upload_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:padding="16dp">
 
 
                     <com.airbnb.lottie.LottieAnimationView
@@ -424,8 +434,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:tint="#FFFFFF" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
 
             <LinearLayout
@@ -485,10 +494,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="28dp"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="3dp">
@@ -544,7 +555,7 @@
                         android:textColor="#666666"
                         android:textSize="13sp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_submit"
                 android:layout_width="match_parent"
