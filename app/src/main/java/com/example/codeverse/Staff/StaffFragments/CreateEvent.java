@@ -33,7 +33,7 @@ public class CreateEvent extends Fragment {
 
     private TextInputEditText etEventTitle, etEventDescription, etEventDate, etEventTime, etEventVenue;
     private ImageView ivEventImage, ivBack;
-    private CardView cardImagePicker;
+    private LinearLayout cardImagePicker;
     private LinearLayout layoutImagePlaceholder;
     private MaterialButton btnCreateEvent;
     private EventHelper eventHelper;
