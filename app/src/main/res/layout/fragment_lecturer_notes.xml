@@ -112,55 +112,71 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/til_lecturer_name"
+                android:clipToPadding="true"
+                android:clipToOutline="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:id="@+id/til_lecturer_name"
                 android:hint="Lecturer Name"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeWidth="1.5dp"
-                app:boxStrokeColor="@color/text_input_stroke_color"
-                app:hintTextColor="@color/DarkBlue"
-                app:startIconTint="@color/DarkBlue">
+                app:hintTextColor="@color/white"
+                app:hintAnimationEnabled="true"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="#54FFFFFF"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:startIconTint="#6200EE"
+                app:endIconTint="#6200EE">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:clipToOutline="true"
                     android:id="@+id/et_lecturer_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textSize="15sp" />
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="textEmailAddress"
+                    android:textColor="#222222"
+                    android:padding="12dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:clipToPadding="true"
+                android:clipToOutline="true"
                 android:id="@+id/til_subject"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
                 android:hint="Subject"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeWidth="1.5dp"
-                app:boxStrokeColor="@color/text_input_stroke_color"
-                app:hintTextColor="@color/DarkBlue"
-                app:startIconTint="@color/DarkBlue">
+                app:hintTextColor="@color/white"
+                app:hintAnimationEnabled="true"
+                android:layout_marginTop="16dp"
+                app:hintEnabled="true"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="#54FFFFFF"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:startIconTint="#6200EE"
+                app:endIconTint="#6200EE">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:clipToOutline="true"
                     android:id="@+id/et_subject"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textSize="15sp" />
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="textEmailAddress"
+                    android:textColor="#222222"
+                    android:padding="12dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -187,29 +203,37 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:clipToPadding="true"
+                android:clipToOutline="true"
                 android:id="@+id/til_lecture_title"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Lecturer Title"
+                app:hintTextColor="@color/white"
+                app:hintAnimationEnabled="true"
                 android:layout_marginTop="16dp"
-                android:hint="Lecture Title"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeWidth="1.5dp"
-                app:boxStrokeColor="@color/text_input_stroke_color"
-                app:hintTextColor="@color/DarkBlue"
-                app:startIconTint="@color/DarkBlue">
+                app:hintEnabled="true"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="#54FFFFFF"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:startIconTint="#6200EE"
+                app:endIconTint="#6200EE">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:clipToOutline="true"
                     android:id="@+id/et_lecture_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_medium"
-                    android:inputType="text"
-                    android:maxLines="1"
-                    android:textSize="15sp" />
+                    android:fontFamily="@font/poppins_regular"
+                    android:inputType="textEmailAddress"
+                    android:textColor="#222222"
+                    android:padding="12dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
@@ -220,24 +244,31 @@
                 android:baselineAligned="false">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:clipToPadding="true"
+                    android:clipToOutline="true"
                     android:id="@+id/til_lecture_date"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
-                    android:hint="Lecture Date"
-                    app:boxCornerRadiusBottomEnd="16dp"
-                    app:boxCornerRadiusBottomStart="16dp"
-                    app:boxCornerRadiusTopEnd="16dp"
-                    app:boxCornerRadiusTopStart="16dp"
-                    app:boxStrokeWidth="1.5dp"
-                    app:boxStrokeColor="@color/text_input_stroke_color"
-                    app:endIconMode="custom"
-                    app:endIconTint="@color/DarkBlue"
-                    app:hintTextColor="@color/DarkBlue">
+                    android:hint="Lecturer Date"
+                    app:hintTextColor="@color/white"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true"
+                    app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="#54FFFFFF"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:boxCornerRadiusTopEnd="20dp"
+                    app:boxCornerRadiusBottomStart="20dp"
+                    app:boxCornerRadiusBottomEnd="20dp"
+                    app:startIconTint="#6200EE"
+                    app:endIconTint="#6200EE">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:clipToOutline="true"
                         android:id="@+id/et_lecture_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -245,34 +276,45 @@
                         android:focusable="false"
                         android:fontFamily="@font/poppins_medium"
                         android:inputType="none"
-                        android:textSize="15sp" />
+                        android:textSize="15sp"
+                        android:padding="12dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:clipToPadding="true"
+                    android:clipToOutline="true"
                     android:id="@+id/til_chapter"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:hint="Chapter"
-                    app:boxCornerRadiusBottomEnd="16dp"
-                    app:boxCornerRadiusBottomStart="16dp"
-                    app:boxCornerRadiusTopEnd="16dp"
-                    app:boxCornerRadiusTopStart="16dp"
-                    app:boxStrokeWidth="1.5dp"
-                    app:boxStrokeColor="@color/text_input_stroke_color"
-                    app:hintTextColor="@color/DarkBlue"
-                    app:startIconTint="@color/DarkBlue">
+                    app:hintTextColor="@color/white"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true"
+                    app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="#54FFFFFF"
+                    app:boxStrokeColor="@color/white"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:boxCornerRadiusTopEnd="20dp"
+                    app:boxCornerRadiusBottomStart="20dp"
+                    app:boxCornerRadiusBottomEnd="20dp"
+                    app:startIconTint="#6200EE"
+                    app:endIconTint="#6200EE">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:clipToOutline="true"
                         android:id="@+id/et_chapter"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:focusable="false"
                         android:fontFamily="@font/poppins_medium"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:textSize="15sp" />
+                        android:inputType="none"
+                        android:textSize="15sp"
+                        android:padding="12dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -299,7 +341,7 @@
                     android:textSize="18sp" />
             </LinearLayout>
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:id="@+id/card_upload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -308,9 +350,14 @@
                 app:cardCornerRadius="20dp"
                 app:cardElevation="3dp">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:id="@+id/cl_upload_container"
                     android:layout_width="match_parent"
+                    android:background="@drawable/glass_background"
+                    android:backgroundTint="@color/white"
+                    android:orientation="vertical"
+                    android:layout_gravity="center"
+                    android:gravity="center"
                     android:layout_height="180dp"
                     android:padding="16dp">
 
@@ -380,8 +427,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:tint="#FFFFFF" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -407,22 +454,30 @@
             </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:clipToPadding="true"
+                android:clipToOutline="true"
                 android:id="@+id/til_description"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="Lecturer Title"
+                app:hintTextColor="@color/white"
+                app:hintAnimationEnabled="true"
                 android:layout_marginTop="16dp"
-                android:hint="Description (Optional)"
-                app:boxCornerRadiusBottomEnd="16dp"
-                app:boxCornerRadiusBottomStart="16dp"
-                app:boxCornerRadiusTopEnd="16dp"
-                app:boxCornerRadiusTopStart="16dp"
-                app:boxStrokeWidth="1.5dp"
-                app:boxStrokeColor="@color/text_input_stroke_color"
+                app:hintEnabled="true"
+                app:boxBackgroundMode="outline"
+                app:boxBackgroundColor="#54FFFFFF"
+                app:boxStrokeColor="@color/white"
+                app:boxStrokeWidthFocused="2dp"
+                app:boxCornerRadiusTopStart="20dp"
+                app:boxCornerRadiusTopEnd="20dp"
+                app:boxCornerRadiusBottomStart="20dp"
+                app:boxCornerRadiusBottomEnd="20dp"
+                app:startIconTint="#6200EE"
                 app:counterEnabled="true"
                 app:counterMaxLength="300"
                 app:counterTextColor="@color/black"
-                app:hintTextColor="@color/black">
+                app:endIconTint="#6200EE">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_description"
@@ -436,6 +491,7 @@
                     android:maxLines="6"
                     android:textSize="15sp" />
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
@@ -498,34 +554,26 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_share_notes"
+                android:layout_width="match_parent"
+                android:layout_height="58dp"
+                android:background="@drawable/gradient_button_background"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Share Notes"
+                android:textAllCaps="false"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                app:cornerRadius="16dp"
+                app:elevation="6dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:rippleColor="@color/DarkBlue2" />
+
+
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@drawable/bottom_sheet_background"
-        android:elevation="10dp"
-        android:paddingHorizontal="20dp"
-        android:paddingTop="18dp"
-        android:paddingBottom="22dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_share_notes"
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:background="@drawable/gradient_button_background"
-            android:fontFamily="@font/poppins_bold"
-            android:text="SHARE NOTES"
-            android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            app:cornerRadius="16dp"
-            app:elevation="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:rippleColor="@color/DarkBlue2" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
