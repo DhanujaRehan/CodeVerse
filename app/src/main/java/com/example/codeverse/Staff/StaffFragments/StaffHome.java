@@ -1,52 +1,43 @@
 package com.example.codeverse.Staff.StaffFragments;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.codeverse.Admin.Models.Notification;
 import com.example.codeverse.R;
-import com.example.codeverse.Staff.Adapters.StudentAdapter;
-import com.example.codeverse.Staff.Models.StudentModel;
-import com.google.android.material.button.MaterialButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.codeverse.Staff.Models.EditExamDialog;
+import com.example.codeverse.Students.StudentFragments.StudentNotificationFragment;
+import com.google.android.material.card.MaterialCardView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * StaffHome Fragment
- */
 public class StaffHome extends Fragment {
 
+    private static final int PDF_PICKER_REQUEST = 1001;
 
-    private RecyclerView rvStudents;
-    private AutoCompleteTextView dropdownYear, dropdownDepartment, dropdownBadge;
-    private TextView tvStudentCount;
-    private View layoutEmptyState;
-    private MaterialButton btnApplyFilters;
-    private FloatingActionButton fabAddStudent;
-
-
-    private StudentAdapter studentAdapter;
-
-
-    private List<StudentModel> allStudents = new ArrayList<>();
-    private List<StudentModel> filteredStudents = new ArrayList<>();
-    private String selectedYear = "";
-    private String selectedDepartment = "";
-    private String selectedBadge = "";
-
+    private LinearLayout layoutEditPassword;
+    private LinearLayout layoutEditExams;
+    private LinearLayout layoutCreateEvent;
+    private LinearLayout layoutUploadPdf;
+    private TextView tvViewMore;
+    private RecyclerView recyclerViewActivities;
+    private TextView tvNoActivities;
+    private ImageView ivNotification;
+    private MaterialCardView cvCoordinatorProfile;
 
     private View rootView;
 
@@ -59,9 +50,7 @@ public class StaffHome extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_staff_home, container, false);
         return rootView;
     }
@@ -70,281 +59,135 @@ public class StaffHome extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         initViews();
-
-
-        setupDropdowns();
-
-
-        setupStudentsList();
-
-
         setupListeners();
-
-
-        loadSampleData();
+        setupRecyclerView();
     }
 
-    /**
-     * Initialize UI components
-     */
     private void initViews() {
-
-        rvStudents = rootView.findViewById(R.id.rv_students);
-
-
-        dropdownYear = rootView.findViewById(R.id.dropdown_year);
-        dropdownDepartment = rootView.findViewById(R.id.dropdown_department);
-        dropdownBadge = rootView.findViewById(R.id.dropdown_badge);
-
-
-        tvStudentCount = rootView.findViewById(R.id.tv_student_count);
-
-
-        layoutEmptyState = rootView.findViewById(R.id.layout_empty_state);
-
-
-        btnApplyFilters = rootView.findViewById(R.id.btn_apply_filters);
+        layoutEditPassword = rootView.findViewById(R.id.layout_edit_password);
+        layoutEditExams = rootView.findViewById(R.id.layout_edit_exams);
+        layoutCreateEvent = rootView.findViewById(R.id.layout_create_event);
+        layoutUploadPdf = rootView.findViewById(R.id.layout_upload_pdf);
+        tvViewMore = rootView.findViewById(R.id.tv_view_more);
+        recyclerViewActivities = rootView.findViewById(R.id.recycler_view_activities);
+        tvNoActivities = rootView.findViewById(R.id.tv_no_activities);
+        ivNotification = rootView.findViewById(R.id.iv_notification);
+        cvCoordinatorProfile = rootView.findViewById(R.id.cv_coordinator_profile);
     }
 
-    /**
-     * Setup dropdown menus for filters
-     */
-    private void setupDropdowns() {
-        // Year dropdown
-        String[] years = {"All Years", "1st Year", "2nd Year", "3rd Year", "4th Year", "5th Year"};
-        ArrayAdapter<String> yearAdapter = new ArrayAdapter<>(
-                getContext(), R.layout.dropdown_item, years);
-        dropdownYear.setAdapter(yearAdapter);
-        dropdownYear.setText(years[0], false);
-
-        // Department dropdown
-        String[] departments = {"All Departments", "Computer Science", "Electrical Engineering",
-                "Mechanical Engineering", "Civil Engineering", "Chemistry", "Physics", "Mathematics"};
-        ArrayAdapter<String> departmentAdapter = new ArrayAdapter<>(
-                getContext(), R.layout.dropdown_item, departments);
-        dropdownDepartment.setAdapter(departmentAdapter);
-        dropdownDepartment.setText(departments[0], false);
-
-        // Badge dropdown
-        String[] badges = {"All Badges", "Honor Roll", "Dean's List", "President's List",
-                "Scholarship", "Academic Warning", "At Risk"};
-        ArrayAdapter<String> badgeAdapter = new ArrayAdapter<>(
-                getContext(), R.layout.dropdown_item, badges);
-        dropdownBadge.setAdapter(badgeAdapter);
-        dropdownBadge.setText(badges[0], false);
-    }
-
-    /**
-     * Setup RecyclerView for students
-     */
-    private void setupStudentsList() {
-
-        studentAdapter = new StudentAdapter(filteredStudents, this::onStudentAction);
-
-
-        rvStudents.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvStudents.setAdapter(studentAdapter);
-        rvStudents.setNestedScrollingEnabled(false);
-    }
-
-    /**
-     * Setup click listeners
-     */
     private void setupListeners() {
+        layoutEditPassword.setOnClickListener(v -> {
+            navigateToEditPassword();
+        });
 
-        btnApplyFilters.setOnClickListener(v -> applyFilters());
+        layoutEditExams.setOnClickListener(v -> {
+            navigateToEditExams();
+        });
 
+        layoutCreateEvent.setOnClickListener(v -> {
+            navigateToCreateEvent();
+        });
 
-        rootView.findViewById(R.id.card_schedule).setOnClickListener(v ->
-                navigateToStaffSchedule());
+        layoutUploadPdf.setOnClickListener(v -> {
+            openPdfPicker();
+        });
 
-        rootView.findViewById(R.id.card_attendance).setOnClickListener(v ->
-                Toast.makeText(getContext(), "Attendance feature coming soon", Toast.LENGTH_SHORT).show());
+        tvViewMore.setOnClickListener(v -> {
+            navigateToOverview();
+        });
 
-        rootView.findViewById(R.id.card_grades).setOnClickListener(v ->
-                Toast.makeText(getContext(), "Grades feature coming soon", Toast.LENGTH_SHORT).show());
+        ivNotification.setOnClickListener(v -> {
+            navigateToNotifications();
+        });
 
-        rootView.findViewById(R.id.card_messages).setOnClickListener(v ->
-                Toast.makeText(getContext(), "Messages feature coming soon", Toast.LENGTH_SHORT).show());
-
-
-        rootView.findViewById(R.id.cv_profile).setOnClickListener(v ->
-                Toast.makeText(getContext(), "Profile feature coming soon", Toast.LENGTH_SHORT).show());
-
-
-        if (fabAddStudent != null) {
-            fabAddStudent.setOnClickListener(v ->
-                    Toast.makeText(getContext(), "Add student feature coming soon", Toast.LENGTH_SHORT).show());
-        }
+        cvCoordinatorProfile.setOnClickListener(v -> {
+            navigateToProfile();
+        });
     }
 
-    /**
-     * Navigate to Staff Schedule Fragment
-     */
-    private void navigateToStaffSchedule() {
-        try {
-            StaffSchedule staffScheduleFragment = new StaffSchedule() {
-            };
-
-
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.framelayout, staffScheduleFragment)
-                    .addToBackStack(null)
-                    .commit();
-
-        } catch (Exception e) {
-            Toast.makeText(getContext(), "Schedule not available", Toast.LENGTH_SHORT).show();
-        }
+    private void setupRecyclerView() {
+        recyclerViewActivities.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewActivities.setNestedScrollingEnabled(false);
+        loadActivities();
     }
 
-    /**
-     * Handle student card actions
-     */
-    private void onStudentAction(String action, StudentModel student) {
-        switch (action) {
-            case "profile":
-                Toast.makeText(getContext(), "Viewing profile of " + student.getName(), Toast.LENGTH_SHORT).show();
-                break;
+    private void navigateToEditPassword() {
 
-            case "grades":
-                Toast.makeText(getContext(), "Viewing grades of " + student.getName(), Toast.LENGTH_SHORT).show();
-                break;
+        StaffEditProfile editProfile = new StaffEditProfile();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, editProfile);
+        transaction.addToBackStack(null);
+        transaction.commit();
 
-            case "message":
-                Toast.makeText(getContext(), "Messaging " + student.getName(), Toast.LENGTH_SHORT).show();
-                break;
-
-            case "more":
-
-                Toast.makeText(getContext(), "More options for " + student.getName(), Toast.LENGTH_SHORT).show();
-                break;
-        }
     }
 
-    /**
-     * Apply filters to student list
-     */
-    private void applyFilters() {
+    private void navigateToEditExams() {
+        StaffExam staffExam = new StaffExam();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, staffExam);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 
-        selectedYear = dropdownYear.getText().toString();
-        selectedDepartment = dropdownDepartment.getText().toString();
-        selectedBadge = dropdownBadge.getText().toString();
+    private void navigateToCreateEvent() {
+        CreateEvent createEvent = new CreateEvent();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, createEvent);
+        transaction.addToBackStack(null);
+        transaction.commit();    }
 
-        filteredStudents.clear();
+    private void openPdfPicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/pdf");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, PDF_PICKER_REQUEST);
+    }
 
-        for (StudentModel student : allStudents) {
-            boolean yearMatch = selectedYear.equals("All Years") || student.getYear().equals(selectedYear);
-            boolean deptMatch = selectedDepartment.equals("All Departments") || student.getDepartment().equals(selectedDepartment);
-            boolean badgeMatch = selectedBadge.equals("All Badges") || student.getBadge().equals(selectedBadge);
+    private void navigateToOverview() {
+        Toast.makeText(getContext(), "Overview feature coming soon", Toast.LENGTH_SHORT).show();
+    }
 
-            if (yearMatch && deptMatch && badgeMatch) {
-                filteredStudents.add(student);
+    private void navigateToNotifications() {
+        StudentNotificationFragment notificationFragment = new StudentNotificationFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, notificationFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+
+    }
+
+    private void navigateToProfile() {
+        StaffProfile staffProfile = new StaffProfile();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, staffProfile);
+        transaction.addToBackStack(null);
+        transaction.commit();    }
+
+    private void loadActivities() {
+        tvNoActivities.setVisibility(View.VISIBLE);
+        recyclerViewActivities.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PDF_PICKER_REQUEST && resultCode == Activity.RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                Uri pdfUri = data.getData();
+                uploadPdfTimetable(pdfUri);
             }
         }
-
-        studentAdapter.notifyDataSetChanged();
-        updateStudentCount();
-        updateEmptyState();
-        Toast.makeText(getContext(), filteredStudents.size() + " students found", Toast.LENGTH_SHORT).show();
     }
 
-
-    private void updateStudentCount() {
-        tvStudentCount.setText(filteredStudents.size() + " Students");
-    }
-
-
-    private void updateEmptyState() {
-        if (filteredStudents.isEmpty()) {
-            layoutEmptyState.setVisibility(View.VISIBLE);
-            rvStudents.setVisibility(View.GONE);
-        } else {
-            layoutEmptyState.setVisibility(View.GONE);
-            rvStudents.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void loadSampleData() {
-        allStudents.add(new StudentModel(
-                "STU20230001",
-                "John Smith",
-                "Computer Science",
-                "2nd Year",
-                "Honor Roll",
-                R.drawable.ic_person));
-
-        allStudents.add(new StudentModel(
-                "STU20230002",
-                "Emily Johnson",
-                "Electrical Engineering",
-                "3rd Year",
-                "Dean's List",
-                R.drawable.ic_person));
-
-        allStudents.add(new StudentModel(
-                "STU20230003",
-                "Michael Brown",
-                "Mechanical Engineering",
-                "1st Year",
-                "Scholarship",
-                R.drawable.ic_person));
-
-        allStudents.add(new StudentModel(
-                "STU20230004",
-                "Jessica Davis",
-                "Computer Science",
-                "4th Year",
-                "President's List",
-                R.drawable.ic_person));
-
-        allStudents.add(new StudentModel(
-                "STU20230005",
-                "Daniel Wilson",
-                "Physics",
-                "2nd Year",
-                "Academic Warning",
-                R.drawable.ic_person));
-
-        allStudents.add(new StudentModel(
-                "STU20230006",
-                "Sophia Martinez",
-                "Mathematics",
-                "3rd Year",
-                "Honor Roll",
-                R.drawable.ic_person));
-
-        allStudents.add(new StudentModel(
-                "STU20230007",
-                "David Taylor",
-                "Civil Engineering",
-                "5th Year",
-                "Scholarship",
-                R.drawable.ic_person));
-
-        allStudents.add(new StudentModel(
-                "STU20230008",
-                "Olivia Anderson",
-                "Chemistry",
-                "1st Year",
-                "At Risk",
-                R.drawable.ic_person));
-
-        filteredStudents.addAll(allStudents);
-
-        studentAdapter.notifyDataSetChanged();
-
-        updateStudentCount();
+    private void uploadPdfTimetable(Uri pdfUri) {
+        Toast.makeText(getContext(), "PDF selected for upload", Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         rootView = null;
-        studentAdapter = null;
-        allStudents = null;
-        filteredStudents = null;
     }
 }
