@@ -12,49 +12,30 @@
         android:background="@color/transparent"
         app:elevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
-            android:paddingTop="48dp"
-            android:paddingBottom="16dp">
+            android:paddingTop="52dp"
+            android:paddingBottom="28dp">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_back"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/iv_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="9dp"
-                    android:layout_gravity="center"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/back_button_animation"
-                    android:contentDescription="Back" />
-            </com.google.android.material.card.MaterialCardView>
 
             <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tv_screen_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Lecturer Profile"
                 android:textColor="@color/DarkBlue"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/cv_back"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -66,8 +47,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:background="@drawable/glass_background"
             android:backgroundTint="#9DFFFFFF"
             android:clipToOutline="true"
             android:clipToPadding="true"
@@ -78,7 +57,6 @@
                 android:id="@+id/card_profile_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:background="@drawable/glass_background"
                 android:backgroundTint="#AFFFFFFF"
                 android:clipToOutline="true"
