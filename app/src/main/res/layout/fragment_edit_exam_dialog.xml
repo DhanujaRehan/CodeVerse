@@ -81,7 +81,8 @@
                     android:orientation="horizontal"
                     android:layout_gravity="center"
                     android:layout_marginTop="16dp"
-                    android:background="#33FFFFFF"
+                    android:background="@drawable/glass_background"
+                    android:backgroundTint="@color/white"
                     android:padding="12dp">
 
                     <TextView

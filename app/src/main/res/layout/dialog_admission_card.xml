@@ -55,7 +55,8 @@
             android:layout_width="200dp"
             android:layout_height="200dp"
             android:src="@drawable/ic_person"
-            android:background="@color/LightBlue"
+            android:background="@drawable/glass_background"
+            android:backgroundTint="@color/MiddleBlue"
             android:padding="12dp"/>
 
         <TextView
