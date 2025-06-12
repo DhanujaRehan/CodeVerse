@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
-        app:elevation="0dp">
+        app:elevation="0dp"
+        android:paddingBottom="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +56,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
-                android:text="Event Registration"
+                android:text="Make Payment"
                 android:textColor="@color/DarkBlue"
                 android:gravity="left"
                 android:textSize="24sp"
@@ -134,7 +135,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/btn_upload_payment_slip"
                             android:layout_width="0dp"
-                            android:layout_height="110dp"
+                            android:layout_height="130dp"
                             android:layout_weight="1"
                             android:layout_marginEnd="8dp"
                             android:clickable="true"
@@ -175,7 +176,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/btn_make_payment"
                             android:layout_width="0dp"
-                            android:layout_height="110dp"
+                            android:layout_height="130dp"
                             android:layout_weight="1"
                             android:layout_marginHorizontal="4dp"
                             android:clickable="true"
@@ -216,7 +217,7 @@
                         <androidx.cardview.widget.CardView
                             android:id="@+id/btn_download_receipts"
                             android:layout_width="0dp"
-                            android:layout_height="110dp"
+                            android:layout_height="130dp"
                             android:layout_weight="1"
                             android:layout_marginStart="8dp"
                             android:clickable="true"
@@ -1165,18 +1166,4 @@
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/fab_quick_pay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:fontFamily="@font/poppins_medium"
-        android:text="Pay Now"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/DarkBlue"
-        app:icon="@drawable/ic_payment"
-        app:iconTint="@color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

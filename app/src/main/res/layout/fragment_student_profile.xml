@@ -82,8 +82,6 @@
                             android:layout_height="75dp"
                             app:cardCornerRadius="50dp"
                             app:cardElevation="8dp"
-                            app:strokeWidth="2dp"
-                            app:strokeColor="#FFFFFF"
                             android:layout_gravity="center_vertical">
 
                             <ImageView
