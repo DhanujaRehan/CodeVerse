@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -29,7 +30,7 @@ public class RecieptUpload extends Fragment {
 
     private TextInputEditText etStudentId, etUniversityNumber, etPaymentDate, etPaymentAmount, etRemarks;
     private ImageView ivReceiptPreview, ivBack,iv_help;
-    private ConstraintLayout clUploadContainer;
+    private LinearLayout clUploadContainer;
     private FloatingActionButton fabRemoveReceipt;
     private MaterialButton btnSubmit;
     private View animationUpload, tvUploadInstruction, tvUploadHint;
@@ -66,7 +67,7 @@ public class RecieptUpload extends Fragment {
 
         ivReceiptPreview = view.findViewById(R.id.iv_receipt_preview);
         ivBack = view.findViewById(R.id.iv_back);
-        clUploadContainer = view.findViewById(R.id.cl_upload_container);
+        clUploadContainer = view.findViewById(R.id.card_upload);
         fabRemoveReceipt = view.findViewById(R.id.fab_remove_receipt);
         btnSubmit = view.findViewById(R.id.btn_submit);
         iv_help= view.findViewById(R.id.iv_help);
