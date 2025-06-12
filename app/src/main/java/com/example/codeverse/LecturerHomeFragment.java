@@ -1,63 +1,102 @@
 package com.example.codeverse;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link LecturerHomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- *
- */
+import com.example.codeverse.Lecturer.Fragments.LecturerEditProfile;
+import com.example.codeverse.Lecturer.Fragments.LecturerProfile;
+import com.example.codeverse.R;
+import com.example.codeverse.Staff.Adapters.ScheduleAdapter;
+import com.example.codeverse.Staff.Helper.ClassScheduleHelper;
+import com.example.codeverse.Staff.Models.LecturerClassSchedule;
+import com.example.codeverse.Staff.StaffFragments.GradeSubmissions;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 public class LecturerHomeFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private RecyclerView recyclerViewSchedules;
+    private TextView tvNoSchedules;
+    private ScheduleAdapter scheduleAdapter;
+    private ClassScheduleHelper classScheduleHelper;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private LinearLayout layoutLecturerProfile;
+    private LinearLayout layoutEditProfile;
+    private LinearLayout layoutGradeSubmission;
+    private LinearLayout layoutSendNotes;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LecturerHomeFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static LecturerHomeFragment newInstance(String param1, String param2) {
-        LecturerHomeFragment fragment = new LecturerHomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private View rootView;
 
-    public LecturerHomeFragment() {
-        // Required empty public constructor
-    }
-
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        rootView = inflater.inflate(R.layout.fragment_lecturer_home, container, false);
+
+        initViews();
+        setupRecyclerView();
+        loadTodaySchedules();
+        setupClickListeners();
+
+        return rootView;
+    }
+
+    private void initViews() {
+        recyclerViewSchedules = rootView.findViewById(R.id.recycler_view_schedules);
+        tvNoSchedules = rootView.findViewById(R.id.tv_no_schedules);
+
+        layoutLecturerProfile = rootView.findViewById(R.id.layout_lecturer_profile);
+        layoutEditProfile = rootView.findViewById(R.id.layout_edit_profile);
+        layoutGradeSubmission = rootView.findViewById(R.id.layout_grade_submission);
+        layoutSendNotes = rootView.findViewById(R.id.layout_send_notes);
+
+        classScheduleHelper = new ClassScheduleHelper(getContext());
+    }
+
+    private void setupRecyclerView() {
+        recyclerViewSchedules.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewSchedules.setNestedScrollingEnabled(false);
+    }
+
+    private void loadTodaySchedules() {
+        String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        List<LecturerClassSchedule> schedules = classScheduleHelper.getLecturerSchedulesByDate(todayDate);
+
+        if (schedules.isEmpty()) {
+            recyclerViewSchedules.setVisibility(View.GONE);
+            tvNoSchedules.setVisibility(View.VISIBLE);
+        } else {
+            recyclerViewSchedules.setVisibility(View.VISIBLE);
+            tvNoSchedules.setVisibility(View.GONE);
+
+            scheduleAdapter = new ScheduleAdapter(schedules);
+            recyclerViewSchedules.setAdapter(scheduleAdapter);
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    private void setupClickListeners() {
+        layoutLecturerProfile.setOnClickListener(v -> openFragment(new LecturerProfile()));
+        layoutEditProfile.setOnClickListener(v -> openFragment(new LecturerEditProfile()));
+        layoutGradeSubmission.setOnClickListener(v -> openFragment(new GradeSubmissions()));
+        layoutSendNotes.setOnClickListener(v -> openFragment(new LecturerNotesFragment()));
+    }
 
-        return inflater.inflate(R.layout.fragment_lecturer_home, container, false);
+    private void openFragment(Fragment fragment) {
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }
