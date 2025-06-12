@@ -1,11 +1,10 @@
-package com.example.codeverse;
+package com.example.codeverse.Lecturer.Fragments;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +14,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.example.codeverse.Lecturer.Helpers.LectureNotesHelper;
+import com.example.codeverse.Lecturer.Models.LecturerNotes;
+import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
