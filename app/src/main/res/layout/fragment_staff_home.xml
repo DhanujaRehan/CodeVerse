@@ -27,7 +27,7 @@
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
+                app:cardBackgroundColor="#67FFFFFF"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="0dp">
 
@@ -60,7 +60,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="26dp"
                 android:layout_height="26dp"
-                app:cardBackgroundColor="#33FFFFFF"
+                app:cardBackgroundColor="#66FFFFFF"
                 app:cardCornerRadius="50dp"
                 android:layout_margin="5dp"
                 app:cardElevation="0dp">
@@ -79,7 +79,7 @@
                 android:id="@+id/cv_coordinator_profile"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
+                app:cardBackgroundColor="#66FFFFFF"
                 app:cardCornerRadius="50dp"
                 android:layout_marginHorizontal="5dp"
                 app:cardElevation="0dp">
@@ -153,14 +153,14 @@
                                     android:layout_width="24dp"
                                     android:layout_height="24dp"
                                     android:src="@drawable/ic_assignment"
-                                    app:tint="@color/DarkBlue" />
+                                    app:tint="@color/white" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/poppins_bold"
                                     android:text="12"
-                                    android:textColor="@color/DarkBlue"
+                                    android:textColor="@color/white"
                                     android:textSize="12sp" />
                             </LinearLayout>
                         </androidx.cardview.widget.CardView>
