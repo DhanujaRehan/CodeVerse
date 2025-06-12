@@ -60,10 +60,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         if (user.getUserType() == User.UserType.STUDENT) {
             holder.tvUserTypeText.setText("Student");
-            holder.ivUserType.setImageResource(R.drawable.addpropic);
+            holder.ivUserType.setImageResource(R.drawable.iv_student);
         } else {
             holder.tvUserTypeText.setText("Staff");
-            holder.ivUserType.setImageResource(R.drawable.addpropic);
+            holder.ivUserType.setImageResource(R.drawable.iv_staff);
         }
 
         if (user.getPhotoUri() != null && !user.getPhotoUri().isEmpty()) {
