@@ -6,55 +6,61 @@
     android:layout_height="match_parent"
     android:background="@drawable/login_gradient_background">
 
-
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
+        android:background="@android:color/transparent"
         app:elevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="52dp"
-            android:paddingBottom="32dp">
-
+            android:paddingHorizontal="16dp"
+            android:paddingTop="48dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingBottom="16dp">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_back"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="12dp"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/iv_back"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_gravity="center"
+                    android:padding="9dp"
+                    android:contentDescription="Back"
+                    android:scaleType="centerCrop"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/back_button_animation" />
             </com.google.android.material.card.MaterialCardView>
 
+
             <TextView
-                android:id="@+id/tv_screen_title"
-                android:layout_width="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Examinations"
                 android:textColor="@color/DarkBlue"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="@id/cv_back"
-                app:layout_constraintStart_toEndOf="@id/cv_back"
-                app:layout_constraintTop_toTopOf="@id/cv_back" />
-
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/cv_back"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageView
                 android:id="@+id/iv_notification"
@@ -71,27 +77,33 @@
 
             <ImageView
                 android:id="@+id/iv_filter"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="28dp"
+                android:layout_height="28dp"
                 android:src="@drawable/ic_filter"
                 app:layout_constraintBottom_toBottomOf="@id/cv_back"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/cv_back"
                 app:tint="#FFFFFF" />
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginBottom="16dp">
 
             <TextView
                 android:id="@+id/tv_subtitle"
+                android:paddingLeft="5dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="View your exam results"
                 android:textColor="@color/DarkBlue"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cv_back" />
-
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_semester_selector"
@@ -128,6 +140,7 @@
                         android:text="Spring 2025"
                         android:textColor="@color/DarkBlue"
                         android:textSize="16sp"
+                        android:layout_marginEnd="16dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@id/iv_dropdown"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -144,9 +157,12 @@
                         app:tint="#FFFFFF" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+
+        </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
+
 
 
     <androidx.core.widget.NestedScrollView
@@ -167,6 +183,9 @@
             android:paddingBottom="80dp">
 
 
+
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -184,7 +203,6 @@
                     android:focusable="true"
                     app:cardBackgroundColor="@color/LightBlue"
                     app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp"
                     app:rippleColor="#33FF00FF">
 
                     <LinearLayout
@@ -233,7 +251,6 @@
                     android:focusable="true"
                     app:cardBackgroundColor="#F0FFF0"
                     app:cardCornerRadius="20dp"
-                    app:cardElevation="4dp"
                     app:rippleColor="#3300FF00">
 
                     <LinearLayout
@@ -273,10 +290,12 @@
             </LinearLayout>
 
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="4dp">
@@ -320,7 +339,8 @@
 
                                 <FrameLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="match_parent">
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="center">
 
                                     <ProgressBar
                                         android:id="@+id/progress_avg_score"
@@ -340,8 +360,9 @@
                                         android:layout_gravity="center"
                                         android:fontFamily="@font/poppins_bold"
                                         android:text="82%"
+                                        android:gravity="center"
                                         android:textColor="#6A11CB"
-                                        android:textSize="16sp" />
+                                        android:textSize="12sp" />
                                 </FrameLayout>
                             </com.google.android.material.card.MaterialCardView>
 
@@ -393,7 +414,7 @@
                                         android:fontFamily="@font/poppins_bold"
                                         android:text="9/10"
                                         android:textColor="#4CAF50"
-                                        android:textSize="16sp" />
+                                        android:textSize="12sp" />
                                 </FrameLayout>
                             </com.google.android.material.card.MaterialCardView>
 
@@ -476,7 +497,7 @@
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
 
             <LinearLayout
@@ -505,10 +526,12 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:background="@color/transparent"
+                android:backgroundTint="@color/white"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="4dp">
@@ -523,7 +546,7 @@
                     tools:itemCount="3"
                     tools:listitem="@layout/exam_card" />
 
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

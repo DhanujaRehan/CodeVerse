@@ -135,8 +135,7 @@
                             android:clickable="true"
                             android:focusable="true"
                             app:cardBackgroundColor="#E8F5E9"
-                            app:cardCornerRadius="20dp"
-                            app:cardElevation="4dp"
+                            app:cardCornerRadius="18dp"
                             app:rippleColor="#3300FF00">
 
                             <LinearLayout
@@ -182,8 +181,7 @@
                             android:clickable="true"
                             android:focusable="true"
                             app:cardBackgroundColor="#E3F2FD"
-                            app:cardCornerRadius="20dp"
-                            app:cardElevation="4dp"
+                            app:cardCornerRadius="18dp"
                             app:rippleColor="#332196F3">
 
                             <LinearLayout

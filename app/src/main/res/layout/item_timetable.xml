@@ -29,6 +29,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
+                android:padding="6dp"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:layout_gravity="center"

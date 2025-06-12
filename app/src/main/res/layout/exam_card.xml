@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/exam_card"
+    android:backgroundTint="@color/white"
+    android:background="@drawable/glass_background"
     android:layout_marginBottom="12dp"
     app:cardBackgroundColor="#FFFFFF"
     app:cardCornerRadius="16dp"
@@ -33,6 +35,7 @@
                     android:id="@+id/animation_exam_status"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:padding="9dp"
                     android:layout_gravity="center"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="false"
@@ -178,6 +181,6 @@
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:backgroundTint="@color/DarkBlue"
-            app:cornerRadius="8dp" />
+            app:cornerRadius="50dp" />
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</LinearLayout>
