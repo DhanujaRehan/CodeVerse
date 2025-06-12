@@ -136,13 +136,13 @@ public class LecturerEditProfile extends Fragment {
                 if (bitmap != null) {
                     ivProfilePicture.setImageBitmap(bitmap);
                 } else {
-                    ivProfilePicture.setImageResource(R.drawable.ic_person);
+                    ivProfilePicture.setImageResource(R.drawable.addpropic);
                 }
             } catch (Exception e) {
-                ivProfilePicture.setImageResource(R.drawable.ic_person);
+                ivProfilePicture.setImageResource(R.drawable.addpropic);
             }
         } else {
-            ivProfilePicture.setImageResource(R.drawable.ic_person);
+            ivProfilePicture.setImageResource(R.drawable.addpropic);
         }
     }
 
