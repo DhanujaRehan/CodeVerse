@@ -1,6 +1,8 @@
 package com.example.codeverse.Students.StudentFragments;
 
 import android.os.Bundle;
+
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +24,9 @@ public class StudentHomeFragment extends Fragment {
     private TextView tv_class_name, tv_professor_name, tv_class_time, tv_class_location;
     private TextView tv_view_schedule, tv_view_all_assignments;
     private LinearLayout layout_assignments, layout_grades, layout_calendar, layout_resources;
-    private MaterialCardView cv_notification, cv_profile, card_notification_banner;
+    private MaterialCardView cv_notification, cv_profile;
+
+    private CardView card_notification_banner;
     private MaterialButton btn_join_class;
     private RecyclerView rv_assignments;
 
