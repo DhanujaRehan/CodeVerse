@@ -367,7 +367,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Assignments"
                                 android:textColor="#333333"
-                                android:textSize="12sp" />
+                                android:textSize="10sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -404,7 +404,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Grades"
                                 android:textColor="#333333"
-                                android:textSize="12sp" />
+                                android:textSize="10sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -441,7 +441,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Calendar"
                                 android:textColor="#333333"
-                                android:textSize="12sp" />
+                                android:textSize="10sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -478,7 +478,7 @@
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Resources"
                                 android:textColor="#333333"
-                                android:textSize="12sp" />
+                                android:textSize="10sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
