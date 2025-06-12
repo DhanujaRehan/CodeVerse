@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_file"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
+    android:background="@drawable/glass_background"
+    android:backgroundTint="@color/white"
     app:cardCornerRadius="16dp"
     app:cardElevation="2dp"
     app:strokeColor="#E0E0E0"
@@ -179,4 +181,4 @@
                 app:iconTint="#F44336" />
         </LinearLayout>
     </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>
