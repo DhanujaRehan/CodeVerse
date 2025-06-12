@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Lecturer.Models;
 
 public class LecturerNotes {
     private int id;
