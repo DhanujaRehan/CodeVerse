@@ -11,6 +11,7 @@ import com.example.codeverse.Students.StudentFragments.PaymentScreenFragment;
 import com.example.codeverse.Students.StudentFragments.StudentClass;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.StudentFragments.StudentProfile;
+import com.example.codeverse.Students.StudentFragments.TimetableDownloadFragment;
 import com.example.codeverse.databinding.ActivityStudentMainBinding;
 
 public class StudentMainActivity extends AppCompatActivity {
@@ -44,7 +45,7 @@ public class StudentMainActivity extends AppCompatActivity {
             }
             else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new AssignmentUpload())
+                        .replace(R.id.framelayout, new TimetableDownloadFragment())
                         .commit();
             }
             else if (itemid == R.id.navprofile){
