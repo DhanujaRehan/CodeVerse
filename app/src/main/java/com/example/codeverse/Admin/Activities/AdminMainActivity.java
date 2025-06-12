@@ -12,6 +12,7 @@ import com.example.codeverse.Admin.Fragments.StaffPersonalInfo;
 import com.example.codeverse.Admin.Fragments.AdminHomeFragment;
 import com.example.codeverse.Admin.Fragments.CreateStudent;
 import com.example.codeverse.R;
+import com.example.codeverse.UserShowingFragment;
 import com.example.codeverse.databinding.ActivityAdminMainBinding;
 
 public class AdminMainActivity extends AppCompatActivity {
@@ -39,7 +40,7 @@ public class AdminMainActivity extends AppCompatActivity {
                         .commit();
             }
             else if (itemid == R.id.navassignments){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new AdminHomeFragment()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new UserShowingFragment()).commit();
             }
             else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new CreateStudent()).commit();
