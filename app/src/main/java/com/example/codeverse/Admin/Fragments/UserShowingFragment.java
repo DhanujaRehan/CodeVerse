@@ -90,7 +90,6 @@ public class UserShowingFragment extends Fragment {
         rvUsers.setAdapter(userAdapter);
 
         userAdapter.setOnUserClickListener(user -> {
-            // Handle user click - navigate to user detail
         });
     }
 
