@@ -35,7 +35,6 @@ public class UserShowingFragment extends Fragment {
     private List<User> allUsers;
     private List<User> filteredUsers;
 
-    private MaterialCardView cvBack;
     private TextInputEditText etSearch;
     private MaterialButton btnAll, btnStudents, btnStaff;
     private TextView tvUserCount;
@@ -66,7 +65,7 @@ public class UserShowingFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        cvBack = view.findViewById(R.id.cv_back);
+
         rvUsers = view.findViewById(R.id.rv_users);
         etSearch = view.findViewById(R.id.et_search);
         btnAll = view.findViewById(R.id.btn_all);
@@ -96,11 +95,7 @@ public class UserShowingFragment extends Fragment {
     }
 
     private void setupClickListeners() {
-        cvBack.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+
 
         btnAll.setOnClickListener(v -> {
             currentFilter = FilterType.ALL;
