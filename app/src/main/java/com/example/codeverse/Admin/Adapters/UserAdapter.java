@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Admin.Adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
-import com.example.codeverse.User;
+import com.example.codeverse.Admin.Models.User;
 import com.example.codeverse.R;
 
 import java.util.List;

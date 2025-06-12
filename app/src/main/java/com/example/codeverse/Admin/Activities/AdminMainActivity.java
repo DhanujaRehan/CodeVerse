@@ -12,7 +12,7 @@ import com.example.codeverse.Admin.Fragments.StaffPersonalInfo;
 import com.example.codeverse.Admin.Fragments.AdminHomeFragment;
 import com.example.codeverse.Admin.Fragments.CreateStudent;
 import com.example.codeverse.R;
-import com.example.codeverse.UserShowingFragment;
+import com.example.codeverse.Admin.Fragments.UserShowingFragment;
 import com.example.codeverse.databinding.ActivityAdminMainBinding;
 
 public class AdminMainActivity extends AppCompatActivity {

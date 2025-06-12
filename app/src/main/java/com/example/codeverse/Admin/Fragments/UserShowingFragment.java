@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Admin.Fragments;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.codeverse.Admin.Helpers.StaffDatabaseHelper;
 import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.Admin.Models.Staff;
-import com.example.codeverse.UserAdapter;
-import com.example.codeverse.User;
+import com.example.codeverse.Admin.Adapters.UserAdapter;
+import com.example.codeverse.Admin.Models.User;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Models.Student;
 import com.google.android.material.button.MaterialButton;

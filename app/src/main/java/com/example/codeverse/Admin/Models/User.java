@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Admin.Models;
 
 public class User {
     private long id;
