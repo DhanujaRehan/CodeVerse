@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -50,7 +51,7 @@ public class UploadedFilesAdapter extends RecyclerView.Adapter<UploadedFilesAdap
 
     public class FileViewHolder extends RecyclerView.ViewHolder {
 
-        private MaterialCardView cardFile;
+        private LinearLayout cardFile;
         private ImageView ivFileIcon;
         private TextView tvFileName, tvSubject, tvUploadDate, tvFileSize;
         private MaterialButton btnDownload, btnEdit, btnDelete;
