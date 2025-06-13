@@ -306,8 +306,12 @@ public class StudentProfile extends Fragment {
     }
 
     private void showHelp() {
-        Toast.makeText(getContext(), "Help clicked", Toast.LENGTH_SHORT).show();
-    }
+        FragmentTransaction transaction = requireActivity()
+                .getSupportFragmentManager()
+                .beginTransaction();
+        transaction.replace(R.id.framelayout, new DialogHelp());
+        transaction.addToBackStack(null);
+        transaction.commit();    }
 
     private void logout() {
         Intent intent = new Intent(getActivity(), Logout.class);
