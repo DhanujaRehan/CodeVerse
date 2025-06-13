@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.app.DownloadManager;
 import android.content.Context;
@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.codeverse.Lecturer.Helpers.LectureNotesHelper;
 import com.example.codeverse.Lecturer.Models.LecturerNotes;
 import com.example.codeverse.R;
-import com.example.codeverse.StudentNotesAdapter;
+import com.example.codeverse.Students.Adapters.StudentNotesAdapter;
 import com.google.android.material.textfield.TextInputEditText;
 import java.io.File;
 import java.util.ArrayList;

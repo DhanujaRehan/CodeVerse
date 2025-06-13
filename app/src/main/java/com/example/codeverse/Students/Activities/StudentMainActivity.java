@@ -5,12 +5,11 @@ import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.codeverse.StudentNotesFragment;
+import com.example.codeverse.Students.StudentFragments.StudentNotesFragment;
 import com.example.codeverse.Students.StudentFragments.StudentAssignmentDownloadFragment;
 import com.example.codeverse.Students.StudentFragments.StudentHomeFragment;
 import com.example.codeverse.Students.StudentFragments.PaymentScreenFragment;
 import com.example.codeverse.R;
-import com.example.codeverse.Students.StudentFragments.TimetableDownloadFragment;
 import com.example.codeverse.databinding.ActivityStudentMainBinding;
 
 public class StudentMainActivity extends AppCompatActivity {
