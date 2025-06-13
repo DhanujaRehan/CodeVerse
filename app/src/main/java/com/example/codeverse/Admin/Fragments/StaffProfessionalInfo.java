@@ -152,7 +152,11 @@ public class StaffProfessionalInfo extends Fragment {
         });
 
         btnBack.setOnClickListener(v -> goBackToPersonalInfo());
-        btn_go_to_dashboard.setOnClickListener(v -> showUserList());
+        btn_go_to_dashboard.setOnClickListener(v -> {
+            showUserList();
+            clearForm();
+        }
+        );
     }
 
     private void setupTextChangeListeners() {
@@ -616,6 +620,21 @@ public class StaffProfessionalInfo extends Fragment {
         if (getContext() != null) {
             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void clearForm() {
+        etExperienceYears.setText("");
+        etPassword.setText("");
+        etFieldOfStudy.setText("");
+        etUniversity.setText("");
+        etGraduationYear.setText("");
+        dropdownQualification.setText("");
+        dropdownProgram.setText("");
+        dropdownDepartment.setText("");
+        dropdownPosition.setText("");
+        dropdownTeachingSubjectSoftware.setText("");
+        dropdownTeachingSubjectDatascience.setText("");
+        clearErrors();
     }
 
     @Override
