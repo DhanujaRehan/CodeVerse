@@ -5,7 +5,7 @@
     android:id="@+id/staff_assignment_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_gradient_background">
+    android:background="@drawable/loading_gradient_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -55,7 +55,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
-                android:text="Upload Reciept"
+                android:text="Assignments"
                 android:textColor="@color/DarkBlue"
                 android:gravity="center"
                 android:textSize="24sp"

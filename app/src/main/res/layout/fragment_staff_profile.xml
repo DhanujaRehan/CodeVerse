@@ -220,6 +220,7 @@
                             android:layout_width="48dp"
                             android:layout_height="48dp"
                             android:layout_gravity="center"
+                            android:padding="9dp"
                             app:lottie_autoPlay="true"
                             app:lottie_loop="true"
                             app:lottie_rawRes="@raw/email" />
@@ -319,6 +320,7 @@
                             android:layout_height="48dp"
                             android:layout_gravity="center"
                             app:lottie_autoPlay="true"
+                            android:padding="9dp"
                             app:lottie_loop="true"
                             app:lottie_rawRes="@raw/info" />
                     </LinearLayout>
@@ -368,6 +370,7 @@
                             android:layout_gravity="center"
                             app:lottie_autoPlay="true"
                             app:lottie_loop="true"
+                            android:padding="9dp"
                             app:lottie_rawRes="@raw/user_info_animation" />
                     </LinearLayout>
 
@@ -453,6 +456,7 @@
                             android:layout_height="48dp"
                             android:layout_gravity="center"
                             app:lottie_autoPlay="true"
+                            android:padding="9dp"
                             app:lottie_loop="true"
                             app:lottie_rawRes="@raw/project" />
                     </LinearLayout>
@@ -494,11 +498,14 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:elevation="4dp"
+                        android:clipToOutline="true"
+                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:backgroundTint="@color/white"
                         android:background="@drawable/glass_background">
 
                         <com.airbnb.lottie.LottieAnimationView
-                            android:layout_width="48dp"
+                            android:layout_width="96dp"
                             android:layout_height="48dp"
                             android:layout_gravity="center"
                             app:lottie_autoPlay="true"
@@ -551,6 +558,7 @@
                             android:layout_height="48dp"
                             android:layout_gravity="center"
                             app:lottie_autoPlay="true"
+                            android:padding="9dp"
                             app:lottie_loop="true"
                             app:lottie_rawRes="@raw/exam" />
                     </LinearLayout>
@@ -651,17 +659,5 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_schedule"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_calender"
-        app:tint="@color/white"
-        app:backgroundTint="@color/DarkBlue"
-        app:rippleColor="@color/DarkBlue2"
-        app:fabSize="normal" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

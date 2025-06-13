@@ -12,7 +12,10 @@ import com.example.codeverse.R;
 import com.example.codeverse.Staff.StaffFragments.CreateEvent;
 import com.example.codeverse.Staff.StaffFragments.GradeSubmissions;
 import com.example.codeverse.Staff.StaffFragments.StaffAddAssignment;
+import com.example.codeverse.Staff.StaffFragments.StaffAssignment;
+import com.example.codeverse.Staff.StaffFragments.StaffHome;
 import com.example.codeverse.Staff.StaffFragments.StaffProfile;
+import com.example.codeverse.Staff.StaffFragments.StaffSchedule;
 import com.example.codeverse.databinding.ActivityStaffMainBinding;
 
 public class StaffMainActivity extends AppCompatActivity {
@@ -29,7 +32,7 @@ public class StaffMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.framelayout, new StaffProfile())
+                    .replace(R.id.framelayout, new StaffHome())
                     .commit();
         }
 
@@ -37,22 +40,22 @@ public class StaffMainActivity extends AppCompatActivity {
             int itemid = item.getItemId();
             if (itemid == R.id.navhome){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new StaffProfile())
+                        .replace(R.id.framelayout, new StaffHome())
                         .commit();
             }
             else if (itemid == R.id.navassignments){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new StaffAddAssignment())
+                        .replace(R.id.framelayout, new StaffAssignment())
                         .commit();
             }
             else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new GradeSubmissions())
+                        .replace(R.id.framelayout, new StaffSchedule())
                         .commit();
             }
             else if (itemid == R.id.navprofile){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new CreateEvent())
+                        .replace(R.id.framelayout, new StaffProfile())
                         .commit();
             }
             return true;
