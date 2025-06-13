@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.codeverse.Assignment;
 import com.example.codeverse.R;
 import com.google.android.material.button.MaterialButton;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.AssignmentViewHolder> {
@@ -23,7 +24,7 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
 
     public AssignmentAdapter(Context context, List<Assignment> assignments) {
         this.context = context;
-        this.assignments = assignments;
+        this.assignments = assignments != null ? assignments : new ArrayList<>();
     }
 
     public void setOnAssignmentClickListener(OnAssignmentClickListener listener) {
@@ -39,30 +40,35 @@ public class AssignmentAdapter extends RecyclerView.Adapter<AssignmentAdapter.As
 
     @Override
     public void onBindViewHolder(@NonNull AssignmentViewHolder holder, int position) {
-        Assignment assignment = assignments.get(position);
 
-        holder.tvTitle.setText(assignment.getTitle());
-        holder.tvModule.setText(assignment.getModule());
-        holder.tvDescription.setText(assignment.getDescription());
-        holder.tvDueDate.setText(assignment.getDueDate());
-        holder.tvReleaseDate.setText(assignment.getReleaseDate());
-        holder.tvWeighting.setText(assignment.getWeighting() + "%");
-        holder.tvStatus.setText(assignment.getStatus());
+        if (assignments != null && position < assignments.size()) {
+            Assignment assignment = assignments.get(position);
 
-        holder.btnDownload.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onDownloadClick(assignment);
-            }
-        });
+            holder.tvTitle.setText(assignment.getTitle());
+            holder.tvModule.setText(assignment.getModule());
+            holder.tvDescription.setText(assignment.getDescription());
+            holder.tvDueDate.setText(assignment.getDueDate());
+            holder.tvReleaseDate.setText(assignment.getReleaseDate());
+            holder.tvWeighting.setText(assignment.getWeighting() + "%");
+            holder.tvStatus.setText(assignment.getStatus());
+
+            holder.btnDownload.setOnClickListener(v -> {
+                if (listener != null) {
+                    listener.onDownloadClick(assignment);
+                }
+            });
+        }
     }
 
     @Override
     public int getItemCount() {
-        return assignments.size();
+
+        return assignments != null ? assignments.size() : 0;
     }
 
     public void updateAssignments(List<Assignment> newAssignments) {
-        this.assignments = newAssignments;
+
+        this.assignments = newAssignments != null ? newAssignments : new ArrayList<>();
         notifyDataSetChanged();
     }
 

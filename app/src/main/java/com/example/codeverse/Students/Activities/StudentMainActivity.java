@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.codeverse.StudentAssignmentDownloadFragment;
 import com.example.codeverse.Students.StudentFragments.AssignmentUpload;
 import com.example.codeverse.Students.StudentFragments.StudentExam;
 import com.example.codeverse.Students.StudentFragments.StudentHomeFragment;
@@ -41,7 +42,7 @@ public class StudentMainActivity extends AppCompatActivity {
             }
             else if (itemid == R.id.navassignments){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new StudentExam())
+                        .replace(R.id.framelayout, new StudentAssignmentDownloadFragment())
                         .commit();
             }
             else if (itemid == R.id.navschedule){
