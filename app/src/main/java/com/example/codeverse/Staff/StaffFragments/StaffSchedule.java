@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +59,7 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
     private View bottomSheetContainer;
     private View successOverlay;
     private View layoutEmptyState;
-    private MaterialCardView bottomSheet;
+    private ScrollView bottomSheet;
     private ImageView btnNextMonth, btnPrevMonth;
     private MaterialButton btnCreateSchedule;
 
@@ -69,7 +70,7 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
     private Date selectedDate = new Date();
     private boolean isStudentSchedule = true;
 
-    private BottomSheetBehavior<MaterialCardView> bottomSheetBehavior;
+    private BottomSheetBehavior<ScrollView> bottomSheetBehavior;
 
     private TextInputEditText etSubjectName;
     private TextInputEditText etModuleNumber;
