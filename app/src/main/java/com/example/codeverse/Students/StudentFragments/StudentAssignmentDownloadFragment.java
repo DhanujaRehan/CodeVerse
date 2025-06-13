@@ -1,6 +1,5 @@
 package com.example.codeverse.Students.StudentFragments;
 
-import android.app.DownloadManager;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -24,6 +23,9 @@ import com.example.codeverse.Staff.Helper.AssignmentHelper;
 import com.example.codeverse.Students.Adapters.AssignmentAdapter;
 import com.google.android.material.card.MaterialCardView;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.List;
 
 public class StudentAssignmentDownloadFragment extends Fragment implements AssignmentAdapter.OnAssignmentClickListener {
@@ -116,60 +118,46 @@ public class StudentAssignmentDownloadFragment extends Fragment implements Assig
     private void downloadFile(Assignment assignment) {
         try {
             String filePath = assignment.getFilePath();
+
             if (filePath == null || filePath.isEmpty()) {
-                Toast.makeText(getContext(), "No file available for download", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "No file path", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
-            Uri uri;
+            Toast.makeText(getContext(), "Starting download...", Toast.LENGTH_SHORT).show();
 
-            if (filePath.startsWith("content://")) {
-                uri = Uri.parse(filePath);
-            } else {
-                File file = new File(filePath);
-                if (!file.exists()) {
-                    Toast.makeText(getContext(), "File not found", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                uri = Uri.fromFile(file);
+            Uri contentUri = Uri.parse(filePath);
+            InputStream inputStream = getContext().getContentResolver().openInputStream(contentUri);
+
+            if (inputStream == null) {
+                Toast.makeText(getContext(), "Cannot open file", Toast.LENGTH_SHORT).show();
+                return;
             }
 
-            String fileName = getFileNameFromUri(uri);
-            if (fileName == null) {
-                fileName = assignment.getTitle() + ".pdf";
+            File downloadsDir = new File("/storage/emulated/0/Download");
+            if (!downloadsDir.exists()) {
+                downloadsDir.mkdirs();
             }
 
-            DownloadManager.Request request = new DownloadManager.Request(uri);
-            request.setTitle(assignment.getTitle());
-            request.setDescription("Downloading assignment file");
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            String fileName = assignment.getTitle().replaceAll("[^a-zA-Z0-9]", "_") + ".pdf";
+            File outputFile = new File(downloadsDir, fileName);
 
-            downloadManager.enqueue(request);
-            Toast.makeText(getContext(), "Download started", Toast.LENGTH_SHORT).show();
+            FileOutputStream outputStream = new FileOutputStream(outputFile);
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            inputStream.close();
+            outputStream.close();
+
+            Toast.makeText(getContext(), "Downloaded: " + fileName, Toast.LENGTH_LONG).show();
 
         } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(getContext(), "Download failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
         }
-    }
-
-    private String getFileNameFromUri(Uri uri) {
-        String fileName = null;
-        try {
-            Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
-            if (cursor != null && cursor.moveToFirst()) {
-                int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                if (nameIndex != -1) {
-                    fileName = cursor.getString(nameIndex);
-                }
-                cursor.close();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return fileName;
     }
 
     @Override
