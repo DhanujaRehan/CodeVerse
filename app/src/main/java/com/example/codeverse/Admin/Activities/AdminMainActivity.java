@@ -40,13 +40,13 @@ public class AdminMainActivity extends AppCompatActivity {
                         .commit();
             }
             else if (itemid == R.id.navassignments){
-                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new UserShowingFragment()).commit();
-            }
-            else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new CreateStudent()).commit();
             }
-            else if (itemid == R.id.navprofile){
+            else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new StaffPersonalInfo()).commit();
+            }
+            else if (itemid == R.id.navprofile){
+                getSupportFragmentManager().beginTransaction().replace(R.id.framelayout, new UserShowingFragment()).commit();
             }
             return true;
         });
