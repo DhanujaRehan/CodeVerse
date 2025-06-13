@@ -646,7 +646,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_bold"
-                    android:text="Recent Assignments"
+                    android:text="Upcomming Events"
                     android:textColor="#333333"
                     android:textSize="18sp" />
 
@@ -661,7 +661,7 @@
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_assignments"
+                android:id="@+id/rv_events"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"

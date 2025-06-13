@@ -1,7 +1,6 @@
 package com.example.codeverse.Students.StudentFragments;
 
 import android.os.Bundle;
-
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -16,6 +15,10 @@ import android.widget.LinearLayout;
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.button.MaterialButton;
 import com.example.codeverse.R;
+import com.example.codeverse.Staff.Helper.EventHelper;
+import com.example.codeverse.Staff.Models.Event;
+import com.example.codeverse.EventAdapter;
+import java.util.List;
 
 public class StudentHomeFragment extends Fragment {
 
@@ -25,10 +28,13 @@ public class StudentHomeFragment extends Fragment {
     private TextView tv_view_schedule, tv_view_all_assignments;
     private LinearLayout layout_assignments, layout_grades, layout_calendar, layout_resources;
     private MaterialCardView cv_notification, cv_profile;
-
     private CardView card_notification_banner;
     private MaterialButton btn_join_class;
-    private RecyclerView rv_assignments;
+    private RecyclerView rv_events;
+
+    private EventHelper eventHelper;
+    private EventAdapter eventAdapter;
+    private List<Event> eventList;
 
     public StudentHomeFragment() {}
 
@@ -51,6 +57,8 @@ public class StudentHomeFragment extends Fragment {
         initViews(view);
         setupClickListeners();
         loadData();
+        setupRecyclerView();
+        loadEvents();
     }
 
     private void initViews(View view) {
@@ -80,9 +88,19 @@ public class StudentHomeFragment extends Fragment {
         card_notification_banner = view.findViewById(R.id.card_notification_banner);
 
         btn_join_class = view.findViewById(R.id.btn_join_class);
+        rv_events = view.findViewById(R.id.rv_events);
 
-        rv_assignments = view.findViewById(R.id.rv_assignments);
-        rv_assignments.setLayoutManager(new LinearLayoutManager(getContext()));
+        eventHelper = new EventHelper(getContext());
+    }
+
+    private void setupRecyclerView() {
+        rv_events.setLayoutManager(new LinearLayoutManager(getContext()));
+    }
+
+    private void loadEvents() {
+        eventList = eventHelper.getAllEvents();
+        eventAdapter = new EventAdapter(getContext(), eventList);
+        rv_events.setAdapter(eventAdapter);
     }
 
     private void setupClickListeners() {
@@ -129,43 +147,35 @@ public class StudentHomeFragment extends Fragment {
     }
 
     private void openProfile() {
-
         StudentProfile studentProfile = new StudentProfile();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.framelayout,studentProfile);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
     private void openAssignments() {
-
         AssignmentUpload assignmentUpload = new AssignmentUpload();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.framelayout,assignmentUpload);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
     private void openGrades() {
-
         AssignmentUpload assignmentUpload = new AssignmentUpload();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.framelayout,assignmentUpload);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
     private void openCalendar() {
-
         StudentClass studentClass = new StudentClass();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.framelayout,studentClass);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
     private void openResources() {
@@ -173,13 +183,11 @@ public class StudentHomeFragment extends Fragment {
     }
 
     private void openSchedule() {
-
         StudentExam studentExam = new StudentExam();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.framelayout,studentExam);
         transaction.addToBackStack(null);
         transaction.commit();
-
     }
 
     private void joinVirtualClass() {
