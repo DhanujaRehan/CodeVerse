@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.R;
-import com.example.codeverse.StudentGradesAdapter;
+import com.example.codeverse.Students.Adapters.StudentGradesAdapter;
 import com.example.codeverse.Students.Helpers.AssignmentUploadHelper;
 import com.example.codeverse.Students.Models.AssignmentModel;
 import com.google.android.material.button.MaterialButton;
