@@ -43,12 +43,16 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
     private RecyclerView rvTimetables;
     private TimetableAdapter adapter;
     private List<TimetableItem> timetableList;
+    private List<TimetableItem> filteredList;
     private CircularProgressIndicator progressLoading;
     private DatabaseHelper dbHelper;
     private TextView tvTotalDownloads, tvThisWeek, tvLastDownload;
     private MaterialCardView cardCurrentWeek, cardNextWeek;
     private ImageView ivBack, ivRefresh;
     private TextView tvDownloadAll;
+
+    private boolean isCurrentWeekSelected = false;
+    private boolean isNextWeekSelected = false;
 
     @Nullable
     @Override
@@ -75,7 +79,8 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
 
         dbHelper = new DatabaseHelper(getContext());
         timetableList = new ArrayList<>();
-        adapter = new TimetableAdapter(timetableList, this);
+        filteredList = new ArrayList<>();
+        adapter = new TimetableAdapter(filteredList, this);
         rvTimetables.setLayoutManager(new LinearLayoutManager(getContext()));
         rvTimetables.setAdapter(adapter);
     }
@@ -95,20 +100,21 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
             public void onClick(View v) {
                 loadTimetables();
                 updateStats();
+                resetFilters();
             }
         });
 
         cardCurrentWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadCurrentWeek();
+                toggleCurrentWeekFilter();
             }
         });
 
         cardNextWeek.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                downloadNextWeek();
+                toggleNextWeekFilter();
             }
         });
 
@@ -118,6 +124,95 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
                 downloadAllTimetables();
             }
         });
+    }
+
+    private void toggleCurrentWeekFilter() {
+        isCurrentWeekSelected = !isCurrentWeekSelected;
+        if (isCurrentWeekSelected) {
+            isNextWeekSelected = false;
+        }
+        updateCardStates();
+        applyFilter();
+    }
+
+    private void toggleNextWeekFilter() {
+        isNextWeekSelected = !isNextWeekSelected;
+        if (isNextWeekSelected) {
+            isCurrentWeekSelected = false;
+        }
+        updateCardStates();
+        applyFilter();
+    }
+
+    private void updateCardStates() {
+
+        if (isCurrentWeekSelected) {
+            cardCurrentWeek.setCardElevation(8);
+            cardCurrentWeek.setStrokeWidth(2);
+            cardCurrentWeek.setStrokeColor(ContextCompat.getColor(getContext(), R.color.green_primary));
+        } else {
+            cardCurrentWeek.setCardElevation(4);
+            cardCurrentWeek.setStrokeWidth(0);
+        }
+
+        if (isNextWeekSelected) {
+            cardNextWeek.setCardElevation(8);
+            cardNextWeek.setStrokeWidth(2);
+            cardNextWeek.setStrokeColor(ContextCompat.getColor(getContext(), R.color.blue_primary));
+        } else {
+            cardNextWeek.setCardElevation(4);
+            cardNextWeek.setStrokeWidth(0);
+        }
+    }
+
+    private void applyFilter() {
+        filteredList.clear();
+
+        if (!isCurrentWeekSelected && !isNextWeekSelected) {
+
+            filteredList.addAll(timetableList);
+        } else if (isCurrentWeekSelected) {
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            String currentWeekStart = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.getTime());
+
+            for (TimetableItem item : timetableList) {
+                if (item.startDate != null && item.startDate.equals(currentWeekStart)) {
+                    filteredList.add(item);
+                }
+            }
+        } else if (isNextWeekSelected) {
+
+            Calendar cal = Calendar.getInstance();
+            cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+            cal.add(Calendar.WEEK_OF_YEAR, 1);
+            String nextWeekStart = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.getTime());
+
+            for (TimetableItem item : timetableList) {
+                if (item.startDate != null && item.startDate.equals(nextWeekStart)) {
+                    filteredList.add(item);
+                }
+            }
+        }
+
+        adapter.notifyDataSetChanged();
+
+
+        if (filteredList.isEmpty()) {
+            String message = isCurrentWeekSelected ? "No current week timetable found" :
+                    isNextWeekSelected ? "No next week timetable found" : "";
+            if (!message.isEmpty()) {
+                Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void resetFilters() {
+        isCurrentWeekSelected = false;
+        isNextWeekSelected = false;
+        updateCardStates();
+        applyFilter();
     }
 
     private void loadTimetables() {
@@ -144,7 +239,7 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
         cursor.close();
         db.close();
 
-        adapter.notifyDataSetChanged();
+        applyFilter();
         progressLoading.setVisibility(View.GONE);
     }
 
@@ -235,7 +330,10 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
     private void downloadAllTimetables() {
         if (checkStoragePermission()) {
             int downloadCount = 0;
-            for (TimetableItem item : timetableList) {
+
+            List<TimetableItem> itemsToDownload = filteredList.isEmpty() ? timetableList : filteredList;
+
+            for (TimetableItem item : itemsToDownload) {
                 if ("Available".equals(item.status)) {
                     onDownloadClick(item);
                     downloadCount++;
