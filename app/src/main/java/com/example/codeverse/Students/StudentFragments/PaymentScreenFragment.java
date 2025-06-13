@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.codeverse.Students.Models.PaymentDetail;
 import com.example.codeverse.Students.Helpers.PaymentHelper;
 import com.example.codeverse.R;
+import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -30,6 +31,7 @@ public class PaymentScreenFragment extends Fragment {
     private CardView btnMakePayment;
     private CardView btnDownloadReceipts;
     private PaymentHelper paymentHelper;
+    private MaterialButton btncontactsupport;
 
     @Nullable
     @Override
@@ -47,12 +49,22 @@ public class PaymentScreenFragment extends Fragment {
         btnUploadPaymentSlip = view.findViewById(R.id.btn_upload_payment_slip);
         btnMakePayment = view.findViewById(R.id.btn_make_payment);
         btnDownloadReceipts = view.findViewById(R.id.btn_download_receipts);
+        btncontactsupport = view.findViewById(R.id.btn_contact_support);
     }
 
     private void setupClickListeners() {
         btnUploadPaymentSlip.setOnClickListener(v -> openReceiptUploadFragment());
         btnMakePayment.setOnClickListener(v -> openMakePaymentFragment());
         btnDownloadReceipts.setOnClickListener(v -> downloadReceipts());
+        btncontactsupport.setOnClickListener(v -> openContactSupportFragment());
+    }
+
+    private void openContactSupportFragment() {
+        DialogSupport dialogHelp = new DialogSupport();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, dialogHelp);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private void openReceiptUploadFragment() {
