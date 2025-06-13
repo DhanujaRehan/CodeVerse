@@ -30,11 +30,14 @@ android:name=".Students.Activities.StudentMainActivity"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:menu="@menu/admin_bottom_nav_menu"
-    app:labelVisibilityMode="unlabeled"
+    app:menu="@menu/student_bottom_nav_bar"
+    app:labelVisibilityMode="auto"
     android:foregroundGravity="center"
-    app:itemIconTint="@color/MiddleBlue"
-    app:itemRippleColor="@color/white"
+    android:elevation="10dp"
+    app:itemTextColor="@color/DarkBlue2"
+    app:itemBackground="@color/white"
+    app:itemIconTint="@color/DarkBlue2"
+    app:itemRippleColor="@color/DarkBlue2"
     />
 
 
