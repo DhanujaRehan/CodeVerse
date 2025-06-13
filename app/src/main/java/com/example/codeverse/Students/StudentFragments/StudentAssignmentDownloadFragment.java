@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.app.DownloadManager;
 import android.content.Context;
@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.codeverse.Assignment;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Helper.AssignmentHelper;
-import com.example.codeverse.AssignmentAdapter;
+import com.example.codeverse.Students.Adapters.AssignmentAdapter;
 import com.google.android.material.card.MaterialCardView;
 import java.io.File;
 import java.util.List;

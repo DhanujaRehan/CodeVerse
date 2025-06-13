@@ -5,14 +5,11 @@ import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.codeverse.StudentAssignmentDownloadFragment;
-import com.example.codeverse.Students.StudentFragments.AssignmentUpload;
-import com.example.codeverse.Students.StudentFragments.StudentExam;
+import com.example.codeverse.StudentNotesFragment;
+import com.example.codeverse.Students.StudentFragments.StudentAssignmentDownloadFragment;
 import com.example.codeverse.Students.StudentFragments.StudentHomeFragment;
 import com.example.codeverse.Students.StudentFragments.PaymentScreenFragment;
-import com.example.codeverse.Students.StudentFragments.StudentClass;
 import com.example.codeverse.R;
-import com.example.codeverse.Students.StudentFragments.StudentProfile;
 import com.example.codeverse.Students.StudentFragments.TimetableDownloadFragment;
 import com.example.codeverse.databinding.ActivityStudentMainBinding;
 
@@ -47,7 +44,7 @@ public class StudentMainActivity extends AppCompatActivity {
             }
             else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new TimetableDownloadFragment())
+                        .replace(R.id.framelayout, new StudentNotesFragment())
                         .commit();
             }
             else if (itemid == R.id.navprofile){
