@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import com.google.android.material.card.MaterialCardView;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Helper.EventHelper;
@@ -34,6 +35,7 @@ public class StudentHomeFragment extends Fragment {
     private MaterialCardView cv_notification, cv_profile;
     private CardView card_notification_banner;
     private RecyclerView rv_events, rv_schedules;
+    private FrameLayout layout_empty_schedules, layout_empty_events;
 
     private EventHelper eventHelper;
     private ClassScheduleHelper scheduleHelper;
@@ -91,6 +93,8 @@ public class StudentHomeFragment extends Fragment {
 
         rv_events = view.findViewById(R.id.rv_events);
         rv_schedules = view.findViewById(R.id.rv_schedules);
+        layout_empty_schedules = view.findViewById(R.id.layout_empty_schedules);
+        layout_empty_events = view.findViewById(R.id.layout_empty_events);
 
         eventHelper = new EventHelper(getContext());
         scheduleHelper = new ClassScheduleHelper(getContext());
@@ -103,8 +107,15 @@ public class StudentHomeFragment extends Fragment {
 
     private void loadEvents() {
         eventList = eventHelper.getAllEvents();
-        eventAdapter = new EventAdapter(getContext(), eventList);
-        rv_events.setAdapter(eventAdapter);
+        if (eventList != null && !eventList.isEmpty()) {
+            eventAdapter = new EventAdapter(getContext(), eventList);
+            rv_events.setAdapter(eventAdapter);
+            rv_events.setVisibility(View.VISIBLE);
+            layout_empty_events.setVisibility(View.GONE);
+        } else {
+            rv_events.setVisibility(View.GONE);
+            layout_empty_events.setVisibility(View.VISIBLE);
+        }
     }
 
     private void loadSchedules() {
@@ -112,8 +123,15 @@ public class StudentHomeFragment extends Fragment {
         String currentDate = sdf.format(new Date());
 
         scheduleList = scheduleHelper.getStudentSchedulesByDate(currentDate);
-        scheduleAdapter = new StudentScheduleAdapter(getContext(), scheduleList);
-        rv_schedules.setAdapter(scheduleAdapter);
+        if (scheduleList != null && !scheduleList.isEmpty()) {
+            scheduleAdapter = new StudentScheduleAdapter(getContext(), scheduleList);
+            rv_schedules.setAdapter(scheduleAdapter);
+            rv_schedules.setVisibility(View.VISIBLE);
+            layout_empty_schedules.setVisibility(View.GONE);
+        } else {
+            rv_schedules.setVisibility(View.GONE);
+            layout_empty_schedules.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setupClickListeners() {
