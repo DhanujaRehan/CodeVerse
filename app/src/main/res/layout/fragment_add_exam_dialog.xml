@@ -44,6 +44,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Create New Exam"
+                            android:fontFamily="@font/poppins_bold"
                             android:textColor="@color/DarkBlue"
                             android:textSize="24sp"
                             android:textStyle="bold" />
@@ -52,7 +53,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Schedule a new examination session"
-                            android:textColor="@color/DarkBlue2"
+                            android:textColor="@color/DarkBlue"
+                            android:fontFamily="@font/poppins_medium"
                             android:textSize="14sp"
                             android:layout_marginTop="4dp" />
                     </LinearLayout>
@@ -76,7 +78,6 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/animation_exam"
-
                     android:layout_width="80dp"
                     android:layout_height="60dp"
                     android:layout_gravity="center"
@@ -127,6 +128,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Basic Information"
+                                android:fontFamily="@font/poppins_medium"
                                 android:textColor="@color/DarkBlue"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
@@ -150,6 +152,7 @@
                                 android:id="@+id/et_subject_name"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
                                 android:inputType="textCapWords"
                                 android:maxLines="1" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -172,6 +175,8 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textCapCharacters"
+                                android:fontFamily="@font/poppins_regular"
+
                                 android:maxLines="1" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -199,6 +204,8 @@
                                     android:id="@+id/dropdown_exam_type"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
+
                                     android:inputType="none" />
                             </com.google.android.material.textfield.TextInputLayout>
 
@@ -220,6 +227,7 @@
                                     android:id="@+id/dropdown_semester"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
                                     android:inputType="none" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
@@ -241,6 +249,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:inputType="textPersonName"
+                                android:fontFamily="@font/poppins_regular"
                                 android:maxLines="1" />
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
@@ -295,6 +304,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:focusable="false"
+                                android:fontFamily="@font/poppins_regular"
                                 android:clickable="true"
                                 android:maxLines="1" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -323,6 +333,7 @@
                                     android:id="@+id/et_start_time"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
                                     android:focusable="false"
                                     android:clickable="true"
                                     android:maxLines="1" />
@@ -347,6 +358,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:focusable="false"
+                                    android:fontFamily="@font/poppins_regular"
                                     android:clickable="true"
                                     android:maxLines="1" />
                             </com.google.android.material.textfield.TextInputLayout>
@@ -375,6 +387,7 @@
                                     android:id="@+id/et_room"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:fontFamily="@font/poppins_regular"
                                     android:inputType="text"
                                     android:maxLines="1" />
                             </com.google.android.material.textfield.TextInputLayout>
@@ -398,6 +411,7 @@
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:inputType="number"
+                                    android:fontFamily="@font/poppins_regular"
                                     android:maxLines="1" />
                             </com.google.android.material.textfield.TextInputLayout>
                         </LinearLayout>
@@ -454,6 +468,7 @@
                                 android:inputType="textMultiLine"
                                 android:minLines="3"
                                 android:maxLines="5"
+                                android:fontFamily="@font/poppins_regular"
                                 android:gravity="top"
                                 android:scrollbars="vertical" />
                         </com.google.android.material.textfield.TextInputLayout>
@@ -464,46 +479,54 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_marginTop="24dp"
-                        android:gravity="end">
+                        android:gravity="center"
+                        android:weightSum="2">
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_cancel"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:text="Cancel"
+                            android:fontFamily="@font/poppins_regular"
                             android:textSize="14sp"
+                            android:padding="10dp"
                             android:textAllCaps="false"
                             android:backgroundTint="@color/red"
                             style="@style/Widget.MaterialComponents.Button.TextButton"
                             android:textColor="@color/white"
                             android:layout_marginEnd="12dp"
-                            app:cornerRadius="20dp" />
+                            app:cornerRadius="50dp" />
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_save_draft"
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:text="Save Draft"
+                            android:padding="10dp"
                             android:textSize="14sp"
                             android:textAllCaps="false"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                             android:textColor="@color/DarkBlue"
                             app:strokeColor="@color/DarkBlue"
+                            android:fontFamily="@font/poppins_regular"
                             android:backgroundTint="@color/white"
-                            android:layout_marginEnd="12dp"
-                            app:cornerRadius="20dp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_create_exam"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Create Exam"
-                            android:textSize="14sp"
-                            android:textAllCaps="false"
-                            app:backgroundTint="@color/DarkBlue"
-                            android:textColor="@color/white"
-                            app:cornerRadius="20dp" />
+                            app:cornerRadius="50dp" />
                     </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_create_exam"
+                        android:layout_width="match_parent"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Create Exam"
+                        android:textSize="14sp"
+                        android:textAllCaps="false"
+                        app:backgroundTint="@color/DarkBlue"
+                        android:textColor="@color/white"
+                        android:fontFamily="@font/poppins_regular"
+                        app:cornerRadius="50dp"
+                        android:padding="10dp"/>
 
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
