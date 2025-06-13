@@ -16,78 +16,56 @@
         android:background="@android:color/transparent"
         app:elevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
-            android:paddingBottom="24dp">
-
+            android:paddingTop="48dp"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:layout_gravity="center"
+            android:gravity="center">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#7FFFFFFF"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/iv_back"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:src="@android:drawable/ic_menu_revert"
-                    app:tint="@color/DarkBlue" />
+                    android:contentDescription="Back"
+                    android:padding="9dp"
+                    android:scaleType="centerCrop"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/back_button_animation" />
             </com.google.android.material.card.MaterialCardView>
-
 
             <TextView
-                android:id="@+id/tv_page_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Exam Scheduling"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:fontFamily="@font/poppins_bold"
+                android:text="Schedule Exams"
                 android:textColor="@color/DarkBlue"
+                android:gravity="left"
                 android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/cv_back"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cv_back" />
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_add_exam"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintStart_toEndOf="@id/cv_back"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            </com.google.android.material.card.MaterialCardView>
-
-
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animation_exam"
-                android:layout_width="120dp"
-                android:layout_height="80dp"
-                android:layout_marginTop="24dp"
-                android:scaleType="centerCrop"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/exam"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_page_title" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -108,10 +86,12 @@
             android:paddingBottom="80dp">
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="20dp"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="@color/white">
 
@@ -138,6 +118,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Find Exam"
+                            android:fontFamily="@font/poppins_regular"
                             android:textColor="@color/DarkBlue"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -148,8 +129,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="40dp"
                             android:text="Search"
+                            android:fontFamily="@font/poppins_regular"
                             android:textAllCaps="false"
-                            android:textSize="14sp"
+                            android:textSize="12sp"
                             app:cornerRadius="20dp"
                             app:backgroundTint="@color/DarkBlue"
                             android:textStyle="bold" />
@@ -177,6 +159,7 @@
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/et_search"
+                            android:fontFamily="@font/poppins_regular"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="text" />
@@ -207,6 +190,7 @@
                                 android:id="@+id/dropdown_exam_type"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_regular"
                                 android:inputType="none" />
                         </com.google.android.material.textfield.TextInputLayout>
 
@@ -226,6 +210,7 @@
                             app:boxStrokeColor="#263A5B">
 
                             <AutoCompleteTextView
+                                android:fontFamily="@font/poppins_regular"
                                 android:id="@+id/dropdown_semester"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -233,14 +218,16 @@
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
 
-            <androidx.cardview.widget.CardView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 app:cardCornerRadius="20dp"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 app:cardElevation="4dp"
                 app:cardBackgroundColor="@color/white">
 
@@ -266,6 +253,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Exam Statistics"
+                            android:fontFamily="@font/poppins_medium"
                             android:textColor="@color/DarkBlue"
                             android:textSize="18sp"
                             android:textStyle="bold"
@@ -292,7 +280,8 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="#A5A2A2"
+                            android:background="@drawable/glass_background"
+                            android:backgroundTint="@color/white"
                             android:padding="12dp">
 
                             <TextView
@@ -320,7 +309,8 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@android:color/holo_green_light"
+                            android:background="@drawable/glass_background"
+                            android:backgroundTint="@android:color/holo_green_light"
                             android:padding="12dp"
                             android:layout_marginHorizontal="12dp">
 
@@ -349,7 +339,8 @@
                             android:layout_weight="1"
                             android:orientation="vertical"
                             android:gravity="center"
-                            android:background="@android:color/holo_orange_light"
+                            android:background="@drawable/glass_background"
+                            android:backgroundTint="@android:color/holo_orange_light"
                             android:padding="12dp">
 
                             <TextView
@@ -401,7 +392,7 @@
                         android:textStyle="bold"
                         android:layout_marginTop="4dp" />
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            </LinearLayout>
 
 
             <LinearLayout
