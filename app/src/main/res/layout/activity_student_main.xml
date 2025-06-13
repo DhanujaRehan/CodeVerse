@@ -25,21 +25,15 @@ android:name=".Students.Activities.StudentMainActivity"
 
 <com.google.android.material.bottomnavigation.BottomNavigationView
     android:id="@+id/bottomNavigationView"
-    android:elevation="10dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:menu="@menu/admin_bottom_nav_menu"
-    app:labelVisibilityMode="auto"
-    app:itemTextColor="@color/white"
+    app:labelVisibilityMode="unlabeled"
     android:foregroundGravity="center"
-    app:itemBackground="@color/DarkBlue"
-    android:layout_marginStart="10dp"
-    android:layout_marginBottom="10dp"
-    android:layout_marginEnd="10dp"
-    app:itemIconTint="@color/white"
+    app:itemIconTint="@color/MiddleBlue"
     app:itemRippleColor="@color/white"
     />
 
