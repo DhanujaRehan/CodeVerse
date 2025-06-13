@@ -48,9 +48,6 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".Admin.Activities.NotificationHistoryActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginScreens.WelcomeScreen"
             android:exported="false" />
         <activity

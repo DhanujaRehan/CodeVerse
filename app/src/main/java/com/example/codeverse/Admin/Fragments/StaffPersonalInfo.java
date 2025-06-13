@@ -53,8 +53,6 @@ public class StaffPersonalInfo extends Fragment {
     private Staff currentStaff;
     private long staffId = -1;
 
-    // Views from XML layout
-    private MaterialCardView cvBack, cvHelp;
     private ImageView ivStaffPhoto;
     private FloatingActionButton fabAddPhoto;
     private TextInputEditText etFullName, etEmail, etContactNumber, etNicNumber, etDateOfBirth;
@@ -66,7 +64,6 @@ public class StaffPersonalInfo extends Fragment {
     private String selectedImageUri = null;
     private Calendar calendar = Calendar.getInstance();
 
-    // Initialize image picker launcher
     private ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -75,7 +72,7 @@ public class StaffPersonalInfo extends Fragment {
                     if (selectedImageUri != null) {
                         ivStaffPhoto.setImageURI(selectedImageUri);
                         ivStaffPhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        // Save the image and get the file path
+
                         String savedImagePath = saveImageToInternalStorage(selectedImageUri);
                         if (savedImagePath != null) {
                             this.selectedImageUri = savedImagePath;
@@ -97,21 +94,21 @@ public class StaffPersonalInfo extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Initialize database helper
+
         dbHelper = new StaffDatabaseHelper(getContext());
 
-        // Get staff ID from arguments if provided
+
         if (getArguments() != null) {
             staffId = getArguments().getLong(ARG_STAFF_ID, -1);
         }
 
-        // Check if we're editing an existing staff or creating new
+
         Bundle args = getArguments();
         if (args != null && args.containsKey("staff")) {
             currentStaff = (Staff) args.getSerializable("staff");
             Log.d(TAG, "Editing existing staff: " + (currentStaff != null ? currentStaff.getFullName() : "null"));
         } else if (staffId != -1) {
-            // Load existing staff by ID
+
             currentStaff = dbHelper.getStaffById(staffId);
             if (currentStaff != null) {
                 Log.d(TAG, "Loaded existing staff: " + currentStaff.getFullName());
@@ -128,19 +125,19 @@ public class StaffPersonalInfo extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_staff_personal_info, container, false);
 
-        // Initialize views
+
         initializeViews(view);
 
-        // Set up click listeners
+
         setupClickListeners();
 
-        // Setup text change listeners
+
         setupTextChangeListeners();
 
-        // Setup gender dropdown
+
         setupGenderDropdown();
 
-        // Populate fields if editing existing staff
+
         populateFieldsFromStaff();
 
         return view;
@@ -148,9 +145,7 @@ public class StaffPersonalInfo extends Fragment {
 
     private void initializeViews(View view) {
         try {
-            // Initialize views with exact IDs from XML
-            cvBack = view.findViewById(R.id.cv_back);
-            cvHelp = view.findViewById(R.id.cv_help);
+
             ivStaffPhoto = view.findViewById(R.id.iv_staff_photo);
             fabAddPhoto = view.findViewById(R.id.fab_add_photo);
             etFullName = view.findViewById(R.id.et_full_name);
@@ -160,7 +155,7 @@ public class StaffPersonalInfo extends Fragment {
             etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
             dropdownGender = view.findViewById(R.id.dropdown_gender);
 
-            // Initialize TextInputLayouts for error handling
+
             tilFullName = view.findViewById(R.id.til_full_name);
             tilEmail = view.findViewById(R.id.til_email);
             tilContactNumber = view.findViewById(R.id.til_contact_number);
@@ -180,32 +175,19 @@ public class StaffPersonalInfo extends Fragment {
     }
 
     private void setupClickListeners() {
-        // Back button
-        if (cvBack != null) {
-            cvBack.setOnClickListener(v -> {
-                if (getActivity() != null) {
-                    getActivity().onBackPressed();
-                }
-            });
-        }
 
-        // Help button
-        if (cvHelp != null) {
-            cvHelp.setOnClickListener(v -> showHelpDialog());
-        }
 
-        // Photo selection
         if (fabAddPhoto != null) {
             fabAddPhoto.setOnClickListener(v -> showImagePickerDialog());
         }
 
-        // Date picker for date of birth
+
         if (etDateOfBirth != null) {
             etDateOfBirth.setOnClickListener(v -> showDatePicker());
             etDateOfBirth.setFocusable(false);
         }
 
-        // Next step button
+
         if (btnNextStep != null) {
             btnNextStep.setOnClickListener(v -> {
                 if (validatePersonalInformation()) {
@@ -214,7 +196,7 @@ public class StaffPersonalInfo extends Fragment {
             });
         }
 
-        // Cancel button
+
         if (btnCancel != null) {
             btnCancel.setOnClickListener(v -> cancelRegistration());
         }
@@ -265,24 +247,6 @@ public class StaffPersonalInfo extends Fragment {
         }
     }
 
-    private void showHelpDialog() {
-        if (getContext() != null) {
-            new AlertDialog.Builder(getContext())
-                    .setTitle("Help")
-                    .setMessage("Fill in all required personal information fields. Photo is optional but recommended.\n\n" +
-                            "Required fields:\n" +
-                            "• Full Name\n" +
-                            "• Contact Number\n" +
-                            "• NIC Number\n" +
-                            "• Gender\n" +
-                            "• Date of Birth\n\n" +
-                            "Optional fields:\n" +
-                            "• Email\n" +
-                            "• Photo")
-                    .setPositiveButton("OK", null)
-                    .show();
-        }
-    }
 
     private void showImagePickerDialog() {
         if (getContext() != null) {
@@ -328,12 +292,11 @@ public class StaffPersonalInfo extends Fragment {
                             etDateOfBirth.setText(sdf.format(calendar.getTime()));
                         }
                     },
-                    calendar.get(Calendar.YEAR) - 25, // Default to 25 years ago
+                    calendar.get(Calendar.YEAR) - 25,
                     calendar.get(Calendar.MONTH),
                     calendar.get(Calendar.DAY_OF_MONTH)
             );
 
-            // Set maximum date to today (can't select future dates)
             datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
             datePickerDialog.show();
         }
@@ -342,24 +305,24 @@ public class StaffPersonalInfo extends Fragment {
     private void proceedToNextStep() {
         Log.d(TAG, "Proceeding to next step...");
 
-        // Check for duplicate values first
+
         if (checkForDuplicates()) {
             Log.w(TAG, "Duplicate values found, stopping process");
             return;
         }
 
-        // Show loading
+
         showLoading(true);
 
-        // Save personal information to current staff object
+
         savePersonalInformation();
 
-        // Save to database with improved error handling
+
         new Handler().postDelayed(() -> {
             try {
                 long resultId;
                 if (currentStaff != null && currentStaff.getId() > 0) {
-                    // Update existing staff
+
                     Log.d(TAG, "Updating existing staff with ID: " + currentStaff.getId());
                     int rowsAffected = dbHelper.updateStaff(currentStaff);
                     resultId = currentStaff.getId();
@@ -372,7 +335,7 @@ public class StaffPersonalInfo extends Fragment {
                         return;
                     }
                 } else {
-                    // Insert new staff
+
                     Log.d(TAG, "Inserting new staff: " + currentStaff.getFullName());
                     resultId = dbHelper.insertStaff(currentStaff);
                     if (resultId > 0) {
@@ -381,40 +344,41 @@ public class StaffPersonalInfo extends Fragment {
                     }
                 }
 
-                // Hide loading
+
                 showLoading(false);
 
                 if (resultId > 0) {
                     showToast("Personal information saved successfully!");
                     Log.d(TAG, "Staff operation successful, navigating to next step");
 
-                    // Navigate to next step (Professional Details)
+
                     navigateToProfessionalDetails();
                 } else {
                     Log.e(TAG, "Failed to save staff to database. Result ID: " + resultId);
                     showToast("Failed to save staff information. Please check your data and try again.");
                 }
             } catch (Exception e) {
-                // Hide loading
+
                 showLoading(false);
                 Log.e(TAG, "Error saving staff: " + e.getMessage(), e);
                 showToast("Error saving staff: " + e.getMessage());
             }
-        }, 1000); // Reduced delay for better UX
+        }, 1000);
+
     }
 
     private boolean validatePersonalInformation() {
         boolean isValid = true;
         Log.d(TAG, "Validating personal information...");
 
-        // Validate full name
+
         if (etFullName == null || etFullName.getText().toString().trim().isEmpty()) {
             setFieldError(tilFullName, etFullName, "Full name is required");
             if (etFullName != null) etFullName.requestFocus();
             isValid = false;
         }
 
-        // Validate email (optional but if provided, should be valid)
+
         if (etEmail != null) {
             String email = etEmail.getText().toString().trim();
             if (!email.isEmpty() && !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
@@ -424,7 +388,7 @@ public class StaffPersonalInfo extends Fragment {
             }
         }
 
-        // Validate contact number
+
         if (etContactNumber == null || etContactNumber.getText().toString().trim().isEmpty()) {
             setFieldError(tilContactNumber, etContactNumber, "Contact number is required");
             if (etContactNumber != null) etContactNumber.requestFocus();
@@ -435,21 +399,21 @@ public class StaffPersonalInfo extends Fragment {
             isValid = false;
         }
 
-        // Validate NIC number
+
         if (etNicNumber == null || etNicNumber.getText().toString().trim().isEmpty()) {
             setFieldError(tilNicNumber, etNicNumber, "NIC number is required");
             if (etNicNumber != null) etNicNumber.requestFocus();
             isValid = false;
         }
 
-        // Validate gender
+
         if (dropdownGender == null || dropdownGender.getText().toString().trim().isEmpty()) {
             setFieldError(tilGender, dropdownGender, "Please select gender");
             if (dropdownGender != null) dropdownGender.requestFocus();
             isValid = false;
         }
 
-        // Validate date of birth
+
         if (etDateOfBirth == null || etDateOfBirth.getText().toString().trim().isEmpty()) {
             setFieldError(tilDateOfBirth, etDateOfBirth, "Date of birth is required");
             if (etDateOfBirth != null) etDateOfBirth.requestFocus();
@@ -484,10 +448,10 @@ public class StaffPersonalInfo extends Fragment {
         Log.d(TAG, "Checking duplicates for Email: '" + email + "', NIC: '" + nicNumber + "'");
 
         try {
-            // Check email if provided and not empty
+
             if (!email.isEmpty()) {
                 if (dbHelper.isEmailExists(email)) {
-                    // Allow if we're editing the same staff with the same email
+
                     if (currentStaff == null || currentStaff.getId() == 0 || !email.equals(currentStaff.getEmail())) {
                         setFieldError(tilEmail, etEmail, "Email already exists");
                         etEmail.requestFocus();
@@ -497,9 +461,8 @@ public class StaffPersonalInfo extends Fragment {
                 }
             }
 
-            // Check NIC (always required)
             if (dbHelper.isNicExists(nicNumber)) {
-                // Allow if we're editing the same staff with the same NIC
+
                 if (currentStaff == null || currentStaff.getId() == 0 || !nicNumber.equals(currentStaff.getNicNumber())) {
                     setFieldError(tilNicNumber, etNicNumber, "NIC number already exists");
                     etNicNumber.requestFocus();
@@ -522,7 +485,6 @@ public class StaffPersonalInfo extends Fragment {
             currentStaff = new Staff();
         }
 
-        // Save personal information to staff object
         if (etFullName != null) {
             currentStaff.setFullName(etFullName.getText().toString().trim());
         }
@@ -555,18 +517,19 @@ public class StaffPersonalInfo extends Fragment {
                 return;
             }
 
-            // Create bundle to pass staff data to the next fragment
+
             Bundle args = new Bundle();
             args.putSerializable("staff", currentStaff);
 
-            // Create instance of StaffProfessionalInfo fragment
+
             StaffProfessionalInfo staffProfessionalInfo = new StaffProfessionalInfo();
             staffProfessionalInfo.setArguments(args);
 
-            // Navigate to Professional Details Fragment
+
             getParentFragmentManager().beginTransaction()
                     .replace(R.id.framelayout, staffProfessionalInfo)
-                    .addToBackStack("StaffPersonalInfo") // Add to back stack so user can return
+                    .addToBackStack("StaffPersonalInfo")
+
                     .commit();
 
             Log.d(TAG, "Successfully navigated to Professional Details with staff ID: " + currentStaff.getId());
@@ -618,7 +581,7 @@ public class StaffPersonalInfo extends Fragment {
             loadingOverlay.setVisibility(show ? View.VISIBLE : View.GONE);
         }
 
-        // Disable/enable buttons during loading
+
         if (btnNextStep != null) {
             btnNextStep.setEnabled(!show);
         }
@@ -644,7 +607,7 @@ public class StaffPersonalInfo extends Fragment {
             String filename = "staff_photo_" + timestamp + ".jpg";
             File imageFile = new File(photosDir, filename);
 
-            // Copy image from URI to internal storage
+
             InputStream inputStream = getContext().getContentResolver().openInputStream(imageUri);
             if (inputStream == null) {
                 Log.e(TAG, "Cannot open input stream for image");
@@ -671,15 +634,6 @@ public class StaffPersonalInfo extends Fragment {
         }
     }
 
-    // Getter method for other fragments to access the current staff data
-    public Staff getCurrentStaff() {
-        return currentStaff;
-    }
-
-    public void setCurrentStaff(Staff staff) {
-        this.currentStaff = staff;
-        populateFieldsFromStaff();
-    }
 
     private void populateFieldsFromStaff() {
         if (currentStaff != null) {
@@ -717,18 +671,6 @@ public class StaffPersonalInfo extends Fragment {
         }
     }
 
-    private void clearForm() {
-        if (etFullName != null) etFullName.setText("");
-        if (etEmail != null) etEmail.setText("");
-        if (etContactNumber != null) etContactNumber.setText("");
-        if (etNicNumber != null) etNicNumber.setText("");
-        if (dropdownGender != null) dropdownGender.setText("");
-        if (etDateOfBirth != null) etDateOfBirth.setText("");
-        if (ivStaffPhoto != null) ivStaffPhoto.setImageResource(R.drawable.addpropic);
-        selectedImageUri = null;
-        clearErrors();
-        Log.d(TAG, "Form cleared");
-    }
 
     private void showToast(String message) {
         if (getContext() != null) {

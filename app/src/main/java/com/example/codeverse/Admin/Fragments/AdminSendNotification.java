@@ -10,7 +10,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,11 +30,13 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.codeverse.Admin.Helpers.NotificationDatabaseHelper;
-import com.example.codeverse.Admin.Activities.NotificationHistoryActivity;
+import com.example.codeverse.NotificationHistoryFragment;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.example.codeverse.R;
@@ -57,7 +58,8 @@ public class AdminSendNotification extends Fragment {
     private LinearLayout layoutScheduleOptions, layoutAttachedFiles;
     private MaterialButton btnSaveAsDraft, btnSend, btnBrowse;
     private TextView tvPreviewTitle, tvPreviewMessage;
-    private ImageView ivBack, ivNotificationHistory;
+    private ImageView ivBack;
+    private MaterialCardView ivNotificationHistory;
 
     private NotificationDatabaseHelper dbHelper;
     private Calendar selectedDateTime;
@@ -110,7 +112,7 @@ public class AdminSendNotification extends Fragment {
         tvPreviewMessage = view.findViewById(R.id.tvPreviewMessage);
 
          ivBack = view.findViewById(R.id.iv_back);
-        ivNotificationHistory = view.findViewById(R.id.iv_notification_history);
+         ivNotificationHistory = view.findViewById(R.id.cv_notification_history);
     }
 
     private void setupDropdowns() {
@@ -179,8 +181,11 @@ public class AdminSendNotification extends Fragment {
         });
 
         ivNotificationHistory.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), NotificationHistoryActivity.class);
-            startActivity(intent);
+            NotificationHistoryFragment notificationHistoryFragment = new NotificationHistoryFragment();
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            transaction.replace(R.id.framelayout, notificationHistoryFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         });
     }
 

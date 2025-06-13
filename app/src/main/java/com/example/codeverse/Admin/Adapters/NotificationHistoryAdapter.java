@@ -1,10 +1,11 @@
-package com.example.codeverse.Admin;
+package com.example.codeverse.Admin.Adapters;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -154,7 +155,7 @@ public class NotificationHistoryAdapter extends RecyclerView.Adapter<Notificatio
     }
 
     public static class HistoryViewHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
+        LinearLayout cardView;
         View viewPriorityIndicator;
         TextView tvTitle, tvMessage, tvCategory, tvRecipients, tvPriority, tvStatus,
                 tvSentDate, tvDeliveryMethods, tvDeliveredCount, tvReadCount,
