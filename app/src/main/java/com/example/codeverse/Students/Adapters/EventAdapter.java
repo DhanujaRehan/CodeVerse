@@ -4,11 +4,17 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Models.Event;
+import com.example.codeverse.Students.StudentFragments.EventRegistration;
+
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
@@ -36,6 +42,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvEventDate.setText(event.getDate());
         holder.tvEventTime.setText(event.getTime());
         holder.tvEventVenue.setText(event.getVenue());
+
+        holder.currentEvent = event;
     }
 
     @Override
@@ -46,15 +54,31 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public class EventViewHolder extends RecyclerView.ViewHolder {
         TextView tvEventTitle, tvEventDescription, tvEventDate, tvEventTime, tvEventVenue;
         ImageView ivEventImage;
+        Button button_register;
+        Event currentEvent; // Store current event for click handling
 
         public EventViewHolder(View itemView) {
             super(itemView);
+            button_register = itemView.findViewById(R.id.button_register);
             tvEventTitle = itemView.findViewById(R.id.tv_event_title);
             tvEventDescription = itemView.findViewById(R.id.tv_event_description);
             tvEventDate = itemView.findViewById(R.id.tv_event_date);
             tvEventTime = itemView.findViewById(R.id.tv_event_time);
             tvEventVenue = itemView.findViewById(R.id.tv_event_venue);
             ivEventImage = itemView.findViewById(R.id.iv_event_image);
+
+            button_register.setOnClickListener(v -> {
+                if (context instanceof FragmentActivity && currentEvent != null) {
+                    EventRegistration eventRegisterFragment = new EventRegistration();
+
+                    FragmentTransaction transaction = ((FragmentActivity) context)
+                            .getSupportFragmentManager()
+                            .beginTransaction();
+                    transaction.replace(R.id.framelayout, eventRegisterFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
+                }
+            });
         }
     }
 }
