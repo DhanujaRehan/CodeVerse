@@ -13,28 +13,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 import com.google.android.material.card.MaterialCardView;
-import com.google.android.material.button.MaterialButton;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Helper.EventHelper;
+import com.example.codeverse.Staff.Helper.ClassScheduleHelper;
 import com.example.codeverse.Staff.Models.Event;
+import com.example.codeverse.Staff.Models.StudentClassSchedule;
 import com.example.codeverse.EventAdapter;
+import com.example.codeverse.StudentScheduleAdapter;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class StudentHomeFragment extends Fragment {
 
     private ImageView iv_notification, iv_profile, iv_close_notification;
     private TextView tv_attendance, tv_gpa, tv_credits;
-    private TextView tv_class_name, tv_professor_name, tv_class_time, tv_class_location;
-    private TextView tv_view_schedule, tv_view_all_assignments;
+    private TextView tv_view_all_schedules, tv_view_all_assignments;
     private LinearLayout layout_assignments, layout_grades, layout_calendar, layout_resources;
     private MaterialCardView cv_notification, cv_profile;
     private CardView card_notification_banner;
-    private MaterialButton btn_join_class;
-    private RecyclerView rv_events;
+    private RecyclerView rv_events, rv_schedules;
 
     private EventHelper eventHelper;
+    private ClassScheduleHelper scheduleHelper;
     private EventAdapter eventAdapter;
+    private StudentScheduleAdapter scheduleAdapter;
     private List<Event> eventList;
+    private List<StudentClassSchedule> scheduleList;
 
     public StudentHomeFragment() {}
 
@@ -57,8 +63,9 @@ public class StudentHomeFragment extends Fragment {
         initViews(view);
         setupClickListeners();
         loadData();
-        setupRecyclerView();
+        setupRecyclerViews();
         loadEvents();
+        loadSchedules();
     }
 
     private void initViews(View view) {
@@ -70,12 +77,7 @@ public class StudentHomeFragment extends Fragment {
         tv_gpa = view.findViewById(R.id.tv_gpa);
         tv_credits = view.findViewById(R.id.tv_credits);
 
-        tv_class_name = view.findViewById(R.id.tv_class_name);
-        tv_professor_name = view.findViewById(R.id.tv_professor_name);
-        tv_class_time = view.findViewById(R.id.tv_class_time);
-        tv_class_location = view.findViewById(R.id.tv_class_location);
-
-        tv_view_schedule = view.findViewById(R.id.tv_view_schedule);
+        tv_view_all_schedules = view.findViewById(R.id.tv_view_all_schedules);
         tv_view_all_assignments = view.findViewById(R.id.tv_view_all_assignments);
 
         layout_assignments = view.findViewById(R.id.layout_assignments);
@@ -87,20 +89,31 @@ public class StudentHomeFragment extends Fragment {
         cv_profile = view.findViewById(R.id.cv_profile);
         card_notification_banner = view.findViewById(R.id.card_notification_banner);
 
-        btn_join_class = view.findViewById(R.id.btn_join_class);
         rv_events = view.findViewById(R.id.rv_events);
+        rv_schedules = view.findViewById(R.id.rv_schedules);
 
         eventHelper = new EventHelper(getContext());
+        scheduleHelper = new ClassScheduleHelper(getContext());
     }
 
-    private void setupRecyclerView() {
+    private void setupRecyclerViews() {
         rv_events.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_schedules.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
     private void loadEvents() {
         eventList = eventHelper.getAllEvents();
         eventAdapter = new EventAdapter(getContext(), eventList);
         rv_events.setAdapter(eventAdapter);
+    }
+
+    private void loadSchedules() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String currentDate = sdf.format(new Date());
+
+        scheduleList = scheduleHelper.getStudentSchedulesByDate(currentDate);
+        scheduleAdapter = new StudentScheduleAdapter(getContext(), scheduleList);
+        rv_schedules.setAdapter(scheduleAdapter);
     }
 
     private void setupClickListeners() {
@@ -120,22 +133,15 @@ public class StudentHomeFragment extends Fragment {
 
         layout_resources.setOnClickListener(v -> openResources());
 
-        tv_view_schedule.setOnClickListener(v -> openSchedule());
+        tv_view_all_schedules.setOnClickListener(v -> openSchedule());
 
         tv_view_all_assignments.setOnClickListener(v -> openAssignments());
-
-        btn_join_class.setOnClickListener(v -> joinVirtualClass());
     }
 
     private void loadData() {
         tv_attendance.setText("97%");
         tv_gpa.setText("3.85");
         tv_credits.setText("76");
-
-        tv_class_name.setText("Advanced Data Structures");
-        tv_professor_name.setText("Prof. Sarah Johnson");
-        tv_class_time.setText("09:30 - 11:30 AM");
-        tv_class_location.setText("Room CS-302");
     }
 
     private void openNotifications() {
@@ -149,7 +155,7 @@ public class StudentHomeFragment extends Fragment {
     private void openProfile() {
         StudentProfile studentProfile = new StudentProfile();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout,studentProfile);
+        transaction.replace(R.id.framelayout, studentProfile);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -157,7 +163,7 @@ public class StudentHomeFragment extends Fragment {
     private void openAssignments() {
         AssignmentUpload assignmentUpload = new AssignmentUpload();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout,assignmentUpload);
+        transaction.replace(R.id.framelayout, assignmentUpload);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -165,7 +171,7 @@ public class StudentHomeFragment extends Fragment {
     private void openGrades() {
         AssignmentUpload assignmentUpload = new AssignmentUpload();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout,assignmentUpload);
+        transaction.replace(R.id.framelayout, assignmentUpload);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -173,7 +179,7 @@ public class StudentHomeFragment extends Fragment {
     private void openCalendar() {
         StudentClass studentClass = new StudentClass();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout,studentClass);
+        transaction.replace(R.id.framelayout, studentClass);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -185,12 +191,8 @@ public class StudentHomeFragment extends Fragment {
     private void openSchedule() {
         StudentExam studentExam = new StudentExam();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout,studentExam);
+        transaction.replace(R.id.framelayout, studentExam);
         transaction.addToBackStack(null);
         transaction.commit();
-    }
-
-    private void joinVirtualClass() {
-
     }
 }
