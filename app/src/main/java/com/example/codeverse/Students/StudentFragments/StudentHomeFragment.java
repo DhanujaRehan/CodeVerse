@@ -65,7 +65,6 @@ public class StudentHomeFragment extends Fragment {
 
         initViews(view);
         setupClickListeners();
-        loadData();
         setupRecyclerViews();
         loadEvents();
         loadSchedules();
