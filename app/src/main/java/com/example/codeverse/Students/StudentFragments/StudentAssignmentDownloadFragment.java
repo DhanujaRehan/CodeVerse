@@ -16,7 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.codeverse.Assignment;
+import com.example.codeverse.Students.Models.Assignment;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Helper.AssignmentHelper;
 import com.example.codeverse.Students.Adapters.AssignmentAdapter;

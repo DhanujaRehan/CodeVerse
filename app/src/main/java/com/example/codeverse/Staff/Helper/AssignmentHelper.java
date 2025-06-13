@@ -6,7 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.codeverse.Assignment;
+import com.example.codeverse.Students.Models.Assignment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

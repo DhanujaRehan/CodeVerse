@@ -1,4 +1,4 @@
-package com.example.codeverse;
+package com.example.codeverse.Students.Adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
