@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Models.Student;
@@ -175,12 +176,8 @@ public class ContactDetails extends Fragment {
 
         btnGoToDashboard.setOnClickListener(v -> {
             showToast("Student registration completed successfully!");
-
+            showUserList();
             clearAllRegistrationData();
-
-            if (getActivity() != null) {
-                getActivity().finish();
-            }
         });
     }
 
@@ -418,6 +415,13 @@ public class ContactDetails extends Fragment {
     private void clearAllRegistrationData() {
         clearForm();
         Log.d(TAG, "All registration data cleared for completed student registration");
+    }
+
+    private void showUserList(){
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, new UserShowingFragment());
+        transaction.addToBackStack(null); // Optional: allows back navigation
+        transaction.commit();
     }
 
     @Override
