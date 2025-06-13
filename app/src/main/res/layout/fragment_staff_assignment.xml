@@ -55,7 +55,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
-                android:text="Upload Reciept"
+                android:text="Assignments"
                 android:textColor="@color/DarkBlue"
                 android:gravity="center"
                 android:textSize="24sp"

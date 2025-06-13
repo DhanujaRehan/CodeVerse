@@ -1,23 +1,17 @@
-package com.example.codeverse;
-
-import static com.example.codeverse.R.id.cardAddAssignment;
+package com.example.codeverse.Students.StudentFragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.codeverse.R;
-import com.example.codeverse.Students.StudentFragments.AssignmentUpload;
-import com.example.codeverse.Students.StudentFragments.StudentAssignmentDownloadFragment;
 
 public class StudentAssignmentHome extends Fragment {
 
@@ -32,7 +26,7 @@ public class StudentAssignmentHome extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_staff_assignment, container, false);
+        View view = inflater.inflate(R.layout.fragment_student_assignment_home, container, false);
         cardAddAssignment = view.findViewById(R.id.cardAddAssignment);
         cardManageAssignment = view.findViewById(R.id.cardManageAssignment);
 

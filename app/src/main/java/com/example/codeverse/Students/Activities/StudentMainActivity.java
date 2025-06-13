@@ -5,11 +5,13 @@ import android.os.Bundle;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.codeverse.Students.StudentFragments.StudentClass;
 import com.example.codeverse.Students.StudentFragments.StudentNotesFragment;
 import com.example.codeverse.Students.StudentFragments.StudentAssignmentDownloadFragment;
 import com.example.codeverse.Students.StudentFragments.StudentHomeFragment;
 import com.example.codeverse.Students.StudentFragments.PaymentScreenFragment;
 import com.example.codeverse.R;
+import com.example.codeverse.Students.StudentFragments.StudentProfile;
 import com.example.codeverse.databinding.ActivityStudentMainBinding;
 
 public class StudentMainActivity extends AppCompatActivity {
@@ -38,17 +40,17 @@ public class StudentMainActivity extends AppCompatActivity {
             }
             else if (itemid == R.id.navassignments){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new StudentAssignmentDownloadFragment())
+                        .replace(R.id.framelayout, new StudentClass())
                         .commit();
             }
             else if (itemid == R.id.navschedule){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new StudentNotesFragment())
+                        .replace(R.id.framelayout, new PaymentScreenFragment())
                         .commit();
             }
             else if (itemid == R.id.navprofile){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new PaymentScreenFragment())
+                        .replace(R.id.framelayout, new StudentProfile())
                         .commit();
             }
             return true;
