@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/staff_bottom_nav_menu"
-        app:labelVisibilityMode="auto"
+        app:labelVisibilityMode="unlabeled"
         app:itemTextColor="@color/DarkBlue2"
         android:foregroundGravity="center"
         app:itemBackground="@color/white"
