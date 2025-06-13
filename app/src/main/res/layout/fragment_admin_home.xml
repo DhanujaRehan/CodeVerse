@@ -61,18 +61,10 @@
                 android:id="@+id/cv_admin_profile"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
+                app:cardBackgroundColor="@color/transparent"
                 app:cardCornerRadius="50dp"
                 android:layout_marginHorizontal="5dp"
                 app:cardElevation="0dp">
-
-                <ImageView
-                    android:id="@+id/iv_admin_profile"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_person"
-                    app:tint="#FFFFFF" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -406,7 +398,7 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:id="@+id/layout_admin_profile"
+                            android:id="@+id/layout_all_users"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -437,7 +429,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
                                 android:fontFamily="@font/poppins_medium"
-                                android:text="Admin Profile"
+                                android:text="All Users"
                                 android:textColor="#333333"
                                 android:textSize="14sp"
                                 android:gravity="center" />

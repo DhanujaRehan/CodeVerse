@@ -22,7 +22,7 @@ public class AdminHomeFragment extends Fragment {
     private LinearLayout layoutCreateStudent;
     private LinearLayout layoutCreateLecturer;
     private LinearLayout layoutSendNotification;
-    private LinearLayout layoutAdminProfile;
+    private LinearLayout layoutAllUsers;
     private MaterialButton btnSystemStatus;
     private TextView tvViewDetails;
 
@@ -41,7 +41,7 @@ public class AdminHomeFragment extends Fragment {
         layoutCreateStudent = view.findViewById(R.id.layout_create_student);
         layoutCreateLecturer = view.findViewById(R.id.layout_create_lecturer);
         layoutSendNotification = view.findViewById(R.id.layout_send_notification);
-        layoutAdminProfile = view.findViewById(R.id.layout_admin_profile);
+        layoutAllUsers = view.findViewById(R.id.layout_all_users);
         btnSystemStatus = view.findViewById(R.id.btn_system_status);
         tvViewDetails = view.findViewById(R.id.tv_view_details);
     }
@@ -73,8 +73,12 @@ public class AdminHomeFragment extends Fragment {
             transaction.commit();
         });
 
-        layoutAdminProfile.setOnClickListener(v -> {
-
+        layoutAllUsers.setOnClickListener(v -> {
+            UserShowingFragment userShowingFragment = new UserShowingFragment();
+            FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+            transaction.replace(R.id.framelayout, userShowingFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         });
 
 
