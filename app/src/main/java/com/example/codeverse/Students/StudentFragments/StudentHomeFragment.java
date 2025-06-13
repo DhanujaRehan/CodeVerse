@@ -130,9 +130,9 @@ public class StudentHomeFragment extends Fragment {
 
     private void openProfile() {
 
-        StudentProfileEdit studentProfileEdit = new StudentProfileEdit();
+        StudentProfile studentProfile = new StudentProfile();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout,studentProfileEdit);
+        transaction.replace(R.id.framelayout,studentProfile);
         transaction.addToBackStack(null);
         transaction.commit();
 
