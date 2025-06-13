@@ -24,6 +24,26 @@
             android:layout_gravity="center"
             android:gravity="center">
 
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_back"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                app:cardBackgroundColor="#7FFFFFFF"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="0dp">
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/iv_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:contentDescription="Back"
+                    android:padding="9dp"
+                    android:scaleType="centerCrop"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/back_button_animation" />
+            </com.google.android.material.card.MaterialCardView>
 
             <TextView
                 android:layout_width="0dp"
@@ -176,6 +196,53 @@
                                 app:lottie_autoPlay="true"
                                 app:lottie_loop="true"
                                 app:lottie_rawRes="@raw/manage_assignment_animation" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/poppins_semibold"
+                                android:text="Download Assignments"
+                                android:textAlignment="center"
+                                android:textColor="#1A5276"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:fontFamily="@font/poppins_regular"
+                                android:text="Check for the newest assignemnts"
+                                android:textAlignment="center"
+                                android:textColor="#5A7A9A"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/grades"
+                        android:layout_width="0dp"
+                        android:layout_height="200dp"
+                        android:layout_columnWeight="1"
+                        android:layout_rowWeight="1"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/glass_background"
+                        android:backgroundTint="#FFFFFF">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:padding="16dp">
+
+                            <com.airbnb.lottie.LottieAnimationView
+                                android:layout_width="58dp"
+                                android:layout_height="58dp"
+                                android:layout_marginBottom="8dp"
+                                app:lottie_autoPlay="true"
+                                android:scaleType="centerCrop"
+                                app:lottie_loop="true"
+                                app:lottie_rawRes="@raw/grades" />
 
                             <TextView
                                 android:layout_width="wrap_content"

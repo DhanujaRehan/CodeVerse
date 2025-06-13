@@ -39,32 +39,26 @@ public class GradeSubmission extends Fragment {
 
     private static final String TAG = "GradeSubmissions";
 
-    // Selection form views
     private AutoCompleteTextView dropdownProgramme, dropdownBatch, dropdownModule, dropdownAssessment;
     private MaterialButton btnViewSubmissions;
 
-    // Submissions list views
     private LinearLayout cardSubmissionsList, layoutGradeDetails;
     private RecyclerView rvSubmissionsList, rvSubmissionFiles;
     private TextView tvSubmissionsHeader;
 
-    // Grade details views
     private TextView tvStudentId, tvStudentName, tvSubmissionDate;
     private TextInputEditText etMarks, etFeedback;
     private AutoCompleteTextView dropdownGrade;
     private MaterialButton btnCancel, btnSubmitGrade;
 
-    // Loading overlay
     private FrameLayout loadingOverlay;
 
-    // Database helper
+
     private AssignmentUploadHelper dbHelper;
 
-    // Adapters
     private SubmissionsListAdapter submissionsAdapter;
     private SubmissionFilesAdapter filesAdapter;
 
-    // Data
     private List<AssignmentModel> submissionsList;
     private List<String> submissionFiles;
     private AssignmentModel currentSubmission;
