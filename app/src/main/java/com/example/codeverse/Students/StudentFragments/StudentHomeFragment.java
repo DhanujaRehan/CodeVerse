@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.LinearLayout;
 import android.widget.FrameLayout;
+
 import com.google.android.material.card.MaterialCardView;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Helper.EventHelper;
@@ -30,7 +31,7 @@ public class StudentHomeFragment extends Fragment {
 
     private ImageView iv_notification, iv_profile, iv_close_notification;
     private TextView tv_attendance, tv_gpa, tv_credits;
-    private TextView tv_view_all_schedules, tv_view_all_assignments;
+    private TextView tv_view_all_schedules;
     private LinearLayout layout_assignments, layout_grades, layout_calendar, layout_resources;
     private MaterialCardView cv_notification, cv_profile;
     private CardView card_notification_banner;
@@ -80,7 +81,6 @@ public class StudentHomeFragment extends Fragment {
         tv_credits = view.findViewById(R.id.tv_credits);
 
         tv_view_all_schedules = view.findViewById(R.id.tv_view_all_schedules);
-        tv_view_all_assignments = view.findViewById(R.id.tv_view_all_assignments);
 
         layout_assignments = view.findViewById(R.id.layout_assignments);
         layout_grades = view.findViewById(R.id.layout_grades);
@@ -153,7 +153,6 @@ public class StudentHomeFragment extends Fragment {
 
         tv_view_all_schedules.setOnClickListener(v -> openSchedule());
 
-        tv_view_all_assignments.setOnClickListener(v -> openAssignments());
     }
 
     private void loadData() {
@@ -179,37 +178,41 @@ public class StudentHomeFragment extends Fragment {
     }
 
     private void openAssignments() {
-        AssignmentUpload assignmentUpload = new AssignmentUpload();
+        StudentAssignmentHome studentAssignmentHome = new StudentAssignmentHome();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout, assignmentUpload);
+        transaction.replace(R.id.framelayout, studentAssignmentHome);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
     private void openGrades() {
-        AssignmentUpload assignmentUpload = new AssignmentUpload();
+        StudentExam studentExam = new StudentExam();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout, assignmentUpload);
+        transaction.replace(R.id.framelayout, studentExam);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
     private void openCalendar() {
-        StudentClass studentClass = new StudentClass();
+        TimetableDownloadFragment timetableDownloadFragment = new TimetableDownloadFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout, studentClass);
+        transaction.replace(R.id.framelayout, timetableDownloadFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
 
     private void openResources() {
-
+        StudentNotesFragment studentNotesFragment = new StudentNotesFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, studentNotesFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     private void openSchedule() {
-        StudentExam studentExam = new StudentExam();
+        StudentClass studentClass = new StudentClass();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout, studentExam);
+        transaction.replace(R.id.framelayout, studentClass);
         transaction.addToBackStack(null);
         transaction.commit();
     }
