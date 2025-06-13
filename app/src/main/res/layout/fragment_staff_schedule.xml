@@ -15,88 +15,56 @@
         android:background="@android:color/transparent"
         app:elevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
-            android:paddingTop="56dp"
-            android:paddingBottom="24dp">
-
+            android:paddingTop="48dp"
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:layout_gravity="center"
+            android:gravity="center">
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_marginTop="-100dp"
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#7FFFFFFF"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/iv_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
                     android:contentDescription="Back"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_arrow_right"
-                    app:tint="@color/DarkBlue" />
+                    android:padding="9dp"
+                    android:scaleType="centerCrop"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/back_button_animation" />
             </com.google.android.material.card.MaterialCardView>
 
-
             <TextView
-                android:id="@+id/tv_page_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Schedule Management"
                 android:textColor="@color/DarkBlue"
+                android:gravity="center"
                 android:textSize="24sp"
-                app:layout_constraintBottom_toBottomOf="@id/cv_back"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/cv_back" />
-
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_menu"
-                android:layout_marginTop="-100dp"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintStart_toEndOf="@id/cv_back"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageView
-                    android:id="@+id/iv_menu"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:contentDescription="Menu"
-                    android:padding="12dp"
-                    android:src="@drawable/ic_more_vert"
-                    app:tint="@color/DarkBlue" />
-            </com.google.android.material.card.MaterialCardView>
-
-
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/animation_calendar"
-                android:layout_width="120dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="24dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_page_title"
-                app:lottie_autoPlay="true"
-                app:lottie_loop="true"
-                app:lottie_rawRes="@raw/calendar" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+        </LinearLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -267,7 +235,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 app:cardBackgroundColor="#80FFFFFF"
-                app:cardCornerRadius="24dp"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="4dp"
                 app:strokeWidth="0dp">
 
@@ -275,7 +243,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="6dp"
+                    android:paddingVertical="5dp"
+                    android:paddingHorizontal="10dp"
                     android:weightSum="2">
 
                     <com.google.android.material.button.MaterialButton
@@ -285,9 +254,10 @@
                         android:layout_weight="1"
                         android:fontFamily="@font/poppins_medium"
                         android:text="Student Schedule"
+                        android:layout_marginEnd="6dp"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         app:backgroundTint="@color/DarkBlue"
                         app:cornerRadius="20dp" />
 
@@ -299,8 +269,9 @@
                         android:fontFamily="@font/poppins_medium"
                         android:text="Lecturer Schedule"
                         android:textAllCaps="false"
+                        android:layout_marginStart="6dp"
                         android:textColor="@color/DarkBlue"
-                        android:textSize="14sp"
+                        android:textSize="12sp"
                         app:backgroundTint="@color/white"
                         app:cornerRadius="20dp"
                         style="@style/Widget.MaterialComponents.Button.TextButton" />

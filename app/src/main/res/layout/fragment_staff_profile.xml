@@ -9,22 +9,25 @@
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
+        android:background="@android:color/transparent"
         app:elevation="0dp">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingHorizontal="20dp"
             android:paddingTop="48dp"
-            android:paddingBottom="16dp">
+            android:orientation="horizontal"
+            android:paddingBottom="16dp"
+            android:layout_gravity="center"
+            android:gravity="center">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#7FFFFFFF"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -32,52 +35,35 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/iv_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:padding="9dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
+                    android:contentDescription="Back"
+                    android:padding="9dp"
+                    android:scaleType="centerCrop"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/back_button_animation"
-                    android:contentDescription="Back" />
+                    app:lottie_rawRes="@raw/back_button_animation" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Staff Profile"
                 android:textColor="@color/DarkBlue"
+                android:gravity="left"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_department_selector"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/iv_department"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:scaleType="centerCrop"
-                    android:layout_gravity="center"
-                    android:contentDescription="Department"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/settings_gear" />
-            </com.google.android.material.card.MaterialCardView>
+        </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
