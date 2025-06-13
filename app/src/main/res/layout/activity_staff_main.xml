@@ -31,12 +31,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/staff_bottom_nav_menu"
-        app:labelVisibilityMode="unlabeled"
-        app:itemTextColor="@color/white"
+        app:labelVisibilityMode="auto"
+        app:itemTextColor="@color/DarkBlue2"
         android:foregroundGravity="center"
         app:itemBackground="@color/white"
         app:itemIconTint="@color/DarkBlue2"
-        app:itemRippleColor="@color/white"
+        app:itemRippleColor="@color/DarkBlue2"
         />
 
 
