@@ -1,5 +1,6 @@
 package com.example.codeverse.Admin.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.codeverse.R;
 import com.example.codeverse.Admin.Models.Staff;
@@ -42,7 +44,7 @@ public class StaffProfessionalInfo extends Fragment {
     private TextInputLayout tilHighestQualification, tilFieldOfStudy, tilUniversity, tilGraduationYear, tilExperienceYears;
     private AutoCompleteTextView dropdownPosition, dropdownDepartment, dropdownQualification, dropdownProgram, dropdownTeachingSubjectSoftware, dropdownTeachingSubjectDatascience;
     private TextInputEditText etFieldOfStudy, etUniversity, etGraduationYear, etExperienceYears, etPassword;
-    private MaterialButton btnComplete, btnBack;
+    private MaterialButton btnComplete, btnBack, btn_go_to_dashboard;
     private FrameLayout loadingOverlay, successOverlay;
 
     public static StaffProfessionalInfo newInstance(long staffId) {
@@ -124,6 +126,7 @@ public class StaffProfessionalInfo extends Fragment {
 
             btnComplete = view.findViewById(R.id.btn_complete);
             btnBack = view.findViewById(R.id.btn_back);
+            btn_go_to_dashboard = view.findViewById(R.id.btn_go_to_dashboard);
             loadingOverlay = view.findViewById(R.id.loading_overlay);
             successOverlay = view.findViewById(R.id.success_overlay);
 
@@ -149,6 +152,7 @@ public class StaffProfessionalInfo extends Fragment {
         });
 
         btnBack.setOnClickListener(v -> goBackToPersonalInfo());
+        btn_go_to_dashboard.setOnClickListener(v -> showUserList());
     }
 
     private void setupTextChangeListeners() {
@@ -599,6 +603,13 @@ public class StaffProfessionalInfo extends Fragment {
             }
             Log.d(TAG, "Fields populated from staff: " + currentStaff.toString());
         }
+    }
+
+    public void showUserList(){
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, new UserShowingFragment());
+        transaction.addToBackStack(null); // Optional: allows back navigation
+        transaction.commit();
     }
 
     private void showToast(String message) {
