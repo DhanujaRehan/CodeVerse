@@ -31,7 +31,7 @@ public class StaffMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.framelayout, new StaffProfile())
+                    .replace(R.id.framelayout, new StaffHome())
                     .commit();
         }
 

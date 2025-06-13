@@ -29,7 +29,6 @@ public class StaffAddAssignment extends Fragment {
     private AutoCompleteTextView dropdownModule, dropdownTargetGroups;
     private TextInputEditText etAssignmentTitle, etDescription, etReleaseDate, etDueDate, etWeighting;
     private MaterialButton btnBrowse, btnSaveAsDraft, btnPublish;
-    private MaterialCardView cvBack;
     private FrameLayout loadingOverlay;
 
     private AssignmentHelper assignmentHelper;
@@ -63,7 +62,6 @@ public class StaffAddAssignment extends Fragment {
         btnBrowse = view.findViewById(R.id.btnBrowse);
         btnSaveAsDraft = view.findViewById(R.id.btnSaveAsDraft);
         btnPublish = view.findViewById(R.id.btnPublish);
-        cvBack = view.findViewById(R.id.cv_back);
         loadingOverlay = view.findViewById(R.id.loading_overlay);
 
         calendar = Calendar.getInstance();
@@ -112,11 +110,7 @@ public class StaffAddAssignment extends Fragment {
     }
 
     private void setupClickListeners() {
-        cvBack.setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
+
 
         btnBrowse.setOnClickListener(v -> openFilePicker());
 

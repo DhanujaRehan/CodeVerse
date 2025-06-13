@@ -19,7 +19,7 @@ import com.example.codeverse.R;
 import com.example.codeverse.Staff.Helper.EventHelper;
 import com.example.codeverse.Staff.Helper.ClassScheduleHelper;
 import com.example.codeverse.Staff.Models.Event;
-import com.example.codeverse.Staff.Models.StudentClassSchedule;
+import com.example.codeverse.Students.Models.StudentClassSchedule;
 import com.example.codeverse.Students.Adapters.EventAdapter;
 import com.example.codeverse.Students.Adapters.StudentScheduleAdapter;
 import java.util.List;
@@ -101,7 +101,10 @@ public class StudentHomeFragment extends Fragment {
     }
 
     private void setupRecyclerViews() {
+        // Setup RecyclerView for events
         rv_events.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        // Setup RecyclerView for schedules
         rv_schedules.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -119,19 +122,59 @@ public class StudentHomeFragment extends Fragment {
     }
 
     private void loadSchedules() {
+        // Get current date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String currentDate = sdf.format(new Date());
 
-        scheduleList = scheduleHelper.getStudentSchedulesByDate(currentDate);
-        if (scheduleList != null && !scheduleList.isEmpty()) {
-            scheduleAdapter = new StudentScheduleAdapter(getContext(), scheduleList);
-            rv_schedules.setAdapter(scheduleAdapter);
+        // Get schedules from database
+        List<com.example.codeverse.Staff.Models.StudentClassSchedule> staffScheduleList =
+                scheduleHelper.getStudentSchedulesByDate(currentDate);
+
+        if (staffScheduleList != null && !staffScheduleList.isEmpty()) {
+            // Convert staff model to student model
+            scheduleList = convertToStudentModel(staffScheduleList);
+
+            // Setup or update adapter
+            if (scheduleAdapter == null) {
+                scheduleAdapter = new StudentScheduleAdapter(getContext(), scheduleList);
+                rv_schedules.setAdapter(scheduleAdapter);
+            } else {
+                scheduleAdapter.updateSchedules(scheduleList);
+            }
+
+            // Show schedules, hide empty state
             rv_schedules.setVisibility(View.VISIBLE);
             layout_empty_schedules.setVisibility(View.GONE);
         } else {
+            // Show empty state, hide schedules
             rv_schedules.setVisibility(View.GONE);
             layout_empty_schedules.setVisibility(View.VISIBLE);
         }
+    }
+
+    // Helper method to convert Staff model to Student model
+    private List<StudentClassSchedule> convertToStudentModel(
+            List<com.example.codeverse.Staff.Models.StudentClassSchedule> staffSchedules) {
+
+        List<StudentClassSchedule> studentSchedules = new java.util.ArrayList<>();
+
+        for (com.example.codeverse.Staff.Models.StudentClassSchedule staffSchedule : staffSchedules) {
+            StudentClassSchedule studentSchedule = new StudentClassSchedule();
+            studentSchedule.setId(staffSchedule.getId());
+            studentSchedule.setSubjectName(staffSchedule.getSubjectName());
+            studentSchedule.setModuleNumber(staffSchedule.getModuleNumber());
+            studentSchedule.setLecturerName(staffSchedule.getLecturerName());
+            studentSchedule.setClassroom(staffSchedule.getClassroom());
+            studentSchedule.setStartTime(staffSchedule.getStartTime());
+            studentSchedule.setEndTime(staffSchedule.getEndTime());
+            studentSchedule.setAmPm(staffSchedule.getAmPm());
+            studentSchedule.setStatus(staffSchedule.getStatus());
+            studentSchedule.setDate(staffSchedule.getDate());
+
+            studentSchedules.add(studentSchedule);
+        }
+
+        return studentSchedules;
     }
 
     private void setupClickListeners() {
@@ -152,15 +195,22 @@ public class StudentHomeFragment extends Fragment {
         layout_resources.setOnClickListener(v -> openResources());
 
         tv_view_all_schedules.setOnClickListener(v -> openSchedule());
-
     }
 
     private void loadData() {
+        // Load static data - you can replace this with dynamic data loading
         tv_attendance.setText("97%");
         tv_gpa.setText("3.85");
         tv_credits.setText("76");
     }
 
+    // Method to refresh data when fragment becomes visible
+    public void refreshData() {
+        loadEvents();
+        loadSchedules();
+    }
+
+    // Navigation methods
     private void openNotifications() {
         StudentNotificationFragment fragment = new StudentNotificationFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
@@ -215,5 +265,12 @@ public class StudentHomeFragment extends Fragment {
         transaction.replace(R.id.framelayout, studentClass);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refresh data when fragment becomes visible
+        refreshData();
     }
 }

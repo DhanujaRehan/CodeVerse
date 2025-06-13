@@ -178,12 +178,6 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
         fabAddSchedule.setOnClickListener(v -> showAddScheduleBottomSheet());
         btnCreateSchedule.setOnClickListener(v -> showAddScheduleBottomSheet());
 
-        rootView.findViewById(R.id.cv_back).setOnClickListener(v -> {
-            if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
-
         rootView.findViewById(R.id.btn_cancel_schedule).setOnClickListener(v -> hideBottomSheet());
         rootView.findViewById(R.id.btn_save_schedule).setOnClickListener(v -> saveSchedule());
 

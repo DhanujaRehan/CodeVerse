@@ -5,10 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.codeverse.R;
-import com.example.codeverse.Staff.Models.StudentClassSchedule;
+import com.example.codeverse.Students.Models.StudentClassSchedule;
 import com.google.android.material.button.MaterialButton;
 import java.util.List;
 
@@ -33,19 +34,41 @@ public class StudentScheduleAdapter extends RecyclerView.Adapter<StudentSchedule
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         StudentClassSchedule schedule = scheduleList.get(position);
 
-        holder.tv_class_name.setText(schedule.getSubjectName());
-        holder.tv_professor_name.setText(schedule.getLecturerName());
-        holder.tv_class_time.setText(schedule.getStartTime() + " - " + schedule.getEndTime() + " " + schedule.getAmPm());
-        holder.tv_class_location.setText(schedule.getClassroom());
+        // Set class/subject name
+        holder.tv_class_name.setText(schedule.getSubjectName() != null ? schedule.getSubjectName() : "");
 
+        // Set professor/lecturer name
+        holder.tv_professor_name.setText(schedule.getLecturerName() != null ? schedule.getLecturerName() : "");
+
+        // Format and set time
+        String timeText = "";
+        if (schedule.getStartTime() != null && schedule.getEndTime() != null) {
+            timeText = schedule.getStartTime() + " - " + schedule.getEndTime();
+            if (schedule.getAmPm() != null) {
+                timeText += " " + schedule.getAmPm();
+            }
+        }
+        holder.tv_class_time.setText(timeText);
+
+        // Set classroom/location
+        holder.tv_class_location.setText(schedule.getClassroom() != null ? schedule.getClassroom() : "");
+
+        // Handle join class button click
         holder.btn_join_class.setOnClickListener(v -> {
-            // Add join class functionality here
+            // Add your join class functionality here
+            Toast.makeText(context, "Joining " + schedule.getSubjectName(), Toast.LENGTH_SHORT).show();
+            // Example: Open virtual classroom, launch video call, etc.
         });
     }
 
     @Override
     public int getItemCount() {
-        return scheduleList.size();
+        return scheduleList != null ? scheduleList.size() : 0;
+    }
+
+    public void updateSchedules(List<StudentClassSchedule> newSchedules) {
+        this.scheduleList = newSchedules;
+        notifyDataSetChanged();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
