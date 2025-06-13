@@ -25,15 +25,15 @@
         android:id="@+id/tv_welcome_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/poppins_bold"
-        android:text="Welcome, Alex!"
-        android:textColor="@color/DarkBlue"
-        android:textSize="32sp"
         android:shadowColor="#40000000"
         android:shadowDx="0"
         android:shadowDy="2"
         android:shadowRadius="4"
+        android:text="Welcome, Alex!"
+        android:textColor="@color/DarkBlue"
+        android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loading_animation" />
@@ -56,26 +56,28 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="60dp"
         android:indeterminate="true"
         app:indicatorColor="@color/DarkBlue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_loading_message"
         app:trackColor="#33FFFFFF"
         app:trackCornerRadius="12dp"
-        app:trackThickness="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_loading_message" />
+        app:trackThickness="8dp" />
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/chip_group_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:singleLine="true"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progress_indicator">
+        app:layout_constraintTop_toBottomOf="@+id/progress_indicator"
+        app:singleLine="true">
 
         <com.google.android.material.chip.Chip
             android:id="@+id/chip_courses"
@@ -84,9 +86,9 @@
             android:text="Courses"
             android:textColor="@color/white"
             app:chipBackgroundColor="@color/DarkBlue"
+            app:chipIconVisible="false"
             app:chipStrokeColor="#33FFFFFF"
             app:chipStrokeWidth="1dp"
-            app:chipIconVisible="false"
             app:closeIconVisible="false" />
 
         <com.google.android.material.chip.Chip
@@ -96,9 +98,9 @@
             android:text="Schedule"
             android:textColor="@color/white"
             app:chipBackgroundColor="@color/DarkBlue"
+            app:chipIconVisible="false"
             app:chipStrokeColor="#33FFFFFF"
             app:chipStrokeWidth="1dp"
-            app:chipIconVisible="false"
             app:closeIconVisible="false" />
 
         <com.google.android.material.chip.Chip
@@ -108,9 +110,9 @@
             android:text="Assignments"
             android:textColor="@color/white"
             app:chipBackgroundColor="@color/DarkBlue"
+            app:chipIconVisible="false"
             app:chipStrokeColor="#33FFFFFF"
             app:chipStrokeWidth="1dp"
-            app:chipIconVisible="false"
             app:closeIconVisible="false" />
     </com.google.android.material.chip.ChipGroup>
 

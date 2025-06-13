@@ -99,6 +99,7 @@
                         android:id="@+id/animation_grade"
                         android:layout_width="120dp"
                         android:layout_height="120dp"
+                        android:padding="15dp"
                         app:lottie_autoPlay="true"
                         app:lottie_loop="true"
                         app:lottie_rawRes="@raw/grade_animation" />
@@ -275,6 +276,8 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Total Assignments"
+                                android:layout_gravity="center"
+                                android:gravity="center"
                                 android:textColor="#666666"
                                 android:textSize="12sp" />
                         </LinearLayout>
@@ -301,6 +304,8 @@
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Completed"
                                 android:textColor="#666666"
+                                android:layout_gravity="center"
+                                android:gravity="center"
                                 android:textSize="12sp" />
                         </LinearLayout>
 
@@ -325,6 +330,7 @@
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_regular"
                                 android:text="Pending"
+                                android:gravity="center"
                                 android:textColor="#666666"
                                 android:textSize="12sp" />
                         </LinearLayout>

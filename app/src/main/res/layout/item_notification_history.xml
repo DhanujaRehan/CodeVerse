@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardNotificationHistory"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:backgroundTint="@color/white"
+    android:clipToOutline="true"
     android:background="@drawable/glass_background"
     app:cardCornerRadius="16dp"
     app:cardElevation="4dp"
@@ -20,6 +22,7 @@
         <View
             android:id="@+id/viewPriorityIndicator"
             android:layout_width="6dp"
+            android:clipToOutline="true"
             android:layout_height="match_parent"
             android:background="@color/DarkBlue2" />
 
@@ -343,4 +346,4 @@
                 app:drawableTint="@color/DarkBlue" />
         </LinearLayout>
     </LinearLayout>
-</com.google.android.material.card.MaterialCardView>
+</LinearLayout>
