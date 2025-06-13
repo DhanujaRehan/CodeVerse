@@ -158,23 +158,24 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_download"
-                style="@style/Widget.MaterialComponents.Button.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:fontFamily="@font/poppins_medium"
-                android:text="Download"
-                android:textAllCaps="false"
-                android:textSize="12sp"
-                app:cornerRadius="20dp"
-                app:backgroundTint="@color/DarkBlue"
-                app:icon="@drawable/ic_download"
-                app:iconGravity="textStart"
-                app:iconSize="16dp"
-                app:iconTint="@color/white" />
         </LinearLayout>
-
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_download"
+            android:layout_marginTop="10dp"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Download"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            app:cornerRadius="20dp"
+            android:padding="10dp"
+            app:backgroundTint="@color/DarkBlue"
+            app:icon="@drawable/ic_download"
+            app:iconGravity="textStart"
+            app:iconSize="16dp"
+            app:iconTint="@color/white" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
