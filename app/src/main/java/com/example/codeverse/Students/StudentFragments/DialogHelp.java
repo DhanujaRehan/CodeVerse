@@ -12,10 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.example.codeverse.R;
+import com.google.android.material.card.MaterialCardView;
 
 public class DialogHelp extends Fragment {
 
-    private ImageView close;
+    private MaterialCardView close;
 
 
     public DialogHelp() {
@@ -39,7 +40,7 @@ public class DialogHelp extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        close = view.findViewById(R.id.btn_close);
+        close = view.findViewById(R.id.cv_help);
 
         close.setOnClickListener(new View.OnClickListener() {
             @Override

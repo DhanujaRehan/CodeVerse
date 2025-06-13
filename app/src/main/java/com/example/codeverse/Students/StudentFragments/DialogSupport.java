@@ -23,7 +23,7 @@ public class DialogSupport extends Fragment {
     private MaterialCardView btnCall;
     private MaterialCardView btnEmail;
     private MaterialCardView btnChat;
-    private ImageView btnClose;
+    private MaterialCardView btnClose;
 
     public DialogSupport() {
     }
@@ -49,16 +49,14 @@ public class DialogSupport extends Fragment {
         btnCall = view.findViewById(R.id.btn_call);
         btnEmail = view.findViewById(R.id.btn_email);
         btnChat = view.findViewById(R.id.btn_chat);
-        btnClose = view.findViewById(R.id.btn_close);
+        btnClose = view.findViewById(R.id.cv_close);
 
         setupClickListeners();
     }
 
     private void setupClickListeners() {
         btnClose.setOnClickListener(v -> {
-            if (getParentFragmentManager().getBackStackEntryCount() > 0) {
-                getParentFragmentManager().popBackStack();
-            } else if (getActivity() != null) {
+            if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
         });
