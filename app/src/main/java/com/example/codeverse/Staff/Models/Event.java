@@ -9,11 +9,9 @@ public class Event {
     private String venue;
     private String image;
 
-    // Default constructor
     public Event() {
     }
 
-    // Constructor with parameters
     public Event(String title, String description, String date, String time, String venue, String image) {
         this.title = title;
         this.description = description;
@@ -23,7 +21,6 @@ public class Event {
         this.image = image;
     }
 
-    // Constructor with all parameters including id
     public Event(int id, String title, String description, String date, String time, String venue, String image) {
         this.id = id;
         this.title = title;
@@ -34,7 +31,6 @@ public class Event {
         this.image = image;
     }
 
-    // Getter and Setter methods
     public int getId() {
         return id;
     }

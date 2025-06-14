@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Models.Event;
 import com.example.codeverse.Students.StudentFragments.EventRegistration;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
@@ -47,7 +48,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvEventTime.setText(event.getTime());
         holder.tvEventVenue.setText(event.getVenue());
 
-        // Handle image display
         if (!event.getImage().isEmpty()) {
             try {
                 byte[] decodedBytes = android.util.Base64.decode(event.getImage(), android.util.Base64.DEFAULT);
@@ -55,11 +55,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 holder.ivEventImage.setImageBitmap(bitmap);
             } catch (Exception e) {
                 Log.e("EventAdapter", "Error decoding image: " + e.getMessage());
-                // Set default image if decoding fails
                 holder.ivEventImage.setImageResource(R.drawable.ccc);
             }
         } else {
-            // Set default image if no image is available
             holder.ivEventImage.setImageResource(R.drawable.ccc);
         }
 
@@ -74,8 +72,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public class EventViewHolder extends RecyclerView.ViewHolder {
         TextView tvEventTitle, tvEventDescription, tvEventDate, tvEventTime, tvEventVenue;
         ImageView ivEventImage;
-        Button button_register;
-        Event currentEvent; // Store current event for click handling
+        MaterialButton button_register;
+        Event currentEvent;
 
         public EventViewHolder(View itemView) {
             super(itemView);
@@ -91,7 +89,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
                 if (context instanceof FragmentActivity && currentEvent != null) {
                     EventRegistration eventRegisterFragment = new EventRegistration();
 
-                    // Create bundle to pass event ID
                     Bundle bundle = new Bundle();
                     bundle.putInt("event_id", currentEvent.getId());
                     eventRegisterFragment.setArguments(bundle);
