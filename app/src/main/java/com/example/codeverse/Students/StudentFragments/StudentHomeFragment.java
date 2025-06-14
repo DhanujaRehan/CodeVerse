@@ -100,10 +100,8 @@ public class StudentHomeFragment extends Fragment {
     }
 
     private void setupRecyclerViews() {
-        // Setup RecyclerView for events
         rv_events.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        // Setup RecyclerView for schedules
         rv_schedules.setLayoutManager(new LinearLayoutManager(getContext()));
     }
 
@@ -121,19 +119,15 @@ public class StudentHomeFragment extends Fragment {
     }
 
     private void loadSchedules() {
-        // Get current date
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         String currentDate = sdf.format(new Date());
 
-        // Get schedules from database
         List<com.example.codeverse.Staff.Models.StudentClassSchedule> staffScheduleList =
                 scheduleHelper.getStudentSchedulesByDate(currentDate);
 
         if (staffScheduleList != null && !staffScheduleList.isEmpty()) {
-            // Convert staff model to student model
             scheduleList = convertToStudentModel(staffScheduleList);
 
-            // Setup or update adapter
             if (scheduleAdapter == null) {
                 scheduleAdapter = new StudentScheduleAdapter(getContext(), scheduleList);
                 rv_schedules.setAdapter(scheduleAdapter);
@@ -141,17 +135,15 @@ public class StudentHomeFragment extends Fragment {
                 scheduleAdapter.updateSchedules(scheduleList);
             }
 
-            // Show schedules, hide empty state
             rv_schedules.setVisibility(View.VISIBLE);
             layout_empty_schedules.setVisibility(View.GONE);
         } else {
-            // Show empty state, hide schedules
             rv_schedules.setVisibility(View.GONE);
             layout_empty_schedules.setVisibility(View.VISIBLE);
         }
     }
 
-    // Helper method to convert Staff model to Student model
+
     private List<StudentClassSchedule> convertToStudentModel(
             List<com.example.codeverse.Staff.Models.StudentClassSchedule> staffSchedules) {
 
@@ -197,19 +189,18 @@ public class StudentHomeFragment extends Fragment {
     }
 
     private void loadData() {
-        // Load static data - you can replace this with dynamic data loading
         tv_attendance.setText("97%");
         tv_gpa.setText("3.85");
         tv_credits.setText("76");
     }
 
-    // Method to refresh data when fragment becomes visible
+
     public void refreshData() {
         loadEvents();
         loadSchedules();
     }
 
-    // Navigation methods
+
     private void openNotifications() {
         StudentNotificationFragment fragment = new StudentNotificationFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
@@ -269,7 +260,7 @@ public class StudentHomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        // Refresh data when fragment becomes visible
+
         refreshData();
     }
 }
