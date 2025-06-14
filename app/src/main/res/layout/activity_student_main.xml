@@ -26,6 +26,7 @@
         app:itemPaddingBottom="8dp"
         app:itemPaddingTop="8dp"
         android:elevation="10dp"
+        app:itemIconSize="26dp"
         android:paddingVertical="10dp"
         app:itemTextColor="@color/nav_item_color"
         app:itemBackground="@color/white"

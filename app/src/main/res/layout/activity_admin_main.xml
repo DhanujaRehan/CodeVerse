@@ -25,6 +25,7 @@
         app:labelVisibilityMode="unlabeled"
         app:itemPaddingBottom="8dp"
         app:itemPaddingTop="8dp"
+        app:itemIconSize="26dp"
         android:elevation="10dp"
         android:paddingVertical="10dp"
         app:itemTextColor="@color/nav_item_color"

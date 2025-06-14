@@ -29,6 +29,7 @@
         android:paddingVertical="10dp"
         app:itemTextColor="@color/nav_item_color"
         app:itemBackground="@color/white"
+        app:itemIconSize="26dp"
         app:itemIconTint="@color/nav_item_color"
         app:itemRippleColor="@color/black"
         />
