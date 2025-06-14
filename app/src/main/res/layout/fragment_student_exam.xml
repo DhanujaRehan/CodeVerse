@@ -62,18 +62,7 @@
                 app:layout_constraintStart_toEndOf="@+id/cv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/iv_notification"
-                android:layout_width="28dp"
-                android:layout_height="28dp"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/circle_ripple_background"
-                android:padding="4dp"
-                android:src="@drawable/ic_notifications"
-                app:layout_constraintBottom_toBottomOf="@id/cv_back"
-                app:layout_constraintEnd_toStartOf="@id/iv_filter"
-                app:layout_constraintTop_toTopOf="@id/cv_back"
-                app:tint="@color/DarkBlue" />
+
 
             <ImageView
                 android:id="@+id/iv_filter"
