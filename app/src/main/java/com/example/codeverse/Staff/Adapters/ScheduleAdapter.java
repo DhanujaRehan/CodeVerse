@@ -32,8 +32,12 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
         holder.tvSubjectName.setText(schedule.getSubjectName());
         holder.tvModuleNumber.setText(schedule.getModuleNumber());
         holder.tvClassroom.setText(schedule.getClassroom());
-        holder.tvTime.setText(schedule.getStartTime() + " - " + schedule.getEndTime() + " " + schedule.getAmPm());
-        holder.tvStatus.setText(schedule.getStatus());
+
+        holder.tvTimeStart.setText(schedule.getStartTime());
+        holder.tvTimeEnd.setText(schedule.getEndTime());
+        holder.tvAmPm.setText(schedule.getAmPm());
+
+        holder.tvStatusBadge.setText(schedule.getStatus());
     }
 
     @Override
@@ -47,15 +51,17 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     }
 
     static class ScheduleViewHolder extends RecyclerView.ViewHolder {
-        TextView tvSubjectName, tvModuleNumber, tvClassroom, tvTime, tvStatus;
+        TextView tvSubjectName, tvModuleNumber, tvClassroom, tvTimeStart, tvTimeEnd, tvAmPm, tvStatusBadge;
 
         public ScheduleViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSubjectName = itemView.findViewById(R.id.tv_subject_name);
             tvModuleNumber = itemView.findViewById(R.id.tv_module_number);
             tvClassroom = itemView.findViewById(R.id.tv_classroom);
-            tvTime = itemView.findViewById(R.id.tv_time);
-            tvStatus = itemView.findViewById(R.id.tv_status);
+            tvTimeStart = itemView.findViewById(R.id.tv_time_start);
+            tvTimeEnd = itemView.findViewById(R.id.tv_time_end);
+            tvAmPm = itemView.findViewById(R.id.tv_am_pm);
+            tvStatusBadge = itemView.findViewById(R.id.tv_status_badge);
         }
     }
 }
