@@ -61,7 +61,7 @@ public class AssignmentUpload extends Fragment {
     private String selectedFileName;
     private ActivityResultLauncher<Intent> filePickerLauncher;
 
-    // Student information
+
     private long currentStudentId;
     private Student currentStudent;
 
@@ -106,7 +106,7 @@ public class AssignmentUpload extends Fragment {
     }
 
     private void loadCurrentStudent() {
-        // Get current student ID from SharedPreferences or session management
+
         SharedPreferences prefs = getContext().getSharedPreferences("student_session", getContext().MODE_PRIVATE);
         currentStudentId = prefs.getLong("student_id", -1);
 
@@ -114,10 +114,10 @@ public class AssignmentUpload extends Fragment {
             currentStudent = studentDbHelper.getStudentById(currentStudentId);
         }
 
-        // If no student found, you might want to redirect to login
+
         if (currentStudent == null) {
             Toast.makeText(getContext(), "Please log in first", Toast.LENGTH_SHORT).show();
-            // Handle redirect to login
+
         }
     }
 
@@ -169,13 +169,11 @@ public class AssignmentUpload extends Fragment {
 
         if (loadingOverlay != null) {
             loadingOverlay.setOnClickListener(v -> {
-                // Prevent clicks from passing through
             });
         }
 
         if (successOverlay != null) {
             successOverlay.setOnClickListener(v -> {
-                // Allow clicking to dismiss
                 hideOverlays();
             });
         }
@@ -216,12 +214,11 @@ public class AssignmentUpload extends Fragment {
                 assignment.setUploadDate(System.currentTimeMillis());
                 assignment.setFileSize(file.exists() ? file.length() : 0);
 
-                // Set student information
                 assignment.setStudentId(currentStudent.getUniversityId());
                 assignment.setStudentName(currentStudent.getFullName());
                 assignment.setBatch(currentStudent.getBatch());
                 assignment.setProgramme(determineProgrammeFromFaculty(currentStudent.getFaculty()));
-                assignment.setModule(subject); // Using subject as module for now
+                assignment.setModule(subject);
 
                 long id = dbHelper.insertAssignment(assignment);
 
@@ -242,7 +239,6 @@ public class AssignmentUpload extends Fragment {
     }
 
     private String determineProgrammeFromFaculty(String faculty) {
-        // Map faculty to programme - adjust based on your university structure
         if (faculty != null) {
             switch (faculty.toLowerCase()) {
                 case "computing":
@@ -304,13 +300,11 @@ public class AssignmentUpload extends Fragment {
     private String saveFileToInternalStorage() throws Exception {
         InputStream inputStream = getContext().getContentResolver().openInputStream(selectedFileUri);
 
-        // Create assignments directory if it doesn't exist
         File assignmentsDir = new File(getContext().getFilesDir(), "assignments");
         if (!assignmentsDir.exists()) {
             assignmentsDir.mkdirs();
         }
 
-        // Create unique filename to avoid conflicts
         String uniqueFileName = System.currentTimeMillis() + "_" + selectedFileName;
         File file = new File(assignmentsDir, uniqueFileName);
 
