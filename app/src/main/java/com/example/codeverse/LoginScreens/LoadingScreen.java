@@ -56,7 +56,6 @@ public class LoadingScreen extends AppCompatActivity {
 
         initViews();
 
-        // Customize welcome message based on position
         String welcomeMessage = getWelcomeMessage(username, position);
         tvWelcomeUser.setText(welcomeMessage);
         tvFunFact.setText(getRandomQuote());
@@ -123,7 +122,6 @@ public class LoadingScreen extends AppCompatActivity {
     }
 
     private void simulateLoading(String nextActivity, String position) {
-        // Customize loading messages based on user type
         String[] loadingMessages = getLoadingMessages(nextActivity, position);
 
         new Handler().postDelayed(() -> {
