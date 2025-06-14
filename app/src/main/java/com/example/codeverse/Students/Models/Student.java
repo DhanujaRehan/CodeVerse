@@ -12,14 +12,14 @@ public class Student implements Serializable {
     private String gender;
     private String photoUri;
 
-    // Academic Information
+
     private String faculty;
     private String department;
     private String batch;
     private String semester;
     private String enrollmentDate;
 
-    // Contact Information
+
     private String mobileNumber;
     private String alternateNumber;
     private String permanentAddress;
@@ -27,27 +27,27 @@ public class Student implements Serializable {
     private String province;
     private String postalCode;
 
-    // Emergency Contact Information
+
     private String emergencyName;
     private String emergencyRelationship;
     private String emergencyNumber;
 
-    // Account Information
+
     private String email;
     private String username;
     private String password;
     private boolean termsAccepted;
 
-    // Timestamps
+
     private String createdAt;
     private String updatedAt;
 
-    // Default constructor
+
     public Student() {
         this.termsAccepted = false;
     }
 
-    // Constructor with basic information
+
     public Student(String fullName, String universityId, String nicNumber,
                    String dateOfBirth, String gender) {
         this();
@@ -58,7 +58,7 @@ public class Student implements Serializable {
         this.gender = gender;
     }
 
-    // Getters and Setters
+
     public long getId() { return id; }
     public void setId(long id) { this.id = id; }
 
@@ -80,7 +80,7 @@ public class Student implements Serializable {
     public String getPhotoUri() { return photoUri; }
     public void setPhotoUri(String photoUri) { this.photoUri = photoUri; }
 
-    // Academic Information
+
     public String getFaculty() { return faculty; }
     public void setFaculty(String faculty) { this.faculty = faculty; }
 
@@ -96,7 +96,7 @@ public class Student implements Serializable {
     public String getEnrollmentDate() { return enrollmentDate; }
     public void setEnrollmentDate(String enrollmentDate) { this.enrollmentDate = enrollmentDate; }
 
-    // Contact Information
+
     public String getMobileNumber() { return mobileNumber; }
     public void setMobileNumber(String mobileNumber) { this.mobileNumber = mobileNumber; }
 
@@ -115,7 +115,7 @@ public class Student implements Serializable {
     public String getPostalCode() { return postalCode; }
     public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
 
-    // Emergency Contact Information
+
     public String getEmergencyName() { return emergencyName; }
     public void setEmergencyName(String emergencyName) { this.emergencyName = emergencyName; }
 
@@ -125,7 +125,7 @@ public class Student implements Serializable {
     public String getEmergencyNumber() { return emergencyNumber; }
     public void setEmergencyNumber(String emergencyNumber) { this.emergencyNumber = emergencyNumber; }
 
-    // Account Information
+
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
@@ -138,14 +138,14 @@ public class Student implements Serializable {
     public boolean isTermsAccepted() { return termsAccepted; }
     public void setTermsAccepted(boolean termsAccepted) { this.termsAccepted = termsAccepted; }
 
-    // Timestamps
+
     public String getCreatedAt() { return createdAt; }
     public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
 
     public String getUpdatedAt() { return updatedAt; }
     public void setUpdatedAt(String updatedAt) { this.updatedAt = updatedAt; }
 
-    // Helper method to check if basic information is complete
+
     public boolean isBasicInfoComplete() {
         return fullName != null && !fullName.trim().isEmpty() &&
                 universityId != null && !universityId.trim().isEmpty() &&
@@ -154,7 +154,7 @@ public class Student implements Serializable {
                 gender != null && !gender.trim().isEmpty();
     }
 
-    // Helper method to check if academic information is complete
+
     public boolean isAcademicInfoComplete() {
         return faculty != null && !faculty.trim().isEmpty() &&
                 department != null && !department.trim().isEmpty() &&
@@ -162,7 +162,7 @@ public class Student implements Serializable {
                 semester != null && !semester.trim().isEmpty();
     }
 
-    // Helper method to check if contact information is complete
+
     public boolean isContactInfoComplete() {
         return mobileNumber != null && !mobileNumber.trim().isEmpty() &&
                 permanentAddress != null && !permanentAddress.trim().isEmpty() &&
@@ -170,7 +170,7 @@ public class Student implements Serializable {
                 province != null && !province.trim().isEmpty();
     }
 
-    // Helper method to check if account information is complete
+
     public boolean isAccountInfoComplete() {
         return email != null && !email.trim().isEmpty() &&
                 username != null && !username.trim().isEmpty() &&
