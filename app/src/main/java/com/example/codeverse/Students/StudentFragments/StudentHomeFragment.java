@@ -30,7 +30,6 @@ import java.util.Locale;
 public class StudentHomeFragment extends Fragment {
 
     private ImageView iv_notification, iv_profile, iv_close_notification;
-    private TextView tv_attendance, tv_gpa, tv_credits;
     private TextView tv_view_all_schedules;
     private LinearLayout layout_assignments, layout_grades, layout_calendar, layout_resources;
     private MaterialCardView cv_notification, cv_profile;
@@ -74,10 +73,6 @@ public class StudentHomeFragment extends Fragment {
         iv_notification = view.findViewById(R.id.iv_notification);
         iv_profile = view.findViewById(R.id.iv_profile);
         iv_close_notification = view.findViewById(R.id.iv_close_notification);
-
-        tv_attendance = view.findViewById(R.id.tv_attendance);
-        tv_gpa = view.findViewById(R.id.tv_gpa);
-        tv_credits = view.findViewById(R.id.tv_credits);
 
         tv_view_all_schedules = view.findViewById(R.id.tv_view_all_schedules);
 
@@ -194,13 +189,6 @@ public class StudentHomeFragment extends Fragment {
         layout_resources.setOnClickListener(v -> openResources());
 
         tv_view_all_schedules.setOnClickListener(v -> openSchedule());
-    }
-
-    private void loadData() {
-        // Load static data - you can replace this with dynamic data loading
-        tv_attendance.setText("97%");
-        tv_gpa.setText("3.85");
-        tv_credits.setText("76");
     }
 
     // Method to refresh data when fragment becomes visible

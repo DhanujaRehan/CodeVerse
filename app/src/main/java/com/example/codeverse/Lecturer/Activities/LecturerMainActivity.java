@@ -22,8 +22,6 @@ public class LecturerMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        EdgeToEdge.enable(this);
-
         binding = ActivityLecturerMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -33,8 +31,8 @@ public class LecturerMainActivity extends AppCompatActivity {
                     .commit();
         }
 
-        binding.bottomNavigationView.setOnItemSelectedListener(menuItem -> {
-            int itemid = menuItem.getItemId();
+        binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemid = item.getItemId();
             if (itemid == R.id.navhome){
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.framelayout, new LecturerHomeFragment())
@@ -58,10 +56,7 @@ public class LecturerMainActivity extends AppCompatActivity {
             return true;
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(binding.lecMain, (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        EdgeToEdge.enable(this);
+
     }
 }
