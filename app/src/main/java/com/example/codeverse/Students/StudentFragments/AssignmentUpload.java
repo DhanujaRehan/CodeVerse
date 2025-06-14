@@ -169,13 +169,11 @@ public class AssignmentUpload extends Fragment {
 
         if (loadingOverlay != null) {
             loadingOverlay.setOnClickListener(v -> {
-                // Prevent clicks from passing through
             });
         }
 
         if (successOverlay != null) {
             successOverlay.setOnClickListener(v -> {
-                // Allow clicking to dismiss
                 hideOverlays();
             });
         }
@@ -216,12 +214,11 @@ public class AssignmentUpload extends Fragment {
                 assignment.setUploadDate(System.currentTimeMillis());
                 assignment.setFileSize(file.exists() ? file.length() : 0);
 
-                // Set student information
                 assignment.setStudentId(currentStudent.getUniversityId());
                 assignment.setStudentName(currentStudent.getFullName());
                 assignment.setBatch(currentStudent.getBatch());
                 assignment.setProgramme(determineProgrammeFromFaculty(currentStudent.getFaculty()));
-                assignment.setModule(subject); // Using subject as module for now
+                assignment.setModule(subject);
 
                 long id = dbHelper.insertAssignment(assignment);
 

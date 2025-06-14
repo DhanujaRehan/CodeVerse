@@ -216,7 +216,6 @@ public class GradeSubmission extends Fragment {
 
         showLoadingOverlay();
 
-        // Simulate loading delay
         new Handler().postDelayed(() -> {
             try {
                 List<AssignmentModel> filteredSubmissions = dbHelper.getAssignmentsByCriteria(
@@ -256,21 +255,21 @@ public class GradeSubmission extends Fragment {
     }
 
     private void showGradeDetails(AssignmentModel submission) {
-        // Set student information
+
         tvStudentId.setText(submission.getStudentId() != null ? submission.getStudentId() : "N/A");
         tvStudentName.setText(submission.getStudentName() != null ? submission.getStudentName() : "N/A");
 
-        // Format and set submission date
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy 'at' HH:mm", Locale.getDefault());
         String formattedDate = dateFormat.format(new Date(submission.getUploadDate()));
         tvSubmissionDate.setText(formattedDate);
 
-        // Set up submission files
+
         submissionFiles.clear();
         submissionFiles.add(submission.getFileName());
         filesAdapter.notifyDataSetChanged();
 
-        // Pre-fill grade information if already graded
+
         if (submission.isGraded()) {
             etMarks.setText(String.valueOf(submission.getMarks()));
             dropdownGrade.setText(submission.getGrade());
@@ -285,7 +284,7 @@ public class GradeSubmission extends Fragment {
 
         layoutGradeDetails.setVisibility(View.VISIBLE);
 
-        // Scroll to grade details
+
         layoutGradeDetails.post(() -> {
             layoutGradeDetails.requestFocus();
         });
@@ -312,7 +311,6 @@ public class GradeSubmission extends Fragment {
 
         showLoadingOverlay();
 
-        // Simulate processing delay
         new Handler().postDelayed(() -> {
             try {
                 int result = dbHelper.gradeAssignment(currentSubmission.getId(), marks, grade, feedback);
@@ -321,15 +319,12 @@ public class GradeSubmission extends Fragment {
 
                 if (result > 0) {
                     Toast.makeText(getContext(), "Grade submitted successfully", Toast.LENGTH_SHORT).show();
-
-                    // Update the current submission object
                     currentSubmission.setMarks(marks);
                     currentSubmission.setGrade(grade);
                     currentSubmission.setFeedback(feedback);
                     currentSubmission.setGraded(true);
                     currentSubmission.setGradedDate(System.currentTimeMillis());
 
-                    // Update the adapter
                     submissionsAdapter.notifyDataSetChanged();
 
                     hideGradeDetails();

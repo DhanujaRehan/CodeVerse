@@ -125,68 +125,24 @@ public class StaffPersonalInfo extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_staff_personal_info, container, false);
 
-
         initializeViews(view);
-
-
         setupClickListeners();
-
-
         setupTextChangeListeners();
-
-
         setupGenderDropdown();
-
-
         populateFieldsFromStaff();
-
         return view;
     }
 
-    private void initializeViews(View view) {
-        try {
-
-            ivStaffPhoto = view.findViewById(R.id.iv_staff_photo);
-            fabAddPhoto = view.findViewById(R.id.fab_add_photo);
-            etFullName = view.findViewById(R.id.et_full_name);
-            etEmail = view.findViewById(R.id.et_email);
-            etContactNumber = view.findViewById(R.id.et_contact_number);
-            etNicNumber = view.findViewById(R.id.et_nic_number);
-            etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
-            dropdownGender = view.findViewById(R.id.dropdown_gender);
-
-
-            tilFullName = view.findViewById(R.id.til_full_name);
-            tilEmail = view.findViewById(R.id.til_email);
-            tilContactNumber = view.findViewById(R.id.til_contact_number);
-            tilNicNumber = view.findViewById(R.id.til_nic_number);
-            tilGender = view.findViewById(R.id.til_gender);
-            tilDateOfBirth = view.findViewById(R.id.til_date_of_birth);
-
-            btnNextStep = view.findViewById(R.id.btn_next_step);
-            btnCancel = view.findViewById(R.id.btn_cancel);
-            loadingOverlay = view.findViewById(R.id.loading_overlay);
-
-            Log.d(TAG, "All views initialized successfully");
-        } catch (Exception e) {
-            Log.e(TAG, "Error initializing views: " + e.getMessage(), e);
-            showToast("Failed to initialize the form");
-        }
-    }
-
     private void setupClickListeners() {
-
 
         if (fabAddPhoto != null) {
             fabAddPhoto.setOnClickListener(v -> showImagePickerDialog());
         }
 
-
         if (etDateOfBirth != null) {
             etDateOfBirth.setOnClickListener(v -> showDatePicker());
             etDateOfBirth.setFocusable(false);
         }
-
 
         if (btnNextStep != null) {
             btnNextStep.setOnClickListener(v -> {
@@ -195,7 +151,6 @@ public class StaffPersonalInfo extends Fragment {
                 }
             });
         }
-
 
         if (btnCancel != null) {
             btnCancel.setOnClickListener(v -> cancelRegistration());
@@ -244,6 +199,37 @@ public class StaffPersonalInfo extends Fragment {
                     genderOptions
             );
             dropdownGender.setAdapter(adapter);
+        }
+    }
+
+    private void initializeViews(View view) {
+        try {
+
+            ivStaffPhoto = view.findViewById(R.id.iv_staff_photo);
+            fabAddPhoto = view.findViewById(R.id.fab_add_photo);
+            etFullName = view.findViewById(R.id.et_full_name);
+            etEmail = view.findViewById(R.id.et_email);
+            etContactNumber = view.findViewById(R.id.et_contact_number);
+            etNicNumber = view.findViewById(R.id.et_nic_number);
+            etDateOfBirth = view.findViewById(R.id.et_date_of_birth);
+            dropdownGender = view.findViewById(R.id.dropdown_gender);
+
+
+            tilFullName = view.findViewById(R.id.til_full_name);
+            tilEmail = view.findViewById(R.id.til_email);
+            tilContactNumber = view.findViewById(R.id.til_contact_number);
+            tilNicNumber = view.findViewById(R.id.til_nic_number);
+            tilGender = view.findViewById(R.id.til_gender);
+            tilDateOfBirth = view.findViewById(R.id.til_date_of_birth);
+
+            btnNextStep = view.findViewById(R.id.btn_next_step);
+            btnCancel = view.findViewById(R.id.btn_cancel);
+            loadingOverlay = view.findViewById(R.id.loading_overlay);
+
+            Log.d(TAG, "All views initialized successfully");
+        } catch (Exception e) {
+            Log.e(TAG, "Error initializing views: " + e.getMessage(), e);
+            showToast("Failed to initialize the form");
         }
     }
 
