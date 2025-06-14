@@ -75,7 +75,6 @@ public class Login extends AppCompatActivity {
                     } else if ("Program Coordinator".equalsIgnoreCase(position)) {
                         intent = new Intent(Login.this, StaffMainActivity.class);
                     } else {
-                        // Default to StaffMainActivity for other positions
                         intent = new Intent(Login.this, StaffMainActivity.class);
                     }
                     startActivity(intent);
@@ -83,7 +82,6 @@ public class Login extends AppCompatActivity {
                     return;
                 }
             }
-            // If unable to determine position, default to StaffMainActivity
             Intent intent = new Intent(Login.this, StaffMainActivity.class);
             startActivity(intent);
             finish();
@@ -145,7 +143,6 @@ public class Login extends AppCompatActivity {
 
                 saveStaffEmailToPreferences(staff.getEmail());
 
-                // Determine next activity based on staff position
                 String nextActivity = determineStaffActivityByPosition(staff.getPosition());
 
                 Intent intent = new Intent(Login.this, LoadingScreen.class);
@@ -164,7 +161,7 @@ public class Login extends AppCompatActivity {
 
     private String determineStaffActivityByPosition(String position) {
         if (position == null) {
-            return "StaffMainActivity"; // Default
+            return "StaffMainActivity";
         }
 
         switch (position.trim()) {
@@ -173,7 +170,7 @@ public class Login extends AppCompatActivity {
             case "Program Coordinator":
                 return "StaffMainActivity";
             default:
-                return "StaffMainActivity"; // Default for other positions
+                return "StaffMainActivity";
         }
     }
 
@@ -185,7 +182,6 @@ public class Login extends AppCompatActivity {
         editor.putString("user_email", email);
         editor.apply();
 
-        // Also save to LecturerPrefs for compatibility
         SharedPreferences lecturerPrefs = getSharedPreferences("LecturerPrefs", MODE_PRIVATE);
         SharedPreferences.Editor lecturerEditor = lecturerPrefs.edit();
         lecturerEditor.putString("staff_email", email);
@@ -200,7 +196,6 @@ public class Login extends AppCompatActivity {
     }
 
     private Staff findStaffByEmail(String email) {
-        // Use the getStaffByEmail method from the database helper for better performance
         return staffDbHelper.getStaffByEmail(email);
     }
 
