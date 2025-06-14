@@ -39,7 +39,7 @@ public class StudentProfile extends Fragment {
     private ImageView ivProfilePic;
     private TextView tvProfileName, tvProfileStudentId, tvProfileEmail, tvProfilePhone;
     private TextView tvProfileDob, tvProfileAddress, tvProfileProgram, tvProfileYear;
-    private TextView tvProfileAdvisor, tvProfileGraduation, tvGpaValue, tvCreditsValue, tvSemesterValue;
+    private TextView tvProfileGraduation, tvGpaValue, tvCreditsValue, tvSemesterValue;
     private Chip chipFaculty;
     private FloatingActionButton fabEditProfile, fabHelp;
     private MaterialCardView cvSettings;
@@ -74,7 +74,6 @@ public class StudentProfile extends Fragment {
         tvProfileAddress = view.findViewById(R.id.tv_profile_address);
         tvProfileProgram = view.findViewById(R.id.tv_profile_program);
         tvProfileYear = view.findViewById(R.id.tv_profile_year);
-        tvProfileAdvisor = view.findViewById(R.id.tv_profile_advisor);
         tvProfileGraduation = view.findViewById(R.id.tv_profile_graduation);
 
         tvSemesterValue = view.findViewById(R.id.tv_semester_value);
@@ -202,7 +201,6 @@ public class StudentProfile extends Fragment {
             }
 
             loadProfilePhoto();
-            setDefaultAdvisor();
             setDefaultStats();
 
             Log.d(TAG, "Student profile populated successfully");
@@ -239,10 +237,6 @@ public class StudentProfile extends Fragment {
         }
 
         return address.toString();
-    }
-
-    private void setDefaultAdvisor() {
-        tvProfileAdvisor.setText("Dr. Emily Thompson");
     }
 
     private void loadProfilePhoto() {

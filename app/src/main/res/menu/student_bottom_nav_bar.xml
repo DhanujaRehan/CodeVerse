@@ -7,11 +7,11 @@
         android:title="Home"/>
     <item
         android:id="@+id/navassignments"
-        android:icon="@drawable/navclas"
+        android:icon="@drawable/nav_calendar"
         android:title="Schedule" />
     <item
         android:id="@+id/navschedule"
-        android:icon="@drawable/ic_payment"
+        android:icon="@drawable/creditcard"
         android:title="Payment" />
     <item
         android:id="@+id/navprofile"

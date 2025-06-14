@@ -22,21 +22,21 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
-        android:elevation="10dp"
+        app:menu="@menu/lecturer_bottom_nav_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/lecturer_bottom_nav_menu"
-        app:labelVisibilityMode="auto"
-        app:itemTextColor="@color/DarkBlue2"
-        android:foregroundGravity="center"
+        app:labelVisibilityMode="unlabeled"
+        app:itemPaddingBottom="8dp"
+        app:itemPaddingTop="8dp"
+        android:elevation="10dp"
+        android:paddingVertical="10dp"
+        app:itemTextColor="@color/nav_item_color"
         app:itemBackground="@color/white"
-        app:itemIconTint="@color/DarkBlue2"
-        app:itemRippleColor="@color/DarkBlue2"
-
-
+        app:itemIconTint="@color/nav_item_color"
+        app:itemRippleColor="@color/black"
         />
 
 
