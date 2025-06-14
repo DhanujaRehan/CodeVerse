@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.codeverse.LoginScreens.AdminLogout;
 import com.example.codeverse.LoginScreens.Login;
 import com.example.codeverse.LoginScreens.LogoutStaff;
 import com.example.codeverse.R;
@@ -110,7 +111,7 @@ public class AdminHomeFragment extends Fragment {
             editor.apply();
         }
 
-        Intent intent = new Intent(getActivity(), Login.class);
+        Intent intent = new Intent(getActivity(), AdminLogout.class);
         startActivity(intent);
         if (getActivity() != null) {
             getActivity().finish();
