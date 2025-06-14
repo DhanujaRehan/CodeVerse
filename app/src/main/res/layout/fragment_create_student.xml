@@ -561,10 +561,11 @@
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/poppins_medium"
                 android:text="Cancel"
-                android:textColor="#FF5252"
+                android:backgroundTint="@color/red"
+                android:textColor="@color/white"
                 android:textSize="16sp"
                 app:cornerRadius="24dp"
-                app:strokeColor="#FF5252"
+                app:strokeColor="@color/red"
                 app:strokeWidth="1dp" />
 
         </LinearLayout>
