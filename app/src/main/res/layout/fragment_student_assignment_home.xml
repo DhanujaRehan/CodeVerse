@@ -248,7 +248,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:fontFamily="@font/poppins_semibold"
-                                android:text="Download Assignments"
+                                android:text="Check Your Gradings"
                                 android:textAlignment="center"
                                 android:textColor="#1A5276"
                                 android:textSize="14sp" />
@@ -258,7 +258,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
                                 android:fontFamily="@font/poppins_regular"
-                                android:text="Check for the newest assignemnts"
+                                android:text="Check for the academic results"
                                 android:textAlignment="center"
                                 android:textColor="#5A7A9A"
                                 android:textSize="10sp" />
