@@ -63,10 +63,10 @@ public class SubmissionFilesAdapter extends RecyclerView.Adapter<SubmissionFiles
         public void bind(String fileName) {
             tvFileName.setText(fileName);
 
-            // Set file icon based on extension
+
             setFileIcon(fileName);
 
-            // Set click listeners
+
             cardFile.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onFileAction(fileName, "view");
