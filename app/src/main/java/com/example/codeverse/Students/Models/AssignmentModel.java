@@ -11,7 +11,7 @@ public class AssignmentModel {
     private long fileSize;
     private String status;
 
-    // New fields for grading system
+
     private String studentId;
     private String studentName;
     private String batch;
@@ -23,14 +23,14 @@ public class AssignmentModel {
     private boolean isGraded;
     private long gradedDate;
 
-    // Default constructor
+
     public AssignmentModel() {
         this.status = "uploaded";
         this.isGraded = false;
         this.marks = 0.0;
     }
 
-    // Constructor with basic fields
+
     public AssignmentModel(String title, String subject, String description, String fileName,
                            String filePath, long uploadDate, long fileSize) {
         this.title = title;
@@ -45,7 +45,6 @@ public class AssignmentModel {
         this.marks = 0.0;
     }
 
-    // Getters and Setters
     public int getId() {
         return id;
     }
@@ -198,7 +197,7 @@ public class AssignmentModel {
         this.gradedDate = gradedDate;
     }
 
-    // Helper method to get formatted file size
+
     public String getFormattedFileSize() {
         if (fileSize < 1024) {
             return fileSize + " B";
@@ -209,25 +208,25 @@ public class AssignmentModel {
         }
     }
 
-    // Helper method to get formatted upload date
+
     public String getFormattedUploadDate() {
         java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("MMM dd, yyyy 'at' HH:mm", java.util.Locale.getDefault());
         return dateFormat.format(new java.util.Date(uploadDate));
     }
 
-    // Helper method to check if file is PDF
+
     public boolean isPdfFile() {
         return fileName != null && fileName.toLowerCase().endsWith(".pdf");
     }
 
-    // Helper method to check if file is Word document
+
     public boolean isWordFile() {
         return fileName != null && (fileName.toLowerCase().endsWith(".doc") || fileName.toLowerCase().endsWith(".docx"));
     }
 
-    // Helper method to check if assignment is overdue (you can implement based on your requirements)
+
     public boolean isOverdue() {
-        // Implement your logic for determining if assignment is overdue
+
         return false;
     }
 
