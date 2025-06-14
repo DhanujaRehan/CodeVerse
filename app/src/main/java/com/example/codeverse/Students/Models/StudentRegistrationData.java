@@ -1,14 +1,11 @@
 package com.example.codeverse.Students.Models;
 
-/**
- * Singleton class to hold student registration data across fragments
- * This class is used as a temporary data holder during the registration process
- */
+
 public class StudentRegistrationData {
 
     private static StudentRegistrationData instance;
 
-    // Basic Information
+
     private String fullName;
     private String universityId;
     private String nicNumber;
@@ -16,20 +13,20 @@ public class StudentRegistrationData {
     private String dateOfBirth;
     private String studentPhoto;
 
-    // Academic Details
+
     private String faculty;
     private String department;
     private String batch;
     private String semester;
     private String enrollmentDate;
 
-    // Account Details
+
     private String email;
     private String username;
     private String password;
     private boolean termsAccepted;
 
-    // Contact Details
+
     private String mobileNumber;
     private String alternateNumber;
     private String permanentAddress;
@@ -37,17 +34,17 @@ public class StudentRegistrationData {
     private String province;
     private String postalCode;
 
-    // Emergency Contact
+
     private String emergencyName;
     private String emergencyRelationship;
     private String emergencyNumber;
 
-    // Private constructor to prevent direct instantiation
+
     private StudentRegistrationData() {
         resetData();
     }
 
-    // Get singleton instance
+
     public static synchronized StudentRegistrationData getInstance() {
         if (instance == null) {
             instance = new StudentRegistrationData();
@@ -55,9 +52,9 @@ public class StudentRegistrationData {
         return instance;
     }
 
-    // Reset all data
+
     public void resetData() {
-        // Basic Information
+
         fullName = null;
         universityId = null;
         nicNumber = null;
@@ -65,20 +62,20 @@ public class StudentRegistrationData {
         dateOfBirth = null;
         studentPhoto = null;
 
-        // Academic Details
+
         faculty = null;
         department = null;
         batch = null;
         semester = null;
         enrollmentDate = null;
 
-        // Account Details
+
         email = null;
         username = null;
         password = null;
         termsAccepted = false;
 
-        // Contact Details
+
         mobileNumber = null;
         alternateNumber = null;
         permanentAddress = null;
@@ -86,17 +83,17 @@ public class StudentRegistrationData {
         province = null;
         postalCode = null;
 
-        // Emergency Contact
+
         emergencyName = null;
         emergencyRelationship = null;
         emergencyNumber = null;
     }
 
-    // Convert to StudentDetails object
+
     public Student toStudentDetails() {
         Student student = new Student();
 
-        // Basic Information
+
         student.setFullName(fullName);
         student.setUniversityId(universityId);
         student.setNicNumber(nicNumber);
@@ -104,20 +101,20 @@ public class StudentRegistrationData {
         student.setDateOfBirth(dateOfBirth);
         student.setPhotoUri(studentPhoto);
 
-        // Academic Details
+
         student.setFaculty(faculty);
         student.setDepartment(department);
         student.setBatch(batch);
         student.setSemester(semester);
         student.setEnrollmentDate(enrollmentDate);
 
-        // Account Details
+
         student.setEmail(email);
         student.setUsername(username);
         student.setPassword(password);
         student.setTermsAccepted(termsAccepted);
 
-        // Contact Details
+
         student.setMobileNumber(mobileNumber);
         student.setAlternateNumber(alternateNumber);
         student.setPermanentAddress(permanentAddress);
@@ -125,7 +122,7 @@ public class StudentRegistrationData {
         student.setProvince(province);
         student.setPostalCode(postalCode);
 
-        // Emergency Contact
+
         student.setEmergencyName(emergencyName);
         student.setEmergencyRelationship(emergencyRelationship);
         student.setEmergencyNumber(emergencyNumber);
@@ -133,11 +130,11 @@ public class StudentRegistrationData {
         return student;
     }
 
-    // Load from StudentDetails object
+
     public void fromStudentDetails(Student student) {
         if (student == null) return;
 
-        // Basic Information
+
         fullName = student.getFullName();
         universityId = student.getUniversityId();
         nicNumber = student.getNicNumber();
@@ -145,20 +142,20 @@ public class StudentRegistrationData {
         dateOfBirth = student.getDateOfBirth();
         studentPhoto = student.getPhotoUri();
 
-        // Academic Details
+
         faculty = student.getFaculty();
         department = student.getDepartment();
         batch = student.getBatch();
         semester = student.getSemester();
         enrollmentDate = student.getEnrollmentDate();
 
-        // Account Details
+
         email = student.getEmail();
         username = student.getUsername();
         password = student.getPassword();
         termsAccepted = student.isTermsAccepted();
 
-        // Contact Details
+
         mobileNumber = student.getMobileNumber();
         alternateNumber = student.getAlternateNumber();
         permanentAddress = student.getPermanentAddress();
@@ -166,15 +163,15 @@ public class StudentRegistrationData {
         province = student.getProvince();
         postalCode = student.getPostalCode();
 
-        // Emergency Contact
+
         emergencyName = student.getEmergencyName();
         emergencyRelationship = student.getEmergencyRelationship();
         emergencyNumber = student.getEmergencyNumber();
     }
 
-    // Getters and Setters
 
-    // Basic Information
+
+
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
 
@@ -193,7 +190,7 @@ public class StudentRegistrationData {
     public String getStudentPhoto() { return studentPhoto; }
     public void setStudentPhoto(String studentPhoto) { this.studentPhoto = studentPhoto; }
 
-    // Academic Details
+
     public String getFaculty() { return faculty; }
     public void setFaculty(String faculty) { this.faculty = faculty; }
 
@@ -209,7 +206,7 @@ public class StudentRegistrationData {
     public String getEnrollmentDate() { return enrollmentDate; }
     public void setEnrollmentDate(String enrollmentDate) { this.enrollmentDate = enrollmentDate; }
 
-    // Account Details
+
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
@@ -222,7 +219,7 @@ public class StudentRegistrationData {
     public boolean isTermsAccepted() { return termsAccepted; }
     public void setTermsAccepted(boolean termsAccepted) { this.termsAccepted = termsAccepted; }
 
-    // Contact Details
+
     public String getMobileNumber() { return mobileNumber; }
     public void setMobileNumber(String mobileNumber) { this.mobileNumber = mobileNumber; }
 
@@ -241,7 +238,7 @@ public class StudentRegistrationData {
     public String getPostalCode() { return postalCode; }
     public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
 
-    // Emergency Contact
+
     public String getEmergencyName() { return emergencyName; }
     public void setEmergencyName(String emergencyName) { this.emergencyName = emergencyName; }
 
@@ -251,7 +248,7 @@ public class StudentRegistrationData {
     public String getEmergencyNumber() { return emergencyNumber; }
     public void setEmergencyNumber(String emergencyNumber) { this.emergencyNumber = emergencyNumber; }
 
-    // Utility methods
+
     public boolean isBasicInfoComplete() {
         return fullName != null && !fullName.trim().isEmpty() &&
                 universityId != null && !universityId.trim().isEmpty() &&
