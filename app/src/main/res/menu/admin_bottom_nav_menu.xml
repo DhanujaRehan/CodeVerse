@@ -3,19 +3,19 @@
 
     <item
         android:id="@+id/navhome"
-        android:icon="@drawable/nav_home"
+        android:icon="@drawable/home"
         android:title="Home"/>
     <item
         android:id="@+id/navassignments"
-        android:icon="@drawable/navstudent"
+        android:icon="@drawable/add_student"
         android:title="Student" />
     <item
         android:id="@+id/navschedule"
-        android:icon="@drawable/navstaff"
+        android:icon="@drawable/users"
         android:title="Staff" />
     <item
         android:id="@+id/navprofile"
-        android:icon="@drawable/navall"
+        android:icon="@drawable/allusers"
         android:title="All users" />
 
 </menu>

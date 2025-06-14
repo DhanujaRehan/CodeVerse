@@ -3,15 +3,15 @@
 
     <item
         android:id="@+id/navhome"
-        android:icon="@drawable/nav_home"
+        android:icon="@drawable/home"
         android:title="Home"/>
     <item
         android:id="@+id/navassignments"
-        android:icon="@drawable/assignment"
+        android:icon="@drawable/nav_assignment"
         android:title="Assignments" />
     <item
         android:id="@+id/navschedule"
-        android:icon="@drawable/nav_calendar"
+        android:icon="@drawable/calendar_nav"
         android:title="Schedule" />
     <item
         android:id="@+id/navprofile"
