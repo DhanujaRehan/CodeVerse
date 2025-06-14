@@ -24,16 +24,12 @@ public class LogoutStaff extends AppCompatActivity {
         staffSessionManager = new StaffSessionManager(this);
         tvGoodbyeStaff = findViewById(R.id.tv_goodbye_staff);
 
-        // Get user type from intent (to distinguish between staff and lecturer)
         String userType = getIntent().getStringExtra("userType");
 
-        // Set goodbye message based on user type
         setGoodbyeMessage(userType);
 
-        // Perform logout operations
         performLogout();
 
-        // Navigate back to login after delay
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -55,7 +51,6 @@ public class LogoutStaff extends AppCompatActivity {
                 tvGoodbyeStaff.setText("Goodbye, " + staffName + "!");
             }
         } else {
-            // Fallback message if name is not available
             if ("lecturer".equalsIgnoreCase(userType)) {
                 tvGoodbyeStaff.setText("Goodbye, Lecturer!");
             } else {
@@ -65,25 +60,20 @@ public class LogoutStaff extends AppCompatActivity {
     }
 
     private void performLogout() {
-        // Clear StaffSessionManager
         staffSessionManager.logoutStaff();
 
-        // Clear LecturerPrefs (for lecturer-specific data)
         SharedPreferences lecturerPrefs = getSharedPreferences("LecturerPrefs", MODE_PRIVATE);
         SharedPreferences.Editor lecturerEditor = lecturerPrefs.edit();
         lecturerEditor.clear();
         lecturerEditor.apply();
 
-        // Clear StaffPrefs (for staff-specific data)
         SharedPreferences staffPrefs = getSharedPreferences("StaffPrefs", MODE_PRIVATE);
         SharedPreferences.Editor staffEditor = staffPrefs.edit();
         staffEditor.clear();
         staffEditor.apply();
     }
 
-    /**
-     * Static method to start logout process for Staff
-     */
+
     public static void startStaffLogout(AppCompatActivity activity) {
         Intent intent = new Intent(activity, LogoutStaff.class);
         intent.putExtra("userType", "staff");
@@ -91,9 +81,7 @@ public class LogoutStaff extends AppCompatActivity {
         activity.finish();
     }
 
-    /**
-     * Static method to start logout process for Lecturer
-     */
+
     public static void startLecturerLogout(AppCompatActivity activity) {
         Intent intent = new Intent(activity, LogoutStaff.class);
         intent.putExtra("userType", "lecturer");
