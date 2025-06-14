@@ -612,7 +612,7 @@ public class StaffProfessionalInfo extends Fragment {
     public void showUserList(){
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.framelayout, new UserShowingFragment());
-        transaction.addToBackStack(null); // Optional: allows back navigation
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 
