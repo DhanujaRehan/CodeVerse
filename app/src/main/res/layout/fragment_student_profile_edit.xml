@@ -23,8 +23,8 @@
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
+                app:cardBackgroundColor="#7FFFFFFF"
+                app:cardCornerRadius="50dp"
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -32,15 +32,15 @@
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:id="@+id/iv_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    app:lottie_autoPlay="true"
+                    android:contentDescription="Back"
                     android:padding="9dp"
-                    app:lottie_loop="true"
                     android:scaleType="centerCrop"
-                    app:lottie_rawRes="@raw/back_button_animation"
-                    android:contentDescription="Back" />
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/back_button_animation" />
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
