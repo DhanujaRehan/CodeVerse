@@ -59,8 +59,8 @@ public class EventRegistration extends Fragment {
         tvEventTitle = view.findViewById(R.id.tv_event_title);
         tvEventDescription = view.findViewById(R.id.tv_event_description);
         tvEventDate = view.findViewById(R.id.tv_event_date);
-        tvEventLocation = view.findViewById(R.id.tv_event_location);
-        ivEventBanner = view.findViewById(R.id.iv_event_banner);
+        tvEventLocation = view.findViewById(R.id.tv_event_venue);
+        ivEventBanner = view.findViewById(R.id.iv_event_image);
         ivBack = view.findViewById(R.id.iv_back);
 
         etStudentId = view.findViewById(R.id.et_student_id);

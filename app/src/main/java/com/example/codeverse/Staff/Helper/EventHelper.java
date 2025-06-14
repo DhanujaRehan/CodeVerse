@@ -19,7 +19,6 @@ public class EventHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 2;
     private static final String TABLE_EVENTS = "Events";
     private static final String TABLE_EVENT_REGISTER = "EventRegister";
-
     private static final String COL_ID = "id";
     private static final String COL_TITLE = "title";
     private static final String COL_DESCRIPTION = "description";
@@ -27,7 +26,6 @@ public class EventHelper extends SQLiteOpenHelper {
     private static final String COL_TIME = "time";
     private static final String COL_VENUE = "venue";
     private static final String COL_IMAGE = "image";
-
     private static final String COL_EVENT_ID = "event_id";
     private static final String COL_STUDENT_ID = "student_id";
     private static final String COL_FULL_NAME = "full_name";

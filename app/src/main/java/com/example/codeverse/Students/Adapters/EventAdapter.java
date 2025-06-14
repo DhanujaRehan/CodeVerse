@@ -1,6 +1,10 @@
 package com.example.codeverse.Students.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +47,22 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
         holder.tvEventTime.setText(event.getTime());
         holder.tvEventVenue.setText(event.getVenue());
 
+        // Handle image display
+        if (!event.getImage().isEmpty()) {
+            try {
+                byte[] decodedBytes = android.util.Base64.decode(event.getImage(), android.util.Base64.DEFAULT);
+                Bitmap bitmap = BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
+                holder.ivEventImage.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                Log.e("EventAdapter", "Error decoding image: " + e.getMessage());
+                // Set default image if decoding fails
+                holder.ivEventImage.setImageResource(R.drawable.ccc);
+            }
+        } else {
+            // Set default image if no image is available
+            holder.ivEventImage.setImageResource(R.drawable.ccc);
+        }
+
         holder.currentEvent = event;
     }
 
@@ -70,6 +90,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
             button_register.setOnClickListener(v -> {
                 if (context instanceof FragmentActivity && currentEvent != null) {
                     EventRegistration eventRegisterFragment = new EventRegistration();
+
+                    // Create bundle to pass event ID
+                    Bundle bundle = new Bundle();
+                    bundle.putInt("event_id", currentEvent.getId());
+                    eventRegisterFragment.setArguments(bundle);
 
                     FragmentTransaction transaction = ((FragmentActivity) context)
                             .getSupportFragmentManager()
