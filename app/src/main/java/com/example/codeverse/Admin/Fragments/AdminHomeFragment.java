@@ -1,9 +1,12 @@
 package com.example.codeverse.Admin.Fragments;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -13,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.example.codeverse.LoginScreens.Login;
+import com.example.codeverse.LoginScreens.LogoutStaff;
 import com.example.codeverse.R;
 
 import com.google.android.material.button.MaterialButton;
@@ -24,6 +29,8 @@ public class AdminHomeFragment extends Fragment {
     private LinearLayout layoutSendNotification;
     private LinearLayout layoutAllUsers;
     private MaterialButton btnSystemStatus;
+    private ImageView ivLogout;
+    private SharedPreferences sharedPreferences;
     private TextView tvViewDetails;
 
     @Nullable
@@ -44,6 +51,7 @@ public class AdminHomeFragment extends Fragment {
         layoutAllUsers = view.findViewById(R.id.layout_all_users);
         btnSystemStatus = view.findViewById(R.id.btn_system_status);
         tvViewDetails = view.findViewById(R.id.tv_view_details);
+        ivLogout = view.findViewById(R.id.iv_logout);
     }
 
     private void setupClickListeners() {
@@ -86,9 +94,27 @@ public class AdminHomeFragment extends Fragment {
             showSystemStatus();
         });
 
+        ivLogout.setOnClickListener(v -> {
+            logoutAdmin();
+        });
+
         tvViewDetails.setOnClickListener(v -> {
             showSystemDetails();
         });
+    }
+
+    private void logoutAdmin() {
+        if (sharedPreferences != null) {
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.clear();
+            editor.apply();
+        }
+
+        Intent intent = new Intent(getActivity(), Login.class);
+        startActivity(intent);
+        if (getActivity() != null) {
+            getActivity().finish();
+        }
     }
 
     private void showSystemStatus() {
