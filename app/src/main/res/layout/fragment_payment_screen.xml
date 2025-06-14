@@ -1062,7 +1062,7 @@
                         <ImageView
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:src="@drawable/ic_notifications"
+                            android:src="@drawable/notification_icon"
                             app:tint="@color/DarkBlue" />
 
                         <TextView
@@ -1095,7 +1095,7 @@
                     <ImageView
                         android:layout_width="42dp"
                         android:layout_height="42dp"
-                        android:src="@drawable/ic_help"
+                        android:src="@drawable/help_icon"
                         app:tint="#4CAF50" />
 
                     <LinearLayout

@@ -66,8 +66,8 @@
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_notifications"
-                    app:tint="#FFFFFF" />
+                    android:src="@drawable/notification_icon"
+                    app:tint="@color/black" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -81,11 +81,11 @@
 
                 <ImageView
                     android:id="@+id/iv_profile"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_person"
-                    app:tint="#FFFFFF" />
+                    android:src="@drawable/nav_profile"
+                    app:tint="@color/black" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -125,7 +125,7 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/ic_event"
+                        android:src="@drawable/register"
                         app:tint="@color/DarkBlue" />
 
                     <LinearLayout
@@ -157,7 +157,7 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/ic_close"
-                        app:tint="#AAAAAA" />
+                        app:tint="@color/red_700" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -215,7 +215,7 @@
                                     android:layout_width="28dp"
                                     android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_assignment"
+                                    android:src="@drawable/assignment_icon"
                                     app:tint="@color/DarkBlue" />
                             </androidx.cardview.widget.CardView>
 
@@ -252,7 +252,7 @@
                                     android:layout_width="28dp"
                                     android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_grades"
+                                    android:src="@drawable/nav_grades"
                                     app:tint="@color/DarkBlue" />
                             </androidx.cardview.widget.CardView>
 
@@ -289,7 +289,7 @@
                                     android:layout_width="28dp"
                                     android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_event"
+                                    android:src="@drawable/calendar_nav"
                                     app:tint="#FFFFFF" />
                             </androidx.cardview.widget.CardView>
 
@@ -326,7 +326,7 @@
                                     android:layout_width="28dp"
                                     android:layout_height="28dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_folder"
+                                    android:src="@drawable/folder"
                                     app:tint="#FFFFFF" />
                             </androidx.cardview.widget.CardView>
 
