@@ -15,24 +15,18 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
 
-/**
- * Adapter for displaying student cards in a RecyclerView
- */
+
 public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentViewHolder> {
 
     private List<StudentModel> students;
     private OnStudentActionListener actionListener;
 
-    /**
-     * Interface for student actions callback
-     */
+
     public interface OnStudentActionListener {
         void onAction(String action, StudentModel student);
     }
 
-    /**
-     * Constructor
-     */
+
     public StudentAdapter(List<StudentModel> students, OnStudentActionListener listener) {
         this.students = students;
         this.actionListener = listener;
@@ -102,25 +96,19 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         return students.size();
     }
 
-    /**
-     * Update the adapter data
-     */
+
     public void updateData(List<StudentModel> newStudents) {
         this.students = newStudents;
         notifyDataSetChanged();
     }
 
-    /**
-     * Add a new student to the list
-     */
+
     public void addStudent(StudentModel student) {
         students.add(0, student);
         notifyItemInserted(0);
     }
 
-    /**
-     * Remove a student from the list
-     */
+
     public void removeStudent(StudentModel student) {
         int position = students.indexOf(student);
         if (position != -1) {
@@ -129,9 +117,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         }
     }
 
-    /**
-     * ViewHolder class for student items
-     */
+
     static class StudentViewHolder extends RecyclerView.ViewHolder {
         View studentImageBg;
         ImageView ivStudentImage;
