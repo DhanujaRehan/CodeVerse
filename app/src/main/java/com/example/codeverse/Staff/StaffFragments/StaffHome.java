@@ -90,7 +90,7 @@ public class StaffHome extends Fragment {
         });
 
         layoutUploadPdf.setOnClickListener(v -> {
-            openPdfPicker();
+            navigateToTimeTablePDF();
         });
 
         tvViewMore.setOnClickListener(v -> {
@@ -130,6 +130,13 @@ public class StaffHome extends Fragment {
         transaction.commit();
     }
 
+    private void navigateToTimeTablePDF(){
+        StaffTimeTabePDF staffTimeTabePDF = new StaffTimeTabePDF();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, staffTimeTabePDF);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
     private void navigateToCreateEvent() {
         CreateEvent createEvent = new CreateEvent();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
