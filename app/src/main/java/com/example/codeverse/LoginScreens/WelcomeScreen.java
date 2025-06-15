@@ -117,7 +117,7 @@ public class WelcomeScreen extends AppCompatActivity {
                     v.animate().scaleX(1f).scaleY(1f).setDuration(100).start();
                     break;
             }
-            // Return false to allow the click event to be processed
+
             return false;
         });
 
