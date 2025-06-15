@@ -27,7 +27,7 @@
                 android:id="@+id/cv_back"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#67FFFFFF"
+                app:cardBackgroundColor="#7FFFFFFF"
                 app:cardCornerRadius="50dp"
                 app:cardElevation="0dp">
 
@@ -54,43 +54,44 @@
                 android:fontFamily="@font/poppins_bold"
                 android:text="Coordinator Portal"
                 android:textColor="@color/DarkBlue"
-                android:layout_marginStart="16dp"
-                android:textSize="24sp"/>
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="22sp"/>
 
             <com.google.android.material.card.MaterialCardView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                app:cardBackgroundColor="#66FFFFFF"
-                app:cardCornerRadius="50dp"
-                android:layout_margin="5dp"
+                android:id="@+id/cv_notification"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cardBackgroundColor="#7FFFFFFF"
+                app:cardCornerRadius="20dp"
+                android:layout_marginEnd="8dp"
                 app:cardElevation="0dp">
 
                 <ImageView
                     android:id="@+id/iv_notification"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_notifications"
-                    app:tint="#FFFFFF" />
+                    android:src="@drawable/notification_icon"
+                    app:tint="@color/black" />
 
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_coordinator_profile"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardBackgroundColor="#66FFFFFF"
-                app:cardCornerRadius="50dp"
-                android:layout_marginHorizontal="5dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                app:cardBackgroundColor="#7FFFFFFF"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="0dp">
 
                 <ImageView
                     android:id="@+id/iv_coordinator_profile"
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_person"
-                    app:tint="#FFFFFF" />
+                    android:src="@drawable/nav_profile"
+                    app:tint="@color/black" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -110,164 +111,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
-            android:paddingTop="16dp"
             android:paddingBottom="80dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/glass_background"
-                android:backgroundTint="@color/white"
-                app:cardBackgroundColor="@color/transparent"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="4dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:weightSum="3">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="54dp"
-                            android:layout_height="54dp"
-                            app:cardBackgroundColor="@color/DarkBlue2"
-                            app:cardCornerRadius="27dp"
-                            app:cardElevation="0dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_assignment"
-                                    app:tint="@color/white" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_bold"
-                                    android:text="12"
-                                    android:textColor="@color/white"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/poppins_medium"
-                            android:text="Exams"
-                            android:textColor="#333333"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="54dp"
-                            android:layout_height="54dp"
-                            app:cardBackgroundColor="@color/MiddleBlue2"
-                            app:cardCornerRadius="27dp"
-                            app:cardElevation="0dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_event"
-                                    app:tint="@color/DarkBlue" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_bold"
-                                    android:text="8"
-                                    android:textColor="@color/DarkBlue"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/poppins_medium"
-                            android:text="Events"
-                            android:textColor="#333333"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="54dp"
-                            android:layout_height="54dp"
-                            app:cardBackgroundColor="@color/MiddleBlue"
-                            app:cardCornerRadius="27dp"
-                            app:cardElevation="0dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:gravity="center"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="24dp"
-                                    android:layout_height="24dp"
-                                    android:src="@drawable/ic_folder"
-                                    app:tint="#FFFFFF" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_bold"
-                                    android:text="3"
-                                    android:textColor="#FFFFFF"
-                                    android:textSize="12sp" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:fontFamily="@font/poppins_medium"
-                            android:text="Timetables"
-                            android:textColor="#333333"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -315,7 +159,7 @@
                             <androidx.cardview.widget.CardView
                                 android:layout_width="80dp"
                                 android:layout_height="80dp"
-                                app:cardBackgroundColor="@color/LightBlue"
+                                app:cardBackgroundColor="@color/white"
                                 app:cardCornerRadius="40dp"
                                 app:cardElevation="4dp">
 
@@ -323,7 +167,7 @@
                                     android:layout_width="40dp"
                                     android:layout_height="40dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_password"
+                                    android:src="@drawable/lock"
                                     app:tint="@color/DarkBlue" />
                             </androidx.cardview.widget.CardView>
 
@@ -361,7 +205,7 @@
                                     android:layout_width="40dp"
                                     android:layout_height="40dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_assignment"
+                                    android:src="@drawable/edit_exam"
                                     app:tint="@color/DarkBlue" />
                             </androidx.cardview.widget.CardView>
 
@@ -407,7 +251,7 @@
                                     android:layout_width="40dp"
                                     android:layout_height="40dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_event"
+                                    android:src="@drawable/flag"
                                     app:tint="#FFFFFF" />
                             </androidx.cardview.widget.CardView>
 
@@ -445,7 +289,7 @@
                                     android:layout_width="40dp"
                                     android:layout_height="40dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_folder"
+                                    android:src="@drawable/folder"
                                     app:tint="#FFFFFF" />
                             </androidx.cardview.widget.CardView>
 
