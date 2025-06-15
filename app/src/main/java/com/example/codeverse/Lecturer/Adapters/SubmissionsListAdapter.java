@@ -3,6 +3,7 @@ package com.example.codeverse.Lecturer.Adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -51,7 +52,7 @@ public class SubmissionsListAdapter extends RecyclerView.Adapter<SubmissionsList
     }
 
     class SubmissionViewHolder extends RecyclerView.ViewHolder {
-        private MaterialCardView cardSubmission;
+        private LinearLayout cardSubmission;
         private TextView tvStudentName, tvStudentId, tvAssignmentTitle, tvSubmissionDate, tvGradeStatus;
 
         public SubmissionViewHolder(@NonNull View itemView) {
@@ -89,15 +90,6 @@ public class SubmissionsListAdapter extends RecyclerView.Adapter<SubmissionsList
                     listener.onSubmissionSelected(submission);
                 }
             });
-
-            // Add visual feedback for graded submissions
-            if (submission.isGraded()) {
-                cardSubmission.setStrokeColor(itemView.getContext().getResources().getColor(android.R.color.holo_green_light));
-                cardSubmission.setStrokeWidth(2);
-            } else {
-                cardSubmission.setStrokeColor(itemView.getContext().getResources().getColor(android.R.color.holo_orange_light));
-                cardSubmission.setStrokeWidth(2);
-            }
         }
     }
 }
