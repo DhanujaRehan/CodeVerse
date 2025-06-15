@@ -11,9 +11,7 @@
         android:roundIcon="@mipmap/ic_codeverse_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ViewgradesActivity"
-            android:exported="false" />
+
         <activity
             android:name=".LoginScreens.AdminLogout"
             android:exported="false" />
@@ -33,7 +31,7 @@
             android:name=".Lecturer.Activities.LecturerMainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginScreens.Login"
+            android:name=".LoginScreens.WelcomeScreen"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +46,7 @@
             android:name=".MainActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginScreens.WelcomeScreen"
+            android:name=".LoginScreens.Login"
             android:exported="false" />
         <activity
             android:name=".LoginScreens.LoadingScreen"
