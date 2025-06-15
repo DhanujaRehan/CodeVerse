@@ -36,8 +36,8 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        AdminEmail = "Admin1234";
-        AdminPassword = "Admin1234";
+        AdminEmail = "admin@codeverse.edu";
+        AdminPassword = "Admin123!";
 
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

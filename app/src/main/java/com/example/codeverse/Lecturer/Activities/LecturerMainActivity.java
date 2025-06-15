@@ -7,11 +7,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.codeverse.Lecturer.Fragments.GradeSubmission;
 import com.example.codeverse.Lecturer.Fragments.LecturerProfile;
 import com.example.codeverse.Lecturer.Fragments.LecturerHomeFragment;
 import com.example.codeverse.Lecturer.Fragments.LecturerNotesFragment;
 import com.example.codeverse.R;
-import com.example.codeverse.Staff.StaffFragments.GradeSubmissions;
 import com.example.codeverse.databinding.ActivityLecturerMainBinding;
 
 public class LecturerMainActivity extends AppCompatActivity {
@@ -40,7 +40,7 @@ public class LecturerMainActivity extends AppCompatActivity {
             }
             else if (itemid == R.id.navgradesubmissions){
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.framelayout, new GradeSubmissions())
+                        .replace(R.id.framelayout, new GradeSubmission())
                         .commit();
             }
             else if (itemid == R.id.navschedule){

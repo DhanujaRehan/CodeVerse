@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,26 +38,32 @@ public class GradeSubmission extends Fragment {
 
     private static final String TAG = "GradeSubmissions";
 
+    // Selection form views
     private AutoCompleteTextView dropdownProgramme, dropdownBatch, dropdownModule, dropdownAssessment;
     private MaterialButton btnViewSubmissions;
 
+    // Submissions list views
     private LinearLayout cardSubmissionsList, layoutGradeDetails;
     private RecyclerView rvSubmissionsList, rvSubmissionFiles;
     private TextView tvSubmissionsHeader;
 
+    // Grade details views
     private TextView tvStudentId, tvStudentName, tvSubmissionDate;
     private TextInputEditText etMarks, etFeedback;
     private AutoCompleteTextView dropdownGrade;
     private MaterialButton btnCancel, btnSubmitGrade;
 
+    // Loading overlay
     private FrameLayout loadingOverlay;
 
-
+    // Database helper
     private AssignmentUploadHelper dbHelper;
 
+    // Adapters
     private SubmissionsListAdapter submissionsAdapter;
     private SubmissionFilesAdapter filesAdapter;
 
+    // Data
     private List<AssignmentModel> submissionsList;
     private List<String> submissionFiles;
     private AssignmentModel currentSubmission;
@@ -135,6 +140,7 @@ public class GradeSubmission extends Fragment {
                 android.R.layout.simple_dropdown_item_1line, programmes);
         dropdownProgramme.setAdapter(programmeAdapter);
 
+        // Batch dropdown
         List<String> batches = dbHelper.getAllBatches();
         if (batches.isEmpty()) {
             batches.add("2021");
@@ -146,6 +152,7 @@ public class GradeSubmission extends Fragment {
                 android.R.layout.simple_dropdown_item_1line, batches);
         dropdownBatch.setAdapter(batchAdapter);
 
+        // Module dropdown
         List<String> modules = dbHelper.getAllModules();
         if (modules.isEmpty()) {
             modules.add("Programming Fundamentals");
@@ -216,6 +223,7 @@ public class GradeSubmission extends Fragment {
 
         showLoadingOverlay();
 
+        // Simulate loading delay
         new Handler().postDelayed(() -> {
             try {
                 List<AssignmentModel> filteredSubmissions = dbHelper.getAssignmentsByCriteria(
@@ -255,21 +263,21 @@ public class GradeSubmission extends Fragment {
     }
 
     private void showGradeDetails(AssignmentModel submission) {
-
+        // Set student information
         tvStudentId.setText(submission.getStudentId() != null ? submission.getStudentId() : "N/A");
         tvStudentName.setText(submission.getStudentName() != null ? submission.getStudentName() : "N/A");
 
-
+        // Format and set submission date
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy 'at' HH:mm", Locale.getDefault());
         String formattedDate = dateFormat.format(new Date(submission.getUploadDate()));
         tvSubmissionDate.setText(formattedDate);
 
-
+        // Set up submission files
         submissionFiles.clear();
         submissionFiles.add(submission.getFileName());
         filesAdapter.notifyDataSetChanged();
 
-
+        // Pre-fill grade information if already graded
         if (submission.isGraded()) {
             etMarks.setText(String.valueOf(submission.getMarks()));
             dropdownGrade.setText(submission.getGrade());
@@ -284,7 +292,7 @@ public class GradeSubmission extends Fragment {
 
         layoutGradeDetails.setVisibility(View.VISIBLE);
 
-
+        // Scroll to grade details
         layoutGradeDetails.post(() -> {
             layoutGradeDetails.requestFocus();
         });
@@ -311,6 +319,7 @@ public class GradeSubmission extends Fragment {
 
         showLoadingOverlay();
 
+        // Simulate processing delay
         new Handler().postDelayed(() -> {
             try {
                 int result = dbHelper.gradeAssignment(currentSubmission.getId(), marks, grade, feedback);
@@ -319,12 +328,15 @@ public class GradeSubmission extends Fragment {
 
                 if (result > 0) {
                     Toast.makeText(getContext(), "Grade submitted successfully", Toast.LENGTH_SHORT).show();
+
+                    // Update the current submission object
                     currentSubmission.setMarks(marks);
                     currentSubmission.setGrade(grade);
                     currentSubmission.setFeedback(feedback);
                     currentSubmission.setGraded(true);
                     currentSubmission.setGradedDate(System.currentTimeMillis());
 
+                    // Update the adapter
                     submissionsAdapter.notifyDataSetChanged();
 
                     hideGradeDetails();
@@ -386,135 +398,32 @@ public class GradeSubmission extends Fragment {
     private void openFile(String filePath) {
         try {
             File file = new File(filePath);
-
-            Log.d(TAG, "Attempting to open file: " + filePath);
-            Log.d(TAG, "File exists: " + file.exists());
-            Log.d(TAG, "File can read: " + file.canRead());
-            Log.d(TAG, "File length: " + file.length());
-
-            if (!file.exists()) {
-                Toast.makeText(getContext(), "File not found: " + file.getName(), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (!file.canRead()) {
-                Toast.makeText(getContext(), "Cannot read file: " + file.getName(), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            // Use FileProvider for Android 7.0+ compatibility
-            Uri fileUri;
-            try {
-                fileUri = FileProvider.getUriForFile(
-                        getContext(),
-                        getContext().getPackageName() + ".fileprovider",
-                        file
-                );
-            } catch (Exception e) {
-                Log.e(TAG, "FileProvider error, falling back to Uri.fromFile", e);
-                fileUri = Uri.fromFile(file);
-            }
-
-            String mimeType = getMimeType(file.getName());
-            Log.d(TAG, "MIME type: " + mimeType);
-
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            intent.setDataAndType(fileUri, mimeType);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-            // Check if there's an app that can handle this intent
-            if (intent.resolveActivity(getContext().getPackageManager()) != null) {
-                startActivity(intent);
-                Toast.makeText(getContext(), "Opening " + file.getName(), Toast.LENGTH_SHORT).show();
-            } else {
-                // If no app can handle the file, try to open with a generic viewer
-                Intent genericIntent = new Intent(Intent.ACTION_VIEW);
-                genericIntent.setDataAndType(fileUri, "*/*");
-                genericIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                if (genericIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                    startActivity(genericIntent);
-                    Toast.makeText(getContext(), "Opening " + file.getName(), Toast.LENGTH_SHORT).show();
-                } else {
-                    // Show file details instead
-                    showFileDetails(file);
-                }
-            }
-
-        } catch (Exception e) {
-            Log.e(TAG, "Error opening file: " + filePath, e);
-            Toast.makeText(getContext(), "Error opening file: " + e.getMessage(), Toast.LENGTH_LONG).show();
-
-            // Show file details as fallback
-            File file = new File(filePath);
             if (file.exists()) {
-                showFileDetails(file);
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(Uri.fromFile(file), getMimeType(file.getName()));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                Toast.makeText(getContext(), "Opening file", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getContext(), "File not found", Toast.LENGTH_SHORT).show();
             }
+        } catch (Exception e) {
+            Log.e(TAG, "Error opening file", e);
+            Toast.makeText(getContext(), "Error opening file", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void showFileDetails(File file) {
-        String details = "File: " + file.getName() + "\n" +
-                "Size: " + formatFileSize(file.length()) + "\n" +
-                "Path: " + file.getAbsolutePath() + "\n" +
-                "Last Modified: " + new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.getDefault())
-                .format(new Date(file.lastModified()));
-
-        new androidx.appcompat.app.AlertDialog.Builder(getContext())
-                .setTitle("File Details")
-                .setMessage(details)
-                .setPositiveButton("OK", null)
-                .setNeutralButton("Copy Path", (dialog, which) -> {
-                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
-                            getContext().getSystemService(android.content.Context.CLIPBOARD_SERVICE);
-                    android.content.ClipData clip = android.content.ClipData.newPlainText("File Path", file.getAbsolutePath());
-                    clipboard.setPrimaryClip(clip);
-                    Toast.makeText(getContext(), "Path copied to clipboard", Toast.LENGTH_SHORT).show();
-                })
-                .show();
-    }
-
-    private String formatFileSize(long bytes) {
-        if (bytes < 1024) return bytes + " B";
-        int exp = (int) (Math.log(bytes) / Math.log(1024));
-        String pre = "KMGTPE".charAt(exp-1) + "";
-        return String.format("%.1f %sB", bytes / Math.pow(1024, exp), pre);
     }
 
     private String getMimeType(String fileName) {
-        String extension = "";
-        int i = fileName.lastIndexOf('.');
-        if (i > 0) {
-            extension = fileName.substring(i + 1).toLowerCase();
+        if (fileName.endsWith(".pdf")) {
+            return "application/pdf";
+        } else if (fileName.endsWith(".doc")) {
+            return "application/msword";
+        } else if (fileName.endsWith(".docx")) {
+            return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+        } else if (fileName.endsWith(".txt")) {
+            return "text/plain";
         }
-
-        switch (extension) {
-            case "pdf":
-                return "application/pdf";
-            case "doc":
-                return "application/msword";
-            case "docx":
-                return "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
-            case "txt":
-                return "text/plain";
-            case "jpg":
-            case "jpeg":
-                return "image/jpeg";
-            case "png":
-                return "image/png";
-            case "gif":
-                return "image/gif";
-            case "mp4":
-                return "video/mp4";
-            case "mp3":
-                return "audio/mpeg";
-            case "zip":
-                return "application/zip";
-            case "rar":
-                return "application/x-rar-compressed";
-            default:
-                return "*/*";
-        }
+        return "*/*";
     }
 
     private void showLoadingOverlay() {

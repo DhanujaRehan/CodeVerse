@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/login_gradient_background">
+    android:background="@drawable/loading_gradient_background">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/app_bar"
@@ -44,6 +44,7 @@
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/back_button_animation" />
+
             </com.google.android.material.card.MaterialCardView>
 
             <TextView
@@ -60,7 +61,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
                 app:layout_constraintTop_toTopOf="parent" />
-
 
         </LinearLayout>
 
@@ -155,8 +155,8 @@
                             android:text="Select Photo"
                             android:textAllCaps="false"
                             android:textColor="@color/white"
-                            app:backgroundTint="@color/DarkBlue"
-                            app:cornerRadius="16dp"
+                            app:backgroundTint="@color/DarkBlue2"
+                            app:cornerRadius="50dp"
                             android:fontFamily="@font/poppins_medium"
                             android:textSize="14sp" />
 
@@ -167,10 +167,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="8dp"
                             android:text="Remove Photo"
-                            android:backgroundTint="@color/white"
                             android:textAllCaps="false"
-                            android:textColor="@color/red"
-                            app:cornerRadius="16dp"
+                            android:textColor="@color/white"
+                            app:backgroundTint="@color/red"
+                            app:cornerRadius="50dp"
                             app:strokeColor="@color/red"
                             app:strokeWidth="1dp"
                             android:fontFamily="@font/poppins_medium"
@@ -189,69 +189,105 @@
                     android:layout_marginBottom="16dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:clipToPadding="true"
+                    android:clipToOutline="true"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Current Password"
+                    app:hintTextColor="@color/black"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true"
+                    app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="#54FFFFFF"
+                    app:boxStrokeColor="@color/DarkBlue"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:boxCornerRadiusTopEnd="20dp"
+                    app:boxCornerRadiusBottomStart="20dp"
+                    app:boxCornerRadiusBottomEnd="20dp"
                     android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#E1E8F9"
-                    app:boxCornerRadiusBottomEnd="16dp"
-                    app:boxCornerRadiusBottomStart="16dp"
-                    app:boxCornerRadiusTopEnd="16dp"
-                    app:boxCornerRadiusTopStart="16dp"
-                    app:boxStrokeWidth="0dp"
+                    app:startIconTint="#6200EE"
+                    app:endIconTint="#6200EE"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:clipToOutline="true"
                         android:id="@+id/et_current_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
-                        android:hint="Current Password"
+                        android:fontFamily="@font/poppins_regular"
                         android:inputType="textPassword"
-                        android:textColor="#333333" />
+                        android:textColor="#222222"
+                        android:padding="12dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:clipToPadding="true"
+                    android:clipToOutline="true"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="New Password"
+                    app:hintTextColor="@color/black"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true"
+                    app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="#54FFFFFF"
+                    app:boxStrokeColor="@color/DarkBlue"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:boxCornerRadiusTopEnd="20dp"
+                    app:boxCornerRadiusBottomStart="20dp"
+                    app:boxCornerRadiusBottomEnd="20dp"
                     android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#E1E8F9"
-                    app:boxCornerRadiusBottomEnd="16dp"
-                    app:boxCornerRadiusBottomStart="16dp"
-                    app:boxCornerRadiusTopEnd="16dp"
-                    app:boxCornerRadiusTopStart="16dp"
-                    app:boxStrokeWidth="0dp"
+                    app:startIconTint="#6200EE"
+                    app:endIconTint="#6200EE"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:clipToOutline="true"
                         android:id="@+id/et_new_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
-                        android:hint="New Password"
+                        android:fontFamily="@font/poppins_regular"
                         android:inputType="textPassword"
-                        android:textColor="#333333" />
+                        android:textColor="#222222"
+                        android:padding="12dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:clipToPadding="true"
+                    android:clipToOutline="true"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="Confirm New Password"
+                    app:hintTextColor="@color/black"
+                    app:hintAnimationEnabled="true"
+                    app:hintEnabled="true"
+                    app:boxBackgroundMode="outline"
+                    app:boxBackgroundColor="#54FFFFFF"
+                    app:boxStrokeColor="@color/DarkBlue"
+                    app:boxStrokeWidthFocused="2dp"
+                    app:boxCornerRadiusTopStart="20dp"
+                    app:boxCornerRadiusTopEnd="20dp"
+                    app:boxCornerRadiusBottomStart="20dp"
+                    app:boxCornerRadiusBottomEnd="20dp"
                     android:layout_marginBottom="16dp"
-                    app:boxBackgroundColor="#E1E8F9"
-                    app:boxCornerRadiusBottomEnd="16dp"
-                    app:boxCornerRadiusBottomStart="16dp"
-                    app:boxCornerRadiusTopEnd="16dp"
-                    app:boxCornerRadiusTopStart="16dp"
-                    app:boxStrokeWidth="0dp"
+                    app:startIconTint="#6200EE"
+                    app:endIconTint="#6200EE"
                     app:passwordToggleEnabled="true">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:clipToOutline="true"
                         android:id="@+id/et_confirm_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/poppins_medium"
-                        android:hint="Confirm New Password"
+                        android:fontFamily="@font/poppins_regular"
                         android:inputType="textPassword"
-                        android:textColor="#333333" />
+                        android:textColor="#222222"
+                        android:padding="12dp"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -283,10 +319,10 @@
                         android:layout_weight="1"
                         android:padding="12dp"
                         android:layout_marginStart="8dp"
-                        android:text="Save Changes"
+                        android:text="Update"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
-                        app:backgroundTint="@color/DarkBlue"
+                        app:backgroundTint="@color/DarkBlue2"
                         app:cornerRadius="50dp"
                         android:fontFamily="@font/poppins_medium"
                         android:textSize="16sp" />

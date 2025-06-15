@@ -17,7 +17,6 @@ import com.example.codeverse.R;
 import com.example.codeverse.Staff.Adapters.ScheduleAdapter;
 import com.example.codeverse.Staff.Helper.ClassScheduleHelper;
 import com.example.codeverse.Staff.Models.LecturerClassSchedule;
-import com.example.codeverse.Staff.StaffFragments.GradeSubmissions;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -87,7 +86,7 @@ public class LecturerHomeFragment extends Fragment {
     private void setupClickListeners() {
         layoutLecturerProfile.setOnClickListener(v -> openFragment(new LecturerProfile()));
         layoutEditProfile.setOnClickListener(v -> openFragment(new LecturerEditProfile()));
-        layoutGradeSubmission.setOnClickListener(v -> openFragment(new GradeSubmissions()));
+        layoutGradeSubmission.setOnClickListener(v -> openFragment(new GradeSubmission()));
         layoutSendNotes.setOnClickListener(v -> openFragment(new LecturerNotesFragment()));
     }
 
