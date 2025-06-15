@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.Admin.Models.Notification;
+import com.example.codeverse.ExamScheduling;
 import com.example.codeverse.R;
 import com.example.codeverse.Staff.Models.EditExamDialog;
 import com.example.codeverse.Students.StudentFragments.StudentNotificationFragment;
@@ -123,7 +124,7 @@ public class StaffHome extends Fragment {
     }
 
     private void navigateToEditExams() {
-        StaffExam staffExam = new StaffExam();
+        ExamScheduling staffExam = new ExamScheduling();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.framelayout, staffExam);
         transaction.addToBackStack(null);
