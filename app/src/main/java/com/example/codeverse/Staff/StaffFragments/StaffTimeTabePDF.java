@@ -27,7 +27,6 @@ import com.google.android.material.textfield.TextInputEditText;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
 public class StaffTimeTabePDF extends Fragment {
@@ -42,7 +41,7 @@ public class StaffTimeTabePDF extends Fragment {
     private FrameLayout loadingOverlay;
 
     private DatabaseHelper dbHelper;
-    private Uri selectedPdfUri;
+    private String selectedPdfPath = "";
     private String selectedWeekType = "";
     private Calendar startCalendar, endCalendar;
 
@@ -159,16 +158,23 @@ public class StaffTimeTabePDF extends Fragment {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("application/pdf");
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(Intent.createChooser(intent, "Select PDF"), PICK_PDF_REQUEST);
+
+        try {
+            startActivityForResult(Intent.createChooser(intent, "Select PDF"), PICK_PDF_REQUEST);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(getContext(), "Please install a File Manager", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_PDF_REQUEST && resultCode == getActivity().RESULT_OK && data != null) {
-            selectedPdfUri = data.getData();
-            if (selectedPdfUri != null) {
-                String fileName = getFileName(selectedPdfUri);
+
+        if (requestCode == PICK_PDF_REQUEST && resultCode == getActivity().RESULT_OK) {
+            if (data != null && data.getData() != null) {
+                Uri fileUri = data.getData();
+                selectedPdfPath = fileUri.toString();
+                String fileName = getFileName(fileUri);
                 tvSelectedFile.setText(fileName);
                 btnSelectPDF.setText("Change PDF");
             }
@@ -197,11 +203,9 @@ public class StaffTimeTabePDF extends Fragment {
             values.put("week_title", etWeekTitle.getText().toString().trim());
             values.put("week_start_date", etStartDate.getText().toString().trim());
             values.put("week_end_date", etEndDate.getText().toString().trim());
-            values.put("pdf_path", selectedPdfUri != null ? selectedPdfUri.toString() : "");
-            values.put("file_size", calculateFileSize());
+            values.put("pdf_path", selectedPdfPath);
+            values.put("file_size", "2.0 MB");
             values.put("status", status);
-            values.put("upload_date", getCurrentDateTime());
-            values.put("uploaded_by", "Staff");
 
             long result = db.insert("TimeTable", null, values);
             db.close();
@@ -224,42 +228,29 @@ public class StaffTimeTabePDF extends Fragment {
 
     private boolean validateInputs() {
         if (etWeekTitle.getText().toString().trim().isEmpty()) {
-            Toast.makeText(getContext(), "Please enter week title", Toast.LENGTH_SHORT).show();
+            etWeekTitle.setError("Week title is required");
+            etWeekTitle.requestFocus();
             return false;
         }
 
         if (etStartDate.getText().toString().trim().isEmpty()) {
-            Toast.makeText(getContext(), "Please select start date", Toast.LENGTH_SHORT).show();
+            etStartDate.setError("Start date is required");
+            etStartDate.requestFocus();
             return false;
         }
 
         if (etEndDate.getText().toString().trim().isEmpty()) {
-            Toast.makeText(getContext(), "Please select end date", Toast.LENGTH_SHORT).show();
+            etEndDate.setError("End date is required");
+            etEndDate.requestFocus();
             return false;
         }
 
-        if (selectedPdfUri == null) {
+        if (selectedPdfPath.isEmpty()) {
             Toast.makeText(getContext(), "Please select a PDF file", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         return true;
-    }
-
-    private String calculateFileSize() {
-        if (selectedPdfUri != null) {
-            try {
-                return "Unknown";
-            } catch (Exception e) {
-                return "Unknown";
-            }
-        }
-        return "0KB";
-    }
-
-    private String getCurrentDateTime() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        return sdf.format(new Date());
     }
 
     private void showLoading(boolean show) {
@@ -273,7 +264,7 @@ public class StaffTimeTabePDF extends Fragment {
         tvSelectedFile.setText("PDF only (Max 10MB)");
         btnSelectPDF.setText("Select PDF");
         dropdownStatus.setText("Available", false);
-        selectedPdfUri = null;
+        selectedPdfPath = "";
         selectedWeekType = "";
     }
 
