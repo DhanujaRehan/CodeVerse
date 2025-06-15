@@ -14,7 +14,7 @@ import java.util.List;
 public class AssignmentUploadHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "AssignmentsUploads.db";
-    private static final int DATABASE_VERSION = 2; // Updated version
+    private static final int DATABASE_VERSION = 2;
 
     private static final String TABLE_ASSIGNMENTS = "AssignmentsUpload";
     private static final String COLUMN_ID = "id";
@@ -26,7 +26,7 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
     private static final String COLUMN_UPLOAD_DATE = "upload_date";
     private static final String COLUMN_FILE_SIZE = "file_size";
     private static final String COLUMN_STATUS = "status";
-    // New columns for grading system
+
     private static final String COLUMN_STUDENT_ID = "student_id";
     private static final String COLUMN_STUDENT_NAME = "student_name";
     private static final String COLUMN_BATCH = "batch";
