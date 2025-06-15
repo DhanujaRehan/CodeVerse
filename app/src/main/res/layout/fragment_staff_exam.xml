@@ -482,7 +482,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="103dp"
         android:src="@android:drawable/ic_menu_add"
         app:backgroundTint="#263A5B"
         app:tint="#FFFFFF" />
