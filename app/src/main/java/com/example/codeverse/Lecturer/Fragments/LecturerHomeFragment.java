@@ -35,29 +35,27 @@ public class LecturerHomeFragment extends Fragment {
     private LinearLayout layoutGradeSubmission;
     private LinearLayout layoutSendNotes;
 
-    private View rootView;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_lecturer_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_lecturer_home, container, false);
 
-        initViews();
+        initViews(view);
         setupRecyclerView();
         loadTodaySchedules();
         setupClickListeners();
 
-        return rootView;
+        return view;
     }
 
-    private void initViews() {
-        recyclerViewSchedules = rootView.findViewById(R.id.recycler_view_schedules);
-        tvNoSchedules = rootView.findViewById(R.id.tv_no_schedules);
+    private void initViews(View view) {
+        recyclerViewSchedules = view.findViewById(R.id.recycler_view_schedules);
+        tvNoSchedules = view.findViewById(R.id.tv_no_schedules);
 
-        layoutLecturerProfile = rootView.findViewById(R.id.layout_lecturer_profile);
-        layoutEditProfile = rootView.findViewById(R.id.layout_edit_profile);
-        layoutGradeSubmission = rootView.findViewById(R.id.layout_grade_submission);
-        layoutSendNotes = rootView.findViewById(R.id.layout_send_notes);
+        layoutLecturerProfile = view.findViewById(R.id.layout_lecturer_profile);
+        layoutEditProfile = view.findViewById(R.id.layout_edit_profile);
+        layoutGradeSubmission = view.findViewById(R.id.layout_grade_submission);
+        layoutSendNotes = view.findViewById(R.id.layout_send_notes);
 
         classScheduleHelper = new ClassScheduleHelper(getContext());
     }
