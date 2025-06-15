@@ -37,7 +37,7 @@ public class StudentExam extends Fragment implements StudentExamAdapter.OnExamAc
     private ExamSchedulingHelper dbHelper;
 
     private MaterialCardView cvBack;
-    private ImageView ivBack, ivNotification, ivFilter;
+    private ImageView ivBack, ivFilter;
     private TextView tvSelectedSemester, tvViewAllResults;
     private MaterialCardView cardAdmission, cardSubmissions;
 
@@ -65,7 +65,6 @@ public class StudentExam extends Fragment implements StudentExamAdapter.OnExamAc
 
         cvBack = rootView.findViewById(R.id.cv_back);
         ivBack = rootView.findViewById(R.id.iv_back);
-        ivNotification = rootView.findViewById(R.id.iv_notification);
         ivFilter = rootView.findViewById(R.id.iv_filter);
         tvSelectedSemester = rootView.findViewById(R.id.tv_selected_semester);
         tvViewAllResults = rootView.findViewById(R.id.tv_view_all_results);
@@ -81,10 +80,6 @@ public class StudentExam extends Fragment implements StudentExamAdapter.OnExamAc
             } else if (getActivity() != null) {
                 getActivity().onBackPressed();
             }
-        });
-
-        ivNotification.setOnClickListener(v -> {
-            Toast.makeText(getContext(), "Notifications", Toast.LENGTH_SHORT).show();
         });
 
         ivFilter.setOnClickListener(v -> {

@@ -20,6 +20,7 @@ import com.example.codeverse.Lecturer.Helpers.LectureNotesHelper;
 import com.example.codeverse.Lecturer.Models.LecturerNotes;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Adapters.StudentNotesAdapter;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 import java.io.File;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class StudentNotesFragment extends Fragment implements StudentNotesAdapte
     private TextView tvNotesCount;
     private TextInputEditText etSearch;
     private LinearLayout llEmptyState;
+    private MaterialCardView cvBack;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +45,7 @@ public class StudentNotesFragment extends Fragment implements StudentNotesAdapte
         initViews(view);
         setupRecyclerView();
         setupSearch();
+        setupBackButton();
         loadNotes();
 
         return view;
@@ -53,6 +56,7 @@ public class StudentNotesFragment extends Fragment implements StudentNotesAdapte
         tvNotesCount = view.findViewById(R.id.tv_notes_count);
         etSearch = view.findViewById(R.id.et_search);
         llEmptyState = view.findViewById(R.id.ll_empty_state);
+        cvBack = view.findViewById(R.id.cv_back);
 
         dbHelper = new LectureNotesHelper(getContext());
         notesList = new ArrayList<>();
@@ -78,6 +82,17 @@ public class StudentNotesFragment extends Fragment implements StudentNotesAdapte
 
             @Override
             public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void setupBackButton() {
+        cvBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (getActivity() != null) {
+                    getActivity().onBackPressed();
+                }
+            }
         });
     }
 
