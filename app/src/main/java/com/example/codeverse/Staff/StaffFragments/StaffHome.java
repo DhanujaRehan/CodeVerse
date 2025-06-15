@@ -124,7 +124,7 @@ public class StaffHome extends Fragment {
     }
 
     private void navigateToEditExams() {
-        ExamScheduling staffExam = new ExamScheduling();
+        StaffExam staffExam = new StaffExam();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.framelayout, staffExam);
         transaction.addToBackStack(null);
