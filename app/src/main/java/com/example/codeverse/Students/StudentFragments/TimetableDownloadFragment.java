@@ -86,44 +86,23 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
     }
 
     private void setupClickListeners() {
-        ivBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getActivity() != null) {
-                    getActivity().onBackPressed();
-                }
+        ivBack.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
             }
         });
 
-        ivRefresh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadTimetables();
-                updateStats();
-                resetFilters();
-            }
+        ivRefresh.setOnClickListener(v -> {
+            loadTimetables();
+            updateStats();
+            resetFilters();
         });
 
-        cardCurrentWeek.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleCurrentWeekFilter();
-            }
-        });
+        cardCurrentWeek.setOnClickListener(v -> toggleCurrentWeekFilter());
 
-        cardNextWeek.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toggleNextWeekFilter();
-            }
-        });
+        cardNextWeek.setOnClickListener(v -> toggleNextWeekFilter());
 
-        tvDownloadAll.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                downloadAllTimetables();
-            }
-        });
+        tvDownloadAll.setOnClickListener(v -> downloadAllTimetables());
     }
 
     private void toggleCurrentWeekFilter() {
@@ -145,7 +124,6 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
     }
 
     private void updateCardStates() {
-
         if (isCurrentWeekSelected) {
             cardCurrentWeek.setCardElevation(8);
             cardCurrentWeek.setStrokeWidth(2);
@@ -169,10 +147,8 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
         filteredList.clear();
 
         if (!isCurrentWeekSelected && !isNextWeekSelected) {
-
             filteredList.addAll(timetableList);
         } else if (isCurrentWeekSelected) {
-
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             String currentWeekStart = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.getTime());
@@ -183,7 +159,6 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
                 }
             }
         } else if (isNextWeekSelected) {
-
             Calendar cal = Calendar.getInstance();
             cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
             cal.add(Calendar.WEEK_OF_YEAR, 1);
@@ -197,7 +172,6 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
         }
 
         adapter.notifyDataSetChanged();
-
 
         if (filteredList.isEmpty()) {
             String message = isCurrentWeekSelected ? "No current week timetable found" :
@@ -298,96 +272,65 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
         return "Unknown";
     }
 
-    private void downloadCurrentWeek() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        String currentWeekStart = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.getTime());
-
-        for (TimetableItem item : timetableList) {
-            if (item.startDate != null && item.startDate.equals(currentWeekStart)) {
-                onDownloadClick(item);
-                return;
-            }
-        }
-        Toast.makeText(getContext(), "Current week timetable not available", Toast.LENGTH_SHORT).show();
-    }
-
-    private void downloadNextWeek() {
-        Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        cal.add(Calendar.WEEK_OF_YEAR, 1);
-        String nextWeekStart = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.getTime());
-
-        for (TimetableItem item : timetableList) {
-            if (item.startDate != null && item.startDate.equals(nextWeekStart)) {
-                onDownloadClick(item);
-                return;
-            }
-        }
-        Toast.makeText(getContext(), "Next week timetable not available", Toast.LENGTH_SHORT).show();
-    }
-
     private void downloadAllTimetables() {
-        if (checkStoragePermission()) {
-            int downloadCount = 0;
+        requestStoragePermission();
 
-            List<TimetableItem> itemsToDownload = filteredList.isEmpty() ? timetableList : filteredList;
+        int downloadCount = 0;
+        List<TimetableItem> itemsToDownload = filteredList.isEmpty() ? timetableList : filteredList;
 
-            for (TimetableItem item : itemsToDownload) {
-                if ("Available".equals(item.status)) {
-                    onDownloadClick(item);
-                    downloadCount++;
-                }
+        for (TimetableItem item : itemsToDownload) {
+            if ("Available".equals(item.status)) {
+                startDownload(item);
+                downloadCount++;
             }
-            if (downloadCount > 0) {
-                Toast.makeText(getContext(), "Downloading " + downloadCount + " timetables", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getContext(), "No timetables available for download", Toast.LENGTH_SHORT).show();
-            }
+        }
+
+        if (downloadCount > 0) {
+            Toast.makeText(getContext(), "Downloading " + downloadCount + " timetables", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getContext(), "No timetables available for download", Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public void onDownloadClick(TimetableItem item) {
-        if (!checkStoragePermission()) {
-            requestStoragePermission();
-            return;
-        }
+        requestStoragePermission();
+        startDownload(item);
+    }
 
+    private void startDownload(TimetableItem item) {
         if (item == null || item.pdfPath == null || item.pdfPath.isEmpty()) {
             Toast.makeText(getContext(), "Invalid timetable data", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (!"Available".equals(item.status)) {
-            Toast.makeText(getContext(), "Timetable is not available for download", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Timetable is not available", Toast.LENGTH_SHORT).show();
             return;
         }
 
         try {
             DownloadManager downloadManager = (DownloadManager) getContext().getSystemService(Context.DOWNLOAD_SERVICE);
-            if (downloadManager == null) {
-                Toast.makeText(getContext(), "Download service not available", Toast.LENGTH_SHORT).show();
-                return;
-            }
 
             Uri uri = Uri.parse(item.pdfPath);
             DownloadManager.Request request = new DownloadManager.Request(uri);
 
             String fileName = "Timetable_" + item.weekTitle.replaceAll("[^a-zA-Z0-9]", "_") + ".pdf";
+
             request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, fileName);
             request.setTitle("Timetable - " + item.weekTitle);
-            request.setDescription("Downloading weekly timetable PDF");
+            request.setDescription("Downloading timetable PDF");
             request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
             request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI | DownloadManager.Request.NETWORK_MOBILE);
             request.setMimeType("application/pdf");
 
-            long downloadId = downloadManager.enqueue(request);
+            downloadManager.enqueue(request);
             saveDownloadRecord(item.id, fileName);
 
             Toast.makeText(getContext(), "Download started: " + item.weekTitle, Toast.LENGTH_SHORT).show();
+
         } catch (Exception e) {
-            Toast.makeText(getContext(), "Download failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Download failed", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -404,15 +347,12 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
         }
     }
 
-    private boolean checkStoragePermission() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-            return true;
-        }
-        return ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
-    }
-
     private void requestStoragePermission() {
-        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.Q) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            return;
+        }
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 100);
         }
     }
@@ -422,9 +362,9 @@ public class TimetableDownloadFragment extends Fragment implements TimetableAdap
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == 100) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(getContext(), "Permission granted. Try downloading again.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Permission granted", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getContext(), "Storage permission required for downloads", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Storage permission required", Toast.LENGTH_SHORT).show();
             }
         }
     }

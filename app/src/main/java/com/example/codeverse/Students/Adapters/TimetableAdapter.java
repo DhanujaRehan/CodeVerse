@@ -51,32 +51,24 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.Time
         if ("Available".equals(item.status)) {
             holder.chipStatus.setText("Available");
             holder.chipStatus.setChipBackgroundColorResource(R.color.green_500);
-            holder.chipStatus.setTextColor(holder.itemView.getContext().getColor(R.color.green_900));
             holder.btnDownload.setEnabled(true);
             holder.btnDownload.setAlpha(1.0f);
         } else {
             holder.chipStatus.setText("Unavailable");
             holder.chipStatus.setChipBackgroundColorResource(R.color.red_dark);
-            holder.chipStatus.setTextColor(holder.itemView.getContext().getColor(R.color.red_900));
             holder.btnDownload.setEnabled(false);
             holder.btnDownload.setAlpha(0.5f);
         }
 
-        holder.btnDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (downloadListener != null && "Available".equals(item.status)) {
-                    downloadListener.onDownloadClick(item);
-                }
+        holder.btnDownload.setOnClickListener(v -> {
+            if (downloadListener != null && "Available".equals(item.status)) {
+                downloadListener.onDownloadClick(item);
             }
         });
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (downloadListener != null && "Available".equals(item.status)) {
-                    downloadListener.onDownloadClick(item);
-                }
+        holder.itemView.setOnClickListener(v -> {
+            if (downloadListener != null && "Available".equals(item.status)) {
+                downloadListener.onDownloadClick(item);
             }
         });
     }
@@ -111,20 +103,6 @@ public class TimetableAdapter extends RecyclerView.Adapter<TimetableAdapter.Time
     public void updateData(List<TimetableItem> newList) {
         this.timetableList = newList;
         notifyDataSetChanged();
-    }
-
-    public void addItem(TimetableItem item) {
-        if (timetableList != null) {
-            timetableList.add(item);
-            notifyItemInserted(timetableList.size() - 1);
-        }
-    }
-
-    public void removeItem(int position) {
-        if (timetableList != null && position >= 0 && position < timetableList.size()) {
-            timetableList.remove(position);
-            notifyItemRemoved(position);
-        }
     }
 
     static class TimetableViewHolder extends RecyclerView.ViewHolder {
