@@ -31,6 +31,7 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
 
         holder.tvSubjectName.setText(schedule.getSubjectName());
         holder.tvModuleNumber.setText(schedule.getModuleNumber());
+        holder.tvLecturerName.setText(schedule.getLecturerName());
         holder.tvClassroom.setText(schedule.getClassroom());
 
         holder.tvTimeStart.setText(schedule.getStartTime());
@@ -51,12 +52,13 @@ public class ScheduleAdapter extends RecyclerView.Adapter<ScheduleAdapter.Schedu
     }
 
     static class ScheduleViewHolder extends RecyclerView.ViewHolder {
-        TextView tvSubjectName, tvModuleNumber, tvClassroom, tvTimeStart, tvTimeEnd, tvAmPm, tvStatusBadge;
+        TextView tvSubjectName, tvModuleNumber, tvLecturerName, tvClassroom, tvTimeStart, tvTimeEnd, tvAmPm, tvStatusBadge;
 
         public ScheduleViewHolder(@NonNull View itemView) {
             super(itemView);
             tvSubjectName = itemView.findViewById(R.id.tv_subject_name);
             tvModuleNumber = itemView.findViewById(R.id.tv_module_number);
+            tvLecturerName = itemView.findViewById(R.id.tv_lecturer_name);
             tvClassroom = itemView.findViewById(R.id.tv_classroom);
             tvTimeStart = itemView.findViewById(R.id.tv_time_start);
             tvTimeEnd = itemView.findViewById(R.id.tv_time_end);
