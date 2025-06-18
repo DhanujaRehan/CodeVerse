@@ -22,30 +22,6 @@
             android:layout_gravity="center"
             android:gravity="center">
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/cv_back"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardBackgroundColor="#7FFFFFFF"
-                app:cardCornerRadius="50dp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/iv_back"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:contentDescription="Back"
-                    android:padding="9dp"
-                    android:scaleType="centerCrop"
-                    app:lottie_autoPlay="true"
-                    app:lottie_loop="true"
-                    app:lottie_rawRes="@raw/back_button_animation" />
-            </com.google.android.material.card.MaterialCardView>
-
             <TextView
                 android:layout_width="0dp"
                 android:layout_weight="1"
@@ -53,24 +29,14 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:fontFamily="@font/poppins_bold"
-                android:text="Profile"
+                android:text="Coordinator Profile"
                 android:textColor="@color/DarkBlue"
-                android:gravity="left"
+                android:gravity="center"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@id/cv_back"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                app:cardBackgroundColor="@color/transparent"
-                app:cardCornerRadius="50dp"
-                app:cardElevation="0dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </com.google.android.material.card.MaterialCardView>
 
 
 
@@ -103,21 +69,21 @@
                 android:clipToOutline="true"
                 android:clipToPadding="true"
                 android:orientation="vertical"
-                android:elevation="50dp"
                 android:padding="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:clipToOutline="false"
+                    android:clipToPadding="false">
 
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="75dp"
                         android:layout_height="75dp"
                         app:cardCornerRadius="50dp"
-                        app:cardElevation="8dp"
-                        app:strokeWidth="2dp"
-                        app:strokeColor="@color/white"
+                        android:clipToOutline="false"
+                        android:clipToPadding="false"
                         android:layout_gravity="center_vertical">
 
                         <ImageView

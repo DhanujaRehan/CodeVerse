@@ -30,8 +30,7 @@ public class StaffProfile extends Fragment {
 
     private TextView tvStaffName, tvDepartment, tvEmail, tvContact, tvNic, tvGender;
     private TextView tvPosition, tvSubject, tvQualification, tvExperience;
-    private ImageView ivStaffProfilePic, ivBack;
-    private MaterialCardView cvBack;
+    private ImageView ivStaffProfilePic;
     private MaterialButton btnLogout;
     private FloatingActionButton fab_edit_profile;
     private StaffDatabaseHelper databaseHelper;
@@ -68,8 +67,6 @@ public class StaffProfile extends Fragment {
         tvQualification = view.findViewById(R.id.tv_qualification);
         tvExperience = view.findViewById(R.id.tv_experience);
         ivStaffProfilePic = view.findViewById(R.id.iv_staff_profile_pic);
-        ivBack = view.findViewById(R.id.iv_back);
-        cvBack = view.findViewById(R.id.cv_back);
         btnLogout = view.findViewById(R.id.btn_logout);
         fab_edit_profile = view.findViewById(R.id.fab_edit_profile);
     }
@@ -162,8 +159,6 @@ public class StaffProfile extends Fragment {
     }
 
     private void setupClickListeners() {
-        cvBack.setOnClickListener(v -> navigateBack());
-        ivBack.setOnClickListener(v -> navigateBack());
         btnLogout.setOnClickListener(v -> logoutStaff());
         fab_edit_profile.setOnClickListener(v->{
             StaffEditProfile editProfile = new StaffEditProfile();
@@ -172,14 +167,6 @@ public class StaffProfile extends Fragment {
             transaction.addToBackStack(null);
             transaction.commit();
         });
-    }
-
-    private void navigateBack() {
-        if (getParentFragmentManager().getBackStackEntryCount() > 0) {
-            getParentFragmentManager().popBackStack();
-        } else if (getActivity() != null) {
-            getActivity().finish();
-        }
     }
 
     private void logoutStaff() {
