@@ -59,7 +59,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
     private String selectedBatch = ALL_BATCHES;
 
     public StudentListFragment() {
-        // Required empty public constructor
+
     }
 
     public static StudentListFragment newInstance() {
@@ -119,7 +119,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
             etSearch.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    // Implementation not needed
+
                 }
 
                 @Override
@@ -129,7 +129,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    // Implementation not needed
+
                 }
             });
         }
@@ -158,7 +158,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Implementation not needed
+
             }
         });
     }
@@ -179,7 +179,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                // Implementation not needed
+
             }
         });
     }
