@@ -149,19 +149,19 @@
                     android:layout_width="36dp"
                     android:layout_height="36dp"
                     android:layout_marginTop="8dp"
-                    app:cardBackgroundColor="@color/red_700"
+                    app:cardBackgroundColor="@color/white"
                     app:cardCornerRadius="18dp"
                     app:cardElevation="2dp">
 
-                    <ImageButton
+                    <ImageView
                         android:id="@+id/btnDelete"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/ic_delete"
+                        android:src="@drawable/ic_close"
                         android:background="@android:color/transparent"
-                        android:scaleType="centerInside"
+                        android:scaleType="centerCrop"
                         android:contentDescription="Delete Student"
-                        app:tint="@android:color/white" />
+                        app:tint="@color/red_700" />
 
                 </com.google.android.material.card.MaterialCardView>
 
