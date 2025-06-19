@@ -215,15 +215,5 @@
 
     </androidx.core.widget.NestedScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddStudent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="20dp"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/DarkBlue"
-        app:tint="@android:color/white"
-        app:elevation="8dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
