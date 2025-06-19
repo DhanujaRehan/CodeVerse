@@ -61,7 +61,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         private TextView tvUniversityId;
         private TextView tvFaculty;
         private TextView tvBatch;
-        private TextView tvContactInfo;
+        private TextView tvEmail;
+        private TextView tvMobileNumber;
         private ImageButton btnEdit;
         private ImageButton btnDelete;
 
@@ -73,7 +74,8 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             tvUniversityId = itemView.findViewById(R.id.tvUniversityId);
             tvFaculty = itemView.findViewById(R.id.tvFaculty);
             tvBatch = itemView.findViewById(R.id.tvBatch);
-            tvContactInfo = itemView.findViewById(R.id.tvContactInfo);
+            tvEmail = itemView.findViewById(R.id.tvEmail);
+            tvMobileNumber = itemView.findViewById(R.id.tvMobileNumber);
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
         }
@@ -90,37 +92,47 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
             }
 
             if (tvFaculty != null) {
-                if (!student.getFaculty().trim().isEmpty()) {
+                if (student.getFaculty() != null && !student.getFaculty().trim().isEmpty()) {
                     tvFaculty.setText(student.getFaculty());
                     tvFaculty.setVisibility(View.VISIBLE);
                 } else {
-                    tvFaculty.setVisibility(View.GONE);
+                    tvFaculty.setText("N/A");
+                    tvFaculty.setVisibility(View.VISIBLE);
                 }
             }
 
             if (tvBatch != null) {
-                if (!student.getBatch().trim().isEmpty()) {
+                if (student.getBatch() != null && !student.getBatch().trim().isEmpty()) {
                     tvBatch.setText(student.getBatch());
                     tvBatch.setVisibility(View.VISIBLE);
                 } else {
-                    tvBatch.setVisibility(View.GONE);
+                    tvBatch.setText("N/A");
+                    tvBatch.setVisibility(View.VISIBLE);
                 }
             }
 
-            if (tvContactInfo != null) {
-                if (!student.getMobileNumber().trim().isEmpty()) {
-                    tvContactInfo.setText("📱 " + student.getMobileNumber());
-                    tvContactInfo.setVisibility(View.VISIBLE);
-                } else if (!student.getEmail().trim().isEmpty()) {
-                    tvContactInfo.setText("✉️ " + student.getEmail());
-                    tvContactInfo.setVisibility(View.VISIBLE);
+            if (tvEmail != null) {
+                if (student.getEmail() != null && !student.getEmail().trim().isEmpty()) {
+                    tvEmail.setText(student.getEmail());
+                    tvEmail.setVisibility(View.VISIBLE);
                 } else {
-                    tvContactInfo.setVisibility(View.GONE);
+                    tvEmail.setText("No email");
+                    tvEmail.setVisibility(View.VISIBLE);
+                }
+            }
+
+            if (tvMobileNumber != null) {
+                if (student.getMobileNumber() != null && !student.getMobileNumber().trim().isEmpty()) {
+                    tvMobileNumber.setText(student.getMobileNumber());
+                    tvMobileNumber.setVisibility(View.VISIBLE);
+                } else {
+                    tvMobileNumber.setText("No phone");
+                    tvMobileNumber.setVisibility(View.VISIBLE);
                 }
             }
 
             if (ivStudentPhoto != null) {
-                if (!student.getPhotoUri().trim().isEmpty()) {
+                if (student.getPhotoUri() != null && !student.getPhotoUri().trim().isEmpty()) {
                     Bitmap photoBitmap = StudentDatabaseHelper.getStudentPhoto(student.getPhotoUri());
                     if (photoBitmap != null) {
                         ivStudentPhoto.setImageBitmap(photoBitmap);
