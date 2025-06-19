@@ -7,7 +7,10 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -24,7 +27,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -37,10 +42,15 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
     private TextInputEditText etSearch;
     private FloatingActionButton fabAddStudent;
     private FrameLayout layoutEmptyStudents;
+    private Spinner spinnerFaculty;
+    private Spinner spinnerBatch;
 
     private List<StudentModel> allStudents;
     private List<StudentModel> filteredStudents;
     private ExecutorService executorService;
+
+    private String selectedFaculty = "All Faculties";
+    private String selectedBatch = "All Batches";
 
     public StudentListFragment() {
     }
@@ -62,6 +72,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         initViews(view);
         setupRecyclerView();
         setupSearchFilter();
+        setupSpinners();
         setupSwipeRefresh();
         setupFab();
         loadStudents();
@@ -75,6 +86,8 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         etSearch = view.findViewById(R.id.etSearch);
         fabAddStudent = view.findViewById(R.id.fabAddStudent);
         layoutEmptyStudents = view.findViewById(R.id.layout_empty_students);
+        spinnerFaculty = view.findViewById(R.id.spinnerFaculty);
+        spinnerBatch = view.findViewById(R.id.spinnerBatch);
 
         allStudents = new ArrayList<>();
         filteredStudents = new ArrayList<>();
@@ -100,13 +113,83 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    filterStudents(s.toString());
+                    filterStudents();
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {}
             });
         }
+    }
+
+    private void setupSpinners() {
+        if (getContext() != null) {
+            List<String> facultyList = new ArrayList<>();
+            facultyList.add("All Faculties");
+            ArrayAdapter<String> facultyAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, facultyList);
+            facultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerFaculty.setAdapter(facultyAdapter);
+
+            List<String> batchList = new ArrayList<>();
+            batchList.add("All Batches");
+            ArrayAdapter<String> batchAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, batchList);
+            batchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerBatch.setAdapter(batchAdapter);
+
+            spinnerFaculty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    selectedFaculty = (String) parent.getItemAtPosition(position);
+                    filterStudents();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {}
+            });
+
+            spinnerBatch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    selectedBatch = (String) parent.getItemAtPosition(position);
+                    filterStudents();
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {}
+            });
+        }
+    }
+
+    private void updateSpinners() {
+        if (getContext() == null || allStudents == null) return;
+
+        Set<String> faculties = new HashSet<>();
+        Set<String> batches = new HashSet<>();
+
+        for (StudentModel student : allStudents) {
+            if (student.getFaculty() != null && !student.getFaculty().trim().isEmpty()) {
+                faculties.add(student.getFaculty());
+            }
+            if (student.getBatch() != null && !student.getBatch().trim().isEmpty()) {
+                batches.add(student.getBatch());
+            }
+        }
+
+        List<String> facultyList = new ArrayList<>();
+        facultyList.add("All Faculties");
+        facultyList.addAll(faculties);
+
+        List<String> batchList = new ArrayList<>();
+        batchList.add("All Batches");
+        batchList.addAll(batches);
+
+        ArrayAdapter<String> facultyAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, facultyList);
+        facultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFaculty.setAdapter(facultyAdapter);
+
+        ArrayAdapter<String> batchAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, batchList);
+        batchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerBatch.setAdapter(batchAdapter);
     }
 
     private void setupSwipeRefresh() {
@@ -147,6 +230,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
                     if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
                         getActivity().runOnUiThread(() -> {
                             updateStudentLists(students);
+                            updateSpinners();
                             updateEmptyState();
                             if (swipeRefresh != null) {
                                 swipeRefresh.setRefreshing(false);
@@ -219,21 +303,21 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         }
     }
 
-    private void filterStudents(String query) {
+    private void filterStudents() {
         if (filteredStudents == null || allStudents == null) {
             return;
         }
 
         filteredStudents.clear();
 
-        if (query == null || query.trim().isEmpty()) {
-            filteredStudents.addAll(allStudents);
-        } else {
-            String lowerQuery = query.toLowerCase().trim();
-            for (StudentModel student : allStudents) {
-                if (student != null && matchesQuery(student, lowerQuery)) {
-                    filteredStudents.add(student);
-                }
+        String searchQuery = "";
+        if (etSearch != null && etSearch.getText() != null) {
+            searchQuery = etSearch.getText().toString().toLowerCase().trim();
+        }
+
+        for (StudentModel student : allStudents) {
+            if (student != null && matchesFilters(student, searchQuery)) {
+                filteredStudents.add(student);
             }
         }
 
@@ -243,13 +327,22 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         updateEmptyState();
     }
 
-    private boolean matchesQuery(StudentModel student, String query) {
-        return student.getFullName().toLowerCase().contains(query) ||
-                student.getUniversityId().toLowerCase().contains(query) ||
-                student.getFaculty().toLowerCase().contains(query) ||
-                student.getBatch().toLowerCase().contains(query) ||
-                student.getMobileNumber().toLowerCase().contains(query) ||
-                student.getEmail().toLowerCase().contains(query);
+    private boolean matchesFilters(StudentModel student, String searchQuery) {
+        boolean matchesSearch = searchQuery.isEmpty() ||
+                student.getFullName().toLowerCase().contains(searchQuery) ||
+                student.getUniversityId().toLowerCase().contains(searchQuery) ||
+                student.getFaculty().toLowerCase().contains(searchQuery) ||
+                student.getBatch().toLowerCase().contains(searchQuery) ||
+                student.getMobileNumber().toLowerCase().contains(searchQuery) ||
+                student.getEmail().toLowerCase().contains(searchQuery);
+
+        boolean matchesFaculty = selectedFaculty.equals("All Faculties") ||
+                student.getFaculty().equals(selectedFaculty);
+
+        boolean matchesBatch = selectedBatch.equals("All Batches") ||
+                student.getBatch().equals(selectedBatch);
+
+        return matchesSearch && matchesFaculty && matchesBatch;
     }
 
     @Override
@@ -288,6 +381,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
                                 if (studentAdapter != null) {
                                     studentAdapter.notifyDataSetChanged();
                                 }
+                                updateSpinners();
                                 updateEmptyState();
                             }
 
@@ -331,5 +425,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         fabAddStudent = null;
         dbHelper = null;
         layoutEmptyStudents = null;
+        spinnerFaculty = null;
+        spinnerBatch = null;
     }
 }
