@@ -64,7 +64,7 @@ public class StudentAdapter extends RecyclerView.Adapter<StudentAdapter.StudentV
         private TextView tvEmail;
         private TextView tvMobileNumber;
         private ImageButton btnEdit;
-        private ImageButton btnDelete;
+        private ImageView btnDelete;
 
         public StudentViewHolder(@NonNull View itemView) {
             super(itemView);
