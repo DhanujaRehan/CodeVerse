@@ -45,7 +45,6 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
     private StudentDatabaseHelper dbHelper;
     private SwipeRefreshLayout swipeRefresh;
     private TextInputEditText etSearch;
-    private FloatingActionButton fabAddStudent;
     private FrameLayout layoutEmptyStudents;
     private Spinner spinnerFaculty;
     private Spinner spinnerBatch;
@@ -81,7 +80,6 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         setupSearchFilter();
         setupSpinners();
         setupSwipeRefresh();
-        setupFab();
         setupBackButton();
         loadStudents();
 
@@ -93,7 +91,6 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         rvStudents = view.findViewById(R.id.rvStudents);
         swipeRefresh = view.findViewById(R.id.swipeRefresh);
         etSearch = view.findViewById(R.id.etSearch);
-        fabAddStudent = view.findViewById(R.id.fabAddStudent);
         layoutEmptyStudents = view.findViewById(R.id.layout_empty_students);
         spinnerFaculty = view.findViewById(R.id.spinnerFaculty);
         spinnerBatch = view.findViewById(R.id.spinnerBatch);
@@ -234,21 +231,10 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         }
     }
 
-    private void setupFab() {
-        if (fabAddStudent != null) {
-            fabAddStudent.setOnClickListener(v -> showAddStudentMessage());
-        }
-    }
 
     private void setupBackButton() {
         if (cvBack != null) {
             cvBack.setOnClickListener(v -> handleBackPress());
-        }
-    }
-
-    private void showAddStudentMessage() {
-        if (getContext() != null) {
-            Toast.makeText(getContext(), "Add Student feature coming soon!", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -475,7 +461,6 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         rvStudents = null;
         swipeRefresh = null;
         etSearch = null;
-        fabAddStudent = null;
         dbHelper = null;
         layoutEmptyStudents = null;
         spinnerFaculty = null;
