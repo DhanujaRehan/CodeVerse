@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.codeverse.R;
+import com.example.codeverse.Students.StudentFragments.StudentListFragment;
 import com.example.codeverse.Students.StudentFragments.StudentNotificationFragment;
 import com.google.android.material.card.MaterialCardView;
 
@@ -112,7 +113,7 @@ public class StaffHome extends Fragment {
 
     private void navigateToEditPassword() {
 
-        StaffEditProfile editProfile = new StaffEditProfile();
+        StudentListFragment editProfile = new StudentListFragment();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
         transaction.replace(R.id.framelayout, editProfile);
         transaction.addToBackStack(null);
