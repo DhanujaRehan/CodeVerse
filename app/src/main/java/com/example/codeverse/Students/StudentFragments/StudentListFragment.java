@@ -23,6 +23,7 @@ import com.example.codeverse.Admin.Helpers.StudentDatabaseHelper;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Models.StudentModel;
 import com.example.codeverse.Students.Adapters.StudentAdapter;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -44,6 +45,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
     private FrameLayout layoutEmptyStudents;
     private Spinner spinnerFaculty;
     private Spinner spinnerBatch;
+    private MaterialCardView cvBack;
 
     private List<StudentModel> allStudents;
     private List<StudentModel> filteredStudents;
@@ -77,10 +79,20 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         setupFab();
         loadStudents();
 
+
+        cvBack.setOnClickListener(v -> {
+            if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+                getParentFragmentManager().popBackStack();
+            } else if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+
         return view;
     }
 
     private void initViews(View view) {
+        cvBack = view.findViewById(R.id.cv_back);
         rvStudents = view.findViewById(R.id.rvStudents);
         swipeRefresh = view.findViewById(R.id.swipeRefresh);
         etSearch = view.findViewById(R.id.etSearch);
