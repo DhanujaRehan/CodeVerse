@@ -26,9 +26,34 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cv_back"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    app:cardBackgroundColor="#33FFFFFF"
+                    app:cardCornerRadius="50dp"
+                    app:cardElevation="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/iv_back"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:padding="9dp"
+                        android:contentDescription="Back"
+                        android:scaleType="centerCrop"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/back_button_animation" />
+                </com.google.android.material.card.MaterialCardView>
+
                 <TextView
+                    android:layout_marginRight="40dp"
                     android:gravity="center"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="@font/poppins_bold"
