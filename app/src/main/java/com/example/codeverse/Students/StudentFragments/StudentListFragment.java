@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -36,6 +37,9 @@ import java.util.concurrent.Executors;
 
 public class StudentListFragment extends Fragment implements StudentAdapter.OnStudentActionListener {
 
+    private static final String ALL_FACULTIES = "All Faculties";
+    private static final String ALL_BATCHES = "All Batches";
+
     private RecyclerView rvStudents;
     private StudentAdapter studentAdapter;
     private StudentDatabaseHelper dbHelper;
@@ -51,10 +55,11 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
     private List<StudentModel> filteredStudents;
     private ExecutorService executorService;
 
-    private String selectedFaculty = "All Faculties";
-    private String selectedBatch = "All Batches";
+    private String selectedFaculty = ALL_FACULTIES;
+    private String selectedBatch = ALL_BATCHES;
 
     public StudentListFragment() {
+        // Required empty public constructor
     }
 
     public static StudentListFragment newInstance() {
@@ -68,7 +73,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_student_list, container, false);
 
         initViews(view);
@@ -77,16 +82,8 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         setupSpinners();
         setupSwipeRefresh();
         setupFab();
+        setupBackButton();
         loadStudents();
-
-
-        cvBack.setOnClickListener(v -> {
-            if (getParentFragmentManager().getBackStackEntryCount() > 0) {
-                getParentFragmentManager().popBackStack();
-            } else if (getActivity() != null) {
-                getActivity().onBackPressed();
-            }
-        });
 
         return view;
     }
@@ -121,7 +118,9 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         if (etSearch != null) {
             etSearch.addTextChangedListener(new TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    // Implementation not needed
+                }
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -129,47 +128,60 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
                 }
 
                 @Override
-                public void afterTextChanged(Editable s) {}
+                public void afterTextChanged(Editable s) {
+                    // Implementation not needed
+                }
             });
         }
     }
 
     private void setupSpinners() {
         if (getContext() != null) {
-            List<String> facultyList = new ArrayList<>();
-            facultyList.add("All Faculties");
-            ArrayAdapter<String> facultyAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, facultyList);
-            facultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinnerFaculty.setAdapter(facultyAdapter);
-
-            List<String> batchList = new ArrayList<>();
-            batchList.add("All Batches");
-            ArrayAdapter<String> batchAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, batchList);
-            batchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinnerBatch.setAdapter(batchAdapter);
-
-            spinnerFaculty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectedFaculty = (String) parent.getItemAtPosition(position);
-                    filterStudents();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {}
-            });
-
-            spinnerBatch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    selectedBatch = (String) parent.getItemAtPosition(position);
-                    filterStudents();
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {}
-            });
+            setupFacultySpinner();
+            setupBatchSpinner();
         }
+    }
+
+    private void setupFacultySpinner() {
+        List<String> facultyList = new ArrayList<>();
+        facultyList.add(ALL_FACULTIES);
+        ArrayAdapter<String> facultyAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, facultyList);
+        facultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerFaculty.setAdapter(facultyAdapter);
+
+        spinnerFaculty.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedFaculty = (String) parent.getItemAtPosition(position);
+                filterStudents();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Implementation not needed
+            }
+        });
+    }
+
+    private void setupBatchSpinner() {
+        List<String> batchList = new ArrayList<>();
+        batchList.add(ALL_BATCHES);
+        ArrayAdapter<String> batchAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, batchList);
+        batchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerBatch.setAdapter(batchAdapter);
+
+        spinnerBatch.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedBatch = (String) parent.getItemAtPosition(position);
+                filterStudents();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Implementation not needed
+            }
+        });
     }
 
     private void updateSpinners() {
@@ -187,17 +199,24 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
             }
         }
 
-        List<String> facultyList = new ArrayList<>();
-        facultyList.add("All Faculties");
-        facultyList.addAll(faculties);
+        updateFacultySpinner(faculties);
+        updateBatchSpinner(batches);
+    }
 
-        List<String> batchList = new ArrayList<>();
-        batchList.add("All Batches");
-        batchList.addAll(batches);
+    private void updateFacultySpinner(Set<String> faculties) {
+        List<String> facultyList = new ArrayList<>();
+        facultyList.add(ALL_FACULTIES);
+        facultyList.addAll(faculties);
 
         ArrayAdapter<String> facultyAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, facultyList);
         facultyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerFaculty.setAdapter(facultyAdapter);
+    }
+
+    private void updateBatchSpinner(Set<String> batches) {
+        List<String> batchList = new ArrayList<>();
+        batchList.add(ALL_BATCHES);
+        batchList.addAll(batches);
 
         ArrayAdapter<String> batchAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, batchList);
         batchAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -217,11 +236,27 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
 
     private void setupFab() {
         if (fabAddStudent != null) {
-            fabAddStudent.setOnClickListener(v -> {
-                if (getContext() != null) {
-                    Toast.makeText(getContext(), "Add Student feature coming soon!", Toast.LENGTH_SHORT).show();
-                }
-            });
+            fabAddStudent.setOnClickListener(v -> showAddStudentMessage());
+        }
+    }
+
+    private void setupBackButton() {
+        if (cvBack != null) {
+            cvBack.setOnClickListener(v -> handleBackPress());
+        }
+    }
+
+    private void showAddStudentMessage() {
+        if (getContext() != null) {
+            Toast.makeText(getContext(), "Add Student feature coming soon!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void handleBackPress() {
+        if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+            getParentFragmentManager().popBackStack();
+        } else if (getActivity() != null) {
+            getActivity().finish();
         }
     }
 
@@ -250,23 +285,26 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
                         });
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
-                        getActivity().runOnUiThread(() -> {
-                            if (swipeRefresh != null) {
-                                swipeRefresh.setRefreshing(false);
-                            }
-                            if (getContext() != null) {
-                                Toast.makeText(getContext(), "Error loading students", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                    handleLoadError();
                 }
             });
         } else {
             if (swipeRefresh != null) {
                 swipeRefresh.setRefreshing(false);
             }
+        }
+    }
+
+    private void handleLoadError() {
+        if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
+            getActivity().runOnUiThread(() -> {
+                if (swipeRefresh != null) {
+                    swipeRefresh.setRefreshing(false);
+                }
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Error loading students", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 
@@ -348,10 +386,10 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
                 student.getMobileNumber().toLowerCase().contains(searchQuery) ||
                 student.getEmail().toLowerCase().contains(searchQuery);
 
-        boolean matchesFaculty = selectedFaculty.equals("All Faculties") ||
+        boolean matchesFaculty = ALL_FACULTIES.equals(selectedFaculty) ||
                 student.getFaculty().equals(selectedFaculty);
 
-        boolean matchesBatch = selectedBatch.equals("All Batches") ||
+        boolean matchesBatch = ALL_BATCHES.equals(selectedBatch) ||
                 student.getBatch().equals(selectedBatch);
 
         return matchesSearch && matchesFaculty && matchesBatch;
@@ -403,14 +441,17 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
                         });
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
-                        getActivity().runOnUiThread(() -> {
-                            if (getContext() != null) {
-                                Toast.makeText(getContext(), "Error deleting student", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
+                    handleDeleteError();
+                }
+            });
+        }
+    }
+
+    private void handleDeleteError() {
+        if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
+            getActivity().runOnUiThread(() -> {
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Error deleting student", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -439,5 +480,6 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         layoutEmptyStudents = null;
         spinnerFaculty = null;
         spinnerBatch = null;
+        cvBack = null;
     }
 }
