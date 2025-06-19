@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
     private SwipeRefreshLayout swipeRefresh;
     private TextInputEditText etSearch;
     private FloatingActionButton fabAddStudent;
+    private FrameLayout layoutEmptyStudents;
 
     private List<StudentModel> allStudents;
     private List<StudentModel> filteredStudents;
@@ -72,6 +74,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         swipeRefresh = view.findViewById(R.id.swipeRefresh);
         etSearch = view.findViewById(R.id.etSearch);
         fabAddStudent = view.findViewById(R.id.fabAddStudent);
+        layoutEmptyStudents = view.findViewById(R.id.layout_empty_students);
 
         allStudents = new ArrayList<>();
         filteredStudents = new ArrayList<>();
@@ -110,10 +113,9 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         if (swipeRefresh != null) {
             swipeRefresh.setOnRefreshListener(this::loadStudents);
             swipeRefresh.setColorSchemeResources(
-                    android.R.color.holo_blue_bright,
-                    android.R.color.holo_green_light,
-                    android.R.color.holo_orange_light,
-                    android.R.color.holo_red_light
+                    R.color.DarkBlue,
+                    R.color.MiddleBlue,
+                    R.color.MiddleBlue2
             );
         }
     }
@@ -145,6 +147,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
                     if (getActivity() != null && !getActivity().isFinishing() && isAdded()) {
                         getActivity().runOnUiThread(() -> {
                             updateStudentLists(students);
+                            updateEmptyState();
                             if (swipeRefresh != null) {
                                 swipeRefresh.setRefreshing(false);
                             }
@@ -204,6 +207,18 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         }
     }
 
+    private void updateEmptyState() {
+        if (layoutEmptyStudents != null && rvStudents != null) {
+            if (filteredStudents.isEmpty()) {
+                layoutEmptyStudents.setVisibility(View.VISIBLE);
+                rvStudents.setVisibility(View.GONE);
+            } else {
+                layoutEmptyStudents.setVisibility(View.GONE);
+                rvStudents.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
     private void filterStudents(String query) {
         if (filteredStudents == null || allStudents == null) {
             return;
@@ -225,6 +240,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         if (studentAdapter != null) {
             studentAdapter.notifyDataSetChanged();
         }
+        updateEmptyState();
     }
 
     private boolean matchesQuery(StudentModel student, String query) {
@@ -272,6 +288,7 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
                                 if (studentAdapter != null) {
                                     studentAdapter.notifyDataSetChanged();
                                 }
+                                updateEmptyState();
                             }
 
                             if (getContext() != null) {
@@ -313,5 +330,6 @@ public class StudentListFragment extends Fragment implements StudentAdapter.OnSt
         etSearch = null;
         fabAddStudent = null;
         dbHelper = null;
+        layoutEmptyStudents = null;
     }
 }
