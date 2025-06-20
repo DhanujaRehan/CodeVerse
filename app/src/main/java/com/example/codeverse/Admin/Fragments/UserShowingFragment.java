@@ -22,7 +22,6 @@ import com.example.codeverse.Admin.Models.User;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Models.Student;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -65,7 +64,6 @@ public class UserShowingFragment extends Fragment {
     }
 
     private void initViews(View view) {
-
         rvUsers = view.findViewById(R.id.rv_users);
         etSearch = view.findViewById(R.id.et_search);
         btnAll = view.findViewById(R.id.btn_all);
@@ -94,8 +92,6 @@ public class UserShowingFragment extends Fragment {
     }
 
     private void setupClickListeners() {
-
-
         btnAll.setOnClickListener(v -> {
             currentFilter = FilterType.ALL;
             updateFilterButtons();
@@ -149,6 +145,8 @@ public class UserShowingFragment extends Fragment {
                 user.setContactNumber(student.getMobileNumber());
                 user.setGender(student.getGender());
                 user.setDateOfBirth(student.getDateOfBirth());
+                user.setFaculty(student.getFaculty());
+                user.setBatch(student.getBatch());
                 allUsers.add(user);
             }
 
@@ -165,6 +163,7 @@ public class UserShowingFragment extends Fragment {
                 user.setContactNumber(staff.getContactNumber());
                 user.setGender(staff.getGender());
                 user.setDateOfBirth(staff.getDateOfBirth());
+                user.setPosition(staff.getPosition());
                 allUsers.add(user);
             }
 
@@ -248,7 +247,10 @@ public class UserShowingFragment extends Fragment {
                 if (user.getName().toLowerCase().contains(lowerQuery) ||
                         user.getIdentifier().toLowerCase().contains(lowerQuery) ||
                         (user.getEmail() != null && user.getEmail().toLowerCase().contains(lowerQuery)) ||
-                        (user.getDepartment() != null && user.getDepartment().toLowerCase().contains(lowerQuery))) {
+                        (user.getDepartment() != null && user.getDepartment().toLowerCase().contains(lowerQuery)) ||
+                        (user.getFaculty() != null && user.getFaculty().toLowerCase().contains(lowerQuery)) ||
+                        (user.getBatch() != null && user.getBatch().toLowerCase().contains(lowerQuery)) ||
+                        (user.getPosition() != null && user.getPosition().toLowerCase().contains(lowerQuery))) {
                     searchResults.add(user);
                 }
             }
