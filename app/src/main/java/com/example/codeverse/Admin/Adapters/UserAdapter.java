@@ -51,19 +51,18 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.tvUserName.setText(user.getName());
         holder.tvUserId.setText(user.getIdentifier());
 
-        if (user.getDepartment() != null && !user.getDepartment().isEmpty()) {
-            holder.tvUserDepartment.setText(user.getDepartment());
-            holder.tvUserDepartment.setVisibility(View.VISIBLE);
-        } else {
-            holder.tvUserDepartment.setVisibility(View.GONE);
-        }
-
         if (user.getUserType() == User.UserType.STUDENT) {
             holder.tvUserTypeText.setText("Student");
             holder.ivUserType.setImageResource(R.drawable.iv_student);
+
+            holder.tvPrimaryInfo.setText(user.getFaculty() != null ? user.getFaculty() : "Faculty");
+            holder.tvSecondaryInfo.setText(user.getBatch() != null ? user.getBatch() : "Batch");
         } else {
             holder.tvUserTypeText.setText("Staff");
             holder.ivUserType.setImageResource(R.drawable.iv_staff);
+
+            holder.tvPrimaryInfo.setText(user.getPosition() != null ? user.getPosition() : "Position");
+            holder.tvSecondaryInfo.setText(user.getDepartment() != null ? user.getDepartment() : "Department");
         }
 
         if (user.getPhotoUri() != null && !user.getPhotoUri().isEmpty()) {
@@ -102,7 +101,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
         ImageView ivUserPhoto, ivUserType, ivArrow;
-        TextView tvUserName, tvUserId, tvUserDepartment, tvUserTypeText;
+        TextView tvUserName, tvUserId, tvPrimaryInfo, tvSecondaryInfo, tvUserTypeText;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,7 +110,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             ivArrow = itemView.findViewById(R.id.iv_arrow);
             tvUserName = itemView.findViewById(R.id.tv_user_name);
             tvUserId = itemView.findViewById(R.id.tv_user_id);
-            tvUserDepartment = itemView.findViewById(R.id.tv_user_department);
+            tvPrimaryInfo = itemView.findViewById(R.id.tv_primary_info);
+            tvSecondaryInfo = itemView.findViewById(R.id.tv_secondary_info);
             tvUserTypeText = itemView.findViewById(R.id.tv_user_type_text);
         }
     }
