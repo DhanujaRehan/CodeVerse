@@ -11,28 +11,15 @@ public class User {
     private String contactNumber;
     private String gender;
     private String dateOfBirth;
+    private String faculty;
+    private String batch;
+    private String position;
 
     public enum UserType {
-        STUDENT,
-        STAFF
+        STUDENT, STAFF
     }
 
     public User() {}
-
-    public User(long id, String name, String identifier, String department,
-                String photoUri, UserType userType, String email,
-                String contactNumber, String gender, String dateOfBirth) {
-        this.id = id;
-        this.name = name;
-        this.identifier = identifier;
-        this.department = department;
-        this.photoUri = photoUri;
-        this.userType = userType;
-        this.email = email;
-        this.contactNumber = contactNumber;
-        this.gender = gender;
-        this.dateOfBirth = dateOfBirth;
-    }
 
     public long getId() {
         return id;
@@ -112,5 +99,29 @@ public class User {
 
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getFaculty() {
+        return faculty;
+    }
+
+    public void setFaculty(String faculty) {
+        this.faculty = faculty;
+    }
+
+    public String getBatch() {
+        return batch;
+    }
+
+    public void setBatch(String batch) {
+        this.batch = batch;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 }
