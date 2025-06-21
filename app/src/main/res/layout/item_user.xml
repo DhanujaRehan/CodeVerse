@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/poppins_semibold"
-                android:text="John Doe"
+                android:text="Username"
                 android:textColor="@color/DarkBlue"
                 android:textSize="18sp"
                 android:maxLines="1"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/poppins_medium"
-                android:text="STU001"
+                android:text="Student ID"
                 android:textColor="#666666"
                 android:textSize="13sp" />
 
@@ -83,7 +83,7 @@
                     android:fontFamily="@font/poppins_medium"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="4dp"
-                    android:text="Computer Science"
+                    android:text="Programme"
                     android:textColor="@color/DarkBlue"
                     android:textSize="11sp"
                     android:maxLines="1"
@@ -98,7 +98,7 @@
                     android:fontFamily="@font/poppins_medium"
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="4dp"
-                    android:text="Batch 2023"
+                    android:text="Batch"
                     android:textColor="@color/DarkBlue"
                     android:textSize="11sp"
                     android:maxLines="1"
@@ -114,7 +114,7 @@
                 android:fontFamily="@font/poppins_semibold"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="5dp"
-                android:text="Student"
+                android:text="User type"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
         </LinearLayout>

@@ -80,7 +80,7 @@
                     android:fontFamily="@font/poppins_regular"
                     android:inputType="text"
                     android:textColor="#222222"
-                    android:padding="12dp" />
+                    android:padding="12dp"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
