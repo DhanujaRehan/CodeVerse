@@ -53,13 +53,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
         if (user.getUserType() == User.UserType.STUDENT) {
             holder.tvUserTypeText.setText("Student");
-            holder.ivUserType.setImageResource(R.drawable.iv_student);
+            /*holder.ivUserType.setImageResource(R.drawable.iv_student);*/
 
             holder.tvPrimaryInfo.setText(user.getFaculty() != null ? user.getFaculty() : "Faculty");
             holder.tvSecondaryInfo.setText(user.getBatch() != null ? user.getBatch() : "Batch");
         } else {
             holder.tvUserTypeText.setText("Staff");
-            holder.ivUserType.setImageResource(R.drawable.iv_staff);
+            /*holder.ivUserType.setImageResource(R.drawable.iv_staff);*/
 
             holder.tvPrimaryInfo.setText(user.getPosition() != null ? user.getPosition() : "Position");
             holder.tvSecondaryInfo.setText(user.getDepartment() != null ? user.getDepartment() : "Department");
@@ -100,14 +100,12 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     }
 
     public static class UserViewHolder extends RecyclerView.ViewHolder {
-        ImageView ivUserPhoto, ivUserType, ivArrow;
+        ImageView ivUserPhoto;
         TextView tvUserName, tvUserId, tvPrimaryInfo, tvSecondaryInfo, tvUserTypeText;
 
         public UserViewHolder(@NonNull View itemView) {
             super(itemView);
             ivUserPhoto = itemView.findViewById(R.id.iv_user_photo);
-            ivUserType = itemView.findViewById(R.id.iv_user_type);
-            ivArrow = itemView.findViewById(R.id.iv_arrow);
             tvUserName = itemView.findViewById(R.id.tv_user_name);
             tvUserId = itemView.findViewById(R.id.tv_user_id);
             tvPrimaryInfo = itemView.findViewById(R.id.tv_primary_info);

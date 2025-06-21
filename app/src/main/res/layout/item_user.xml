@@ -3,11 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="8dp"
     android:layout_marginVertical="6dp"
     android:backgroundTint="@color/white"
-    app:cardCornerRadius="16dp"
+    app:cardCornerRadius="24dp"
     app:cardElevation="8dp"
+    android:clipChildren="false"
+    android:clipToOutline="false"
+    android:clipToPadding="false"
     android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
@@ -15,48 +17,30 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="20dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
         android:gravity="center_vertical">
 
         <FrameLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipChildren="false">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 app:cardCornerRadius="35dp"
                 app:cardElevation="4dp"
-                app:strokeWidth="2dp"
-                app:strokeColor="@color/DarkBlue">
+                android:clipChildren="false">
 
                 <ImageView
                     android:id="@+id/iv_user_photo"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/addpropic" />
-            </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="26dp"
-                android:layout_height="26dp"
-                android:layout_gravity="bottom|end"
-                android:layout_marginEnd="2dp"
-                android:layout_marginBottom="2dp"
-                app:cardCornerRadius="13dp"
-                app:cardElevation="3dp"
-                app:cardBackgroundColor="@color/DarkBlue">
-
-                <ImageView
-                    android:id="@+id/iv_user_type"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_person"
-                    app:tint="@color/white" />
+                    android:src="@drawable/default_propic" />
             </com.google.android.material.card.MaterialCardView>
         </FrameLayout>
-
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -135,12 +119,5 @@
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_arrow"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ivforward"
-            app:tint="@color/DarkBlue" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

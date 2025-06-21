@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/loading_gradient_background">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -49,6 +50,9 @@
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
             android:paddingTop="16dp"
+            android:clipToPadding="false"
+            android:clipToOutline="false"
+            android:clipChildren="false"
             android:paddingBottom="100dp">
 
             <com.google.android.material.textfield.TextInputLayout
@@ -147,6 +151,8 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_users"
+                tools:listitem="@layout/item_user"
+                tools:itemCount="2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false" />
