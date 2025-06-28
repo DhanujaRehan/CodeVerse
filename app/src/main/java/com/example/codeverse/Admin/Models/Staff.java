@@ -203,10 +203,6 @@ public class Staff implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public String getUpdatedAt() {
-        return updatedAt;
-    }
-
     public void setUpdatedAt(String updatedAt) {
         this.updatedAt = updatedAt;
     }
