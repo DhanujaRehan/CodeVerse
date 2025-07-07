@@ -7,12 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -56,10 +56,9 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
     private MaterialButton btnStudentSchedule;
     private MaterialButton btnLecturerSchedule;
     private FloatingActionButton fabAddSchedule;
-    private View bottomSheetContainer;
     private View successOverlay;
     private View layoutEmptyState;
-    private ScrollView bottomSheet;
+    private NestedScrollView bottomSheet; // Changed from ScrollView to NestedScrollView
     private ImageView btnNextMonth, btnPrevMonth;
     private MaterialButton btnCreateSchedule;
 
@@ -70,7 +69,7 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
     private Date selectedDate = new Date();
     private boolean isStudentSchedule = true;
 
-    private BottomSheetBehavior<ScrollView> bottomSheetBehavior;
+    private BottomSheetBehavior<NestedScrollView> bottomSheetBehavior; // Updated type
 
     private TextInputEditText etSubjectName;
     private TextInputEditText etModuleNumber;
@@ -119,8 +118,7 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
         btnNextMonth = rootView.findViewById(R.id.btn_next_month);
         btnCreateSchedule = rootView.findViewById(R.id.btn_create_schedule);
 
-        bottomSheetContainer = rootView.findViewById(R.id.bottom_sheet_container);
-        bottomSheet = rootView.findViewById(R.id.bottom_sheet);
+        bottomSheet = rootView.findViewById(R.id.bottom_sheet); // Updated reference
         successOverlay = rootView.findViewById(R.id.success_overlay);
         layoutEmptyState = rootView.findViewById(R.id.layout_empty_state);
 
@@ -183,15 +181,17 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
 
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
-            public void onStateChanged(View bottomSheet, int newState) {
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
                 if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                    bottomSheetContainer.setVisibility(View.GONE);
+                    // Bottom sheet is now hidden, no need to manage container visibility
+                    // since we removed the separate container
                 }
             }
 
             @Override
-            public void onSlide(View bottomSheet, float slideOffset) {
-                bottomSheetContainer.setAlpha(slideOffset);
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                // Optional: Handle slide animations if needed
+                // You can add background dim effect here if desired
             }
         });
     }
@@ -320,7 +320,8 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
     public void onEdit(Object schedule) {
         editingSchedule = schedule;
 
-        bottomSheetContainer.setVisibility(View.VISIBLE);
+        // Show the bottom sheet directly
+        bottomSheet.setVisibility(View.VISIBLE);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
         if (schedule instanceof StudentClassSchedule) {
@@ -394,9 +395,11 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
     private void showAddScheduleBottomSheet() {
         editingSchedule = null;
 
-        bottomSheetContainer.setVisibility(View.VISIBLE);
+        // Show the bottom sheet directly
+        bottomSheet.setVisibility(View.VISIBLE);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
 
+        // Clear all input fields
         etSubjectName.setText("");
         etModuleNumber.setText("");
         etLecturerName.setText("");
@@ -408,6 +411,8 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
 
     private void hideBottomSheet() {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        // Hide the bottom sheet view when collapsed
+        bottomSheet.setVisibility(View.GONE);
     }
 
     private void saveSchedule() {
