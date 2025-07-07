@@ -22,6 +22,7 @@ import com.example.codeverse.Admin.Models.User;
 import com.example.codeverse.R;
 import com.example.codeverse.Students.Models.Student;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class UserShowingFragment extends Fragment {
     private List<User> filteredUsers;
     private TextInputEditText etSearch;
     private MaterialButton btnAll;
+    private MaterialCardView cvBack;
     private MaterialButton btnStudents;
     private MaterialButton btnStaff;
     private TextView tvUserCount;
@@ -69,6 +71,7 @@ public class UserShowingFragment extends Fragment {
         tvUserCount = view.findViewById(R.id.tv_user_count);
         layoutEmpty = view.findViewById(R.id.layout_empty);
         loadingOverlay = view.findViewById(R.id.loading_overlay);
+        cvBack = view.findViewById(R.id.cv_back);
     }
 
     private void initDatabase() {
@@ -89,6 +92,13 @@ public class UserShowingFragment extends Fragment {
     }
 
     private void setupClickListeners() {
+
+        cvBack.setOnClickListener(v -> {
+            if (getActivity() != null) {
+                getActivity().onBackPressed();
+            }
+        });
+
         btnAll.setOnClickListener(v -> {
             currentFilter = FilterType.ALL;
             updateFilterButtons();
