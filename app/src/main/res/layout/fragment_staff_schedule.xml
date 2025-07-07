@@ -349,6 +349,7 @@
     <!-- Fixed Bottom Sheet Implementation -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/bottom_sheet"
+        android:layout_marginTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/top_rounded_background"
