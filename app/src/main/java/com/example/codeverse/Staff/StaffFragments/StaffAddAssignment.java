@@ -73,11 +73,11 @@ public class StaffAddAssignment extends Fragment {
     }
 
     private void setupDropdowns() {
-        String[] modules = {"Mathematics", "Physics", "Chemistry", "Biology", "Computer Science", "English"};
+        String[] modules = {"Software Engineering", "Computer Science"};
         ArrayAdapter<String> moduleAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, modules);
         dropdownModule.setAdapter(moduleAdapter);
 
-        String[] batches = {"Batch A", "Batch B", "Batch C", "Batch D", "All Batches"};
+        String[] batches = {"2020", "2021", "2022", "2023", "2024", "All Batches"};
         ArrayAdapter<String> batchAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, batches);
         dropdownTargetGroups.setAdapter(batchAdapter);
     }

@@ -130,6 +130,11 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
 
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheet);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
+        bottomSheetBehavior.setFitToContents(false);
+        bottomSheetBehavior.setHalfExpandedRatio(0.6f);
+
+        // Configure for keyboard interaction
+        bottomSheetBehavior.setSkipCollapsed(false);
 
         updateDateDisplay();
     }
@@ -154,6 +159,8 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
 
         updateEmptyState(schedules.isEmpty());
     }
+
+
 
     private void setupListeners() {
         btnPrevMonth.setOnClickListener(v -> changeMonth(-1));
@@ -322,7 +329,7 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
 
         // Show the bottom sheet directly
         bottomSheet.setVisibility(View.VISIBLE);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
 
         if (schedule instanceof StudentClassSchedule) {
             StudentClassSchedule studentSchedule = (StudentClassSchedule) schedule;
@@ -341,6 +348,9 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
         }
 
         ((MaterialButton) rootView.findViewById(R.id.btn_save_schedule)).setText("Update");
+
+        // Focus on first field
+        etSubjectName.requestFocus();
     }
 
     @Override
@@ -397,7 +407,7 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
 
         // Show the bottom sheet directly
         bottomSheet.setVisibility(View.VISIBLE);
-        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
 
         // Clear all input fields
         etSubjectName.setText("");
@@ -407,6 +417,9 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
         etTime.setText("");
 
         ((MaterialButton) rootView.findViewById(R.id.btn_save_schedule)).setText("Save");
+
+        // Focus on first field and show keyboard
+        etSubjectName.requestFocus();
     }
 
     private void hideBottomSheet() {

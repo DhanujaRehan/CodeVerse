@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.fragment.app.Fragment;
@@ -25,6 +27,7 @@ public class StaffExam extends Fragment implements ExamAdapter.OnItemClickListen
 
     private RecyclerView rvExams;
     private ExamAdapter adapter;
+    private AutoCompleteTextView dropdownExamType, dropdownSemester;
     private List<Exam> examList;
     private ExamSchedulingHelper dbHelper;
     private FloatingActionButton fabAddExam;
@@ -36,6 +39,7 @@ public class StaffExam extends Fragment implements ExamAdapter.OnItemClickListen
 
         initViews(view);
         setupRecyclerView();
+        setupDropdowns();
         loadData();
 
         return view;
@@ -44,7 +48,8 @@ public class StaffExam extends Fragment implements ExamAdapter.OnItemClickListen
     private void initViews(View view) {
         dbHelper = new ExamSchedulingHelper(getContext());
         examList = new ArrayList<>();
-
+        dropdownExamType = view.findViewById(R.id.dropdown_exam_type);
+        dropdownSemester = view.findViewById(R.id.dropdown_semester);
         rvExams = view.findViewById(R.id.rv_exams);
         fabAddExam = view.findViewById(R.id.fab_add_exam);
         tvTotalExams = view.findViewById(R.id.tv_total_exams);
@@ -59,6 +64,16 @@ public class StaffExam extends Fragment implements ExamAdapter.OnItemClickListen
         adapter.setOnItemClickListener(this);
         rvExams.setLayoutManager(new LinearLayoutManager(getContext()));
         rvExams.setAdapter(adapter);
+    }
+
+    private void setupDropdowns() {
+        String[] modules = {"Software Engineering", "Computer Science"};
+        ArrayAdapter<String> moduleAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, modules);
+        dropdownExamType.setAdapter(moduleAdapter);
+
+        String[] batches = {"1", "2", "3", "4"};
+        ArrayAdapter<String> batchAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, batches);
+        dropdownSemester.setAdapter(batchAdapter);
     }
 
     private void loadData() {
