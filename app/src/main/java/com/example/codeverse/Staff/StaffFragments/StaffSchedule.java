@@ -327,7 +327,6 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
     public void onEdit(Object schedule) {
         editingSchedule = schedule;
 
-        // Show the bottom sheet directly
         bottomSheet.setVisibility(View.VISIBLE);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
 
@@ -349,7 +348,6 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
 
         ((MaterialButton) rootView.findViewById(R.id.btn_save_schedule)).setText("Update");
 
-        // Focus on first field
         etSubjectName.requestFocus();
     }
 
@@ -405,11 +403,9 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
     private void showAddScheduleBottomSheet() {
         editingSchedule = null;
 
-        // Show the bottom sheet directly
         bottomSheet.setVisibility(View.VISIBLE);
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HALF_EXPANDED);
 
-        // Clear all input fields
         etSubjectName.setText("");
         etModuleNumber.setText("");
         etLecturerName.setText("");
@@ -418,13 +414,11 @@ public class StaffSchedule extends Fragment implements ScheduleAdapterNew.OnSche
 
         ((MaterialButton) rootView.findViewById(R.id.btn_save_schedule)).setText("Save");
 
-        // Focus on first field and show keyboard
         etSubjectName.requestFocus();
     }
 
     private void hideBottomSheet() {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_HIDDEN);
-        // Hide the bottom sheet view when collapsed
         bottomSheet.setVisibility(View.GONE);
     }
 

@@ -113,9 +113,9 @@ public class StaffHome extends Fragment {
 
     private void navigateToEditPassword() {
 
-        StudentListFragment editProfile = new StudentListFragment();
+        StaffEditProfile staffEditProfile = new StaffEditProfile();
         FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout, editProfile);
+        transaction.replace(R.id.framelayout, staffEditProfile);
         transaction.addToBackStack(null);
         transaction.commit();
 

@@ -67,7 +67,7 @@ public class StaffExam extends Fragment implements ExamAdapter.OnItemClickListen
     }
 
     private void setupDropdowns() {
-        String[] modules = {"Software Engineering", "Computer Science"};
+        String[] modules = {"Written", "Online"};
         ArrayAdapter<String> moduleAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_dropdown_item_1line, modules);
         dropdownExamType.setAdapter(moduleAdapter);
 
