@@ -86,23 +86,6 @@
                     app:layout_constraintTop_toTopOf="@id/cv_back" />
             </com.google.android.material.card.MaterialCardView>
         </LinearLayout>
-        <TextView
-            android:id="@+id/tv_total_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/payment_amount_pill_background"
-            android:fontFamily="@font/poppins_semibold"
-            android:paddingHorizontal="16dp"
-            android:layout_marginStart="20dp"
-            android:paddingVertical="8dp"
-            android:text="Rs 252,000.00"
-            android:textColor="@color/DarkBlue"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_screen_title" />
-
     </com.google.android.material.appbar.AppBarLayout>
 
 
