@@ -139,20 +139,23 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:orientation="horizontal"
-                                android:gravity="center_vertical">
+                                android:gravity="center_vertical"
+                                android:paddingBottom="12dp"
+                                >
 
                                 <com.google.android.material.card.MaterialCardView
                                     android:layout_width="36dp"
                                     android:layout_height="36dp"
-                                    app:cardCornerRadius="12dp"
-                                    app:cardBackgroundColor="#F3F1FE"
+                                    app:cardCornerRadius="50dp"
+                                    app:cardBackgroundColor="@color/LightBlue"
                                     app:cardElevation="0dp">
 
                                     <ImageView
                                         android:layout_width="20dp"
                                         android:layout_height="20dp"
                                         android:layout_gravity="center"
-                                        android:src="@drawable/ic_calender"
+                                        android:src="@drawable/date"
+                                        android:padding="2dp"
                                         app:tint="@color/DarkBlue2" />
                                 </com.google.android.material.card.MaterialCardView>
 
@@ -160,68 +163,66 @@
                                     android:id="@+id/tv_event_date"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
+                                    android:layout_marginStart="12dp"
                                     android:fontFamily="@font/poppins_medium"
                                     android:text="Event date"
                                     android:textColor="@color/black"
                                     android:textSize="14sp" />
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="horizontal"
-                                android:gravity="center_vertical">
-
-                                <com.google.android.material.card.MaterialCardView
-                                    android:layout_width="36dp"
-                                    android:layout_height="36dp"
-                                    app:cardCornerRadius="12dp"
-                                    app:cardBackgroundColor="#F3F1FE"
-                                    app:cardElevation="0dp">
-
-                                    <ImageView
-                                        android:layout_width="20dp"
-                                        android:layout_height="20dp"
-                                        android:layout_gravity="center"
-                                        android:src="@drawable/ic_location"
-                                        app:tint="@color/DarkBlue2" />
-                                </com.google.android.material.card.MaterialCardView>
-
-                                <TextView
-                                    android:id="@+id/tv_event_venue"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginStart="8dp"
-                                    android:fontFamily="@font/poppins_medium"
-                                    android:text="Location"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp" />
-                            </LinearLayout>
                         </LinearLayout>
-
-                        <!-- Time Row -->
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
                             android:orientation="horizontal"
-                            android:gravity="center"
-                            android:layout_gravity="center">
+                            android:gravity="center_vertical"
+                            android:paddingBottom="12dp"
+                            >
 
                             <com.google.android.material.card.MaterialCardView
                                 android:layout_width="36dp"
                                 android:layout_height="36dp"
-                                app:cardCornerRadius="12dp"
-                                app:cardBackgroundColor="#F3F1FE"
+                                app:cardCornerRadius="50dp"
+                                app:cardBackgroundColor="@color/LightBlue"
                                 app:cardElevation="0dp">
 
                                 <ImageView
                                     android:layout_width="20dp"
                                     android:layout_height="20dp"
                                     android:layout_gravity="center"
-                                    android:src="@drawable/ic_time"
+                                    android:src="@drawable/location_icon"
+                                    app:tint="@color/DarkBlue2" />
+                            </com.google.android.material.card.MaterialCardView>
+
+                            <TextView
+                                android:id="@+id/tv_event_venue"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:fontFamily="@font/poppins_medium"
+                                android:text="Location"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+
+                            <com.google.android.material.card.MaterialCardView
+                                android:layout_width="36dp"
+                                android:layout_height="36dp"
+                                app:cardCornerRadius="50dp"
+                                app:cardBackgroundColor="@color/LightBlue"
+                                app:cardElevation="0dp">
+
+                                <ImageView
+                                    android:layout_width="23dp"
+                                    android:layout_height="18dp"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/clock"
                                     app:tint="@color/DarkBlue2" />
                             </com.google.android.material.card.MaterialCardView>
 
@@ -229,13 +230,13 @@
                                 android:id="@+id/tv_event_time"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp"
+                                android:layout_marginStart="12dp"
                                 android:fontFamily="@font/poppins_medium"
                                 android:text="Time"
                                 android:textColor="@color/black"
                                 android:textSize="14sp" />
-
                         </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
