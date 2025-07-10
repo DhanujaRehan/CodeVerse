@@ -236,7 +236,6 @@
 
     <color name="button_ripple">#1A1A1A1A</color>
 
-    <!-- Base Chip Colors -->
     <color name="chip_coursework">#E3F2FD</color>       <!-- Light Blue -->
     <color name="chip_coursework_selected">#BBDEFB</color> <!-- Darker Blue -->
 
