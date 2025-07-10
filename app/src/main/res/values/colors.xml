@@ -236,8 +236,8 @@
 
     <color name="button_ripple">#1A1A1A1A</color>
 
-    <color name="chip_coursework">#E3F2FD</color>       <!-- Light Blue -->
-    <color name="chip_coursework_selected">#BBDEFB</color> <!-- Darker Blue -->
+    <color name="chip_coursework">#E3F2FD</color>
+    <color name="chip_coursework_selected">#BBDEFB</color>
 
     <color name="chip_exam">#FFEBEE</color>             <!-- Light Red -->
     <color name="chip_exam_selected">#FFCDD2</color>    <!-- Darker Red -->
