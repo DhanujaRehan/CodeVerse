@@ -259,7 +259,6 @@
     <color name="chip_draft">#FFF8E1</color>            <!-- Light Yellow -->
     <color name="chip_draft_selected">#F0F4C3</color>   <!-- Darker Yellow -->
 
-    <!-- Text Colors -->
     <color name="chip_coursework_text">#1976D2</color>
     <color name="chip_exam_text">#D32F2F</color>
     <color name="chip_project_text">#388E3C</color>
