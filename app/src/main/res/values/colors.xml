@@ -239,8 +239,8 @@
     <color name="chip_coursework">#E3F2FD</color>
     <color name="chip_coursework_selected">#BBDEFB</color>
 
-    <color name="chip_exam">#FFEBEE</color>             <!-- Light Red -->
-    <color name="chip_exam_selected">#FFCDD2</color>    <!-- Darker Red -->
+    <color name="chip_exam">#FFEBEE</color>
+    <color name="chip_exam_selected">#FFCDD2</color>
 
     <color name="chip_project">#E8F5E8</color>          <!-- Light Green -->
     <color name="chip_project_selected">#C8E6C9</color> <!-- Darker Green -->
