@@ -252,7 +252,6 @@
     <color name="chip_default">#F5F5F5</color>          <!-- Light Gray -->
     <color name="chip_default_selected">#E0E0E0</color> <!-- Darker Gray -->
 
-    <!-- Status Colors -->
     <color name="chip_published">#E8F5E8</color>        <!-- Light Green -->
     <color name="chip_published_selected">#C8E6C9</color> <!-- Darker Green -->
 
