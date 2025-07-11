@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
-    app:cardBackgroundColor="@color/DarkBlue"
-    app:cardCornerRadius="20dp"
-    app:cardElevation="4dp">
+    android:background="@drawable/glass_background"
+    android:backgroundTint="@color/white"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,8 +23,10 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/ic_event"
-                app:tint="@color/white" />
+                android:src="@drawable/date"
+                app:tint="@color/DarkBlue"
+                android:padding="2dp"
+                android:layout_gravity="center_horizontal"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -33,7 +35,7 @@
                 android:layout_weight="1"
                 android:fontFamily="@font/poppins_bold"
                 android:text="Class Schedule"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/DarkBlue"
                 android:textSize="18sp" />
 
         </LinearLayout>
@@ -41,19 +43,21 @@
         <TextView
             android:id="@+id/tv_class_name"
             android:layout_width="wrap_content"
+            android:text="Class Name"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_bold"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/DarkBlue2"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/tv_professor_name"
             android:layout_width="wrap_content"
+            android:text="Lecturer Name"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:fontFamily="@font/poppins_medium"
-            android:textColor="@color/MiddleBlue2"
+            android:textColor="@color/DarkBlue"
             android:textSize="15sp" />
 
         <View
@@ -77,16 +81,17 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_time"
-                    app:tint="#FFFFFF" />
+                    android:src="@drawable/clock"
+                    app:tint="@color/DarkBlue" />
 
                 <TextView
                     android:id="@+id/tv_class_time"
+                    android:text="Time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp" />
             </LinearLayout>
 
@@ -100,16 +105,17 @@
                 <ImageView
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:src="@drawable/ic_location"
-                    app:tint="@color/white" />
+                    android:src="@drawable/location_icon"
+                    app:tint="@color/DarkBlue" />
 
                 <TextView
                     android:id="@+id/tv_class_location"
+                    android:text="Location"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:fontFamily="@font/poppins_medium"
-                    android:textColor="@color/white"
+                    android:textColor="@color/DarkBlue"
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
@@ -117,20 +123,17 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_join_class"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
             android:layout_marginTop="16dp"
             android:fontFamily="@font/poppins_bold"
             android:text="Join Virtual Class"
             android:textAllCaps="false"
-            android:textColor="@color/DarkBlue"
+            android:textColor="@color/white"
             android:textSize="15sp"
-            app:backgroundTint="@color/white"
-            app:cornerRadius="16dp"
-            app:icon="@drawable/ic_video_call"
-            app:iconGravity="textStart"
-            app:iconPadding="12dp"
-            app:iconSize="20dp"
-            app:iconTint="@color/DarkBlue" />
+            app:backgroundTint="@color/DarkBlue"
+            app:cornerRadius="50dp"
+             />
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</LinearLayout>

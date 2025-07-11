@@ -85,7 +85,7 @@
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/ic_event"
+                    android:src="@drawable/date"
                     app:tint="#999999" />
 
                 <TextView
@@ -110,7 +110,7 @@
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/ic_time"
+                    android:src="@drawable/clock"
                     app:tint="#999999" />
 
                 <TextView
@@ -135,7 +135,7 @@
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
-                    android:src="@drawable/ic_location"
+                    android:src="@drawable/location_icon"
                     app:tint="#999999" />
 
                 <TextView

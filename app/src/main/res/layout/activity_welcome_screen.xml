@@ -57,13 +57,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="40dp"
         android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/tv_existing_user"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_tagline">
+        app:layout_constraintTop_toBottomOf="@+id/tv_tagline"
+        app:layout_constraintVertical_bias="0.296">
 
 
         <LinearLayout
@@ -73,12 +74,11 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:layout_width="48dp"
@@ -87,7 +87,7 @@
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/calendar" />
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -107,10 +107,11 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp">
 
@@ -119,9 +120,10 @@
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     app:lottie_autoPlay="true"
+                    android:padding="9dp"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/email" />
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -140,21 +142,21 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                app:cardBackgroundColor="#33FFFFFF"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="4dp">
+                android:background="@drawable/glass_background"
+                android:backgroundTint="@color/white">
 
                 <com.airbnb.lottie.LottieAnimationView
                     android:layout_width="48dp"
                     android:layout_height="48dp"
+                    android:padding="9dp"
                     android:layout_gravity="center"
                     app:lottie_autoPlay="true"
                     app:lottie_loop="true"
                     app:lottie_rawRes="@raw/academic_cap_animation" />
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -172,7 +174,7 @@
         android:layout_width="0dp"
         android:layout_height="64dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="60dp"
         android:layout_marginEnd="40dp"
         android:fontFamily="@font/poppins_bold"
         android:text="Get Started"
@@ -181,10 +183,12 @@
         android:textSize="18sp"
         app:backgroundTint="@color/DarkBlue"
         app:cornerRadius="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/feature_points"
+        app:layout_constraintVertical_bias="0.333"
         app:rippleColor="#33FFFFFF" />
 
     <TextView
