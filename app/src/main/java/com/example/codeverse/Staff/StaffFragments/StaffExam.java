@@ -18,6 +18,7 @@ import com.example.codeverse.R;
 import com.example.codeverse.Staff.Adapters.ExamAdapter;
 import com.example.codeverse.Staff.Models.EditExamDialog;
 import com.example.codeverse.Students.Helpers.ExamSchedulingHelper;
+import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class StaffExam extends Fragment implements ExamAdapter.OnItemClickListen
     private ExamAdapter adapter;
     private AutoCompleteTextView dropdownExamType, dropdownSemester;
     private List<Exam> examList;
+    private MaterialCardView cvBack;
     private ExamSchedulingHelper dbHelper;
     private FloatingActionButton fabAddExam;
     private TextView tvTotalExams, tvScheduledExams, tvPendingExams;
@@ -37,12 +39,21 @@ public class StaffExam extends Fragment implements ExamAdapter.OnItemClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_staff_exam, container, false);
 
+        cvBack.setOnClickListener(v -> navigateBack());
         initViews(view);
         setupRecyclerView();
         setupDropdowns();
         loadData();
 
         return view;
+    }
+
+    private void navigateBack() {
+        if (getParentFragmentManager().getBackStackEntryCount() > 0) {
+            getParentFragmentManager().popBackStack();
+        } else if (getActivity() != null) {
+            getActivity().finish();
+        }
     }
 
     private void initViews(View view) {
@@ -55,7 +66,7 @@ public class StaffExam extends Fragment implements ExamAdapter.OnItemClickListen
         tvTotalExams = view.findViewById(R.id.tv_total_exams);
         tvScheduledExams = view.findViewById(R.id.tv_scheduled_exams);
         tvPendingExams = view.findViewById(R.id.tv_pending_exams);
-
+        cvBack = view.findViewById(R.id.cv_back);
         fabAddExam.setOnClickListener(v -> showAddDialog());
     }
 
@@ -100,6 +111,7 @@ public class StaffExam extends Fragment implements ExamAdapter.OnItemClickListen
         tvScheduledExams.setText(String.valueOf(scheduled));
         tvPendingExams.setText(String.valueOf(pending));
     }
+
 
     private void showAddDialog() {
         AddExamDialog dialog = new AddExamDialog(getContext());
