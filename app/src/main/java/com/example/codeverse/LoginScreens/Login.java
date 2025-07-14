@@ -217,7 +217,7 @@ public class Login extends AppCompatActivity {
                 Toast.makeText(this, "Invalid password. Please try again.", Toast.LENGTH_SHORT).show();
             }
         } else {
-            Toast.makeText(this, "No account found with this email/username.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No account found with this email.", Toast.LENGTH_SHORT).show();
         }
     }
 
