@@ -24,8 +24,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "StudentDetails.db";
     private static final int DATABASE_VERSION = 1;
-
-
     private static final String TABLE_STUDENTS = "StudentDetails";
 
 
@@ -309,7 +307,6 @@ public class StudentDatabaseHelper extends SQLiteOpenHelper {
         } finally {
             db.endTransaction();
         }
-
         return rowsAffected;
     }
 

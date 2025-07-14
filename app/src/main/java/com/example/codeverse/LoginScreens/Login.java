@@ -96,7 +96,7 @@ public class Login extends AppCompatActivity {
         });
 
         binding.tvForgotPassword.setOnClickListener(v ->
-                Toast.makeText(Login.this, "Forgot Password feature is not implemented.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(Login.this, "Please drop a Email to coordinator with your ID.", Toast.LENGTH_SHORT).show()
         );
     }
 

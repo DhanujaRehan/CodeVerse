@@ -73,6 +73,7 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
+
             db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_STUDENT_ID + " TEXT");
             db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_STUDENT_NAME + " TEXT");
             db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_BATCH + " TEXT");
@@ -168,6 +169,7 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         return assignments;
     }
 
+
     public List<AssignmentModel> getAssignmentsByCriteria(String programme, String batch, String module, String assessment) {
         List<AssignmentModel> assignments = new ArrayList<>();
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM " + TABLE_ASSIGNMENTS + " WHERE 1=1");
@@ -211,6 +213,7 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         return assignments;
     }
 
+
     public int gradeAssignment(int assignmentId, double marks, String grade, String feedback) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -226,6 +229,7 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
 
         return result;
     }
+
 
     public List<String> getAllProgrammes() {
         List<String> programmes = new ArrayList<>();
@@ -247,6 +251,7 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         return programmes;
     }
 
+
     public List<String> getAllBatches() {
         List<String> batches = new ArrayList<>();
         String selectQuery = "SELECT DISTINCT " + COLUMN_BATCH + " FROM " + TABLE_ASSIGNMENTS +
@@ -267,6 +272,7 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         return batches;
     }
 
+
     public List<String> getAllModules() {
         List<String> modules = new ArrayList<>();
         String selectQuery = "SELECT DISTINCT " + COLUMN_MODULE + " FROM " + TABLE_ASSIGNMENTS +
@@ -286,6 +292,7 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
 
         return modules;
     }
+
 
     public List<String> getAllAssessmentTypes() {
         List<String> assessments = new ArrayList<>();
@@ -331,95 +338,6 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         db.close();
 
         return result;
-    }
-
-    public int getAssignmentCount() {
-        String countQuery = "SELECT COUNT(*) FROM " + TABLE_ASSIGNMENTS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, null);
-
-        int count = 0;
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0);
-        }
-
-        cursor.close();
-        db.close();
-
-        return count;
-    }
-
-    public int getAssignmentCountBySubject(String subject) {
-        String countQuery = "SELECT COUNT(*) FROM " + TABLE_ASSIGNMENTS + " WHERE " + COLUMN_SUBJECT + " = ?";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(countQuery, new String[]{subject});
-
-        int count = 0;
-        if (cursor.moveToFirst()) {
-            count = cursor.getInt(0);
-        }
-
-        cursor.close();
-        db.close();
-
-        return count;
-    }
-
-    public long getTotalFileSize() {
-        String sumQuery = "SELECT SUM(" + COLUMN_FILE_SIZE + ") FROM " + TABLE_ASSIGNMENTS;
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(sumQuery, null);
-
-        long totalSize = 0;
-        if (cursor.moveToFirst()) {
-            totalSize = cursor.getLong(0);
-        }
-
-        cursor.close();
-        db.close();
-
-        return totalSize;
-    }
-
-    public List<String> getAllSubjects() {
-        List<String> subjects = new ArrayList<>();
-        String selectQuery = "SELECT DISTINCT " + COLUMN_SUBJECT + " FROM " + TABLE_ASSIGNMENTS + " ORDER BY " + COLUMN_SUBJECT;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                subjects.add(cursor.getString(0));
-            } while (cursor.moveToNext());
-        }
-
-        cursor.close();
-        db.close();
-
-        return subjects;
-    }
-
-    public boolean isAssignmentExists(String title, String subject) {
-        String selectQuery = "SELECT COUNT(*) FROM " + TABLE_ASSIGNMENTS + " WHERE " + COLUMN_TITLE + " = ? AND " + COLUMN_SUBJECT + " = ?";
-        SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, new String[]{title, subject});
-
-        boolean exists = false;
-        if (cursor.moveToFirst()) {
-            exists = cursor.getInt(0) > 0;
-        }
-
-        cursor.close();
-        db.close();
-
-        return exists;
-    }
-
-    public void deleteAllAssignments() {
-        SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_ASSIGNMENTS, null, null);
-        db.close();
     }
 
     private AssignmentModel getAssignmentFromCursor(Cursor cursor) {
