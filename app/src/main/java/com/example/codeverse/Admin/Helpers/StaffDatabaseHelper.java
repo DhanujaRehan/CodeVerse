@@ -569,6 +569,7 @@ public class StaffDatabaseHelper extends SQLiteOpenHelper {
             return null;
         }
 
+
         try {
             File imageFile = new File(photoPath);
             if (imageFile.exists()) {

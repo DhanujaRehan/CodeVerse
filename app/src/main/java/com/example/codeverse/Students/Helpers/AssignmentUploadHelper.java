@@ -73,7 +73,6 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (oldVersion < 2) {
-            // Add new columns for existing tables
             db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_STUDENT_ID + " TEXT");
             db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_STUDENT_NAME + " TEXT");
             db.execSQL("ALTER TABLE " + TABLE_ASSIGNMENTS + " ADD COLUMN " + COLUMN_BATCH + " TEXT");
@@ -169,7 +168,6 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         return assignments;
     }
 
-    // New method to get assignments by criteria for grading
     public List<AssignmentModel> getAssignmentsByCriteria(String programme, String batch, String module, String assessment) {
         List<AssignmentModel> assignments = new ArrayList<>();
         StringBuilder queryBuilder = new StringBuilder("SELECT * FROM " + TABLE_ASSIGNMENTS + " WHERE 1=1");
@@ -213,7 +211,6 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         return assignments;
     }
 
-    // Method to update grade information
     public int gradeAssignment(int assignmentId, double marks, String grade, String feedback) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -230,7 +227,6 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    // Get distinct programmes
     public List<String> getAllProgrammes() {
         List<String> programmes = new ArrayList<>();
         String selectQuery = "SELECT DISTINCT " + COLUMN_PROGRAMME + " FROM " + TABLE_ASSIGNMENTS +
@@ -251,7 +247,6 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         return programmes;
     }
 
-    // Get distinct batches
     public List<String> getAllBatches() {
         List<String> batches = new ArrayList<>();
         String selectQuery = "SELECT DISTINCT " + COLUMN_BATCH + " FROM " + TABLE_ASSIGNMENTS +
@@ -272,7 +267,6 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         return batches;
     }
 
-    // Get distinct modules
     public List<String> getAllModules() {
         List<String> modules = new ArrayList<>();
         String selectQuery = "SELECT DISTINCT " + COLUMN_MODULE + " FROM " + TABLE_ASSIGNMENTS +
@@ -293,7 +287,6 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         return modules;
     }
 
-    // Get distinct assessment types
     public List<String> getAllAssessmentTypes() {
         List<String> assessments = new ArrayList<>();
         String selectQuery = "SELECT DISTINCT " + COLUMN_TITLE + " FROM " + TABLE_ASSIGNMENTS +
@@ -429,7 +422,6 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    // Helper method to create AssignmentModel from cursor
     private AssignmentModel getAssignmentFromCursor(Cursor cursor) {
         AssignmentModel assignment = new AssignmentModel();
         assignment.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)));
@@ -442,7 +434,6 @@ public class AssignmentUploadHelper extends SQLiteOpenHelper {
         assignment.setFileSize(cursor.getLong(cursor.getColumnIndexOrThrow(COLUMN_FILE_SIZE)));
         assignment.setStatus(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_STATUS)));
 
-        // Handle new columns with null checks
         int studentIdIndex = cursor.getColumnIndex(COLUMN_STUDENT_ID);
         if (studentIdIndex != -1) assignment.setStudentId(cursor.getString(studentIdIndex));
 
