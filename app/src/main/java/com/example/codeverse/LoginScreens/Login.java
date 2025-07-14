@@ -96,7 +96,7 @@ public class Login extends AppCompatActivity {
         });
 
         binding.tvForgotPassword.setOnClickListener(v ->
-                Toast.makeText(Login.this, "Please drop a Email to coordinator with your ID.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(Login.this, "Please drop a Email to admin with your email.", Toast.LENGTH_SHORT).show()
         );
     }
 
@@ -104,8 +104,10 @@ public class Login extends AppCompatActivity {
         String inputEmail = binding.etEmail.getText().toString().trim();
         String inputPassword = binding.etpassword.getText().toString().trim();
 
-        if (inputEmail.isEmpty() || inputPassword.isEmpty()) {
-            Toast.makeText(Login.this, "Please enter both email and password.", Toast.LENGTH_SHORT).show();
+        if (inputEmail.isEmpty()) {
+            Toast.makeText(Login.this, "Please enter your Email.", Toast.LENGTH_SHORT).show();
+        }else if(inputPassword.isEmpty()){
+            Toast.makeText(Login.this, "Please enter your Password.", Toast.LENGTH_SHORT).show();
             return;
         }
         authenticateAdmin(inputEmail, inputPassword);
@@ -152,7 +154,7 @@ public class Login extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             } else {
-                authenticateStudent(email, password);
+                Toast.makeText(this, "Invalid password. Please try again.", Toast.LENGTH_SHORT).show();
             }
         } else {
             authenticateStudent(email, password);
