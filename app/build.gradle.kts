@@ -35,6 +35,7 @@ android {
 }
 
 dependencies {
+    implementation("lk.payhere.sdk:android-sdk:3.0.4")
     implementation(libs.lottie)
     implementation(libs.appcompat)
     implementation(libs.material)
