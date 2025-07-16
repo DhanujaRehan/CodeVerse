@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -26,18 +25,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import lk.payhere.android.sdk.PHConfigs;
-import lk.payhere.android.sdk.PHMainActivity;
-import lk.payhere.android.sdk.model.Address;
-import lk.payhere.android.sdk.model.Customer;
-import lk.payhere.android.sdk.model.InitRequest;
-import lk.payhere.android.sdk.model.Item;
-import lk.payhere.android.sdk.model.Payment;
-import lk.payhere.android.sdk.model.PaymentInitResponse;
-import lk.payhere.android.sdk.model.StatusResponse;
-
-import android.content.Intent;
-
 public class PaymentScreenFragment extends Fragment {
 
     private CardView btnUploadPaymentSlip;
@@ -45,8 +32,6 @@ public class PaymentScreenFragment extends Fragment {
     private CardView btnDownloadReceipts;
     private PaymentHelper paymentHelper;
     private MaterialButton btncontactsupport;
-
-    private static final int PAYHERE_REQUEST = 11010;
 
     @Nullable
     @Override
@@ -69,17 +54,9 @@ public class PaymentScreenFragment extends Fragment {
 
     private void setupClickListeners() {
         btnUploadPaymentSlip.setOnClickListener(v -> openReceiptUploadFragment());
-        btnMakePayment.setOnClickListener(v -> openPayHerePayment());
+        btnMakePayment.setOnClickListener(v -> openMakePaymentFragment());
         btnDownloadReceipts.setOnClickListener(v -> downloadReceipts());
         btncontactsupport.setOnClickListener(v -> openContactSupportFragment());
-    }
-
-    private void openReceiptUploadFragment() {
-        RecieptUpload fragment = new RecieptUpload();
-        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-        transaction.replace(R.id.framelayout, fragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
     }
 
     private void openContactSupportFragment() {
@@ -90,57 +67,22 @@ public class PaymentScreenFragment extends Fragment {
         transaction.commit();
     }
 
-    // ---------- PAYHERE INTEGRATION ----------
-    private void openPayHerePayment() {
-        InitRequest req = new InitRequest();
-        req.setMerchantId("1211149"); // Replace with your PayHere Merchant ID
-        req.setMerchantSecret("test"); // Only needed in testing
-        req.setCurrency("LKR");
-        req.setAmount(1000.00); // Example amount
-        req.setOrderId("ORDER12345");
-        req.setItemsDescription("University Fee Payment");
-        req.setCustom1("Custom Note");
-
-        Customer customer = new Customer();
-        customer.setFirstName("Rehan");
-        customer.setLastName("Student");
-        customer.setEmail("rehan@example.com");
-        customer.setPhone("+94770000000");
-
-        Address address = new Address();
-        address.setAddress("123 Main St");
-        address.setCity("Colombo");
-        address.setCountry("Sri Lanka");
-
-        customer.setAddress(address);
-        req.setCustomer(customer);
-
-        Intent intent = new Intent(getContext(), PHMainActivity.class);
-        intent.putExtra(PHConfigs.INTENT_EXTRA_DATA, req);
-        startActivityForResult(intent, PAYHERE_REQUEST);
+    private void openReceiptUploadFragment() {
+        RecieptUpload fragment = new RecieptUpload();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PAYHERE_REQUEST && data != null && data.hasExtra(PHConfigs.INTENT_EXTRA_RESULT)) {
-            Object response = data.getSerializableExtra(PHConfigs.INTENT_EXTRA_RESULT);
-            if (response instanceof PaymentInitResponse) {
-                Toast.makeText(getContext(), "Payment initiated!", Toast.LENGTH_SHORT).show();
-            } else if (response instanceof StatusResponse) {
-                StatusResponse resp = (StatusResponse) response;
-                if (resp.isSuccess()) {
-                    Toast.makeText(getContext(), "Payment successful!", Toast.LENGTH_LONG).show();
-                    // Save successful payment to SQLite if needed
-                } else {
-                    Toast.makeText(getContext(), "Payment failed: " + resp.getMessage(), Toast.LENGTH_LONG).show();
-                }
-            }
-        }
+    private void openMakePaymentFragment() {
+        MakePaymentFragment fragment = new MakePaymentFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.framelayout, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
-    // ---------- RECEIPT GENERATION ----------
     private void downloadReceipts() {
         List<PaymentDetail> payments = paymentHelper.getAllPayments();
 
@@ -174,7 +116,9 @@ public class PaymentScreenFragment extends Fragment {
             try {
                 String amountStr = payment.getPaymentAmount().replaceAll("[^\\d.]", "");
                 totalAmount += Double.parseDouble(amountStr);
-            } catch (NumberFormatException ignored) {}
+            } catch (NumberFormatException e) {
+
+            }
         }
 
         content.append("TOTAL AMOUNT: Rs ").append(String.format("%.2f", totalAmount)).append("\n");
